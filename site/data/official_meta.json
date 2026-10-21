@@ -1,0 +1,32 @@
+{
+  "status": "ok",
+  "generated_at_taipei": "2026-10-21T13:13:59+08:00",
+  "markets": {
+    "上市": {
+      "status": "ok",
+      "rows": 1085,
+      "date": "2026-10-20"
+    },
+    "上櫃": {
+      "status": "ok",
+      "rows": 869,
+      "date": "2026-10-20"
+    }
+  },
+  "sources": {
+    "上市": "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL",
+    "上櫃": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes"
+  },
+  "notes": "最新收盤價與當日成交額，不代表即時報價；無大戶資料與經驗驗證預測。",
+  "tracked_symbols_found": {
+    "8064": true,
+    "3533": true,
+    "2345": true,
+    "2330": true
+  },
+  "display_date": "2026-10-20",
+  "markets_included": [
+    "上市",
+    "上櫃"
+  ]
+}
