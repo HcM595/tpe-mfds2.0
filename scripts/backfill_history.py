@@ -32,6 +32,7 @@ DAY_TWSE = 'https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX'
 DAY_TPEX = 'https://www.tpex.org.tw/web/stock/aftertrading/otc_quotes_no1430/stk_wn1430_result.php'
 MONTH_TWSE = 'https://www.twse.com.tw/rwd/zh/afterTrading/STOCK_DAY'
 MONTH_TPEX = 'https://www.tpex.org.tw/web/stock/aftertrading/daily_trading_info/st43_result.php'
+MONTH_TPEX_MODERN = 'https://www.tpex.org.tw/www/zh-tw/afterTrading/tradingStock'
 
 
 def num(x):
@@ -109,6 +110,84 @@ def tpex_month(payload, symbol):
                  num(item[2])*1000 if num(item[2]) is not None else None)
         if r: out.append(r)
     return out
+
+
+
+def tpex_month_modern(payload, symbol):
+    """Parse TPEx current website API; verify columns, never guess close prices.
+
+    Supported: tables[{fields,data}], fields/data and the legacy aaData form.
+    Volumes in 仟股 and values in 仟元 are converted to base units.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError('TPEx modern response is not an object')
+    if 'aaData' in payload and payload.get('aaData') is not None:
+        return tpex_month(payload, symbol)
+    tables = payload.get('tables') or []
+    if not tables and isinstance(payload.get('data'), list):
+        tables = [{'fields': payload.get('fields') or [], 'data': payload['data']}]
+    if not tables:
+        raise ValueError('TPEx modern response contains no usable tables')
+    result = []
+    for table in tables:
+        fields = [re.sub(r'<[^>]*>', '', html.unescape(str(f))) for f in (table.get('fields') or [])]
+        data = table.get('data') or []
+        di = column_index(fields, ['日期','交易日期'])
+        ci = column_index(fields, ['收盤價','收盤'])
+        vi = column_index(fields, ['成交仟股','成交千股','成交股數','成交量'])
+        ai = column_index(fields, ['成交仟元','成交千元','成交金額','成交值'])
+        code_i = column_index(fields, ['證券代號','股票代號','代號'])
+        if di is None or ci is None:
+            continue
+        for item in data:
+            if not isinstance(item, (list,tuple)) or max(di,ci) >= len(item):
+                continue
+            if code_i is not None and code_i < len(item):
+                row_symbol = re.sub(r'<[^>]*>', '', str(item[code_i])).strip()
+                if row_symbol != symbol:
+                    continue
+            day = iso_date(item[di])
+            close = num(item[ci])
+            volume = num(item[vi]) if vi is not None and vi < len(item) else None
+            value = num(item[ai]) if ai is not None and ai < len(item) else None
+            if volume is not None and vi is not None and any(k in fields[vi] for k in ('仟股','千股')):
+                volume *= 1000
+            if value is not None and ai is not None and any(k in fields[ai] for k in ('仟元','千元')):
+                value *= 1000
+            r = record(day, symbol, close, volume, value)
+            if r:
+                result.append(r)
+    if not result:
+        raise ValueError('TPEx modern month response has no validated price rows (schema/empty/month error)')
+    return result
+
+
+def priority_month_fetch(symbol, market, month, request):
+    """Prefer current TPEx query API and transparently retry the legacy endpoint."""
+    if market == '上市':
+        endpoint = url({'date': month.strftime('%Y%m%d'), 'stockNo': symbol,
+                        'response': 'json'}, MONTH_TWSE)
+        return twse_month(request(endpoint), symbol), 'TWSE current'
+    variants = [
+        ('TPEx modern', url({'code': symbol, 'date': month.strftime('%Y/%m/01'),
+                             'response': 'json'}, MONTH_TPEX_MODERN), tpex_month_modern),
+        ('TPEx legacy', url({'l': 'zh-tw',
+                             'd': f'{month.year-1911}/{month.month:02d}',
+                             'stkno': symbol}, MONTH_TPEX), tpex_month),
+    ]
+    errors = []
+    for name, endpoint, parser in variants:
+        try:
+            data = parser(request(endpoint), symbol)
+            if data:
+                # Reject unrelated calendar months, leaving original data intact.
+                correct = [r for r in data if r['date'][:7] == month.strftime('%Y-%m')]
+                if correct:
+                    return correct, name
+            errors.append(f'{name}: empty data')
+        except Exception as exc:
+            errors.append(f'{name}: {str(exc)[:90]}')
+    raise RuntimeError('; '.join(errors))
 
 
 def column_index(fields, keywords):
@@ -194,40 +273,59 @@ def get_snapshot_asof(snapshot=SNAPSHOT):
 
 
 def priority_backfill(asof, archive=ARCHIVE, symbols=None, request=fetch_json, sleep=time.sleep):
-    """Prioritize a handful of named stocks. A failed month does not create fake data."""
-    symbols=PRIORITY if symbols is None else symbols
-    dest=archive/'watchlist_seed.csv'
-    existing={(r['date'],r['stock_id']):r for r in read_rows(dest)}
+    """Backfill selected stocks and publish per-symbol diagnostics for failures.
+
+    Empty responses on old/new TPEx endpoints are *not* interpreted as success.
+    """
+    symbols = PRIORITY if symbols is None else symbols
+    dest = archive/'watchlist_seed.csv'
+    existing = {(r['date'],r['stock_id']):r for r in read_rows(dest)}
     errors=[]
-    for symbol,market in symbols.items():
-        consecutive_failure=0
-        observed=sum(1 for (date,code) in existing if code==symbol and date <=asof.isoformat())
-        if observed>=220:
-            print(f'priority {symbol}: {observed} sessions already saved; skip')
-            continue
-        for m in monthly_dates(asof):
-            if market=='上市':
-                endpoint=url({'date':m.strftime('%Y%m%d'),'stockNo':symbol,'response':'json'},MONTH_TWSE)
-                parser=twse_month
-            else:
-                endpoint=url({'l':'zh-tw','d':f'{m.year-1911}/{m.month:02d}','stkno':symbol},MONTH_TPEX)
-                parser=tpex_month
-            try:
-                payload=request(endpoint)
-                arr=parser(payload,symbol)
-                consecutive_failure=0
-                for r in arr:
-                    if r['date']<=asof.isoformat():existing[(r['date'],symbol)]=r
-            except Exception as exc:
-                consecutive_failure += 1
-                errors.append(f'{symbol} {m:%Y-%m}: {str(exc)[:100]}')
-                if consecutive_failure >= 2:
-                    errors.append(f'{symbol}: historical source unavailable; later months not checked')
-                    break
-            sleep(0.7)
-        print('priority',symbol, 'records',sum(c==symbol for d,c in existing))
-        # Keep partial successful results, including when an endpoint times out.
+    report = {'asof': asof.isoformat(), 'source': 'TWSE/TPEx official',
+              'note': '此為行情下載診斷，不表示歷史資料完整；價格尚未除權息還原。',
+              'featured': {}}
+    for symbol, market in symbols.items():
+        prior = sum(1 for (d,c) in existing if c == symbol and d <= asof.isoformat())
+        diagnostic = {'previous_priority_rows':prior, 'new_priority_rows':0,
+                      'successful_months':[], 'failed_months':[], 'current_priority_rows':prior}
+        if prior < 220:
+            consecutive_failed_months = 0
+            for m in monthly_dates(asof):
+                try:
+                    rows, source = priority_month_fetch(symbol,market,m,request)
+                    consecutive_failed_months = 0
+                    for r in rows:
+                        if r['date']<=asof.isoformat():
+                            existing[(r['date'],symbol)] = r
+                    diagnostic['successful_months'].append({'month':m.strftime('%Y-%m'),'source':source,'rows':len(rows)})
+                    print(f'priority {symbol} {m:%Y-%m}: {len(rows)} valid rows ({source})')
+                except Exception as exc:
+                    message = str(exc)[:250]
+                    diagnostic['failed_months'].append({'month':m.strftime('%Y-%m'), 'reason':message})
+                    errors.append(f'{symbol} {m:%Y-%m}: {message}')
+                    print(f'::warning::Priority history {symbol} {m:%Y-%m}: {message}')
+                    consecutive_failed_months += 1
+                    if consecutive_failed_months >= 2:
+                        print(f'::warning::Priority history {symbol}: stopped after 2 consecutive failed months; check upstream endpoint')
+                        break
+                sleep(0.55)
+        else:
+            print(f'priority {symbol}: already {prior} priority records; skipped')
+        count = sum(c==symbol for d,c in existing)
+        diagnostic['current_priority_rows']=count
+        diagnostic['new_priority_rows']=max(0,count-prior)
+        if count < 60:
+            print(f'::warning::Priority history {symbol}: {count} rows; insufficient for MA60. See diagnostics.')
+        report['featured'][symbol]=diagnostic
+        print('priority',symbol,'records',count,'new',diagnostic['new_priority_rows'])
         write_rows(dest,[existing[k] for k in sorted(existing)])
+    path=archive/'priority_backfill_diagnostics.json'
+    path.parent.mkdir(parents=True,exist_ok=True)
+    report_text = json.dumps(report, ensure_ascii=False, indent=2)+'\n'
+    path.write_text(report_text, encoding='utf-8')
+    report_public=archive.parent/'site'/'data'/'priority_backfill_diagnostics.json'
+    report_public.parent.mkdir(parents=True,exist_ok=True)
+    report_public.write_text(report_text,encoding='utf-8')
     return errors
 
 
