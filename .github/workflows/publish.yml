@@ -57,6 +57,8 @@ jobs:
         run: python scripts/chip_pipeline.py
       - name: 核對上市櫃普通股公司名錄並產出2.3籌碼強度排行
         run: python scripts/stock_rank.py
+      - name: 2.3.3 籌碼與技術面雙軌交叉驗證
+        run: python scripts/tech_crosscheck.py
       - name: 保存真實價格與籌碼資料及更新進度
         run: |
           git config user.name "github-actions[bot]"
