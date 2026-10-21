@@ -1,0 +1,39 @@
+name: 台股收盤行情更新與網頁發布
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # UTC 09:27 = Taiwan 17:27, Monday to Friday (best effort).
+    - cron: '27 9 * * 1-5'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 下載當日最新的官方收盤資料（失敗仍標示狀態，不套用示範數據）
+        run: python scripts/fetch_official.py
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+      - name: 發布網頁
+        uses: actions/deploy-pages@v4
+        id: deployment
