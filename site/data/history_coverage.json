@@ -1,20 +1,20 @@
 {
   "note": "實際官方收盤價格，尚未還原除權息；回補有缺口則不計入不存在的價格。",
-  "total_stocks": 1989,
-  "total_rows": 253022,
-  "market_archive_dates": 130,
+  "total_stocks": 1991,
+  "total_rows": 278134,
+  "market_archive_dates": 143,
   "market_backfill_progress": {
-    "attempted_weekdays": 134,
+    "attempted_weekdays": 149,
     "reached_start": false,
     "all_checked_without_errors": false,
     "failed_days": 0,
     "range_start": "2025-09-21",
-    "next_date": "2026-04-14"
+    "next_date": "2026-03-24"
   },
   "featured": {
     "8064": {
-      "rows": 130,
-      "earliest": "2026-04-15",
+      "rows": 143,
+      "earliest": "2026-03-25",
       "latest": "2026-10-21"
     },
     "3533": {

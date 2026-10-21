@@ -1,6 +1,6 @@
 {
   "version": "2.2.1",
-  "generated_at_taipei": "2026-10-21T19:27:23+08:00",
+  "generated_at_taipei": "2026-10-21T20:42:57+08:00",
   "sources": {
     "twse": {
       "status": "ok",
@@ -23,7 +23,7 @@
     "asof": "2026-10-21",
     "focus": {
       "8064": {
-        "flow_dates": 21,
+        "flow_dates": 30,
         "latest_flow": "2026-10-21",
         "holder_weeks": 12,
         "latest_holder": "2026-10-16",
@@ -31,7 +31,7 @@
         "ready_for_4w_holder": true
       },
       "3533": {
-        "flow_dates": 21,
+        "flow_dates": 30,
         "latest_flow": "2026-10-21",
         "holder_weeks": 12,
         "latest_holder": "2026-10-16",
@@ -39,7 +39,7 @@
         "ready_for_4w_holder": true
       },
       "2330": {
-        "flow_dates": 21,
+        "flow_dates": 30,
         "latest_flow": "2026-10-21",
         "holder_weeks": 12,
         "latest_holder": "2026-10-16",
@@ -47,7 +47,7 @@
         "ready_for_4w_holder": true
       },
       "2345": {
-        "flow_dates": 21,
+        "flow_dates": 30,
         "latest_flow": "2026-10-21",
         "holder_weeks": 12,
         "latest_holder": "2026-10-16",
@@ -57,20 +57,15 @@
     },
     "tdcc_archive": {
       "mode": "unofficial_mirror",
-      "new_weeks": [
-        "2026-08-21",
-        "2026-08-14",
-        "2026-08-07",
-        "2026-07-31"
-      ],
-      "new_rows": 11804,
+      "new_weeks": [],
+      "new_rows": 0,
       "errors": [],
       "repository": "https://github.com/wirelessr/tdcc-opendata-archive"
     },
     "market_history": {
       "twse": {
         "attempted_days": 12,
-        "new_rows": 9659,
+        "new_rows": 9664,
         "no_data_days": [
           "2026-10-09",
           "2026-09-28",
@@ -81,7 +76,7 @@
       },
       "tpex": {
         "attempted_days": 12,
-        "new_rows": 7097,
+        "new_rows": 6995,
         "no_data_days": [
           "2026-10-09",
           "2026-09-28",
@@ -92,7 +87,7 @@
       }
     }
   },
-  "flow_history_rows": 39004,
+  "flow_history_rows": 55663,
   "holder_history_rows": 35470,
   "stocks_with_chip_records": 2973,
   "matching_stocks": 92,
