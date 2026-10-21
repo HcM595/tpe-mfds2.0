@@ -1,30 +1,30 @@
 {
   "version": "2.2.1",
   "asof": "2026-10-21",
-  "created_at_taipei": "2026-10-21T21:10:15+08:00",
+  "created_at_taipei": "2026-10-21T22:30:25+08:00",
   "notes": "下載空值與市場休市分別紀錄；歷史TDCC來源為非官方鏡像，非集保直接提供歷史API。",
   "market_history": {
     "twse": {
-      "attempted_days": 8,
-      "new_rows": 5366,
+      "attempted_days": 3,
+      "new_rows": 0,
       "no_data_days": [
         "2026-10-09",
         "2026-09-28",
         "2026-09-25"
       ],
       "errors": [],
-      "status": "ok"
+      "status": "no_new_data"
     },
     "tpex": {
-      "attempted_days": 8,
-      "new_rows": 3876,
+      "attempted_days": 3,
+      "new_rows": 0,
       "no_data_days": [
         "2026-10-09",
         "2026-09-28",
         "2026-09-25"
       ],
       "errors": [],
-      "status": "ok"
+      "status": "no_new_data"
     }
   },
   "tdcc_archive": {

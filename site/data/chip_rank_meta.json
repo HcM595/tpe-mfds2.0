@@ -1,6 +1,6 @@
 {
   "version": "2.3A+B",
-  "generated_at_taipei": "2026-10-21T21:11:10.484028+08:00",
+  "generated_at_taipei": "2026-10-21T22:31:03.865562+08:00",
   "status": "ok",
   "master": {
     "source_status": {
@@ -13,11 +13,9 @@
   },
   "original_chip_matches": 92,
   "candidate_rows": 92,
-  "eligible_ranked": 14,
+  "eligible_ranked": 86,
   "excluded_or_pending": {
-    "法人日期與最新收盤行情日期不同；法人日期與價格日期不同": 72,
-    "法人日期與最新收盤行情日期不同；法人日期與價格日期不同；20日平均成交額不足3000萬元": 5,
-    "20日平均成交額不足3000萬元": 1
+    "20日平均成交額不足3000萬元": 6
   },
   "min_20d_avg_turnover_twd": 30000000,
   "min_trade_days": 20,

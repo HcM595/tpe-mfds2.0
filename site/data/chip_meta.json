@@ -1,6 +1,6 @@
 {
   "version": "2.2.1",
-  "generated_at_taipei": "2026-10-21T21:10:53+08:00",
+  "generated_at_taipei": "2026-10-21T22:30:39+08:00",
   "sources": {
     "twse": {
       "status": "ok",
@@ -64,26 +64,26 @@
     },
     "market_history": {
       "twse": {
-        "attempted_days": 8,
-        "new_rows": 5366,
+        "attempted_days": 3,
+        "new_rows": 0,
         "no_data_days": [
           "2026-10-09",
           "2026-09-28",
           "2026-09-25"
         ],
         "errors": [],
-        "status": "ok"
+        "status": "no_new_data"
       },
       "tpex": {
-        "attempted_days": 8,
-        "new_rows": 3876,
+        "attempted_days": 3,
+        "new_rows": 0,
         "no_data_days": [
           "2026-10-09",
           "2026-09-28",
           "2026-09-25"
         ],
         "errors": [],
-        "status": "ok"
+        "status": "no_new_data"
       }
     }
   },
