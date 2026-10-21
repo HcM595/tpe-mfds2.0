@@ -4,8 +4,13 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      backfill_days:
+        description: '本次回補幾個全市場歷史工作日（預設15；最多45）'
+        required: false
+        default: '15'
   schedule:
-    # Taipei 18:17 (UTC 10:17), Mon–Fri, best effort.
+    # 臺灣時間18:17；GitHub可能延遲或漏跑
     - cron: '17 10 * * 1-5'
 
 permissions:
@@ -14,12 +19,13 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: mfds-pages-and-history
   cancel-in-progress: false
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    timeout-minutes: 55
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -28,18 +34,25 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: 取得官方收盤行情（不產生虛構資料）
+      - name: 取得官方最新收盤行情
         run: python scripts/fetch_official.py
-      - name: 歸檔每日行情與建立歷史指標資料
-        run: python scripts/build_history.py
-      - name: 留存每日行情到專案（由 GitHub Token 寫入，不觸發重複執行）
+      - name: 優先補齊東捷、嘉澤等個股與分批回補全市場
+        env:
+          DAYS_PER_RUN: ${{ inputs.backfill_days || '15' }}
+        run: |
+          python scripts/backfill_history.py --mode all --per-run "$DAYS_PER_RUN"
+      - name: 建立並檢查歷史資料
+        run: |
+          python scripts/build_history.py
+          python -m compileall -q scripts
+      - name: 保存真實價格資料與回補進度
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add history_data/ site/data/official_snapshot.csv site/data/official_meta.json 2>/dev/null || true
           if ! git diff --cached --quiet; then
-            git commit -m "data: archive verified market snapshot [skip ci]"
-            git push origin HEAD:main || echo "WARN: could not persist history; Pages still publishes this run"
+            git commit -m "data: backfill verified history [skip ci]"
+            git push origin HEAD:main || echo "WARNING: git push failed; current pages artifact is not persisted"
           fi
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
