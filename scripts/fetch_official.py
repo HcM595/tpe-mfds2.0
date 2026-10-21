@@ -21,7 +21,7 @@ URLS = {
     '上市': 'https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL',
     '上櫃': 'https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes',
 }
-FIELDS = ['stock_id','stock_name','sector','market','close','change_pct',
+FIELDS = ['stock_id','stock_name','sector','market','close','change_pct','volume_shares',
           'trade_value_twd','avg_trade_value_twd','asof','large_holder_pct',
           'large_holder_change_pp','foreign_5d_net_twd',
           'M1','M2','M3','I1','I2','I3','F1','F2','F3','S1','S2','S3']
@@ -79,12 +79,13 @@ def transform(records, market):
             day = iso_date(first(row, 'Date'))
             change = number(first(row, 'Change'))
         else:
-            code = first(row, 'SecuritiesCompanyCode', 'SecuritiesCode')
-            name = first(row, 'CompanyName', 'SecuritiesCompanyName', 'SecuritiesName', 'SecurityName')
-            close = number(first(row, 'Close', 'ClosingPrice'))
-            amount = number(first(row, 'TransactionAmount', 'TradeValue', 'TradingAmount'))
+            code = first(row, 'SecuritiesCompanyCode', 'SecuritiesCode', 'Code', 'SecuritiesNo')
+            name = first(row, 'CompanyName', 'SecuritiesCompanyName', 'SecuritiesName', 'SecurityName', 'Name')
+            close = number(first(row, 'Close', 'ClosingPrice', 'Closing'))
+            amount = number(first(row, 'TransactionAmount', 'TradeValue', 'TradingAmount', 'TradingValue', 'TradeAmount'))
             day = iso_date(first(row, 'Date'))
             change = number(first(row, 'Change'))
+        volume = number(first(row, 'TradeVolume', 'TradingShares', 'TradingVolume', 'TradeShares'))
         if not is_common_four_digit(code) or not name or close is None or close <= 0 or not day:
             continue
         # Only use an actual close and a known date. The daily trade amount is
@@ -94,6 +95,8 @@ def transform(records, market):
                    close=f'{close:.4f}'.rstrip('0').rstrip('.'), asof=day)
         if amount is not None and amount >= 0:
             out['trade_value_twd'] = str(int(amount))
+        if volume is not None and volume >= 0:
+            out['volume_shares'] = str(int(volume))
         # For displayed daily price % change, yesterday close = today - delta.
         # These endpoints usually supply the *point* change, not percentage.
         if change is not None and close - change > 0:
@@ -146,6 +149,7 @@ def run(twse_fixture=None, tpex_fixture=None, output_dir=DATA):
             print(f'WARNING [{market}]: {exc}')
     success = [s for s in meta['markets'].values() if s['status'] == 'ok']
     meta['status'] = ('ok' if len(success) == 2 else 'partial') if success else 'unavailable'
+    meta['tracked_symbols_found'] = {code: any(r['stock_id'] == code for r in output) for code in ('8064', '3533', '2345', '2330')}
     # Avoid serving different trading days as if they were a synchronized snapshot.
     if success:
         common_day = max(s['date'] for s in success)
@@ -163,8 +167,16 @@ def run(twse_fixture=None, tpex_fixture=None, output_dir=DATA):
         writer.writeheader(); writer.writerows(output)
         (output_dir / 'official_snapshot.csv').write_text(buf.getvalue(), encoding='utf-8-sig')
     else:
-        # Fail closed: never leave an old file mislabeled as new.
-        (output_dir / 'official_snapshot.csv').unlink(missing_ok=True)
+        # Preserve previously VERIFIED snapshot if all sources fail; keep date honest.
+        old = output_dir / 'official_snapshot.csv'
+        if old.exists():
+            with old.open(encoding='utf-8-sig', newline='') as fh:
+                old_rows = list(csv.DictReader(fh))
+            if old_rows:
+                meta['status'] = 'stale'
+                meta['display_date'] = old_rows[0].get('asof', 'unknown')
+                meta['markets_included'] = sorted(set(row.get('market', '') for row in old_rows))
+                meta['notes'] += ' 本次更新失敗，仍顯示最後成功收集的歷史快照。'
     (output_dir / 'official_meta.json').write_text(json.dumps(meta, indent=2, ensure_ascii=False), encoding='utf-8')
     print(f"Result: {meta['status']} | {len(output)} records | {meta.get('display_date', 'N/A')}")
     return meta, output
