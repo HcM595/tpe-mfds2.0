@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""TPE-MFDS 2.2 chip-flow collection and conservative synchronized-increase research flag.
+"""TPE-MFDS 2.2.1 chip-flow collection and conservative synchronized-increase research flag.
 
 Official sources only; unavailable fields remain missing. This is NOT a return
 forecast or trading signal. All flow quantities are shares, all TDCC ownership
@@ -202,7 +202,7 @@ def make_signals(flows,holders,asof_date=None):
     for code in sorted(set(by_stock)|set(h_stock)):
         daily=sorted(by_stock[code],key=lambda r:r['date']); weekly=sorted(h_stock[code],key=lambda r:r['date'])
         recent=daily[-5:];cur=weekly[-1] if weekly else None
-        fullflow=len(recent)==5 and len({x['date'] for x in recent})==5 and (today-dt.date.fromisoformat(recent[-1]['date'])).days<=7
+        fullflow=len(recent)==5 and len({x['date'] for x in recent})==5 and (today-dt.date.fromisoformat(recent[-1]['date'])).days<=7 and (dt.date.fromisoformat(recent[-1]['date'])-dt.date.fromisoformat(recent[0]['date'])).days<=14
         fullholder=False;prior=None
         if cur and (today-dt.date.fromisoformat(cur['date'])).days<=13:
             t=dt.date.fromisoformat(cur['date'])
@@ -214,7 +214,11 @@ def make_signals(flows,holders,asof_date=None):
         dh=float(cur['holder400_pct'])-float(prior['holder400_pct']) if fullholder else None
         dh1=float(cur['holder1000_pct'])-float(prior['holder1000_pct']) if fullholder else None
         matched=fullflow and fullholder and f5>0 and t5>0 and dh>0
-        if not fullflow or not fullholder:status='insufficient';why='法人未滿5筆或資料過期' if not fullflow else '集保缺少相隔約4週的有效資料'
+        if not fullflow or not fullholder:
+            status='insufficient'
+            if not fullflow and not fullholder:why='缺近5個有效交易日法人資料及相隔約4週的集保資料'
+            elif not fullflow:why='法人未滿5個有效交易日或日期不連續／已過期'
+            else:why='集保缺少相隔約4週的有效資料'
         else:status='matched' if matched else 'not_matched';why='外資及投信近5日買超，且400張以上占比近4週增加' if matched else '未同時符合三項增持條件'
         output.append(dict(stock_id=code,flow_asof=recent[-1]['date'] if recent else '',holder_asof=cur['date'] if cur else '',flow_days=len(recent),holder_weeks=len(weekly),foreign_5d_shares=int(f5) if f5 is not None else '',trust_5d_shares=int(t5) if t5 is not None else '',dealer_5d_shares=int(d5) if d5 is not None else '',large400_pct=cur['holder400_pct'] if cur else '',large400_4w_pp=round(dh,4) if dh is not None else '',large1000_pct=cur['holder1000_pct'] if cur else '',large1000_4w_pp=round(dh1,4) if dh1 is not None else '',chip_status=status,chip_reason=why))
     return output
@@ -222,7 +226,13 @@ def make_signals(flows,holders,asof_date=None):
 
 def execute(archive=ARCHIVE,site=SITE,fixtures=None,asof=None):
     archive.mkdir(parents=True,exist_ok=True);site.mkdir(parents=True,exist_ok=True)
-    diagnostics={'version':'2.2','generated_at_taipei':dt.datetime.now(ZoneInfo('Asia/Taipei')).isoformat(timespec='seconds'),'sources':{},'notes':'同步增持只代表描述性篩選，非預測。'}
+    diagnostics={'version':'2.2.1','generated_at_taipei':dt.datetime.now(ZoneInfo('Asia/Taipei')).isoformat(timespec='seconds'),'sources':{},'notes':'同步增持僅為描述性篩選，非預測；歷史集保備份若來源為第三方鏡像須與官方最新快照交叉核對。'}
+    backfill_report=site/'chip_backfill_meta.json'
+    if backfill_report.exists():
+        try:
+            backfill=json.loads(backfill_report.read_text('utf-8'))
+            diagnostics['backfill']={'asof':backfill.get('asof'),'focus':backfill.get('focus',{}),'tdcc_archive':backfill.get('tdcc_archive',{}),'market_history':backfill.get('market_history',{})}
+        except (ValueError,OSError):diagnostics['backfill']={'status':'metadata_unreadable'}
     snapshot=csv_load(site/'official_snapshot.csv');dates=sorted({r.get('asof','') for r in snapshot if date_iso(r.get('asof'))});day=dates[-1] if dates else dt.datetime.now(ZoneInfo('Asia/Taipei')).date().isoformat()
     all_flows=[];all_holders=[]
     for key,fn in [('twse',lambda:twse_rows(json.loads(request(T86.format(day=day.replace('-','')))),day)),('tpex',lambda:tpex_rows(json.loads(request(TPEX))))]:
