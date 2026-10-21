@@ -14,25 +14,25 @@
 @media(max-width:900px){.tech-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head><body>
-<div class="app"><aside class="sidebar"><div class="logo"><div class="logo-mark">M</div><div><strong>TPE-MFDS</strong><small>2.1 RESEARCH LAB</small></div></div><nav class="nav" id="nav">
+<div class="app"><aside class="sidebar"><div class="logo"><div class="logo-mark">M</div><div><strong>TPE-MFDS</strong><small>2.1.1 RESEARCH LAB</small></div></div><nav class="nav" id="nav">
 <button class="nav-btn active" data-page="overview"><span class="nav-ico">▦</span>總覽儀表板</button><button class="nav-btn" data-page="screener"><span class="nav-ico">☷</span>全市場選股</button><button class="nav-btn" data-page="stock"><span class="nav-ico">⌕</span>個股深入分析</button><button class="nav-btn" data-page="watch"><span class="nav-ico">☆</span>我的自選股</button><button class="nav-btn" data-page="settings"><span class="nav-ico">⚙</span>資料與操作說明</button></nav><div class="side-help"><strong>使用者模式：免安裝</strong>直接開啟此 HTML 檔就能操作。沒有連上真實市場資料時，所有示範數字都只是教學使用。<button id="sideHelp">查看三步驟教學 →</button></div></aside>
 <main class="main"><header class="topline"><div><div class="kicker">TAIWAN EQUITY RESEARCH · FACTOR LAB</div><h1 id="pageTitle">台股量化研究總覽</h1><p class="lead" id="pageLead">從全市場篩選到個股分析，一個介面完成。</p></div><div class="top-actions"><button class="btn" id="officialTop">↻ 官方最新收盤行情</button><button class="btn" id="demoReset">示範資料</button><button class="btn btn-primary" id="importTop">⇧ 匯入 CSV 資料</button></div></header>
 <div id="banner" class="notice warn"><span class="dot"></span><div><b>目前顯示：虛構示範資料</b><div>並非台股即時或歷史實際行情，綜合分數不是預測勝率，也不構成買賣建議。請先操作體驗，再匯入有來源的真實資料。</div></div></div>
-<div id="content"></div><div class="footer">TPE-MFDS 2.1 · 自動行情候選版 v2.1｜本機瀏覽器運算｜無下單功能｜不提供未經回測的上漲機率。</div></main></div>
+<div id="content"></div><div class="footer">TPE-MFDS 2.1.1 · 官方歷史補齊版 v2.1.1｜本機瀏覽器運算｜無下單功能｜不提供未經回測的上漲機率。</div></main></div>
 <input id="snapshotFile" type="file" accept=".csv,text/csv" class="hidden"><input id="pricesFile" type="file" accept=".csv,text/csv" class="hidden"><div id="toast" class="toast hidden" role="status"></div>
 <script>
 'use strict';
 const GROUPS=[{id:'M',name:'宏觀週期',description:'景氣、外需、匯率與資金環境',cols:['M1','M2','M3']},{id:'I',name:'產業動力',description:'產業週期、政策、產業輪動',cols:['I1','I2','I3']},{id:'F',name:'公司質地',description:'盈利品質、估值與預期差、公司治理',cols:['F1','F2','F3']},{id:'S',name:'市場行為',description:'外資、散戶情緒、技術波動',cols:['S1','S2','S3']}];
 const FACTOR_NAME={M1:'景氣對策信號',M2:'外需動能',M3:'匯率與資金',I1:'半導體／產業週期',I2:'政策扶持度',I3:'產業輪動強度',F1:'盈利品質',F2:'估值與預期差',F3:'公司治理',S1:'外資動向',S2:'散戶情緒',S3:'技術與波動'};
 const STORAGE='mfds-web-watch-v1';let watch=[];try{watch=JSON.parse(localStorage.getItem(STORAGE)||'[]');if(!Array.isArray(watch))watch=[]}catch(e){watch=[]}
-const state={historyNote:'讀取中',page:'overview',mode:'demo',stocks:[],prices:{},watch,search:'',sector:'全部產業',market:'全部市場',sort:'score',minValue:30000000,current:'DEMO01',weights:{M:25,I:25,F:25,S:25},horizon:20,sourceInfo:null};
+const state={historyNote:'讀取中',page:'overview',mode:'demo',stocks:[],prices:{},watch,search:'',sector:'全部產業',market:'全部市場',sort:'score',minValue:30000000,current:'DEMO01',weights:{M:25,I:25,F:25,S:25},horizon:20,sourceInfo:null,coverage:null};
 const $=id=>document.getElementById(id),fmt=(n,d=0)=>Number.isFinite(n)?n.toLocaleString('zh-TW',{maximumFractionDigits:d,minimumFractionDigits:d}):'—';
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function notif(msg){let el=$('toast');el.textContent=msg;el.classList.remove('hidden');clearTimeout(notif.timer);notif.timer=setTimeout(()=>el.classList.add('hidden'),4600)}
 function num(x){if(x===undefined||x===null||String(x).trim()==='')return null;let y=Number(String(x).replace(/,/g,'').replace(/%/g,'').trim());return Number.isFinite(y)?y:null}
 const sum=a=>a.reduce((x,y)=>x+y,0);
 function demoStocks(){const sectors=['半導體','光電','機械設備','網通','電子零組件','電源管理','金融','航運','化工','其他電子'];const arr=[];for(let i=1;i<=42;i++){let f={},seed=i*3.713;Object.keys(FACTOR_NAME).forEach((k,j)=>{f[k]=Math.max(-.95,Math.min(.95,Math.sin(seed+j*1.23)*.65+Math.cos(i+j*.89)*.22))});let closes=Array.from({length:96},(_,j)=>Math.max(18,70+i*2.1+(j-48)*(.13+Math.sin(i)*.065)+Math.sin(j/7+i)*3+Math.sin(j/15+i*.3)*5));arr.push({stock_id:'DEMO'+String(i).padStart(2,'0'),stock_name:'模擬股票 '+String(i).padStart(2,'0'),sector:sectors[(i-1)%sectors.length],market:i%3?'上市（模擬）':'上櫃（模擬）',close:closes.at(-1),change_pct:Math.sin(i*1.65)*3.5,avg_trade_value_twd:Math.round((22+i*6.1+(i%6)*25)*1000000),asof:'示範',large_holder_pct:25+(i*7%46),large_holder_change_pp:Math.sin(i)*2.3,foreign_5d_net_twd:Math.cos(i)*250000000,f});state.prices['DEMO'+String(i).padStart(2,'0')]=closes.map((v,j)=>({date:'樣本'+(j+1),close:v,volume_shares:500000+i*33000+Math.round((1+Math.sin(j+i))*80000)}))}return arr}
-function setDemo(){state.prices={};state.stocks=demoStocks();state.mode='demo';state.sourceInfo=null;state.historyNote='示範走勢';state.search='';state.sector='全部產業';state.market='全部市場';state.minValue=30000000;state.current='DEMO01';render();notif('已切換到虛構示範資料，並非真實台股行情。')}
+function setDemo(){state.prices={};state.stocks=demoStocks();state.mode='demo';state.sourceInfo=null;state.coverage=null;state.historyNote='示範走勢';state.search='';state.sector='全部產業';state.market='全部市場';state.minValue=30000000;state.current='DEMO01';render();notif('已切換到虛構示範資料，並非真實台股行情。')}
 // v2.1: Stock-code lookup is independent of the current snapshot or selector.
 const KNOWN_RESEARCH={8064:{stock_name:'東捷',market:'上櫃'},3533:{stock_name:'嘉澤',market:'上市'},2345:{stock_name:'智邦',market:'上市'},2330:{stock_name:'台積電',market:'上市'}};
 function placeholderStock(id){
@@ -94,16 +94,21 @@ function calcMacd(points){
 }
 function technicalsView(points){
   if(state.mode==='demo')return '<div class="note-box">此為示範走勢，不可作為實際台股技術訊號。</div>';
-  if(!points||!points.length)return '<div class="note-box">尚未收集歷史價格，技術指標暫不提供。2.1從網站升級後逐日累積，也可匯入既有歷史CSV。</div>';
+  if(!points||!points.length)return '<div class="note-box">目前沒有此股票的經驗證歷史收盤價；2.1.1會先回補重點個股，其餘市場逐批回補。可在資料與操作說明頁檢查更新流程。</div>';
   const last=points.at(-1),rsi=calcRsi14(points),macd=calcMacd(points),ma5=movingAverage(points,5),ma10=movingAverage(points,10),ma20=movingAverage(points,20),ma60=movingAverage(points,60);
   const items=[['MA5',ma5,2],['MA10',ma10,2],['MA20',ma20,2],['MA60',ma60,2],['RSI14',rsi,1],['MACD差離值',macd?.macd??null,3],['MACD訊號線',macd?.signal??null,3],['MACD柱',macd?.hist??null,3]];
-  return `<div class="note-box">歷史紀錄 ${points.length} 筆 · 最新 ${esc(last.date)}。均線5/10/20/60需要相應交易日資料；RSI14至少15筆，MACD至少35筆。價格未還原除權息，僅供研究。</div><div class="tech-grid">${items.map(([name,value,d])=>`<div class="tech-metric"><small>${name}</small><b>${value===null?'資料不足':fmt(value,d)}</b></div>`).join('')}</div>`;
+  const backfill=state.coverage?.market_backfill_progress;
+  const progress=backfill?` · 全市場歷史補齊：已查詢 ${esc(backfill.attempted_weekdays)} 個歷史工作日${backfill.reached_start?'（已跑到設定起日，但不代表沒有缺漏）':'（仍在分批補齊）'}`:'';
+  return `<div class="note-box">歷史紀錄 ${points.length} 筆 · 最新 ${esc(last.date)}${progress}。均線5/10/20/60需要相應交易日資料；RSI14至少15筆，MACD至少35筆。價格未還原除權息，僅供研究。</div><div class="tech-grid">${items.map(([name,value,d])=>`<div class="tech-metric"><small>${name}</small><b>${value===null?'資料不足':fmt(value,d)}</b></div>`).join('')}</div>`;
 }
 async function loadOfficialHistory(silent=false){
   try{
     const response=await fetch('./data/price_history.csv?t='+Date.now(),{cache:'no-store'});
     if(!response.ok)throw Error('歷史資料檔尚未產生');
     const rows=csvObjects(await response.text());
+    try{const coverageResponse=await fetch('./data/history_coverage.json?t='+Date.now(),{cache:'no-store'});
+      state.coverage=coverageResponse.ok?await coverageResponse.json():null;
+    }catch(e){state.coverage=null;}
     const grouped={};
     for(const row of rows){
       const code=row.stock_id,close=num(row.close),date=row.date;
@@ -175,7 +180,7 @@ async function loadOfficial(silent=false){
         large_holder_pct:null,large_holder_change_pp:null,foreign_5d_net_twd:null,f});
     }
     if(!stocks.length)throw Error('官方收盤檔缺少有效股票');
-    state.stocks=stocks;state.prices={};state.mode='official';state.sourceInfo=meta;state.historyNote='正在取得歷史行情';ensureResearchStocks();
+    state.stocks=stocks;state.prices={};state.mode='official';state.sourceInfo=meta;state.coverage=null;state.historyNote='正在取得歷史行情';ensureResearchStocks();
     state.search='';state.market='全部市場';state.sector='全部產業';state.sort='turnover';
     state.minValue=0;state.current=state.stocks.some(s=>s.stock_id===state.current)?state.current:'8064';
     state.page='screener';render();
