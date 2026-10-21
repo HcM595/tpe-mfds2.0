@@ -1,6 +1,6 @@
 {
-  "next_date": "2026-07-28",
-  "attempted_weekdays": 59,
+  "next_date": "2026-07-07",
+  "attempted_weekdays": 74,
   "failed_dates": [],
   "notes": "逐日回補；交易所無資料日不產生行情",
   "range_start": "2025-09-20",

@@ -1,0 +1,44 @@
+{
+  "asof": "2026-10-20",
+  "source": "TWSE/TPEx official",
+  "note": "此為行情下載診斷，不表示歷史資料完整；價格尚未除權息還原。",
+  "featured": {
+    "8064": {
+      "previous_priority_rows": 0,
+      "new_priority_rows": 0,
+      "successful_months": [],
+      "failed_months": [
+        {
+          "month": "2026-10",
+          "reason": "TPEx modern: TPEx modern month response has no validated price rows (schema/empty/month error); TPEx legacy: HTTP Error 404: Not Found"
+        },
+        {
+          "month": "2026-09",
+          "reason": "TPEx modern: TPEx modern month response has no validated price rows (schema/empty/month error); TPEx legacy: Expecting value: line 1 column 1 (char 0)"
+        }
+      ],
+      "current_priority_rows": 0
+    },
+    "3533": {
+      "previous_priority_rows": 254,
+      "new_priority_rows": 0,
+      "successful_months": [],
+      "failed_months": [],
+      "current_priority_rows": 254
+    },
+    "2330": {
+      "previous_priority_rows": 254,
+      "new_priority_rows": 0,
+      "successful_months": [],
+      "failed_months": [],
+      "current_priority_rows": 254
+    },
+    "2345": {
+      "previous_priority_rows": 254,
+      "new_priority_rows": 0,
+      "successful_months": [],
+      "failed_months": [],
+      "current_priority_rows": 254
+    }
+  }
+}
