@@ -45,7 +45,9 @@ jobs:
         run: |
           python scripts/build_history.py
           python -m compileall -q scripts
-      - name: 保存真實價格資料與回補進度
+      - name: 更新三大法人與集保籌碼資料（不足時留白）
+        run: python scripts/chip_pipeline.py
+      - name: 保存真實價格與籌碼資料及更新進度
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
