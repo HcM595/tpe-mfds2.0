@@ -9,6 +9,10 @@ on:
         description: '本次回補幾個全市場歷史工作日（預設15；最多45）'
         required: false
         default: '15'
+      chip_backfill_days:
+        description: '本次嘗試回補多少個法人歷史日期（各市場，建議先12）'
+        required: false
+        default: '12'
   schedule:
     # 臺灣時間18:17；GitHub可能延遲或漏跑
     - cron: '17 10 * * 1-5'
@@ -45,6 +49,10 @@ jobs:
         run: |
           python scripts/build_history.py
           python -m compileall -q scripts
+      - name: 回補三大法人歷史與集保週資料（含明確診斷）
+        env:
+          CHIP_DAYS: ${{ inputs.chip_backfill_days || '12' }}
+        run: python scripts/backfill_chips.py --flow-days "$CHIP_DAYS" --holder-weeks 7
       - name: 更新三大法人與集保籌碼資料（不足時留白）
         run: python scripts/chip_pipeline.py
       - name: 保存真實價格與籌碼資料及更新進度
