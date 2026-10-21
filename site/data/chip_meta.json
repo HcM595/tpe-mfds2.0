@@ -1,0 +1,28 @@
+{
+  "version": "2.2",
+  "generated_at_taipei": "2026-10-21T15:48:13+08:00",
+  "sources": {
+    "twse": {
+      "status": "ok",
+      "rows": 1079,
+      "latest_date": "2026-10-20"
+    },
+    "tpex": {
+      "status": "ok",
+      "rows": 761,
+      "latest_date": "2026-10-20"
+    },
+    "tdcc": {
+      "status": "ok",
+      "rows": 2969,
+      "latest_date": "2026-10-16"
+    }
+  },
+  "notes": "同步增持只代表描述性篩選，非預測。",
+  "flow_history_rows": 1840,
+  "holder_history_rows": 2969,
+  "stocks_with_chip_records": 2969,
+  "matching_stocks": 0,
+  "ready_stocks": 0,
+  "selection_rule": "5個有效法人交易日：外資淨買超>0 且投信淨買超>0；兩期集保持股相隔約28日：400張以上比例增幅>0pp；均需資料未過期。"
+}
