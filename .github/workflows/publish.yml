@@ -5,11 +5,11 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    # UTC 09:27 = Taiwan 17:27, Monday to Friday (best effort).
-    - cron: '27 9 * * 1-5'
+    # Taipei 18:17 (UTC 10:17), Mon–Fri, best effort.
+    - cron: '17 10 * * 1-5'
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -28,8 +28,19 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: 下載當日最新的官方收盤資料（失敗仍標示狀態，不套用示範數據）
+      - name: 取得官方收盤行情（不產生虛構資料）
         run: python scripts/fetch_official.py
+      - name: 歸檔每日行情與建立歷史指標資料
+        run: python scripts/build_history.py
+      - name: 留存每日行情到專案（由 GitHub Token 寫入，不觸發重複執行）
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add history_data/ site/data/official_snapshot.csv site/data/official_meta.json 2>/dev/null || true
+          if ! git diff --cached --quiet; then
+            git commit -m "data: archive verified market snapshot [skip ci]"
+            git push origin HEAD:main || echo "WARN: could not persist history; Pages still publishes this run"
+          fi
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
