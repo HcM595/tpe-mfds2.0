@@ -13,6 +13,7 @@ import json
 import re
 import time
 import urllib.request
+import urllib.error
 from urllib.parse import urlencode
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -24,6 +25,8 @@ URLS = {
     '上櫃': 'https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes',
 }
 TWSE_RWD = 'https://www.twse.com.tw/rwd/zh/afterTrading/STOCK_DAY_ALL'
+TWSE_MI_RWD = 'https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX'
+TWSE_MI_EXCHANGE = 'https://www.twse.com.tw/exchangeReport/MI_INDEX'
 FIELDS = ['stock_id','stock_name','sector','market','close','change_pct','volume_shares',
           'trade_value_twd','avg_trade_value_twd','asof','large_holder_pct',
           'large_holder_change_pp','foreign_5d_net_twd',
@@ -113,93 +116,159 @@ def transform(records, market):
 
 
 
-def transform_twse_rwd(payload):
-    """Parse TWSE official RWD all-stocks daily report using its named columns.
+def normalize_twse_field(value):
+    """Compare exchange-supplied column *names*, never guessed positions."""
+    value = html.unescape(str(value))
+    value = re.sub(r'<[^>]*>', '', value)
+    value = re.sub(r'[\s\u3000]', '', value)
+    return value.replace('（', '(').replace('）', ')').replace('＋', '+').replace('－', '-')
 
-    Never infer the requested date: use only the date returned by the source.
-    Never assume fixed column indexes, since official CSV/JSON schemas can vary.
+
+def transform_twse_rwd(payload):
+    """Read STOCK_DAY_ALL or MI_INDEX (tables or fields9/data9).
+
+    Source *response* date is mandatory; query date must never become trade date.
+    All mandatory columns must be found by name, not assumed array indices.
     """
-    if not isinstance(payload, dict) or payload.get('stat') != 'OK':
-        raise ValueError('TWSE RWD not OK or unsupported JSON response')
-    date = iso_date(payload.get('date'))
-    if not date:
-        raise ValueError('TWSE RWD has no valid response date')
-    tables = payload.get('tables')
-    blocks = tables if isinstance(tables, list) and tables else [payload]
-    result = []
+    if not isinstance(payload, dict):
+        raise ValueError('TWSE盤後報表不是JSON物件')
+    if str(payload.get('stat', '')).upper() != 'OK':
+        raise ValueError('TWSE盤後回應stat非OK: ' + str(payload.get('stat', 'missing'))[:100])
+    report_date = iso_date(payload.get('date'))
+    if not report_date:
+        raise ValueError('TWSE盤後報表缺少有效回應日期（不使用查詢日期代替）')
+
+    blocks = []
+    if isinstance(payload.get('tables'), list):
+        blocks.extend(payload['tables'])
+    # Older exchangeReport/MI_INDEX exposes fields9/data9; some records also
+    # provide top-level fields/data. Parse every compatible table by names.
+    for suffix in ('', *[str(i) for i in range(1, 30)]):
+        fields_key = 'fields' + suffix
+        data_key = 'data' + suffix
+        if isinstance(payload.get(fields_key), list) and isinstance(payload.get(data_key), list):
+            blocks.append({'fields': payload[fields_key], 'data': payload[data_key]})
+
+    parsed = {}
+    recognized_tables = 0
     for block in blocks:
         if not isinstance(block, dict):
             continue
-        fields = [re.sub(r'\s+', '', re.sub(r'<[^>]+>', '', html.unescape(str(x))))
-                  for x in (block.get('fields') or [])]
-        def col(*names):
-            for name in names:
-                norm = re.sub(r'\s+', '', name)
-                if norm in fields:
-                    return fields.index(norm)
+        fields = [normalize_twse_field(f) for f in (block.get('fields') or [])]
+
+        def col(*candidates):
+            for candidate in candidates:
+                normalized = normalize_twse_field(candidate)
+                if normalized in fields:
+                    return fields.index(normalized)
             return None
-        ci = col('證券代號', '證券代碼', '股票代號', '代號')
-        ni = col('證券名稱', '股票名稱', '名稱')
-        pi = col('收盤價', '收盤')
-        ai = col('成交金額', '成交值')
-        vi = col('成交股數', '成交量')
-        di = col('日期', '交易日期')
-        sign_i = col('漲跌(+/-)', '漲跌(+/-)', '漲跌符號')
+
+        code_i = col('證券代號', '證券代碼', '股票代號', '代號')
+        name_i = col('證券名稱', '股票名稱', '名稱')
+        close_i = col('收盤價', '收盤')
+        value_i = col('成交金額', '成交值')
+        volume_i = col('成交股數', '成交量')
+        date_i = col('日期', '交易日期')
+        sign_i = col('漲跌(+/-)', '漲跌符號')
         diff_i = col('漲跌價差', '漲跌')
-        if any(v is None for v in (ci, ni, pi, ai, vi)):
+        mandatory = (code_i, name_i, close_i, value_i, volume_i)
+        if any(i is None for i in mandatory):
             continue
+        recognized_tables += 1
+
         for rec in block.get('data') or []:
-            if not isinstance(rec, (tuple, list)) or max(ci,ni,pi,ai,vi) >= len(rec):
+            if not isinstance(rec, (tuple, list)) or max(mandatory) >= len(rec):
                 continue
-            code=str(rec[ci]).strip()
-            name=str(rec[ni]).strip()
-            close=number(rec[pi]);volume=number(rec[vi]);amount=number(rec[ai])
-            day=iso_date(rec[di]) if di is not None and di < len(rec) else date
-            if not is_common_four_digit(code) or not name or not day or close is None or close<=0:
+            code = str(rec[code_i]).strip()
+            name = re.sub(r'<[^>]*>', '', html.unescape(str(rec[name_i]))).strip()
+            close = number(rec[close_i])
+            volume = number(rec[volume_i])
+            amount = number(rec[value_i])
+            date = (iso_date(rec[date_i]) if date_i is not None and date_i < len(rec)
+                    else report_date)
+            if not is_common_four_digit(code) or not name or close is None or close <= 0:
                 continue
-            # Safeguard: RWD response date must match each individual row date, when supplied.
-            if day!=date:
+            if date != report_date:
                 continue
-            row=dict.fromkeys(FIELDS,'')
-            row.update(stock_id=code,stock_name=name,market='上市',sector='未分類',
-                       close=f'{close:.4f}'.rstrip('0').rstrip('.'),asof=date)
-            if volume is not None and volume>=0:row['volume_shares']=str(int(volume))
-            if amount is not None and amount>=0:row['trade_value_twd']=str(int(amount))
+            if volume is None or volume < 0 or amount is None or amount < 0:
+                continue  # rankings need both shares and NT$ turnover
+            row = dict.fromkeys(FIELDS, '')
+            row.update(stock_id=code, stock_name=name, market='上市', sector='未分類',
+                       close=f'{close:.4f}'.rstrip('0').rstrip('.'),
+                       volume_shares=str(int(volume)), trade_value_twd=str(int(amount)),
+                       asof=report_date)
             if diff_i is not None and diff_i < len(rec):
-                change=number(re.sub(r'<[^>]+>','',html.unescape(str(rec[diff_i]))))
-                if change is not None:
-                    if sign_i is not None and sign_i<len(rec):
-                        sign=html.unescape(str(rec[sign_i]))
-                        if '-' in re.sub(r'<[^>]+>','',sign):change=-abs(change)
-                        elif '+' in re.sub(r'<[^>]+>','',sign):change=abs(change)
-                        else:change=None  # unresolved direction, no percentage
-                    if change is not None and close-change>0:
-                        row['change_pct']=f'{change/(close-change)*100:.4f}'
-            result.append(row)
-    if len(result)<500:
-        raise ValueError('TWSE RWD returned too few safely parsed stock rows: '+str(len(result)))
-    return result
+                diff = number(re.sub(r'<[^>]*>', '', html.unescape(str(rec[diff_i]))))
+                if diff is not None:
+                    if sign_i is not None and sign_i < len(rec):
+                        sign = normalize_twse_field(rec[sign_i])
+                        if sign in ('-', '−', '▼'):
+                            diff = -abs(diff)
+                        elif sign in ('+', '▲'):
+                            diff = abs(diff)
+                        else:
+                            diff = None  # uncertain sign: keep daily change blank
+                    else:
+                        diff = None
+                    if diff is not None and close - diff > 0:
+                        row['change_pct'] = f'{diff / (close - diff) * 100:.4f}'
+            previous = parsed.get(code)
+            if previous and previous != row:
+                raise ValueError('TWSE報表股票代號重複但內容衝突: ' + code)
+            parsed[code] = row
+
+    # A page about indices, not stocks, must never overwrite real stock prices.
+    if not recognized_tables:
+        raise ValueError('TWSE回應沒有辨識出具證券代號/名稱/收盤/成交股數/成交金額的表格')
+    if len(parsed) < 700:
+        raise ValueError(f'TWSE報表安全解析的上市股票過少：{len(parsed)}筆（最低700筆）')
+    return list(parsed.values())
 
 
-def rwd_url(target_date):
+def rwd_url(target_date, endpoint=TWSE_RWD):
     dt.date.fromisoformat(target_date)
-    return TWSE_RWD+'?'+urlencode({'date':target_date.replace('-',''),'response':'json'})
+    params = {'date': target_date.replace('-', ''), 'response': 'json'}
+    if endpoint in (TWSE_MI_RWD, TWSE_MI_EXCHANGE):
+        params['type'] = 'ALLBUT0999'
+    return endpoint + '?' + urlencode(params)
+
+
+def _preview_bytes(raw):
+    preview = raw[:180].decode('utf-8', errors='replace')
+    return re.sub(r'\s+', ' ', preview).strip()[:130]
+
 
 def get_json(url, attempts=3):
+    """Raise an actionable error; never silently accept HTML as JSON."""
     error = None
     for attempt in range(attempts):
         try:
             request = urllib.request.Request(url, headers={
-                'User-Agent': 'Mozilla/5.0 (compatible; MFDS-Research-Dashboard/0.2)',
-                'Accept': 'application/json',
+                'User-Agent': ('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 '
+                               '(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'),
+                'Accept': 'application/json,text/plain,*/*',
+                'Accept-Language': 'zh-TW,zh;q=0.9,en;q=0.5',
             })
             with urllib.request.urlopen(request, timeout=25) as response:
-                return json.load(response)
+                status = response.getcode()
+                content_type = response.headers.get('Content-Type', '')
+                raw = response.read()
+            try:
+                return json.loads(raw.decode('utf-8-sig'))
+            except (ValueError, UnicodeDecodeError) as exc:
+                raise ValueError('HTTP ' + str(status) + '; Content-Type=' +
+                                 content_type[:65] + '; ' + str(len(raw)) + ' bytes; '
+                                 'non-JSON preview=' + repr(_preview_bytes(raw))) from exc
+        except urllib.error.HTTPError as exc:
+            raw = exc.read(220)
+            error = ('HTTP ' + str(exc.code) + '; Content-Type=' +
+                     str(exc.headers.get('Content-Type', ''))[:65] + '; preview=' +
+                     repr(_preview_bytes(raw)))
         except Exception as exc:
-            error = exc
-            if attempt < attempts - 1:
-                time.sleep(2 * (attempt + 1))
-    raise RuntimeError(str(error))
+            error = str(exc)
+        if attempt < attempts - 1:
+            time.sleep(2 * (attempt + 1))
+    raise RuntimeError(error)
 
 
 def run(twse_fixture=None, tpex_fixture=None, output_dir=DATA):
@@ -209,7 +278,8 @@ def run(twse_fixture=None, tpex_fixture=None, output_dir=DATA):
         'status': 'unavailable',
         'generated_at_taipei': dt.datetime.now(ZoneInfo('Asia/Taipei')).isoformat(timespec='seconds'),
         'markets': {},
-        'sources': {**URLS, '上市盤後備援': TWSE_RWD},
+        'sources': {**URLS, '上市盤後備援': TWSE_RWD,
+                    '上市MI_INDEX備援': TWSE_MI_RWD, '上市MI_INDEX舊路徑': TWSE_MI_EXCHANGE},
         'notes': ('各市場顯示各自已驗證的收盤日期。日期不同不當作同步行情；'
                   '籌碼強度排名只在法人與股價日期一致時給分。非即時報價。'),
     }
@@ -224,28 +294,89 @@ def run(twse_fixture=None, tpex_fixture=None, output_dir=DATA):
             meta['markets'][market]={'status':'failed','error':str(exc)[:180]}
             print('WARNING ['+market+']:',exc)
 
-    # Official alternative: OpenAPI often lags behind TPEx. RWD has date-specific
-    # reports. It must be parsed by returned named columns and actual response date.
+    # Official fallback chain: all attempts use TWSE endpoints, and only accept
+    # a result with a *response-provided* trade date newer than current TWSE.
+    # Missing data, anti-bot HTML or network failures remain explicit diagnostics.
     if not twse_fixture and not tpex_fixture:
-        tw=meta['markets'].get('上市',{})
-        otc=meta['markets'].get('上櫃',{})
-        if otc.get('date') and (not tw.get('date') or tw['date']<otc['date']):
-            target=otc['date']
-            meta['twse_alternative']={'attempted':True,'requested_date':target,'url':rwd_url(target)}
+        tw = meta['markets'].get('上市', {})
+        otc = meta['markets'].get('上櫃', {})
+        if otc.get('date') and (not tw.get('date') or tw['date'] < otc['date']):
+            target = otc['date']
+            alternative = {'attempted': True, 'requested_date': target,
+                           'result': 'failed', 'attempts': []}
+            meta['twse_alternative'] = alternative
+            endpoints = [
+                ('STOCK_DAY_ALL_RWD', TWSE_RWD),
+                ('MI_INDEX_RWD', TWSE_MI_RWD),
+                ('MI_INDEX_exchangeReport', TWSE_MI_EXCHANGE),
+            ]
+            current_date = tw.get('date', '')
+            for label, endpoint in endpoints:
+                url = rwd_url(target, endpoint)
+                attempt = {'name': label, 'url': url}
+                alternative['attempts'].append(attempt)
+                try:
+                    rows = transform_twse_rwd(get_json(url, attempts=2))
+                    actual = rows[0]['asof']
+                    attempt['response_date'] = actual
+                    attempt['rows'] = len(rows)
+                    # Prevent accepting a truncated market-wide feed as a full snapshot.
+                    baseline_count = tw.get('rows', 0)
+                    if baseline_count and len(rows) < 0.85 * baseline_count:
+                        attempt['result'] = 'insufficient_market_coverage'
+                        attempt['error'] = ('本次僅'+str(len(rows))+'筆，原OpenAPI有'+
+                                            str(baseline_count)+'筆（低於85%安全門檻）')
+                        continue
+                    if actual <= current_date or actual > target:
+                        attempt['result'] = 'date_not_newer_or_after_target'
+                        continue
+                    attempt['result'] = 'selected'
+                    alternative['result'] = 'selected'
+                    alternative['selected_source'] = label
+                    alternative['response_date'] = actual
+                    grouped['上市'] = rows
+                    meta['markets']['上市'] = {'status': 'ok', 'rows': len(rows),
+                                               'date': actual, 'source': label}
+                    break
+                except Exception as exc:
+                    attempt['result'] = 'failed'
+                    attempt['error'] = (type(exc).__name__ + ': ' + str(exc))[:350]
+                    print('WARNING [上市官方備援' + label + ']:', exc)
+            if alternative['result'] != 'selected':
+                alternative['error'] = '所有官方備援未取得更新日期的有效上市行情；詳細原因見attempts。'
+
+    # If exactly one source fails completely, keep a *clearly dated* previously
+    # published market snapshot instead of silently deleting an entire market.
+    # This does NOT make stale prices eligible for an unmatched-date chip ranking.
+    if len(grouped) < 2:
+        oldfile = output_dir / 'official_snapshot.csv'
+        if oldfile.exists():
             try:
-                rows=transform_twse_rwd(get_json(rwd_url(target),attempts=2))
-                actual=rows[0]['asof']
-                meta['twse_alternative']['response_date']=actual
-                if actual>=tw.get('date','') and actual<=target:
-                    grouped['上市']=rows
-                    meta['markets']['上市']={'status':'ok','rows':len(rows),'date':actual,'source':'rwd_official'}
-                    meta['twse_alternative']['result']='selected'
-                else:
-                    meta['twse_alternative']['result']='not_newer'
-            except Exception as exc:
-                meta['twse_alternative']['result']='failed'
-                meta['twse_alternative']['error']=(type(exc).__name__+': '+str(exc))[:250]
-                print('WARNING [上市官方盤後備援]:',exc)
+                with oldfile.open(encoding='utf-8-sig', newline='') as fh:
+                    previous = list(csv.DictReader(fh))
+                for market, floor in [('上市', 700), ('上櫃', 600)]:
+                    if market in grouped:
+                        continue
+                    candidates = [r for r in previous
+                                  if r.get('market') == market
+                                  and is_common_four_digit(r.get('stock_id', ''))
+                                  and iso_date(r.get('asof'))
+                                  and number(r.get('close')) is not None
+                                  and number(r.get('close')) > 0]
+                    if candidates:
+                        old_date = max(r['asof'] for r in candidates)
+                        candidates = [r for r in candidates if r['asof'] == old_date]
+                    if len(candidates) < floor or len({r['stock_id'] for r in candidates}) != len(candidates):
+                        continue
+                    grouped[market] = [{f: r.get(f, '') for f in FIELDS} for r in candidates]
+                    old_error = meta['markets'].get(market, {}).get('error', '')
+                    meta['markets'][market] = {
+                        'status': 'stale', 'rows': len(candidates), 'date': old_date,
+                        'source': 'previous_snapshot', 'fetch_error': old_error,
+                    }
+                    print('WARNING [' + market + ']: 保留舊行情 ' + old_date)
+            except (OSError, csv.Error, ValueError) as exc:
+                meta['previous_snapshot_error'] = str(exc)[:180]
 
     output=[row for market in ('上市','上櫃') for row in grouped.get(market,[])]
     dates={market:items[0]['asof'] for market,items in grouped.items() if items}
@@ -253,7 +384,9 @@ def run(twse_fixture=None, tpex_fixture=None, output_dir=DATA):
     meta['markets_included']=sorted(dates)
     meta['display_date']=max(dates.values()) if dates else None
     meta['aligned']=len(dates)==2 and len(set(dates.values()))==1
-    meta['status']='ok' if meta['aligned'] else ('partial' if output else 'unavailable')
+    source_stale = any(m.get('status') == 'stale' for m in meta['markets'].values())
+    meta['status'] = ('ok' if meta['aligned'] and not source_stale else
+                      ('partial' if output else 'unavailable'))
     meta['tracked_symbols_found']={code:any(r['stock_id']==code for r in output)
                                    for code in ('8064','3533','2345','2330')}
     if output:
