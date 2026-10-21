@@ -1,9 +1,9 @@
 {
-  "next_date": "2026-05-26",
-  "attempted_weekdays": 104,
+  "next_date": "2026-05-05",
+  "attempted_weekdays": 119,
   "failed_dates": [],
   "notes": "逐日回補；交易所無資料日不產生行情",
-  "range_start": "2025-09-20",
-  "asof": "2026-10-20",
+  "range_start": "2025-09-21",
+  "asof": "2026-10-21",
   "reached_start": false
 }
