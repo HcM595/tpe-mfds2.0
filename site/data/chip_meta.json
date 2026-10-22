@@ -1,6 +1,6 @@
 {
   "version": "2.2.1",
-  "generated_at_taipei": "2026-10-21T23:22:38+08:00",
+  "generated_at_taipei": "2026-10-22T08:14:02+08:00",
   "sources": {
     "twse": {
       "status": "ok",
@@ -91,6 +91,6 @@
   "holder_history_rows": 35470,
   "stocks_with_chip_records": 2973,
   "matching_stocks": 92,
-  "ready_stocks": 1887,
+  "ready_stocks": 1882,
   "selection_rule": "5個有效法人交易日：外資淨買超>0 且投信淨買超>0；兩期集保持股相隔約28日：400張以上比例增幅>0pp；均需資料未過期。"
 }

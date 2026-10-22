@@ -1,0 +1,53 @@
+{
+  "version": "2.4A",
+  "status": "ok",
+  "updated_at_utc": "2026-10-22T00:14:21.563144Z",
+  "snapshot_id": "20261022T001421563144Z-run39698086651-attempt1",
+  "snapshot_path": "signal_archive/2026/10/22/20261022T001421563144Z-run39698086651-attempt1/snapshot.json",
+  "latest_snapshot": {
+    "snapshot_id": "20261022T001421563144Z-run39698086651-attempt1",
+    "snapshot_sha256": "ddc24eeefe82caef53e7e9d914a7c71e47be808871804911d797b7c37838e1e3",
+    "captured_at_utc": "2026-10-22T00:14:21.563144Z",
+    "source_price_dates": [
+      "2026-10-21"
+    ],
+    "eligible_ranked": 86,
+    "eligible_verified": 86,
+    "signal_fingerprint": "50100daa94bb94057d17c871dfe0b698a26b81d13c30725657c8d673dc26959b",
+    "snapshot_path": "signal_archive/2026/10/22/20261022T001421563144Z-run39698086651-attempt1/snapshot.json",
+    "first_seen_snapshot_id": "20261022T001421563144Z-run39698086651-attempt1",
+    "same_signal_as_earlier_snapshot": false
+  },
+  "snapshots_total": 1,
+  "unique_signal_fingerprints": 1,
+  "repeated_signal_snapshots": 0,
+  "summary": {
+    "rank_candidates": 92,
+    "eligible_ranked": 86,
+    "eligible_verified": 86,
+    "nonranked_candidates": 6,
+    "source_price_dates": [
+      "2026-10-21"
+    ],
+    "rank_status_counts": {
+      "可排名": 86,
+      "未納入": 6
+    },
+    "technical_status_counts": {
+      "部分確認": 50,
+      "三項確認": 29,
+      "尚未確認": 7
+    },
+    "holder_structure_counts": {
+      "雙級距增加": 29,
+      "單級距增加，另一級距持平": 11,
+      "持股結構分歧": 46
+    },
+    "source_generated_at_taipei": {
+      "chip_rank": "2026-10-22T08:14:20.217161+08:00",
+      "tech_crosscheck": "2026-10-22T08:14:21+08:00",
+      "official_meta": "2026-10-22T08:11:38+08:00"
+    }
+  },
+  "note": "快照在GitHub與GitHub Pages中保留，不可修改或回填過去首次觀測時間。source_published_at未知；首次封存時間不等於來源公告時間。"
+}

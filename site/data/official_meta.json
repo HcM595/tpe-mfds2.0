@@ -1,6 +1,6 @@
 {
   "status": "ok",
-  "generated_at_taipei": "2026-10-21T23:20:36+08:00",
+  "generated_at_taipei": "2026-10-22T08:11:38+08:00",
   "markets": {
     "上市": {
       "status": "ok",
@@ -46,8 +46,8 @@
     "response_date": "2026-10-21"
   },
   "market_dates": {
-    "上市": "2026-10-21",
-    "上櫃": "2026-10-21"
+    "上櫃": "2026-10-21",
+    "上市": "2026-10-21"
   },
   "markets_included": [
     "上市",
