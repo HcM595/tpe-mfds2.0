@@ -244,6 +244,43 @@ def make_cohort(latest,snap,first_seen,rows,audit,now,audit_csv_sha256):
     }
 
 
+def validated_calendar(data_dir, now):
+    """Use only time-stamped, on-disk official calendar archives; fail closed."""
+    path=data_dir/'official_session_calendar.json'
+    result={'status':'unavailable_fail_closed','years':{},'calendar_issuer':'TWSE',
+            'tpex_independently_verified':False}
+    if not path.exists(): return result
+    try:
+        meta=load_json(path)
+        if meta.get('version')!='2.4D':return result
+        for k,info in meta.get('years',{}).items():
+            y=int(k)
+            if (info.get('status')!='twse_official_verified' or
+                not isinstance(info.get('closed_dates'),list)):continue
+            source=(data_dir/str(info.get('source_file',''))).resolve()
+            if not source.is_relative_to((data_dir/'official_calendar_sources').resolve()):continue
+            if not source.is_file():continue
+            obj=load_json(source)
+            can=json.dumps({'year':obj.get('year'),'events':obj.get('events'),
+                            'closed_dates':obj.get('closed_dates')},ensure_ascii=False,
+                            sort_keys=True,separators=(',',':')).encode('utf-8')
+            if (obj.get('sha256')!=hashlib.sha256(can).hexdigest() or
+                obj.get('sha256')!=info.get('source_sha256') or obj.get('year')!=y):continue
+            first=utc_time(obj.get('source_first_seen_utc'))
+            if first is None or first>now:continue
+            closed=set()
+            for x in info['closed_dates']:
+                d=day(x)
+                if not d or d.year!=y:raise ValueError('官方休市日期無效')
+                closed.add(d)
+            if len(closed)<12:continue
+            result['years'][y]=closed
+        if result['years']:result['status']='ok_twse_official_tpex_reference'
+    except (OSError,ValueError,TypeError,KeyError,OverflowError):
+        pass
+    return result
+
+
 def market_sessions(data_dir, observation_cohorts, now, min_symbols=MIN_MARKET_SYMBOLS):
     """Coverage-based exchange-session proxy. Never call it an official calendar."""
     if not isinstance(min_symbols,int) or min_symbols<2:
@@ -264,6 +301,7 @@ def market_sessions(data_dir, observation_cohorts, now, min_symbols=MIN_MARKET_S
                 market_conflicts.add((cohort['cohort_id'],code))
             else:
                 mapping[code]=market
+    calendar=validated_calendar(data_dir,now)
     coverage=defaultdict(lambda:defaultdict(set))
     cutoff=now.astimezone(TZ).date()
     for row in load_csv(data_dir/'price_history.csv'):
@@ -276,9 +314,20 @@ def market_sessions(data_dir, observation_cohorts, now, min_symbols=MIN_MARKET_S
             except (TypeError, ValueError):continue
             if math.isfinite(close) and close>0:
                 coverage[market][d].add(code)
-    sessions={market:sorted(d for d,codes in coverage[market].items() if len(codes)>=min_symbols)
-              for market in ('上市','上櫃')}
-    return sessions, {market:len(sessions[market]) for market in sessions}, market_conflicts
+    rejected_by_calendar={}
+    sessions={}
+    for market in ('上市','上櫃'):
+        candidate=sorted(d for d,codes in coverage[market].items() if len(codes)>=min_symbols)
+        rejected_by_calendar[market]=[d.isoformat() for d in candidate
+            if d.year in calendar['years'] and (d.weekday()>=5 or d in calendar['years'][d.year])]
+        sessions[market]=[d for d in candidate if d.year in calendar['years'] and
+            d.weekday()<5 and d not in calendar['years'][d.year]]
+    cal_info={'source_status':calendar['status'],
+              'validated_years':sorted(calendar['years']),
+              'tpex_independently_verified':False,
+              'otc_notice':'上櫃暫參照TWSE官方行事曆；未獨立機器驗證TPEx官方資料',
+              'rejected_covered_nontrading_dates':rejected_by_calendar}
+    return sessions, {market:len(sessions[market]) for market in sessions}, market_conflicts,cal_info
 
 
 def make_observations(cohorts,sessions,market_conflicts=None):
@@ -371,9 +420,28 @@ def run(data_dir=DATA, observed_at=None, min_symbols=MIN_MARKET_SYMBOLS):
     # Re-check historical registry before emitting outputs. No old cohort mutation.
     registry,known=validate_cohort_registry(data_dir)
     cohort_list=list(known.values())
-    sessions,sessions_count,market_conflicts=market_sessions(data_dir,cohort_list,now,min_symbols)
+    sessions,sessions_count,market_conflicts,calendar_info=market_sessions(data_dir,cohort_list,now,min_symbols)
     rows,issues,status_counts=make_observations(cohort_list,sessions,market_conflicts)
     write_csv(data_dir/'forward_observation.csv',rows,CSV_COLS)
+    readiness=[]
+    for r in rows:
+        readiness.append({
+            'cohort_id':r['cohort_id'],'stock_id':r['stock_id'],
+            'stock_name':r['stock_name'],'market':r['market'],
+            'observation_status':r['observation_status'],
+            'raw_close_history':'available_unadjusted_close_only',
+            'adjusted_ohlc_verified':'false',
+            'cash_dividend_verified':'false',
+            'corporate_actions_verified':'false',
+            'tradable_reference_price_verified':'false',
+            'return_calculation_allowed':'false',
+            'reason':'尚無經核實的除權息調整OHLC／現金股利／可成交價與成本；禁止報酬或勝率計算',
+        })
+    write_csv(data_dir/'price_data_readiness.csv',readiness,[
+        'cohort_id','stock_id','stock_name','market','observation_status',
+        'raw_close_history','adjusted_ohlc_verified','cash_dividend_verified',
+        'corporate_actions_verified','tradable_reference_price_verified',
+        'return_calculation_allowed','reason'])
     write_csv(data_dir/'forward_data_issues.csv',issues,ISSUE_COLS)
     result={
         'version':VERSION,'status':'ok',
@@ -392,8 +460,10 @@ def run(data_dir=DATA, observed_at=None, min_symbols=MIN_MARKET_SYMBOLS):
         'unique_signal_fingerprints_in_archive':index.get('unique_signal_fingerprints'),
         'repeat_signal_snapshots':index.get('repeated_signal_snapshots'),
         'horizon_status_counts':status_counts,
+        'calendar_validation_version':'2.4D',
+        'official_calendar_validation':calendar_info,
         'session_coverage':{
-            'method':'股票歷史CSV中按市場統計，每日有至少指定數量不重複股票且收盤價有效，即暫列觀察交易日；非官方交易日曆',
+            'method':'證交所官方休市表核對＋股票歷史CSV至少100檔的行情涵蓋度；上櫃借用上市行事曆僅供參考',
             'minimum_symbols_per_market_day':min_symbols,
             'usable_market_sessions':sessions_count,
             'coverage_dates':{market:{'first':dates[0].isoformat() if dates else None,'last':dates[-1].isoformat() if dates else None}
@@ -408,12 +478,12 @@ def run(data_dir=DATA, observed_at=None, min_symbols=MIN_MARKET_SYMBOLS):
         'strict_historical_backtest_eligible':0,
         'performance_blockers':[
             'price_history.csv只包含未還原收盤價，缺官方核實的還原OHLC、公司行動及現金股利',
-            '交易日曆暫從已取得行情的有效涵蓋度推估，未獨立核實交易所完整交易日曆',
+            '證交所年度開休市已由官方資料核對；上櫃日曆尚待獨立機器驗證，臨時休市及個股停止交易仍需核實',
             '未驗證當時可成交的委託時點、開盤參考價、流動性及交易成本',
             '訊號首次封存時間與官方正式公布時間不可混為一談',
             '同股跨交易日反覆出現的訊號可能重疊，不可視為獨立統計樣本',
         ],
-        'outputs':['forward_observation_meta.json','forward_observation.csv',
+        'outputs':['forward_observation_meta.json','forward_observation.csv','price_data_readiness.csv',
                    'forward_data_issues.csv','forward_cohorts_index.json','forward_cohorts/'],
     }
     write_json(data_dir/'forward_observation_meta.json',result)
