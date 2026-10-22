@@ -1,0 +1,16 @@
+{
+  "version": "2.4C",
+  "cohorts": [
+    {
+      "cohort_id": "cohort-50100daa94bb94057d17c871",
+      "cohort_path": "forward_cohorts/cohort-50100daa94bb94057d17c871.json",
+      "cohort_sha256": "4cd9b03bd065766c111625ea2e9578b36f8ae03fd20be8d9ab3188396284e668",
+      "signal_fingerprint": "50100daa94bb94057d17c871dfe0b698a26b81d13c30725657c8d673dc26959b",
+      "registered_at_utc": "2026-10-22T01:28:47.666218Z",
+      "first_signal_observed_at_utc": "2026-10-22T00:14:21.563144Z",
+      "qualified_entries": 83,
+      "source_snapshot_id": "20261022T012845740970Z-run39705428294-attempt1"
+    }
+  ],
+  "cohorts_total": 1
+}
