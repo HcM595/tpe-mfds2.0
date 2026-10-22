@@ -1,7 +1,7 @@
 {
   "version": "2.2.1",
   "asof": "2026-10-21",
-  "created_at_taipei": "2026-10-22T09:53:13+08:00",
+  "created_at_taipei": "2026-10-22T10:17:57+08:00",
   "notes": "下載空值與市場休市分別紀錄；歷史TDCC來源為非官方鏡像，非集保直接提供歷史API。",
   "market_history": {
     "twse": {

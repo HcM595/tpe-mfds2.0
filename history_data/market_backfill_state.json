@@ -1,9 +1,9 @@
 {
-  "next_date": "2025-10-07",
-  "attempted_weekdays": 269,
+  "next_date": "2025-09-20",
+  "attempted_weekdays": 281,
   "failed_dates": [],
   "notes": "逐日回補；交易所無資料日不產生行情",
   "range_start": "2025-09-21",
   "asof": "2026-10-21",
-  "reached_start": false
+  "reached_start": true
 }

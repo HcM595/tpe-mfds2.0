@@ -1,9 +1,9 @@
 {
   "version": "2.4D",
-  "generated_at_taipei": "2026-10-22T09:53:49+08:00",
+  "generated_at_taipei": "2026-10-22T10:18:30+08:00",
   "status": "ok",
   "calendar_year": 2026,
-  "new_source_version_saved": true,
+  "new_source_version_saved": false,
   "twse_source_url": "https://openapi.twse.com.tw/v1/holidaySchedule/holidaySchedule",
   "twse_official_info_url": "https://www.twse.com.tw/zh/trading/holiday.html",
   "tpex_official_info_url": "https://www.tpex.org.tw/zh-tw/announce/market/holiday.html",
