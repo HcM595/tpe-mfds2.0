@@ -61,6 +61,8 @@ jobs:
         run: python scripts/tech_crosscheck.py
       - name: 2.4A 封存當次籌碼排名與技術訊號（防未來資料洩漏）
         run: python scripts/archive_signals.py
+      - name: 2.4B 稽核封存來源與回測時間資格（不產生報酬）
+        run: python scripts/audit_point_in_time.py
       - name: 保存真實價格與籌碼資料及更新進度
         run: |
           git config user.name "github-actions[bot]"
