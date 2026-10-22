@@ -1,11 +1,11 @@
 {
   "version": "2.4C",
   "status": "ok",
-  "generated_at_taipei": "2026-10-22T09:28:47+08:00",
-  "latest_audited_snapshot_id": "20261022T012845740970Z-run39705428294-attempt1",
+  "generated_at_taipei": "2026-10-22T09:53:50+08:00",
+  "latest_audited_snapshot_id": "20261022T015347534468Z-run39707940476-attempt1",
   "latest_signal_first_observed_at_utc": "2026-10-22T00:14:21.563144Z",
   "latest_cohort_id": "cohort-50100daa94bb94057d17c871",
-  "new_cohort_created": true,
+  "new_cohort_created": false,
   "cohorts_total": 1,
   "latest_cohort_registered_at_utc": "2026-10-22T01:28:47.666218Z",
   "latest_cohort_qualified": 83,
@@ -14,7 +14,7 @@
   "data_quality_isolated_rows": 9,
   "market_classification_conflicts": 0,
   "unique_signal_fingerprints_in_archive": 1,
-  "repeat_signal_snapshots": 3,
+  "repeat_signal_snapshots": 4,
   "horizon_status_counts": {
     "10": {
       "等待參考交易日": 83,
@@ -32,8 +32,21 @@
       "暫緩_異常待核實": 3
     }
   },
+  "calendar_validation_version": "2.4D",
+  "official_calendar_validation": {
+    "source_status": "ok_twse_official_tpex_reference",
+    "validated_years": [
+      2026
+    ],
+    "tpex_independently_verified": false,
+    "otc_notice": "上櫃暫參照TWSE官方行事曆；未獨立機器驗證TPEx官方資料",
+    "rejected_covered_nontrading_dates": {
+      "上市": [],
+      "上櫃": []
+    }
+  },
   "session_coverage": {
-    "method": "股票歷史CSV中按市場統計，每日有至少指定數量不重複股票且收盤價有效，即暫列觀察交易日；非官方交易日曆",
+    "method": "證交所官方休市表核對＋股票歷史CSV至少100檔的行情涵蓋度；上櫃借用上市行事曆僅供參考",
     "minimum_symbols_per_market_day": 100,
     "usable_market_sessions": {
       "上市": 160,
@@ -60,7 +73,7 @@
   "strict_historical_backtest_eligible": 0,
   "performance_blockers": [
     "price_history.csv只包含未還原收盤價，缺官方核實的還原OHLC、公司行動及現金股利",
-    "交易日曆暫從已取得行情的有效涵蓋度推估，未獨立核實交易所完整交易日曆",
+    "證交所年度開休市已由官方資料核對；上櫃日曆尚待獨立機器驗證，臨時休市及個股停止交易仍需核實",
     "未驗證當時可成交的委託時點、開盤參考價、流動性及交易成本",
     "訊號首次封存時間與官方正式公布時間不可混為一談",
     "同股跨交易日反覆出現的訊號可能重疊，不可視為獨立統計樣本"
@@ -68,6 +81,7 @@
   "outputs": [
     "forward_observation_meta.json",
     "forward_observation.csv",
+    "price_data_readiness.csv",
     "forward_data_issues.csv",
     "forward_cohorts_index.json",
     "forward_cohorts/"

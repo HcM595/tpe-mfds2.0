@@ -1,0 +1,61 @@
+{
+  "version": "2.4D",
+  "generated_at_taipei": "2026-10-22T09:53:49+08:00",
+  "status": "ok",
+  "calendar_year": 2026,
+  "new_source_version_saved": true,
+  "twse_source_url": "https://openapi.twse.com.tw/v1/holidaySchedule/holidaySchedule",
+  "twse_official_info_url": "https://www.twse.com.tw/zh/trading/holiday.html",
+  "tpex_official_info_url": "https://www.tpex.org.tw/zh-tw/announce/market/holiday.html",
+  "markets": {
+    "上市": "TWSE官方休市表＋行情覆蓋度交叉確認",
+    "上櫃": "採用TWSE官方休市表作參考；尚未獨立機器驗證TPEx休市表"
+  },
+  "years": {
+    "2026": {
+      "status": "twse_official_verified",
+      "closed_dates": [
+        "2026-01-01",
+        "2026-02-12",
+        "2026-02-13",
+        "2026-02-15",
+        "2026-02-16",
+        "2026-02-17",
+        "2026-02-18",
+        "2026-02-19",
+        "2026-02-20",
+        "2026-02-27",
+        "2026-02-28",
+        "2026-04-03",
+        "2026-04-04",
+        "2026-04-05",
+        "2026-04-06",
+        "2026-05-01",
+        "2026-06-19",
+        "2026-09-25",
+        "2026-09-28",
+        "2026-10-09",
+        "2026-10-10",
+        "2026-10-25",
+        "2026-10-26",
+        "2026-12-25"
+      ],
+      "source_first_seen_utc": "2026-10-22T01:53:49.432950Z",
+      "source_sha256": "fb6afaa831aabeed134ae77df16cdb107650fc7075ac71fee6a93bdd24a77183",
+      "source_file": "official_calendar_sources/year_2026_fb6afaa831aabeed134ae77df16cdb107650fc7075ac71fee6a93bdd24a77183.json",
+      "official_events_count": 27
+    }
+  },
+  "download_error": null,
+  "calendar_still_needs": "交易所臨時停市、個股暫停交易、官方TPEx獨立行事曆仍需核實",
+  "corporate_action_readiness": {
+    "twse_exright_reference_url": "https://www.twse.com.tw/zh/announcement/ex-right/twt49u.html",
+    "twse_corporate_actions_ingested": false,
+    "tpex_corporate_actions_ingested": false,
+    "verified_adjusted_ohlc": false,
+    "verified_cash_dividends": false,
+    "total_return_calculation_allowed": false,
+    "note": "除權息參考價並非含現金股利的總報酬。官方事件尚未完成全期間蒐集、核對與調整，不製作還原OHLC或報酬。"
+  },
+  "performance_metrics_enabled": false
+}

@@ -10,11 +10,11 @@
       "failed_months": [
         {
           "month": "2026-10",
-          "reason": "TPEx modern: TPEx modern month response has no validated price rows (schema/empty/month error); TPEx legacy: Expecting value: line 1 column 1 (char 0)"
+          "reason": "TPEx modern: TPEx modern month response has no validated price rows (schema/empty/month error); TPEx legacy: HTTP Error 404: Not Found"
         },
         {
           "month": "2026-09",
-          "reason": "TPEx modern: TPEx modern month response has no validated price rows (schema/empty/month error); TPEx legacy: Expecting value: line 1 column 1 (char 0)"
+          "reason": "TPEx modern: TPEx modern month response has no validated price rows (schema/empty/month error); TPEx legacy: HTTP Error 404: Not Found"
         }
       ],
       "current_priority_rows": 0
