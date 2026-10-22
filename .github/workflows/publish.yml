@@ -34,7 +34,12 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # 即使同一個使用者 Commit 觸發多個排隊工作，也從開始執行時的最新 main 取得完整資料。
+      # 避免 checkout 固定在舊 github.sha，導致 git push 遭 remote ahead 拒絕。
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -74,6 +79,13 @@ jobs:
           git add -A history_data/ site/data/
           if ! git diff --cached --quiet; then
             git commit -m "data: backfill verified history [skip ci]"
+            # 防止本次工作期間另有上傳／資料提交：只做安全重整，絕不強制推送。
+            git fetch origin main
+            if ! git rebase origin/main; then
+              git rebase --abort || true
+              echo "::error::main 有其他資料更新且無法自動安全整合；停止推送，請檢查紀錄。"
+              exit 1
+            fi
             git push origin HEAD:main
           fi
       - uses: actions/configure-pages@v5
