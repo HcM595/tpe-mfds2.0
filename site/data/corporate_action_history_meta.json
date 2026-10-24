@@ -1,0 +1,34 @@
+{
+  "version": "2.5B",
+  "status": "audit_warnings",
+  "generated_at_taipei": "2026-10-24T21:01:13+08:00",
+  "start_date": "2026-01-01",
+  "price_cutoff": "2026-10-22",
+  "requested_market_month_pairs": 20,
+  "attempted_market_month_pairs": 4,
+  "market_month_pairs_with_observed_events": 0,
+  "observed_historical_event_rows": 0,
+  "distinct_stocks_in_observations": 117,
+  "stocks_with_at_least_one_observed_historical_event": 0,
+  "requested_new_month_windows": 2,
+  "archive_sha256_failures": 0,
+  "source_attempts_unverified": 4,
+  "event_revision_conflicts": 0,
+  "warnings": [
+    "歷史來源曾有 4 次失敗或無法證明空結果，需後續重試"
+  ],
+  "historical_corporate_actions_complete": false,
+  "adjusted_ohlc_verified": false,
+  "source_publication_times_verified": false,
+  "sample_independence_verified": false,
+  "performance_metrics_enabled": false,
+  "strict_performance_samples_eligible": 0,
+  "important": "事件有記錄≠區間已完整驗證；沒有事件≠確認無事件；不計算還原價格與報酬",
+  "outputs": [
+    "corporate_action_history_meta.json",
+    "corporate_action_history_sources.csv",
+    "corporate_action_history_events.csv",
+    "corporate_action_history_universe.csv",
+    "corporate_action_history_revisions.csv"
+  ]
+}

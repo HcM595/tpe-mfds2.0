@@ -1,0 +1,5 @@
+﻿market,year_month,query_start,query_end,attempted_at_taipei,result,event_rows,sha256,archive_path,url,diagnostic
+上市,2026-10,2026-10-01,2026-10-22,2026-10-24T21:01:13+08:00,source_unverified,0,,,https://www.twse.com.tw/exchangeReport/TWT49U?response=json&strDate=20261001&endDate=20261022,ValueError: TWSE fields/data schema absent
+上櫃,2026-10,2026-10-01,2026-10-22,2026-10-24T21:01:13+08:00,source_unverified,0,,,https://www.tpex.org.tw/web/stock/exright/dailyquo/exDailyQ_result.php?l=zh-tw&d=115%2F10%2F01&ed=115%2F10%2F22,ValueError: TPEx aaData schema absent
+上市,2026-09,2026-09-01,2026-09-30,2026-10-24T21:01:13+08:00,source_unverified,0,,,https://www.twse.com.tw/exchangeReport/TWT49U?response=json&strDate=20260901&endDate=20260930,ValueError: TWSE fields/data schema absent
+上櫃,2026-09,2026-09-01,2026-09-30,2026-10-24T21:01:13+08:00,source_unverified,0,,,https://www.tpex.org.tw/web/stock/exright/dailyquo/exDailyQ_result.php?l=zh-tw&d=115%2F09%2F01&ed=115%2F09%2F30,ValueError: TPEx aaData schema absent
