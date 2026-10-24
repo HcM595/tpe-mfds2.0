@@ -25,7 +25,7 @@ from zoneinfo import ZoneInfo
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / 'site' / 'data'
 ARCHIVE = ROOT / 'history_data' / 'corporate_action_history' / 'raw'
-VERSION = '2.5B'
+VERSION = '2.5B.1'
 TZ = ZoneInfo('Asia/Taipei')
 LEDGER = ['market','year_month','query_start','query_end','attempted_at_taipei',
           'result','event_rows','sha256','archive_path','url','diagnostic']
@@ -36,8 +36,8 @@ STOCK = ['market','stock_id','stock_name','cohort_observations',
          'official_events_seen','historical_completeness_verified',
          'adjusted_ohlc_verified','return_calculation_allowed','state']
 URLS = {
- '上市':'https://www.twse.com.tw/exchangeReport/TWT49U',
- '上櫃':'https://www.tpex.org.tw/web/stock/exright/dailyquo/exDailyQ_result.php'
+ '上市':'https://www.twse.com.tw/rwd/zh/exRight/TWT49U',
+ '上櫃':'https://www.tpex.org.tw/www/zh-tw/bulletin/exDailyQ'
 }
 
 
@@ -94,9 +94,9 @@ def numeric(v):
 
 def query(market,start,end):
     if market=='上市':
-        params={'response':'json','strDate':start.strftime('%Y%m%d'), 'endDate':end.strftime('%Y%m%d')}
+        params={'response':'json','startDate':start.strftime('%Y%m%d'), 'endDate':end.strftime('%Y%m%d')}
     else:
-        params={'l':'zh-tw','d':day_roc(start),'ed':day_roc(end)}
+        params={'response':'json','startDate':start.strftime('%Y/%m/%d'), 'endDate':end.strftime('%Y/%m/%d')}
     return URLS[market]+'?'+urllib.parse.urlencode(params)
 
 
@@ -114,12 +114,53 @@ def request_json(url,timeout=18):
     return data,parsed
 
 
+def safe_provider_diagnostic(data):
+    """Describe only bounded structure; never treat a provider error as an empty month."""
+    keys = ','.join(sorted(str(k)[:40] for k in data.keys())[:16])
+    details = []
+    for k in ('stat','status','message','msg','title','date'):
+        v = data.get(k)
+        if isinstance(v, (str,int,float)):
+            details.append(f'{k}={clean(str(v))[:75]}')
+    for k in ('tables','data','aaData'):
+        v = data.get(k)
+        if isinstance(v,list): details.append(f'{k}_count={len(v)}')
+    return f"provider_keys=[{keys}] " + '; '.join(details)
+
+
+def tpex_table_to_rows(data):
+    """Handle new TPEx table wrapper only when every required named column is present."""
+    tables = data.get('tables')
+    if not isinstance(tables,list): return None
+    necessary = ('除權息日期','代號','名稱','除權息前收盤價','除權息參考價')
+    for table in tables:
+        if not isinstance(table,dict): continue
+        rawcols = table.get('fields',table.get('columns',[]))
+        rows = table.get('data')
+        if not isinstance(rawcols,list) or not isinstance(rows,list): continue
+        cols = [clean(c.get('title', c.get('name','')) if isinstance(c,dict) else c) for c in rawcols]
+        if not all(k in cols for k in necessary): continue
+        if not all(isinstance(r,list) and len(r)==len(cols) for r in rows):
+            raise ValueError('TPEx named table column length changed')
+        def pick(r,key): return r[cols.index(key)] if key in cols else ''
+        normalized=[]
+        for r in rows:
+            normalized.append([pick(r,'除權息日期'),pick(r,'代號'),pick(r,'名稱'),
+             pick(r,'除權息前收盤價'),pick(r,'除權息參考價'),pick(r,'權值'),
+             pick(r,'息值'),pick(r,'權值+息值') or pick(r,'權值加息值'),
+             pick(r,'權/息') or pick(r,'權或息'),pick(r,'漲停價'),
+             pick(r,'跌停價'),pick(r,'開始交易基準價'),
+             pick(r,'減除股利參考價'),pick(r,'現金股利')])
+        return normalized
+    return None
+
+
 def normalize(data,market,start,end,ym,sha):
     # Require actual historical calculation result table, never a rolling preview feed.
     if market=='上市':
         fields=data.get('fields'); rows=data.get('data')
         if not isinstance(fields,list) or not isinstance(rows,list):
-            raise ValueError('TWSE fields/data schema absent')
+            raise ValueError('TWSE fields/data schema absent; '+safe_provider_diagnostic(data))
         cols=[clean(x) for x in fields]
         def idx(key):
             if key not in cols: raise ValueError('TWSE missing column '+key)
@@ -142,7 +183,8 @@ def normalize(data,market,start,end,ym,sha):
                 source_year_month=ym,source_sha256=sha,official_source=URLS[market],validation='historical_event_observed_not_complete'))
     else:
         rows=data.get('aaData')
-        if not isinstance(rows,list): raise ValueError('TPEx aaData schema absent')
+        if not isinstance(rows,list): rows=tpex_table_to_rows(data)
+        if not isinstance(rows,list): raise ValueError('TPEx aaData/named tables schema absent; '+safe_provider_diagnostic(data))
         parsed=[]
         for row in rows:
             if not isinstance(row,list) or len(row)<14: raise ValueError('TPEx historical columns changed')
@@ -210,7 +252,9 @@ def process(data_dir=SITE,archive_dir=ARCHIVE,start_date='2026-01-01',months_per
                 if old:
                     try: age=(now.date()-dt.date.fromisoformat(old[-1]['attempted_at_taipei'][:10])).days
                     except ValueError: age=3
-                    if age<3: continue
+                    if age<3 and any('v2.5B.1' in x.get('diagnostic','') for x in old): continue
+                    # Permit exactly one schema-diagnostic recheck after v2.5B upgrade.
+                    # Historical failures remain archived; routine 3-day cooldown resumes.
                 remaining.append(market)
             if remaining:
                 chosen.append((ym,remaining))
@@ -233,7 +277,7 @@ def process(data_dir=SITE,archive_dir=ARCHIVE,start_date='2026-01-01',months_per
                 result='events_archived'; n=len(events)
                 if not events: diag='provider returned rows but none matched ordinary shares'
             except Exception as ex:
-                result='source_unverified'; diag=f'{type(ex).__name__}: {str(ex)[:150]}'
+                result='source_unverified'; diag=f'v2.5B.1 {type(ex).__name__}: {str(ex)[:280]}'
                 sha=''; archive=''
             ledger.append(dict(market=market,year_month=ym,query_start=a.isoformat(),query_end=b.isoformat(),
                 attempted_at_taipei=now.astimezone(TZ).isoformat(timespec='seconds'),
