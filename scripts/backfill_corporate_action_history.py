@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""TPE-MFDS 2.5B: bounded, conservative TWSE/TPEx ex-right calculation-result archival.
+"""TPE-MFDS 2.5B.2: source-labeled price adjustments, never inferred dividend amounts.
 
 Events can be observed without establishing complete historical coverage.
 Never compute returns, adjustment factors, or publication-time eligibility.
@@ -25,13 +25,20 @@ from zoneinfo import ZoneInfo
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / 'site' / 'data'
 ARCHIVE = ROOT / 'history_data' / 'corporate_action_history' / 'raw'
-VERSION = '2.5B.1'
+VERSION = '2.5B.2'
 TZ = ZoneInfo('Asia/Taipei')
 LEDGER = ['market','year_month','query_start','query_end','attempted_at_taipei',
           'result','event_rows','sha256','archive_path','url','diagnostic']
+# The legacy dividend fields are intentionally BLANK for safety. Values labeled
+# 權值 / 息值 / 權值+息值 belong to the ex-right reference-price calculation;
+# they are NOT stock shares distributed, and cannot verify cash dividends alone.
 EVENT = ['market','stock_id','stock_name','ex_date','event_type',
          'pre_close','reference_price','cash_dividend','stock_dividend_value',
-         'source_year_month','source_sha256','official_source','validation']
+         'reference_rights_value','reference_interest_value',
+         'reference_rights_interest_value','reported_cash_dividend',
+         'reported_cash_dividend_provenance','distribution_ratio_verified',
+         'field_semantics','source_year_month','source_sha256',
+         'official_source','validation']
 STOCK = ['market','stock_id','stock_name','cohort_observations',
          'official_events_seen','historical_completeness_verified',
          'adjusted_ohlc_verified','return_calculation_allowed','state']
@@ -155,50 +162,80 @@ def tpex_table_to_rows(data):
     return None
 
 
+def ex_event(market, sid, name, date, kind, pre, ref, ym, sha,
+             rights='', interest='', combined='', reported_cash='', cash_provenance=''):
+    """Record independently named source fields; never synthesize distributions."""
+    return dict(market=market, stock_id=sid, stock_name=name, ex_date=date,
+        event_type=kind, pre_close=pre, reference_price=ref,
+        cash_dividend='', stock_dividend_value='',  # deprecated ambiguous labels
+        reference_rights_value=rights, reference_interest_value=interest,
+        reference_rights_interest_value=combined,
+        reported_cash_dividend=reported_cash,
+        reported_cash_dividend_provenance=cash_provenance,
+        distribution_ratio_verified='否',
+        field_semantics='reference_price_components_not_share_distribution',
+        source_year_month=ym, source_sha256=sha,
+        official_source=URLS[market],
+        validation='historical_reference_event_observed_distribution_not_verified')
+
+
 def normalize(data,market,start,end,ym,sha):
-    # Require actual historical calculation result table, never a rolling preview feed.
+    """Decode source fields. Older immutable blobs are re-read using new semantics."""
     if market=='上市':
         fields=data.get('fields'); rows=data.get('data')
         if not isinstance(fields,list) or not isinstance(rows,list):
             raise ValueError('TWSE fields/data schema absent; '+safe_provider_diagnostic(data))
-        cols=[clean(x) for x in fields]
+        cols=[clean(x).replace('＋','+') for x in fields]
         def idx(key):
             if key not in cols: raise ValueError('TWSE missing column '+key)
             return cols.index(key)
         indices=[idx(x) for x in ('資料日期','股票代號','股票名稱','除權息前收盤價','除權息參考價')]
         kind=cols.index('權/息') if '權/息' in cols else None
-        money=cols.index('權值+息值') if '權值+息值' in cols else None
+        combined=cols.index('權值+息值') if '權值+息值' in cols else None
+        right=cols.index('權值') if '權值' in cols else None
+        interest=cols.index('息值') if '息值' in cols else None
         parsed=[]
         for row in rows:
-            if not isinstance(row,list) or len(row)!=len(cols): raise ValueError('TWSE column length changed')
+            if not isinstance(row,list) or len(row)!=len(cols):
+                raise ValueError('TWSE column length changed')
             sid=clean(row[indices[1]])
-            if not re.fullmatch(r'\d{4}',sid): continue  # ordinary shares only
+            if not re.fullmatch(r'\d{4}',sid): continue  # existing v2.5B scope
             date=parse_roc(row[indices[0]])
-            if not start.isoformat() <= date <= end.isoformat(): raise ValueError('TWSE returned date outside request range')
+            if not start.isoformat() <= date <= end.isoformat():
+                raise ValueError('TWSE returned date outside request range')
             pre=numeric(row[indices[3]]); ref=numeric(row[indices[4]])
-            if not pre or not ref or float(pre)<=0 or float(ref)<=0: raise ValueError('TWSE missing reference price')
-            parsed.append(dict(market=market,stock_id=sid,stock_name=clean(row[indices[2]]),ex_date=date,
-                event_type=clean(row[kind]) if kind is not None else '',pre_close=pre,
-                reference_price=ref,cash_dividend='',stock_dividend_value=numeric(row[money]) if money is not None else '',
-                source_year_month=ym,source_sha256=sha,official_source=URLS[market],validation='historical_event_observed_not_complete'))
+            if not pre or not ref or float(pre)<=0 or float(ref)<=0:
+                raise ValueError('TWSE missing reference price')
+            parsed.append(ex_event(market,sid,clean(row[indices[2]]),date,
+                clean(row[kind]) if kind is not None else '',pre,ref,ym,sha,
+                rights=numeric(row[right]) if right is not None else '',
+                interest=numeric(row[interest]) if interest is not None else '',
+                combined=numeric(row[combined]) if combined is not None else ''))
     else:
         rows=data.get('aaData')
-        if not isinstance(rows,list): rows=tpex_table_to_rows(data)
-        if not isinstance(rows,list): raise ValueError('TPEx aaData/named tables schema absent; '+safe_provider_diagnostic(data))
+        provenance='TPEx_aaData_position_13_government_catalog_not_independently_reconciled'
+        if not isinstance(rows,list):
+            rows=tpex_table_to_rows(data)
+            provenance='TPEx_named_column_現金股利_not_independently_reconciled'
+        if not isinstance(rows,list):
+            raise ValueError('TPEx aaData/named tables schema absent; '+safe_provider_diagnostic(data))
         parsed=[]
         for row in rows:
-            if not isinstance(row,list) or len(row)<14: raise ValueError('TPEx historical columns changed')
-            sid=clean(row[1]);
+            if not isinstance(row,list) or len(row)<14:
+                raise ValueError('TPEx historical columns changed')
+            sid=clean(row[1])
             if not re.fullmatch(r'\d{4}',sid): continue
             date=parse_roc(row[0])
-            if not start.isoformat() <= date <= end.isoformat(): raise ValueError('TPEx returned date outside request range')
+            if not start.isoformat() <= date <= end.isoformat():
+                raise ValueError('TPEx returned date outside request range')
             pre=numeric(row[3]); ref=numeric(row[4])
-            if not pre or not ref or float(pre)<=0 or float(ref)<=0: raise ValueError('TPEx missing reference price')
-            parsed.append(dict(market=market,stock_id=sid,stock_name=clean(row[2]),ex_date=date,
-                event_type=clean(row[8]),pre_close=pre,reference_price=ref,
-                cash_dividend=numeric(row[13]),stock_dividend_value=numeric(row[5]),
-                source_year_month=ym,source_sha256=sha,official_source=URLS[market],validation='historical_event_observed_not_complete'))
-    # Never equate an empty response to a corporate-action-free month.
+            if not pre or not ref or float(pre)<=0 or float(ref)<=0:
+                raise ValueError('TPEx missing reference price')
+            parsed.append(ex_event(market,sid,clean(row[2]),date,clean(row[8]),
+                pre,ref,ym,sha,rights=numeric(row[5]),interest=numeric(row[6]),
+                combined=numeric(row[7]),reported_cash=numeric(row[13]),
+                cash_provenance=provenance if numeric(row[13]) else ''))
+    # Not evidence that no corporate action happened in an empty period.
     if not rows: raise ValueError('empty provider result: not proof of no corporate actions')
     return parsed
 
@@ -277,7 +314,7 @@ def process(data_dir=SITE,archive_dir=ARCHIVE,start_date='2026-01-01',months_per
                 result='events_archived'; n=len(events)
                 if not events: diag='provider returned rows but none matched ordinary shares'
             except Exception as ex:
-                result='source_unverified'; diag=f'v2.5B.1 {type(ex).__name__}: {str(ex)[:280]}'
+                result='source_unverified'; diag=f'v2.5B.2 {type(ex).__name__}: {str(ex)[:280]}'
                 sha=''; archive=''
             ledger.append(dict(market=market,year_month=ym,query_start=a.isoformat(),query_end=b.isoformat(),
                 attempted_at_taipei=now.astimezone(TZ).isoformat(timespec='seconds'),
@@ -316,7 +353,10 @@ def process(data_dir=SITE,archive_dir=ARCHIVE,start_date='2026-01-01',months_per
         distinct_versions=list(seen_sha.values())
         latest_event=distinct_versions[-1]
         event_list.append(latest_event)
-        signatures={(v['pre_close'],v['reference_price'],v['cash_dividend'],v['stock_dividend_value']) for v in distinct_versions}
+        signatures={(v['pre_close'],v['reference_price'],
+                     v['reference_rights_value'],v['reference_interest_value'],
+                     v['reference_rights_interest_value'],v['reported_cash_dividend'])
+                    for v in distinct_versions}
         if len(signatures)>1:
             revisions.append({'market':key[0],'stock_id':key[1],'ex_date':key[2],
                 'event_type':key[3], 'source_versions':len(distinct_versions),
@@ -342,8 +382,23 @@ def process(data_dir=SITE,archive_dir=ARCHIVE,start_date='2026-01-01',months_per
             historical_completeness_verified='否',adjusted_ohlc_verified='否',
             return_calculation_allowed='否',
             state='已觀察部分官方歷史事件_覆蓋未驗證' if cnt else '未能確認歷史事件_不代表沒有除權息'))
+    # Snapshot the old CSV once BEFORE migration; Git workflow already commits
+    # history_data/. Never overwrite or discard historic evidence.
+    old_event_export = data_dir/'corporate_action_history_events.csv'
+    legacy_dir = archive_dir.parent/'legacy_event_exports'
+    if old_event_export.exists():
+        with old_event_export.open('r', encoding='utf-8-sig', newline='') as fh:
+            existing_header = next(csv.reader(fh), [])
+        if 'reference_rights_interest_value' not in existing_header:
+            blob=old_event_export.read_bytes()
+            digest=hashlib.sha256(blob).hexdigest()
+            legacy_dir.mkdir(parents=True,exist_ok=True)
+            backup=legacy_dir/f'pre_2_5B2_events_{digest}.csv'
+            if backup.exists() and backup.read_bytes()!=blob:
+                raise ValueError('legacy event export archival conflict')
+            if not backup.exists(): backup.write_bytes(blob)
     write_csv(ledger_path,ledger,LEDGER)
-    write_csv(data_dir/'corporate_action_history_events.csv',event_list,EVENT)
+    write_csv(old_event_export,event_list,EVENT)
     write_csv(data_dir/'corporate_action_history_revisions.csv',revisions,
               ['market','stock_id','ex_date','event_type','source_versions','source_sha256s','status'])
     write_csv(data_dir/'corporate_action_history_universe.csv',stock_list,STOCK)
@@ -362,6 +417,9 @@ def process(data_dir=SITE,archive_dir=ARCHIVE,start_date='2026-01-01',months_per
         'requested_new_month_windows':len(chosen),
         'archive_sha256_failures':len(bad_archives),'source_attempts_unverified':attempted_failures,
         'event_revision_conflicts':len(revisions),'warnings':problems,
+        'historical_export_legacy_snapshots':len(list((archive_dir.parent/'legacy_event_exports').glob('pre_2_5B2_events_*.csv'))),
+        'field_semantics_verified_from_provider_catalog':True,
+        'cash_or_stock_distribution_terms_verified':False,
         'historical_corporate_actions_complete':False,'adjusted_ohlc_verified':False,
         'source_publication_times_verified':False,'sample_independence_verified':False,
         'performance_metrics_enabled':False,'strict_performance_samples_eligible':0,
