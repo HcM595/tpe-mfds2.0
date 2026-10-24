@@ -76,6 +76,8 @@ jobs:
         run: python scripts/archive_corporate_actions.py
       - name: 2.4F 稽核同收盤交易日的不同訊號資料版本（不計算報酬）
         run: python scripts/audit_cohort_independence.py
+      - name: 2.5A 跨來源資料健康、除權息歷史缺口及臨時休市稽核（不計算報酬）
+        run: python scripts/audit_research_readiness.py
       - name: 保存真實價格與籌碼資料及更新進度
         run: |
           git config user.name "github-actions[bot]"
