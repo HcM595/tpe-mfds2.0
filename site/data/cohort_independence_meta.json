@@ -1,0 +1,76 @@
+{
+  "version": "2.4F",
+  "status": "ok_guardrails_active",
+  "generated_at_taipei": "2026-10-24T20:10:59+08:00",
+  "archived_cohorts_total": 3,
+  "price_session_groups_total": 2,
+  "multi_version_price_session_groups": 1,
+  "cohorts_in_multi_version_groups": 2,
+  "total_candidate_entries_all_versions": 249,
+  "total_qualified_entries_all_versions": 228,
+  "revision_change_rows": 68,
+  "performance_metrics_enabled": false,
+  "sample_independence_verified": false,
+  "strict_performance_samples_eligible": 0,
+  "source_publication_times_verified": false,
+  "meaning": "相同收盤交易日的不同訊號指紋屬不同資料版本；其建立時間可能不同，不能直接視為獨立績效樣本，也不能任意選最新版本倒填交易決策時間。",
+  "market_session_notice": "臨時停市與上櫃獨立交易日仍須以可靠來源個別核實；本稽核不取代2.4D交易日曆。",
+  "outputs": [
+    "cohort_independence_meta.json",
+    "cohort_independence.csv",
+    "cohort_revision_changes.csv"
+  ],
+  "groups": [
+    {
+      "source_price_dates": [
+        "2026-10-21"
+      ],
+      "group_key": "2026-10-21",
+      "cohort_versions": 1,
+      "cohort_ids": [
+        "cohort-50100daa94bb94057d17c871"
+      ],
+      "qualified_entry_counts": [
+        83
+      ],
+      "holder_dates_by_version": [
+        [
+          "2026-10-16"
+        ]
+      ],
+      "shared_symbol_pairs_adjacent": 0,
+      "rank_changes_adjacent": 0,
+      "score_changes_adjacent": 0,
+      "qualification_or_flag_changes_adjacent": 0,
+      "status": "single_version_timing_and_overlap_still_unverified"
+    },
+    {
+      "source_price_dates": [
+        "2026-10-22"
+      ],
+      "group_key": "2026-10-22",
+      "cohort_versions": 2,
+      "cohort_ids": [
+        "cohort-7f088afefd647ecc45024b99",
+        "cohort-e44357f9405834d6f1e693b5"
+      ],
+      "qualified_entry_counts": [
+        68,
+        77
+      ],
+      "holder_dates_by_version": [
+        [
+          "2026-10-16"
+        ],
+        [
+          "2026-10-22"
+        ]
+      ],
+      "shared_symbol_pairs_adjacent": 68,
+      "rank_changes_adjacent": 58,
+      "score_changes_adjacent": 64,
+      "qualification_or_flag_changes_adjacent": 1,
+      "status": "multiple_versions_same_price_session_cannot_count_independently"
+    }
+  ]
+}
