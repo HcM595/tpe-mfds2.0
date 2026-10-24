@@ -1,6 +1,6 @@
 {
   "version": "2.2.1",
-  "generated_at_taipei": "2026-10-23T18:40:20+08:00",
+  "generated_at_taipei": "2026-10-24T19:21:50+08:00",
   "sources": {
     "twse": {
       "status": "ok",
@@ -14,8 +14,8 @@
     },
     "tdcc": {
       "status": "ok",
-      "rows": 2963,
-      "latest_date": "2026-10-08"
+      "rows": 2970,
+      "latest_date": "2026-10-22"
     }
   },
   "notes": "同步增持僅為描述性篩選，非預測；歷史集保備份若來源為第三方鏡像須與官方最新快照交叉核對。",
@@ -57,10 +57,8 @@
     },
     "tdcc_archive": {
       "mode": "unofficial_mirror",
-      "new_weeks": [
-        "2026-10-22"
-      ],
-      "new_rows": 2970,
+      "new_weeks": [],
+      "new_rows": 0,
       "errors": [],
       "repository": "https://github.com/wirelessr/tdcc-opendata-archive"
     },
@@ -93,6 +91,6 @@
   "holder_history_rows": 38440,
   "stocks_with_chip_records": 2978,
   "matching_stocks": 83,
-  "ready_stocks": 1880,
+  "ready_stocks": 1879,
   "selection_rule": "5個有效法人交易日：外資淨買超>0 且投信淨買超>0；兩期集保持股相隔約28日：400張以上比例增幅>0pp；均需資料未過期。"
 }

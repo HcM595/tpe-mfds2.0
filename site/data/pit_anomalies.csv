@@ -1,2 +1,2 @@
 ﻿stock_id,stock_name,chip_strength_rank,price_asof,holder_asof,four_week_holder_audit,holder_historical_source,holder_anomaly_flag,audit_flags,forward_observation
-6278,台表科,11,2026-10-22,2026-10-22,四週算術核對一致_公布時間未確認,TDCC data mirrored by wirelessr (unofficial archive),是,大戶持股大幅變動_需人工核實,暫緩_資料須核對
+6278,台表科,11,2026-10-22,2026-10-22,四週算術核對一致_公布時間未確認,TDCC 1-5 + TDCC data mirrored by wirelessr (unofficial archive),是,大戶持股大幅變動_需人工核實,暫緩_資料須核對

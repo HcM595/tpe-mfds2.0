@@ -1,7 +1,7 @@
 {
   "version": "2.2.1",
   "asof": "2026-10-22",
-  "created_at_taipei": "2026-10-23T18:40:01+08:00",
+  "created_at_taipei": "2026-10-24T19:21:37+08:00",
   "notes": "下載空值與市場休市分別紀錄；歷史TDCC來源為非官方鏡像，非集保直接提供歷史API。",
   "market_history": {
     "twse": {
@@ -29,10 +29,8 @@
   },
   "tdcc_archive": {
     "mode": "unofficial_mirror",
-    "new_weeks": [
-      "2026-10-22"
-    ],
-    "new_rows": 2970,
+    "new_weeks": [],
+    "new_rows": 0,
     "errors": [],
     "repository": "https://github.com/wirelessr/tdcc-opendata-archive"
   },
