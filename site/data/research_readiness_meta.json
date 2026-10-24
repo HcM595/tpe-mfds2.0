@@ -1,0 +1,34 @@
+{
+  "version": "2.5A",
+  "status": "ok_guardrails_active",
+  "generated_at_taipei": "2026-10-24T20:33:48+08:00",
+  "purpose": "稽核資料可追溯性與缺口；不是驗證報酬、不是完整公司行動回補",
+  "cohorts_in_index": 3,
+  "cohorts_verified": 3,
+  "price_session_groups": 2,
+  "groups_with_multiple_versions": 1,
+  "qualified_entries_index_sum": 228,
+  "forward_observation_rows": 249,
+  "rolling_notice_stock_market_pairs_observed": 93,
+  "observation_rows_with_rolling_notice": 0,
+  "extraordinary_market_closure_leads": 2,
+  "official_temporary_closures_archived": 0,
+  "historical_corporate_actions_complete": false,
+  "adjusted_ohlc_verified": false,
+  "source_publication_times_verified": false,
+  "sample_independence_verified": false,
+  "performance_metrics_enabled": false,
+  "strict_performance_samples_eligible": 0,
+  "blocking_issues": [],
+  "notes": [
+    "沒有近期滾動除權息公告，不代表歷史上沒有公司行動",
+    "2026/10/23颱風休市為可靠新聞轉述，尚未在此版封存官方原始臨時休市公告",
+    "2.5A絕不覆寫2.4A～2.4F歷史檔案，也不計算報酬或勝率"
+  ],
+  "outputs": [
+    "research_readiness_meta.json",
+    "research_readiness_cohorts.csv",
+    "corporate_action_gap_audit.csv",
+    "market_session_exceptions.csv"
+  ]
+}

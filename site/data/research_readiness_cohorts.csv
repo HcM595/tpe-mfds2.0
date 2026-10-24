@@ -1,0 +1,4 @@
+﻿cohort_id,price_session,registered_at_utc,qualified_entries,signal_version_group,original_cohort_preserved,publication_timing_verified,independent_performance_sample,return_calculation_allowed,reason
+cohort-50100daa94bb94057d17c871,2026-10-21,2026-10-22T01:28:47.666218Z,83,2026-10-21,是,否,否,否,同收盤日多版本與跨日重疊未能證明獨立；公告時間、還原價格仍未驗證
+cohort-7f088afefd647ecc45024b99,2026-10-22,2026-10-22T10:42:22.747215Z,68,2026-10-22,是,否,否,否,同收盤日多版本與跨日重疊未能證明獨立；公告時間、還原價格仍未驗證
+cohort-e44357f9405834d6f1e693b5,2026-10-22,2026-10-23T10:41:23.281076Z,77,2026-10-22,是,否,否,否,同收盤日多版本與跨日重疊未能證明獨立；公告時間、還原價格仍未驗證
