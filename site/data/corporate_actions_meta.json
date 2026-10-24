@@ -1,0 +1,44 @@
+{
+  "version": "2.4E",
+  "status": "ok",
+  "generated_at_taipei": "2026-10-24T19:24:12+08:00",
+  "sources": {
+    "TWSE": {
+      "status": "ok",
+      "rows_this_run": 22,
+      "new_source_version_saved": true,
+      "latest_sha256": "ec013be1a9a01ddeedd7391d28453f39e2f46f50dbc374c5242f81387d94ad1b",
+      "source_first_seen_at_utc": "2026-10-24T11:24:12.457127Z",
+      "source_url": "https://openapi.twse.com.tw/v1/exchangeReport/TWT48U_ALL",
+      "error": null
+    },
+    "TPEx": {
+      "status": "ok",
+      "rows_this_run": 71,
+      "new_source_version_saved": true,
+      "latest_sha256": "94ed0e921d95be1877e7f7fbf1e36f20b428ec214ea8f96669e0776252e3587e",
+      "source_first_seen_at_utc": "2026-10-24T11:24:12.457127Z",
+      "source_url": "https://www.tpex.org.tw/openapi/v1/tpex_exright_prepost",
+      "error": null
+    }
+  },
+  "source_archive_versions_total": 2,
+  "new_archives": 2,
+  "rolling_events_ever_seen": 93,
+  "event_cash_pending": 15,
+  "announced_value_revision_flags": 0,
+  "forward_observation_rows": 249,
+  "forward_rows_with_any_rolling_notice": 0,
+  "coverage_scope": "只包含執行本系統後取得的滾動官方預告；歷史空白不能推定無公司行動",
+  "historical_corporate_actions_complete": false,
+  "adjusted_ohlc_verified": false,
+  "total_return_calculation_allowed": false,
+  "performance_metrics_enabled": false,
+  "outputs": [
+    "corporate_actions_meta.json",
+    "corporate_actions_observed.csv",
+    "corporate_action_coverage.csv",
+    "corporate_action_changes.csv",
+    "corporate_action_sources/"
+  ]
+}

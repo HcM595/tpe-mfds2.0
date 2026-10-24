@@ -1,0 +1,44 @@
+{
+  "version": "2.3.3",
+  "generated_at_taipei": "2026-10-24T19:24:09+08:00",
+  "status": "ok",
+  "rank_candidates": 83,
+  "eligible_ranked": 78,
+  "eligible_verified": 78,
+  "technical_status_counts": {
+    "部分確認": 45,
+    "三項確認": 22,
+    "尚未確認": 11
+  },
+  "holder_structure_counts": {
+    "雙級距增加": 32,
+    "持股結構分歧": 40,
+    "單級距增加，另一級距持平": 6
+  },
+  "eligible_data_status_counts": {
+    "可驗證": 78
+  },
+  "anomaly_count": 1,
+  "checks": [
+    "close > MA20",
+    "MA20 > previous MA20",
+    "MACD_hist > previous MACD_hist"
+  ],
+  "rsi_period": 14,
+  "macd_periods": [
+    12,
+    26,
+    9
+  ],
+  "source_files": [
+    "chip_rank.csv",
+    "price_history.csv"
+  ],
+  "notes": [
+    "籌碼分數及名次完全沿用2.3，不重新評分，也不產生預測勝率。",
+    "技術確認3項計數，與籌碼分數分開；RSI為觀察值。",
+    "大戶結構為400至999張與1000張以上兩個不重疊級距的變化。",
+    "缺資料及日期不符時不推測技術方向；股價未還原除權息。",
+    "集保歷史部分使用非官方資料鏡像，異常變動需要核實。"
+  ]
+}
