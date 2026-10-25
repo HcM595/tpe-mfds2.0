@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'site/index.html'
+      - 'tests/browser_26b.cjs'
       - 'site/chip_trends_26b.js'
       - 'tests/chip_trends_26b.test.js'
       - 'tests/audit_chip_trends_26b.py'
@@ -29,3 +30,12 @@ jobs:
         run: python scripts/export_chip_trends.py
       - name: Actual CSV schema and three-stock acceptance audit
         run: python tests/audit_chip_trends_26b.py
+      - name: Install browser test runtime
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Browser smoke test against generated site
+        run: |
+          python scripts/export_chip_trends.py
+          python -m http.server 8765 --directory site >/tmp/mfds-http.log 2>&1 &
+          node tests/browser_26b.cjs
