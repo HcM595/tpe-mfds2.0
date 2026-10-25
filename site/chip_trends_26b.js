@@ -24,7 +24,7 @@
       if (String(row.stock_id || '') !== String(code)) return;
       var date = row.date;
       var nums = fields.map(function (k) { return numeric(row[k]); });
-      if (!validDate(date) || nums.some(function (v) { return v === null || (percent && (v < 0 || v > 100)); })) {
+      if (!validDate(date) || nums.some(function (v, i) { return (v === null && (percent || i < 2)) || (v !== null && percent && (v < 0 || v > 100)); })) {
         invalid++;
         return;
       }
@@ -52,7 +52,7 @@
     var missing = sessions.filter(function (d) { return !byDate.has(d); });
     if (missing.length) return {ok:false, reason:n+'個交易日中缺少'+missing.length+'日法人資料'};
     var sums = ['foreign_net_shares','trust_net_shares','dealer_net_shares'].map(function (field) {
-      return sessions.reduce(function (total, d) { return total + byDate.get(d)[field]; }, 0);
+      return sessions.some(function (d) { return byDate.get(d)[field] === null; }) ? null : sessions.reduce(function (total, d) { return total + byDate.get(d)[field]; }, 0);
     });
     return {ok:true, sums:sums, from:sessions[0], to:sessions[sessions.length-1], count:n};
   }
@@ -115,6 +115,7 @@
     if (meta.flow_source_status !== 'ok') flags.push('法人來源狀態：'+String(meta.flow_source_status || '未取得'));
     if (meta.holder_source_status !== 'ok') flags.push('集保來源狀態：'+String(meta.holder_source_status || '未取得'));
     if (latestPrice && flowLast && flowLast < latestPrice) flags.push('法人日期落後於價格交易日');
+    if (flow.some(function (r) {return r.dealer_net_shares===null;})) flags.push('自營商欄位部分缺值，不以零取代');
     if (f.invalid || h.invalid) flags.push('排除格式或數值異常：法人'+f.invalid+'筆、集保'+h.invalid+'筆');
     if (f.duplicate || h.duplicate) flags.push('重複日期已去重：法人'+f.duplicate+'筆、集保'+h.duplicate+'筆');
     var summ = [5,10,20].map(function (n) {
@@ -139,11 +140,11 @@
       '<p class="hint">使用本站同股已累積的真實價格交易日逐日對照法人紀錄；任一交易日缺漏，該期間不給合計。法人日期與最新價格可能不同日。</p>'+
       '<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>期間</th><th>外資</th><th>投信</th><th>自營商</th><th>核對區間／缺漏</th></tr></thead><tbody>'+summ+'</tbody></table></div>'+
       '<h4>法人每日淨買賣超趨勢</h4>'+
-      lineChart(flow.slice(-26),['foreign_net_shares','trust_net_shares','dealer_net_shares'],
-        ['外資','投信','自營商'],['#2876ae','#b85551','#17756d'],'股')+
+      lineChart(flow.slice(-26),['foreign_net_shares','trust_net_shares'],
+        ['外資','投信'],['#2876ae','#b85551'],'股')+
       '<details><summary>查看最近12筆法人原始觀察</summary>'+
       table(flow,['foreign_net_shares','trust_net_shares','dealer_net_shares'],['外資（股）','投信（股）','自營商（股）'],
-        function (v) {return v.toLocaleString('zh-TW',{maximumFractionDigits:0});},12)+'</details>'+
+        function (v) {return v === null ? '資料不足' : v.toLocaleString('zh-TW',{maximumFractionDigits:0});},12)+'</details>'+
       '<h4>集保400張、1,000張持股比率</h4>'+
       '<p class="hint">最後一期：400張 '+html(latestHolder?pct(latestHolder.holder400_pct):'資料不足')+
       '、1,000張 '+html(latestHolder?pct(latestHolder.holder1000_pct):'資料不足')+
