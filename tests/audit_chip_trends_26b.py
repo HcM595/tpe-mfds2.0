@@ -56,12 +56,13 @@ def read_dataset(kind, name, headers, limit):
             try:
                 raw = str(row.get(key, "")).replace(",", "").strip()
                 value = float(raw)
-                if not raw or not (-1e20 < value < 1e20):
+                if (not raw and not (kind == "flow" and key == "dealer_net_shares")) or (raw and not (-1e20 < value < 1e20)):
                     raise ValueError()
                 if kind == "holder" and not 0 <= value <= 100:
                     raise ValueError()
             except (ValueError, TypeError):
-                invalid.append(f"{context}: invalid {key}={row.get(key)!r}")
+                if not (kind == "flow" and key == "dealer_net_shares" and not str(row.get(key, "")).strip()):
+                    invalid.append(f"{context}: invalid {key}={row.get(key)!r}")
         if any(prev.get("date") == date for prev in groups[sid]):
             duplicates.append(context)
         groups[sid].append(row)
