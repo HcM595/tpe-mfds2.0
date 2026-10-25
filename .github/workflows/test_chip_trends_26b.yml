@@ -25,5 +25,7 @@ jobs:
           node --check tests/chip_trends_26b.test.js
       - name: Unit tests for missing sessions and invalid data
         run: node tests/chip_trends_26b.test.js
+      - name: Regenerate 2.6B CSV in checkout
+        run: python scripts/export_chip_trends.py
       - name: Actual CSV schema and three-stock acceptance audit
         run: python tests/audit_chip_trends_26b.py
