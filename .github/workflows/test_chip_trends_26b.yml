@@ -5,6 +5,8 @@ on:
       - 'site/index.html'
       - 'site/chip_trends_26b.js'
       - 'tests/chip_trends_26b.test.js'
+      - 'tests/audit_chip_trends_26b.py'
+      - 'site/data/chip_trend_meta.json'
       - '.github/workflows/test_chip_trends_26b.yml'
   workflow_dispatch:
 permissions:
@@ -23,3 +25,5 @@ jobs:
           node --check tests/chip_trends_26b.test.js
       - name: Unit tests for missing sessions and invalid data
         run: node tests/chip_trends_26b.test.js
+      - name: Actual CSV schema and three-stock acceptance audit
+        run: python tests/audit_chip_trends_26b.py
