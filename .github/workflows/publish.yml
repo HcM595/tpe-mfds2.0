@@ -80,6 +80,8 @@ jobs:
         run: python scripts/audit_research_readiness.py
       - name: 2.5B 分批封存上市櫃官方歷史除權息計算結果（不宣稱完整、不計算報酬）
         run: python scripts/backfill_corporate_action_history.py --start-date 2026-01-01 --months-per-run 2
+      - name: 2.6B 匯出法人每日與集保每週實際歷史趨勢（不計算勝率）
+        run: python scripts/export_chip_trends.py
       - name: 保存真實價格與籌碼資料及更新進度
         run: |
           git config user.name "github-actions[bot]"
