@@ -90,6 +90,18 @@ def main():
         for row in csv.DictReader(fp):
             if row.get("stock_id") in FOCUS and row.get("date") and row.get("close"):
                 dates.setdefault(row["stock_id"], set()).add(row["date"])
+    # Diagnostic: compare raw archived rows to the published export for focus symbols.
+    raw_path = Path(__file__).resolve().parents[1] / "history_data" / "institutional_daily.csv"
+    if raw_path.is_file():
+        from collections import Counter
+        with raw_path.open(encoding="utf-8-sig", newline="") as fp:
+            raw = [r for r in csv.DictReader(fp) if r.get("stock_id") in FOCUS]
+        for sid in FOCUS:
+            rr = [r for r in raw if r.get("stock_id") == sid]
+            cols = ["foreign_net_shares", "trust_net_shares", "dealer_net_shares"]
+            print("RAW", sid, "count", len(rr), "latest", max((x.get("date", "") for x in rr), default=None),
+                  "missing_fields", dict(Counter(k for x in rr for k in cols if not str(x.get(k, "")).strip())),
+                  "sample", rr[-1] if rr else None)
     report = {}
     for sid in FOCUS:
         flows = sorted(loaded["flow"].get(sid, []), key=lambda x: x["date"])
