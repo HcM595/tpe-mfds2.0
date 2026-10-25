@@ -1,7 +1,7 @@
 {
   "version": "2.5B.2",
   "status": "audit_warnings",
-  "generated_at_taipei": "2026-10-25T21:55:13+08:00",
+  "generated_at_taipei": "2026-10-25T21:56:42+08:00",
   "start_date": "2026-01-01",
   "price_cutoff": "2026-10-22",
   "requested_market_month_pairs": 20,
@@ -10,7 +10,7 @@
   "observed_historical_event_rows": 1616,
   "distinct_stocks_in_observations": 117,
   "stocks_with_at_least_one_observed_historical_event": 109,
-  "requested_new_month_windows": 2,
+  "requested_new_month_windows": 0,
   "archive_sha256_failures": 0,
   "source_attempts_unverified": 4,
   "event_revision_conflicts": 0,
