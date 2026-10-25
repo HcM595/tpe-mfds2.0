@@ -1,0 +1,25 @@
+name: 2.6B 籌碼歷史單元驗收
+on:
+  pull_request:
+    paths:
+      - 'site/index.html'
+      - 'site/chip_trends_26b.js'
+      - 'tests/chip_trends_26b.test.js'
+      - '.github/workflows/test_chip_trends_26b.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: JS syntax checks
+        run: |
+          node --check site/chip_trends_26b.js
+          node --check tests/chip_trends_26b.test.js
+      - name: Unit tests for missing sessions and invalid data
+        run: node tests/chip_trends_26b.test.js
