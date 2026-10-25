@@ -34,7 +34,10 @@ def load_file(path,fields):
             except ValueError:continue
             if not sid.isdigit() or len(sid)<4 or len(sid)>6:continue
             nums=fields[3:-1] if len(fields)==7 else fields[2:-1]
-            if any(parse_number(row.get(f)) is None for f in nums):continue
+            if any(parse_number(row.get(f)) is None for f in (nums[:2] if len(fields)==7 else nums)):continue
+            # 自營商數據在官方來源可能缺少；保留有效的外資／投信，缺值不補零。
+            if len(fields)==7 and parse_number(row.get('dealer_net_shares')) is None:
+                row['dealer_net_shares']=''
             data.append({f:(row.get(f) or '').strip() for f in fields})
         return data,'ok'
 
@@ -64,7 +67,7 @@ def main():
     write_csv(OUT/'institutional_trend.csv',FLOWS,f)
     write_csv(OUT/'holder_trend.csv',HOLDERS,h)
     now=dt.datetime.now(ZoneInfo('Asia/Taipei')).isoformat(timespec='seconds')
-    meta={'version':'2.6B','generated_at_taipei':now,'flow_source_status':sf,'holder_source_status':sh,'flow_rows':len(f),'holder_rows':len(h),'flow_stocks':len(set(r['stock_id'] for r in f)),'holder_stocks':len(set(r['stock_id'] for r in h)),'flow_date_latest':max((r['date'] for r in f),default=None),'holder_date_latest':max((r['date'] for r in h),default=None),'flow_max_records_per_stock':120,'holder_max_records_per_stock':26,'historical_data_complete':False,'notes':'資料僅為已封存之實際來源日期；未補日期、未推估、非官方獨立驗證，不能據此認定模型勝率。'}
+    meta={'version':'2.6B','generated_at_taipei':now,'flow_source_status':sf,'holder_source_status':sh,'flow_rows':len(f),'holder_rows':len(h),'flow_stocks':len(set(r['stock_id'] for r in f)),'holder_stocks':len(set(r['stock_id'] for r in h)),'flow_date_latest':max((r['date'] for r in f),default=None),'holder_date_latest':max((r['date'] for r in h),default=None),'flow_max_records_per_stock':120,'holder_max_records_per_stock':26,'dealer_missing_rows':sum(1 for r in f if not r['dealer_net_shares']),'historical_data_complete':False,'notes':'資料僅為已封存之實際來源日期；未補日期、未推估、非官方獨立驗證，不能據此認定模型勝率。'}
     (OUT/'chip_trend_meta.json').write_text(json.dumps(meta,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(meta,ensure_ascii=False))
 if __name__=='__main__':main()
