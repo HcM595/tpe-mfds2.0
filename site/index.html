@@ -20,11 +20,11 @@
 @media(max-width:580px){.r-intro{display:block}.r-intro button{margin-top:14px}.r-filter{grid-template-columns:1fr}.r-metrics{grid-template-columns:1fr 1fr}.r-metric{padding:12px}.r-metric strong{font-size:21px}.r-tabs button{flex:1}.r-data-strip{gap:8px}}
 </style>
 </head><body>
-<div class="app"><aside class="sidebar"><div class="logo"><div class="logo-mark">M</div><div><strong>TPE-MFDS</strong><small>2.6A.1 整合研究中心（保留舊功能）</small></div></div><nav class="nav" id="nav">
-<button class="nav-btn active" data-page="research"><span class="nav-ico">◈</span>整合研究中心 2.6B</button><button class="nav-btn" data-page="overview"><span class="nav-ico">▦</span>總覽儀表板</button><button class="nav-btn" data-page="screener"><span class="nav-ico">☷</span>全市場選股</button><button class="nav-btn" data-page="stock"><span class="nav-ico">⌕</span>個股深入分析</button><button class="nav-btn" data-page="chip"><span class="nav-ico">◎</span>法人與大戶同步增持</button><button class="nav-btn" data-page="rank"><span class="nav-ico">▤</span>籌碼與技術雙軌排行</button><button class="nav-btn" data-page="watch"><span class="nav-ico">☆</span>我的自選股</button><button class="nav-btn" data-page="settings"><span class="nav-ico">⚙</span>資料與操作說明</button></nav><div class="side-help"><strong>使用者模式：免安裝</strong>直接開啟此 HTML 檔就能操作。沒有連上真實市場資料時，所有示範數字都只是教學使用。<button id="sideHelp">查看三步驟教學 →</button></div></aside>
+<div class="app"><aside class="sidebar"><div class="logo"><div class="logo-mark">M</div><div><strong>TPE-MFDS</strong><small>2.6B 整合研究中心（保留舊功能）</small></div></div><nav class="nav" id="nav">
+<button class="nav-btn active" data-page="research"><span class="nav-ico">◈</span>整合研究中心 2.6B</button><button class="nav-btn" data-page="overview"><span class="nav-ico">▦</span>總覽儀表板</button><button class="nav-btn" data-page="screener"><span class="nav-ico">☷</span>全市場選股</button><button class="nav-btn" data-page="stock"><span class="nav-ico">⌕</span>個股深入分析</button><button class="nav-btn" data-page="chip"><span class="nav-ico">◎</span>法人與大戶同步增持</button><button class="nav-btn" data-page="rank"><span class="nav-ico">▤</span>籌碼與技術雙軌排行</button><button class="nav-btn" data-page="watch"><span class="nav-ico">☆</span>我的自選股</button><button class="nav-btn" data-page="settings"><span class="nav-ico">⚙</span>資料與操作說明</button></nav><div class="side-help"><strong>使用者模式：免安裝</strong>請使用 GitHub Pages 網址開啟完整研究功能；直接使用 file:// 開啟 HTML 可能無法讀取資料。示範模式不是實際行情。<button id="sideHelp">查看三步驟教學 →</button></div></aside>
 <main class="main"><header class="topline"><div><div class="kicker">TAIWAN EQUITY RESEARCH · FACTOR LAB</div><h1 id="pageTitle">台股量化研究總覽</h1><p class="lead" id="pageLead">從全市場篩選到個股分析，一個介面完成。</p></div><div class="top-actions"><button class="btn" id="officialTop">↻ 官方最新收盤行情</button><button class="btn" id="demoReset">示範資料</button><button class="btn btn-primary" id="importTop">⇧ 匯入 CSV 資料</button></div></header>
 <div id="banner" class="notice warn"><span class="dot"></span><div><b>目前顯示：虛構示範資料</b><div>並非台股即時或歷史實際行情，綜合分數不是預測勝率，也不構成買賣建議。請先操作體驗，再匯入有來源的真實資料。</div></div></div>
-<div id="content"></div><div class="footer">TPE-MFDS 2.6A.1 · 法人與大戶歷史分析 · 保留2.3.3舊版查詢｜本機瀏覽器運算｜無下單功能｜不提供未經回測的上漲機率。</div></main></div>
+<div id="content"></div><div class="footer">TPE-MFDS 2.6B · 法人與大戶歷史分析 · 保留2.3.3舊版查詢｜本機瀏覽器運算｜無下單功能｜不提供未經回測的上漲機率。</div></main></div>
 <input id="snapshotFile" type="file" accept=".csv,text/csv" class="hidden"><input id="pricesFile" type="file" accept=".csv,text/csv" class="hidden"><div id="toast" class="toast hidden" role="status"></div>
 <script src="./chip_trends_26b.js"></script>
 <script>
@@ -300,17 +300,17 @@ function rMetaLink(key,caption){const f=RESEARCH_FILES[key]?.[0];return f?`<a hr
 function rCards(items){return `<div class="r-metrics">${items.map(x=>`<div class="r-metric"><small>${esc(x[0])}</small><strong>${esc(x[1])}</strong><span>${esc(x[2]||'')}</span></div>`).join('')}</div>`}
 function rTabTitle(){return {overview:'市場總覽與快篩',stock:'個股一站式查詢',history:'訊號與前瞻觀察',quality:'資料來源與品質'}[research.tab]||'市場總覽'}
 function researchView(){
-  const ready=rGet('readiness')||{},fm=rGet('forwardMeta')||{},om=rGet('official')||{};
+  const ready=rGet('readiness')||{},fm=rGet('forwardMeta')||{},om=rGet('official')||{},ct=rGet('chipTrendMeta')||{};
   return `<div class="r-shell">
     <div class="r-intro"><div><div class="r-eyebrow">TPE-MFDS 2.6B · 研究整合中心</div><h2>把後端研究成果變成可查詢資訊</h2><p>輸入股票代號或使用選股條件，整合籌碼、技術、歷史訊號與除權息事件。資料日期各自標示，非即時行情。</p></div><button type="button" class="btn" data-r-action="refresh">↻ 更新整合資料</button></div>
-    <div class="r-data-strip"><span>行情：<b>${rVal(om.display_date||'尚未取得')}</b></span><span>研究快照：<b>${rVal(ready.generated_at_taipei||'尚未取得')}</b></span><span>瀏覽器最後讀取：<b>${rVal(research.loadedAt||'讀取中')}</b></span></div>
+    <div class="r-data-strip"><span>行情：<b>${rVal(om.display_date||'尚未取得')}</b></span><span>研究快照：<b>${rVal(ready.generated_at_taipei||'尚未取得')}</b></span><span>法人歷史：<b>${rVal(ct.flow_date_latest)}</b></span><span>大戶歷史：<b>${rVal(ct.holder_date_latest)}</b></span><span>瀏覽器最後讀取：<b>${rVal(research.loadedAt||'讀取中')}</b></span></div>
     <div class="r-warnings"><strong>研究資料狀態：</strong>${research.status==='loading'?'資料讀取中。':research.status==='error'?'無法取得後端資料，請檢查網站部署。':'已載入部分或全部公開報告。'} ${rStatusKey('rank','籌碼排行')} ${rStatusKey('tech','技術驗證')} ${rStatusKey('forward','歷史訊號')} ${rStatusKey('actions','除權息事件')} ${rStatusKey('readiness','品質稽核')} ${rStatusKey('institutionalTrend','法人歷史')} ${rStatusKey('holderTrend','大戶歷史')}</div>
     <div class="r-tabs" role="tablist" aria-label="整合研究選單">${[['overview','市場快篩'],['stock','個股分析'],['history','訊號追蹤'],['quality','資料品質']].map(([id,label])=>`<button type="button" role="tab" aria-selected="${research.tab===id?'true':'false'}" class="${research.tab===id?'active':''}" data-r-tab="${id}">${label}</button>`).join('')}</div>
     <section aria-label="${esc(rTabTitle())}">${({overview:rOverview,stock:rStock,history:rHistory,quality:rQuality})[research.tab]()}</section>
     <div class="r-bottom">所有排名屬資料描述與研究觀察，不是預測勝率；前瞻觀察不代表成交績效。未驗證的股利配發條件、還原OHLC、資料公布時點及樣本獨立性，均不得用來計算正式報酬。</div>
   </div>`;
 }
-// 2.6A.1: full-universe lookup is separate from the narrow eligible rank list.
+// 2.6B: full-universe lookup is separate from the narrow eligible rank list.
 function rDirectMatches(query){
   const q=query.trim().toLowerCase();if(!q)return [];
   const matches=state.stocks.filter(s=>/^\d{4,6}$/.test(s.stock_id||'') &&
@@ -374,6 +374,7 @@ function rStock(){
     '未列入當次籌碼排名候選名單；不代表股票不存在，也不代表技術條件為零。';
   const crosschecked=!!tech.stock_id;
   return `<section class="card r-section"><div class="r-section-title"><div><h3>查詢個股完整研究資料</h3><p>輸入4至6碼股票代號，查詢已發布的市場／技術／籌碼／事件資料。</p></div><span class="chip">資料缺漏不推測</span></div>
+    <div class="hint" style="margin:8px 0">快速查詢：<button type="button" class="btn mini" data-r-stock="8064">8064 東捷</button> <button type="button" class="btn mini" data-r-stock="3533">3533 嘉澤</button> <button type="button" class="btn mini" data-r-stock="2345">2345 智邦</button></div>
     <form id="r-stock-form" class="r-lookup"><input id="r-stock-code" inputmode="numeric" autocomplete="off" class="field" maxlength="6" value="${esc(research.stockQuery)}" placeholder="例如8064、3533、2345" aria-label="股票代號" /><button type="submit" class="btn btn-primary">查詢</button></form>
     ${!known?`<div class="r-empty">${esc(id)} 尚未出現在目前已載入的資料；無法提供推測分數或價格。請核對資料日期與來源。</div>`:
     `<div class="r-stock-title"><h2>${esc(id)} ${esc(name)}</h2><span class="chip">${rVal(rank.market||tech.market||univ.market||ss.market||'市場未確認')}</span><span class="chip">收盤行情：${rVal(rank.price_asof||tech.price_asof||ss.asof)}</span></div>
