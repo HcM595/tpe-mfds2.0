@@ -1,0 +1,22 @@
+{
+  "version": "2.8D",
+  "generated_at_taipei": "2026-10-26T11:54:52+08:00",
+  "stocks": 1949,
+  "ref20_available": 1818,
+  "ref60_available": 1721,
+  "revenue_observed": 1943,
+  "period_definition": "價格快照日之前完整20／60個市場觀察日之最高及最低原始收盤價；不包含當天",
+  "drawdown_definition": "在截至今日共21／61個連續市場觀察日內，原始收盤價的最大峰谷跌幅（非最大真實成交回撤）",
+  "volatility_definition": "21個相鄰收盤價形成的20個對數報酬，年化sqrt(252)描述性歷史波動率",
+  "market_dates": "同市場至少50檔有有效封存收盤的日期作研究基準，不代表獨立官方日曆已核對",
+  "atr_supported": false,
+  "ohlc_verified": false,
+  "prices_corporate_action_adjusted": false,
+  "f1_cashflow_profit_verified": false,
+  "f2_valuation_verified": false,
+  "f3_governance_verified": false,
+  "factor_scores_enabled": false,
+  "probability_enabled": false,
+  "risk_target_prices_enabled": false,
+  "warning": "本資料只描述過去收盤波動；價格未除權息還原，不能視為支撐壓力必然有效，更不能用來建立買賣價位、ATR、勝率或總報酬。"
+}
