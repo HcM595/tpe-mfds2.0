@@ -108,6 +108,8 @@ jobs:
         run: python scripts/collect_policy_evidence_29d.py
       - name: 2.9E 封存官方估值F2與董事長是否兼任總經理F3（不推導預期差或治理分數）
         run: python scripts/collect_f2f3_29e.py
+      - name: 2.9F 建立F2/F3來源版本首次取得時間與官方發布時刻缺口稽核（嚴禁歷史倒填）
+        run: python scripts/audit_f2f3_pit_29f.py
       - name: 2.9A 發布原始四層12因子逐股資料證據（雙引擎共用，嚴禁未驗證分數）
         run: python scripts/build_factor_evidence_29a.py
       - name: 保存真實價格與籌碼資料及更新進度
