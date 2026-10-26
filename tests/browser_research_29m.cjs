@@ -41,6 +41,10 @@ async function run() {
     assert((await page.locator('#caveat').innerText()).includes('資料日期'), 'I date disclosure missing');
     await page.waitForFunction(() => document.querySelectorAll('#pit-clock tbody tr').length === 2, {timeout: 60000});
     assert((await page.locator('#pit-clock').innerText()).includes('不可作歷史回測'),'I PIT verification missing');
+    assert((await page.locator('#release-audit').innerText()).includes('正式公布時刻未驗證'),
+      'I stock source audit must explicitly block missing official release');
+    assert((await page.locator('#release-audit').innerText()).includes('月營收'),
+      'I should also audit monthly revenue first-seen and release clocks');
 
     assert((await page.locator('#risk').innerText()).includes('價格已還原'), 'I raw-price risk warning missing');
     await page.locator('#query').fill('3533');
@@ -61,6 +65,12 @@ async function run() {
     await page.locator('#rows tr').first().click();
     assert((await page.locator('#details').innerText()).includes('400張以上大戶4週增加'), 'J conditions not disclosed');
     assert((await page.locator('#details').innerText()).includes('未核實F2正式公布時間'), 'J future or unverified F2 must stay unknown');
+    const wrongRelease = await page.evaluate(() => window.MFDSAsOfGate.clockGate({
+      priceDay:'2026-10-22',reportDay:'2026-10-22',
+      firstSeen:'2026-10-21T10:00:00Z',officialPublished:'2026-10-22T00:01:00Z',
+      sourceVerified:true
+    }));
+    assert.equal(wrongRelease.eligible,false,'J timezone-aware gate must reject after-cutoff disclosures');
     const jDetails = await page.locator('#details').innerText();
     assert(/同業本益比低於中位數（原值）[^]*?缺資料/.test(jDetails), 'J must block unverified F2 from passing');
 
@@ -76,6 +86,8 @@ async function run() {
     const kDetails = await page.locator('#details').innerText();
     assert(kDetails.includes('未核實官方公告時間'), 'K future F2 must be marked not assessable');
     assert(kDetails.includes('無法判定'), 'K should show unknown factor conditions');
+    assert.equal(await page.evaluate(() => typeof window.MFDSAsOfGate.revenue), 'function',
+      'K must use same release clock validator as dual engine');
 
     await page.locator('#stocks').fill('2330,999999');
     await page.locator('#compare').click();
