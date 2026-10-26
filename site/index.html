@@ -28,7 +28,7 @@
  .table-wrap{overflow:visible!important;max-width:none!important}
  .r-section-title,.r-metrics,.r-data-strip,tr{break-inside:avoid}
 }
-/* 2.8E: one primary navigation surface; legacy pages remain available */
+.nav-research .nav-tool-link{text-decoration:none;box-sizing:border-box;color:#d7e3ef}\n/* 2.8E: one primary navigation surface; legacy pages remain available */
 .nav-caption{padding:0 14px;color:#8fb0c5;font-size:11px;font-weight:700;letter-spacing:.5px}
 .nav-advanced{border-top:1px solid #32526b;padding-top:12px;margin-top:9px;color:#d7e3ef}
 .nav-advanced summary{padding:11px 12px;border-radius:9px;cursor:pointer;font-weight:700;color:#d7e3ef}
@@ -40,12 +40,8 @@
 @media print{.nav-advanced{display:none!important}}
 </style>
 </head><body>
-<div class="app"><aside class="sidebar"><div class="logo"><div class="logo-mark">M</div><div><strong>TPE-MFDS</strong><small>2.9F · 正式研究與舊版工具分流</small></div></div><nav class="nav" id="nav" aria-label="TPE-MFDS 主要功能">
+<div class="app"><aside class="sidebar"><div class="logo"><div class="logo-mark">M</div><div><strong>TPE-MFDS</strong><small>2.9N · 研究導航及來源時點驗證</small></div></div><nav class="nav" id="nav" aria-label="TPE-MFDS 主要功能">
 <div class="nav-caption">正式研究功能</div>
-<a href="./compare_29k.html" style="display:block;padding:10px 14px;color:#d4f2ec;text-decoration:none;border:1px solid #416982;border-radius:9px;margin:7px 0">2.9K｜雙引擎個股比較 ↗</a>
-<a href="./dual_engine_29j.html" style="display:block;padding:10px 14px;color:#d4f2ec;text-decoration:none;border:1px solid #416982;border-radius:9px;margin:7px 0">2.9J｜雙引擎選股 ↗</a>
-<a href="./stock_research_29i.html" style="display:block;padding:10px 14px;color:#d4f2ec;text-decoration:none;border:1px solid #416982;border-radius:9px;margin:7px 0">2.9I｜個股整合研究 ↗</a>
-<a href="./factor_gaps_29h.html" style="display:block;padding:10px 14px;color:#d4f2ec;text-decoration:none;border:1px solid #416982;border-radius:9px;margin:7px 0">2.9H｜逐股12因子驗證缺口 ↗</a>
 <button class="nav-btn active" data-page="research" data-research-tab="overview"><span class="nav-ico">▦</span>全市場選股與總覽</button>
 <button class="nav-btn" data-page="research" data-research-tab="stock"><span class="nav-ico">⌕</span>個股完整研究</button>
 <button class="nav-btn" data-page="chip"><span class="nav-ico">◎</span>法人與大戶同步增持</button>
@@ -53,6 +49,15 @@
 <button class="nav-btn" data-page="research" data-research-tab="quality"><span class="nav-ico">✓</span>資料來源與品質</button>
 <button class="nav-btn" data-page="watch"><span class="nav-ico">☆</span>我的自選股</button>
 <button class="nav-btn" data-page="settings"><span class="nav-ico">⚙</span>資料匯入與設定</button>
+<details class="nav-advanced nav-research" id="nav-research-tools">
+<summary>延伸研究工具（4項）</summary>
+<p class="nav-legacy-hint">雙引擎條件、跨股比較與逐股原始證據；不同於已驗證12因子預測模型。</p>
+<div class="nav-advanced-list">
+<a class="nav-btn nav-tool-link" href="./dual_engine_29j.html">雙引擎條件選股</a>
+<a class="nav-btn nav-tool-link" href="./compare_29k.html">雙引擎跨股比較</a>
+<a class="nav-btn nav-tool-link" href="./stock_research_29i.html">個股整合研究報表</a>
+<a class="nav-btn nav-tool-link" href="./factor_gaps_29h.html">12因子缺口與來源時點</a>
+</div></details>
 <details class="nav-advanced" id="nav-advanced"><summary>進階／舊版比較工具</summary>
  <p class="nav-legacy-hint">保留舊版 CSV 與示範頁。其當日成交額及規則分數，不等於新版120日／20日平均成交額或已驗證12因子。</p>
  <div class="nav-advanced-list">
@@ -64,7 +69,7 @@
 </details></nav><div class="side-help"><strong>使用者模式：免安裝</strong>請使用 GitHub Pages 網址開啟完整研究功能；直接使用 file:// 開啟 HTML 可能無法讀取資料。示範模式不是實際行情。<button id="sideHelp">查看三步驟教學 →</button></div></aside>
 <main class="main"><header class="topline"><div><div class="kicker">TAIWAN EQUITY RESEARCH · FACTOR LAB</div><h1 id="pageTitle">台股量化研究總覽</h1><p class="lead" id="pageLead">從全市場篩選到個股分析，一個介面完成。</p></div><div class="top-actions"><button class="btn" id="officialTop">↻ 官方最新收盤行情</button><button class="btn" id="demoReset">示範資料</button><button class="btn btn-primary" id="importTop">⇧ 匯入 CSV 資料</button></div></header>
 <div id="banner" class="notice warn"><span class="dot"></span><div><b>目前顯示：虛構示範資料</b><div>並非台股即時或歷史實際行情，綜合分數不是預測勝率，也不構成買賣建議。請先操作體驗，再匯入有來源的真實資料。</div></div></div>
-<div id="content"></div><div class="footer">TPE-MFDS 2.8G · 法人與大戶歷史分析 · 保留2.3.3舊版查詢｜本機瀏覽器運算｜無下單功能｜不提供未經回測的上漲機率。</div></main></div>
+<div id="content"></div><div class="footer">TPE-MFDS 2.9N · 法人與大戶歷史分析 · 保留2.3.3舊版查詢｜本機瀏覽器運算｜無下單功能｜不提供未經回測的上漲機率。</div></main></div>
 <input id="snapshotFile" type="file" accept=".csv,text/csv" class="hidden"><input id="pricesFile" type="file" accept=".csv,text/csv" class="hidden"><div id="toast" class="toast hidden" role="status"></div>
 <script src="./chip_trends_26b.js"></script>
 <script src="./research_eligibility_27a.js"></script>
