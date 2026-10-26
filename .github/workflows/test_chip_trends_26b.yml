@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'site/index.html'
+      - 'scripts/probe_mops_income_28i.py'
       - 'scripts/collect_cashflow_focus_28g.py'
       - 'tests/test_cashflow_28g.py'
       - 'scripts/probe_mops_cashflow_28g.py'
@@ -72,6 +73,8 @@ jobs:
         run: |
           python -m unittest tests/test_cashflow_28g.py
           python -m py_compile scripts/collect_cashflow_focus_28g.py
+      - name: Inspect public MOPS income statement period labels for 8064 (diagnostic only)
+        run: python -m scripts.probe_mops_income_28i
       - name: Install browser test runtime
         run: |
           npm install --no-save playwright@1.56.1
