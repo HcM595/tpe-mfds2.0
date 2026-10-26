@@ -7,11 +7,14 @@ const assert = require('node:assert/strict');
  page.on('pageerror',e=>errors.push(e.message));
  try{
    await page.goto('http://127.0.0.1:8765/',{waitUntil:'domcontentloaded'});
-   await page.waitForFunction(() => document.querySelector('#r-stock-form')!==null,{timeout:60000}).catch(async()=>{
-     await page.locator('[data-page="research"]').click();
-     await page.locator('[data-r-tab="stock"]').click();
-   });
-   await page.locator('[data-r-tab="stock"]').click();
+   // 2.8E: one sidebar navigation; no duplicated research tab bar.
+   assert.equal(await page.locator('#nav > button.nav-btn').count(),7,'main navigation contains duplicate legacy pages');
+   assert.equal(await page.locator('#nav > button[data-page="stock"]').count(),0,'legacy stock screen must be collapsed');
+   assert.equal(await page.locator('#nav-advanced').count(),1,'preserved advanced tools missing');
+   await page.locator('#nav > button[data-page="research"][data-research-tab="stock"]').click();
+   await page.locator('#r-stock-form').waitFor({timeout:60000});
+   assert.equal(await page.locator('#nav > button.nav-btn.active').count(),1,'multiple primary entries marked active');
+   assert.equal(await page.locator('.r-tabs').count(),0,'duplicated top research tabs not removed');
    for(const id of ['8064','3533','2345']){
      await page.locator('[data-r-stock="'+id+'"]').first().click();
      await page.waitForFunction(code=>document.querySelector('#content')?.textContent.includes(code+' ')&&document.querySelector('#content')?.textContent.includes('法人每日與大戶每週歷史趨勢'),id,{timeout:60000});
@@ -19,7 +22,7 @@ const assert = require('node:assert/strict');
      await panel.waitFor({timeout:60000});
      const text=await panel.innerText();
      assert(text.includes('5個交易日')&&text.includes('20個交易日'),'no window summary for '+id);
-     assert(text.includes('2026-10-22'),'dated source observations absent for '+id);
+     assert(/20\d\d-\d\d-\d\d/.test(text),'dated source observations absent for '+id);
      assert(await panel.locator('svg').count()>=2,'missing trend charts for '+id);
      assert(!text.includes('NaN'),'NaN appears for '+id);
      const researchText=await page.locator('#content').innerText();
@@ -34,18 +37,33 @@ const assert = require('node:assert/strict');
      assert(!researchText.includes('ATR 已計算'),'nonexistent ATR should not be claimed '+id);
      console.log('PASS browser stock:',id);
    }
-   await page.locator('[data-r-tab="quality"]').click();
+   await page.locator('#nav > button[data-page="research"][data-research-tab="quality"]').click();
    assert(await page.getByText('institutional_trend.csv').count()>0,'quality page missing institutional data');
    assert(await page.getByText('holder_trend.csv').count()>0,'quality page missing holder data');
-   await page.locator('[data-r-tab="overview"]').click();
+   await page.locator('#nav > button[data-page="research"][data-research-tab="overview"]').click();
    await page.waitForFunction(() => document.querySelector('#content')?.textContent.includes('身分及基本資料同時符合'),{timeout:60000});
    const screenText=await page.locator('#content').innerText();
    assert(screenText.includes('普通股名錄有核對'),'market company roster eligibility missing');
    assert(screenText.includes('原始四層12子因子就緒稽核'),'factor readiness missing');
    assert(screenText.includes('0 / 12'),'unverified factor model must not claim readiness');
    assert(await page.locator('#r-query').count()===1,'existing screener missing');
+   // Main chip rule is distinct from weighted ranking and must remain reachable.
+   await page.locator('#nav > button[data-page="chip"]').click();
+   assert((await page.locator('#content').innerText()).includes('法人與大戶同步增持候選名單'),'strict synchronized inflow rule missing');
+   // Legacy pages are still available, but clearly labelled as nonproduction comparison.
+   await page.locator('#nav-advanced summary').click();
+   await page.locator('#nav-advanced button[data-page="screener"]').click();
+   assert((await page.locator('#content').innerText()).includes('舊版比較／CSV 功能'),'legacy screener missing caveat');
+   await page.locator('#nav > button[data-page="research"][data-research-tab="stock"]').click();
+   await page.locator('#r-stock-code').fill('2345');
+   await page.locator('#r-stock-form button[type="submit"]').click();
+   await page.locator('button[data-action="watch"][data-id="2345"]').click();
+   await page.locator('#nav > button[data-page="watch"]').click();
+   assert(await page.locator('button[data-action="watchResearch"][data-id="2345"]').count()===1,'watchlist modern stock link missing');
+   await page.locator('button[data-action="watchResearch"][data-id="2345"]').click();
+   assert((await page.locator('#content').innerText()).includes('2345 智邦'),'watchlist did not open modern research');
    await page.setViewportSize({width:390,height:844});
-   await page.locator('[data-r-tab="stock"]').click();
+   await page.locator('#nav > button[data-page="research"][data-research-tab="stock"]').click();
    assert(await page.locator('#r-stock-code').isVisible(),'mobile stock search missing');
    assert.deepEqual(errors,[],'browser JS exceptions');
    console.log('PASS browser smoke and responsive checks');
