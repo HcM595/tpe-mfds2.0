@@ -116,8 +116,8 @@ def build_row(snap,master,prices,obs,industry,revenue,income,cashflow,ytd,
                date=revenue.get("table_date",""))
     set_factor("F2",False) # peer valuation, estimates absent
     set_factor("F3",False) # governance and dated disclosures absent
-    s1=bool(obs.get("stock_id")) and obs.get("asof")==asof and bool(obs.get("s1_5d_end"))
-    s1_full=s1 and bool(obs.get("s1_20d_end"))
+    s1=bool(obs.get("stock_id")) and obs.get("asof")==asof and bool(obs.get("s1_5d_end")) and all(number(obs.get(k)) is not None for k in ("foreign_5d_volume_ratio_pct","trust_5d_volume_ratio_pct"))
+    s1_full=s1 and bool(obs.get("s1_20d_end")) and all(number(obs.get(k)) is not None for k in ("foreign_20d_volume_ratio_pct","trust_20d_volume_ratio_pct"))
     set_factor("S1",s1,full=s1_full,date=obs.get("s1_20d_end") or obs.get("s1_5d_end",""))
     # Holder concentrations are not financing/daytrade sentiment.
     s2=bool(holder.get("holder_asof")) or bool(dayflow.get("holder_asof"))
