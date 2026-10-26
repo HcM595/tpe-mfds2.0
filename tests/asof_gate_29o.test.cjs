@@ -13,6 +13,7 @@ function fail(changes, reason){const r=G.clockGate({...p,...changes});assert.equ
 fail({reportDay:'2026-10-23'},'report_after_price_day');
 fail({firstSeen:after},'first_seen_after_cutoff');
 fail({officialPublished:after},'publication_after_cutoff');
+fail({firstSeen:'2026-10-21T15:59:58Z'},'capture_precedes_official_release');
 fail({officialPublished:''},'official_publication_unverified');
 fail({sourceVerified:false},'source_authorization_missing');
 fail({priceDay:'2026-02-30'},'invalid_price_day');
