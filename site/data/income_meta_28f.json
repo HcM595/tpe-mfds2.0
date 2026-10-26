@@ -1,0 +1,30 @@
+{
+  "version": "2.8F",
+  "generated_at_taipei": "2026-10-26T14:42:08+08:00",
+  "rows": 1051,
+  "markets": {
+    "上市": {
+      "status": "ok",
+      "rows": 1051,
+      "latest_period": "2026Q2",
+      "source": "https://openapi.twse.com.tw/v1/opendata/t187ap06_L_ci",
+      "sha256": "8a0bfaa5e7ae78319a8d9413e1cdce901f84417875894fa301dd70c4e123b52d",
+      "excluded": {}
+    },
+    "上櫃": {
+      "status": "unavailable",
+      "rows": 0,
+      "source": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap06_O_ci",
+      "reason": "income API: missing required columns ['公司代號', '公司名稱', '出表日期', '季別', '年度']"
+    }
+  },
+  "industry_coverage": "僅一般業(ci)；金融、證券、金控、保險、異業尚未串接",
+  "cashflow_observed": 0,
+  "profit_currency_unit_verified": false,
+  "accounting_ytd_vs_quarter_verified": false,
+  "per_company_filing_times_verified": false,
+  "f1_factor_eligible": false,
+  "f1_cashflow_profit_ratio_enabled": false,
+  "probability_enabled": false,
+  "note": "僅官方最新綜合損益表之淨利來源欄位原值，單位、季累計口徑及逐公司公告時間未獨立核對。營業活動現金流尚未取得；本表不得當成盈利品質分數或回測歷史知悉資料。"
+}
