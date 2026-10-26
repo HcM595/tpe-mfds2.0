@@ -9,6 +9,8 @@ on:
       - 'site/compare_29k.html'
       - 'tests/test_research_pages_29l.py'
       - 'tests/browser_research_29m.cjs'
+      - 'site/pit_clock_29n.js'
+      - 'tests/pit_clock_29n.test.cjs'
       - 'scripts/audit_f2f3_pit_29f.py'
       - 'tests/test_fundamental_pit_29f.py'
       - 'scripts/collect_f2f3_29e.py'
@@ -67,10 +69,13 @@ jobs:
           node --check site/research_eligibility_27a.js
           node --check tests/chip_trends_26b.test.js
           node --check tests/browser_research_29m.cjs
+          node --check site/pit_clock_29n.js
+          node --check tests/pit_clock_29n.test.cjs
       - name: Unit tests for missing sessions and invalid data
         run: |
           node tests/chip_trends_26b.test.js
           node tests/research_eligibility_27a.test.js
+          node tests/pit_clock_29n.test.cjs
       - name: Regenerate 2.6B CSV in checkout
         run: python scripts/export_chip_trends.py
       - name: Actual CSV schema and three-stock acceptance audit
