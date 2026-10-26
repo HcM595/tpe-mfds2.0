@@ -269,7 +269,7 @@ const RESEARCH_FILES = {
   readiness:['research_readiness_meta.json','json'],actionsMeta:['corporate_action_history_meta.json','json'],
   actions:['corporate_action_history_events.csv','csv'],universe:['corporate_action_history_universe.csv','csv'],
   exceptions:['market_session_exceptions.csv','csv'],revisions:['cohort_revision_changes.csv','csv'],
-  factorReadiness:['factor_readiness_28a.json','json'],master:['ordinary_stock_master.csv','csv'],chipTrendMeta:['chip_trend_meta.json','json'],institutionalTrend:['institutional_trend.csv','csv'],holderTrend:['holder_trend.csv','csv']
+  factorReadiness:['factor_readiness_28a.json','json'],factorObs:['factor_observations_28b.csv','csv'],factorObsMeta:['factor_observations_meta_28b.json','json'],master:['ordinary_stock_master.csv','csv'],chipTrendMeta:['chip_trend_meta.json','json'],institutionalTrend:['institutional_trend.csv','csv'],holderTrend:['holder_trend.csv','csv']
 };
 async function loadResearchData(){
   research.status='loading';if(state.page==='research')render();
@@ -377,6 +377,7 @@ function rOverview(){
   const unknownTurnover=universeStatus.filter(s=>s.status==='近20日成交額資料不足').length;
   const read=rGet('readiness')||{};
   const fr=rGet('factorReadiness')||{}, factorRows=Array.isArray(fr.factors)?fr.factors:[];
+  const factObsMeta=rGet('factorObsMeta')||{};
   const cards=[['籌碼可排名',ranked.length?' '+ranked.length:'—','當次已驗證排行'],['前瞻觀察紀錄',read.forward_observation_rows??rCount('forward'),'跨版本紀錄，非獨立樣本'],['歷史事件',meta.observed_historical_event_rows??rCount('actions'),'事件≠股利條件已驗證'],['獨立績效樣本',read.strict_performance_samples_eligible??0,'尚未通過，禁止勝率']];
   return `${rCards(cards)}
     <section class="card r-section"><div class="r-section-title"><h3>原始設計資格檢查（與籌碼排行分開）</h3></div>
@@ -389,6 +390,8 @@ function rOverview(){
       <p class="hint">因子啟用數：${factorRows.filter(x=>x.status==='verified').length} / 12；官方資料存在不等於因子已完成。沒有逐檔有效因子覆蓋率之前，不開放模型選股或上漲機率。</p>
       <div class="table-wrap"><table class="data-table r-table"><thead><tr><th>層級</th><th>因子</th><th>名稱</th><th>需要的真實資料</th><th>目前狀態</th></tr></thead><tbody>${factorRows.map(f=>`<tr><td>${esc(f.layer)}</td><td>${esc(f.id)}</td><td>${esc(f.label)}</td><td>${esc(f.required)}</td><td>${f.status==='verified'?'已驗證':'待來源及公布時點核實'}</td></tr>`).join('')||'<tr><td colspan="5">資料契約尚未載入；不給模型分數</td></tr>'}</tbody></table></div>
       <p class="hint">目標：初版覆蓋率至少60%，正式版以75%為研究目標；這不是已通過門檻的宣稱。</p>
+      ${rCards([['S1可核對5及20日',factObsMeta.s1_full??'—','法人淨買超／成交量，非正式因子'],['S3可核對60日動能',factObsMeta.s3_momentum60??'—','使用未還原收盤價，不作績效'],['12因子模型分數','停用','公告時間、資料還原及樣本外檢驗未過關'],['ATR','資料不足','需要尚未收集的完整OHLC']])}
+      <p class="hint">2.8B 新增真實封存資料的描述性觀察，並未把 S1、S3 標為已驗證模型因子。${rMetaLink('factorObs','查看逐股觀察表')}</p>
     </section>
     <section class="card r-section"><div class="r-section-title"><div><h3>籌碼與技術進階篩選</h3><p>根據已發布的籌碼100分與技術雙軌報告；缺值不當作0。此為四項指標加權排名，個別大戶級距可下降，不等於「外資、投信與大戶同步增持」名單。</p></div>${rMetaLink('rank','檢視原始排行')}</div>
     <div class="r-filter"><label>搜尋股票<input id="r-query" class="field" value="${esc(research.query)}" placeholder="代號、名稱、產業，例如8064" /></label><label>市場<select id="r-market" class="field"><option>全部</option>${['上市','上櫃'].map(x=>`<option ${research.market===x?'selected':''}>${x}</option>`).join('')}</select></label><label>技術／大戶<select id="r-tech" class="field">${['全部','三項確認','大戶分歧','雙級距增加'].map(x=>`<option ${research.tech===x?'selected':''}>${x}</option>`).join('')}</select></label></div>
@@ -414,6 +417,7 @@ function rStock(){
     (ranked?'有當次合格籌碼排名':(rank.rank_reason||'未通過當次排名資格')) :
     '未列入當次籌碼排名候選名單；不代表股票不存在，也不代表技術條件為零。';
   const crosschecked=!!tech.stock_id;
+  const fobs=rIndex('factorObs').get(id)||{};
   return `<section class="card r-section"><div class="r-section-title"><div><h3>查詢個股完整研究資料</h3><p>輸入4至6碼股票代號，查詢已發布的市場／技術／籌碼／事件資料。</p></div><span class="chip">資料缺漏不推測</span></div>
     <div class="hint" style="margin:8px 0">快速查詢：<button type="button" class="btn mini" data-r-stock="8064">8064 東捷</button> <button type="button" class="btn mini" data-r-stock="3533">3533 嘉澤</button> <button type="button" class="btn mini" data-r-stock="2345">2345 智邦</button></div>
     <form id="r-stock-form" class="r-lookup"><input id="r-stock-code" inputmode="numeric" autocomplete="off" class="field" maxlength="6" value="${esc(research.stockQuery)}" placeholder="例如8064、3533、2345" aria-label="股票代號" /><button type="submit" class="btn btn-primary">查詢</button></form>
@@ -428,6 +432,11 @@ function rStock(){
     ${!crosschecked?'<p class="hint">這檔股票不在已發布的技術雙軌候選名單內，因此不能宣稱通過或未通過三項確認；可參考下方獨立的價格技術計算。</p>':'<p class="hint">下列值來自候選名單的技術驗證報告，與下方價格自行計算分開呈現。</p>'}
     <dl class="r-dl">${[['MA20',tech.ma20],['MA60',tech.ma60],['收盤高於MA20',tech.close_above_ma20],['MA20上升',tech.ma20_rising],['RSI14',tech.rsi14],['MACD柱',tech.macd_hist],['MACD柱改善',tech.macd_hist_improving],['技術狀態',tech.technical_status],['大戶結構',tech.holder_structure],['資料驗證',tech.data_status]].map(([label,value])=>`<div><dt>${esc(label)}</dt><dd>${rVal(value)}</dd></div>`).join('')}</dl><p class="hint">技術指標使用既有資料。價格序列尚未證明已完成除權息調整。</p></section></div>
     ${window.MFDSChipHistory && rGet('chipTrendMeta') && rGet('institutionalTrend') && rGet('holderTrend') ? window.MFDSChipHistory.render(rArray('institutionalTrend'),rArray('holderTrend'),rGet('chipTrendMeta'),id,points) : '<section class="r-panel r-subpanel"><h3>2.6B 法人與大戶歷史趨勢</h3><p class="hint">歷史來源尚未完整載入：'+esc(['chipTrendMeta','institutionalTrend','holderTrend'].filter(k=>!rGet(k)).map(k=>RESEARCH_FILES[k][0]+' '+(research.errors[k]||'未取得')).join('；')||'前端分析模組未載入')+'。缺漏不推估。</p></section>'}
+    <section class="r-panel r-subpanel"><h3>2.8B S1／S3 歷史資料描述性觀察（非模型分數）</h3>
+      ${!fobs.stock_id?'<p class="hint">此股尚無可核對的 S1／S3 統計；缺漏不視為0。</p>':`<p class="hint">資料基準日：${rVal(fobs.asof)}；${rVal(fobs.s1_status)}／${rVal(fobs.s3_status)}。${rVal(fobs.risk_notes)}</p>
+      <dl class="r-dl">${[['外資5日淨買超占成交量（%）',fobs.foreign_5d_volume_ratio_pct],['投信5日淨買超占成交量（%）',fobs.trust_5d_volume_ratio_pct],['外資20日淨買超占成交量（%）',fobs.foreign_20d_volume_ratio_pct],['投信20日淨買超占成交量（%）',fobs.trust_20d_volume_ratio_pct],['MA20（未還原）',fobs.s3_ma20_raw],['MA60（未還原）',fobs.s3_ma60_raw],['20日原始收盤動能（%）',fobs.s3_momentum20_raw_pct],['60日原始收盤動能（%）',fobs.s3_momentum60_raw_pct],['20日年化原始波動率（%）',fobs.s3_vol20_raw_annualized_pct],['法人5日期末',fobs.s1_5d_end],['法人20日期末',fobs.s1_20d_end]].map(([k,v])=>`<div><dt>${esc(k)}</dt><dd>${rVal(v)}</dd></div>`).join('')}</dl>
+      <p class="hint">按同市場已封存的價量日期逐日核對；缺一個日期就不合計。不具獨立官方日曆確認、還原價格或當時公告時間，不能直接當作未來漲幅、持股比例或回測。</p>`}
+    </section>
     <section class="r-panel r-subpanel"><h3>歷史行情計算的技術指標（全市場查詢）</h3>${rTechnicalHistoryPanel(points)}</section>
     <section class="r-panel r-subpanel"><h3>已累積的歷史收盤價</h3><p class="hint">${points.length}筆歷史資料；不顯示尚未驗證的報酬、勝率或還原價格。</p>${points.length?buildChart(points):'<div class="r-empty">尚無可顯示的歷史走勢；不使用示範股價補上。</div>'}</section>
     <section class="r-panel r-subpanel"><h3>歷史訊號與前瞻觀察</h3><p class="hint">${forwards.length}筆跨版本觀察紀錄。多個觀察組可能使用同一交易日，不能直接視為獨立樣本。</p>${forwards.length?`<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>價格日期</th><th>封存時間(UTC)</th><th>籌碼排名</th><th>技術確認</th><th>10日觀察</th><th>20日觀察</th><th>60日觀察</th></tr></thead><tbody>${forwards.slice(0,20).map(x=>`<tr><td>${rVal(x.signal_price_asof)}</td><td>${rVal(x.cohort_registered_at_utc)}</td><td>${rVal(x.chip_strength_rank)}</td><td>${rVal(x.technical_confirmed_count)}/3</td><td>${rVal(x.h10_status)}</td><td>${rVal(x.h20_status)}</td><td>${rVal(x.h60_status)}</td></tr>`).join('')}</tbody></table></div>`:'<div class="r-empty">目前已載入的前瞻觀察名單沒有此股票紀錄；可能因當時未入選或資料尚未符合條件，並不代表未來不會入選。</div>'}</section>
