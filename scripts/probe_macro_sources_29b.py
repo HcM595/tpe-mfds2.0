@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Public official macro schema probe: only first-record fields and shapes."""
-import json,urllib.request,zipfile,io,csv
+import json,urllib.request,urllib.parse,zipfile,io,csv
 URLS=[
  ("cbc","https://cpx.cbc.gov.tw/api/OpenData/FTDOpenData_Day"),
  ("ndc-metadata","https://data.gov.tw/api/v2/rest/dataset/6099"),
@@ -30,3 +30,26 @@ for name,url in URLS:
   except Exception as e:
    print(name,"non-JSON",type(e).__name__,"head",data[:90])
  except Exception as e:print(name,"failed",type(e).__name__,str(e)[:200])
+
+# Official NDC dataset 6099: only download URL returned by official metadata.
+try:
+ req=urllib.request.Request("https://data.gov.tw/api/v2/rest/dataset/6099",
+  headers={"User-Agent":"Mozilla/5.0 TPE-MFDS evidence"})
+ with urllib.request.urlopen(req,timeout=20) as r:
+  doc=json.load(r)
+ dist=doc["result"]["distribution"]
+ z=next(x for x in dist if x.get("resourceFormat")=="ZIP")
+ url=z["resourceDownloadUrl"]
+ assert urllib.parse.urlsplit(url).hostname=="ws.ndc.gov.tw"
+ with urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":"Mozilla/5.0 TPE-MFDS evidence"}),timeout=30) as r:
+  raw=r.read(15_000_001)
+ print("ndc-zip fetched",len(raw),"head",raw[:16])
+ with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+  for item in zf.infolist()[:8]:
+   print("ZIPMEM",repr(item.filename),item.file_size)
+   if item.filename.lower().endswith(".csv") and item.file_size<6_000_000:
+    text=zf.read(item).decode("utf-8-sig",errors="replace")
+    parsed=list(csv.reader(io.StringIO(text)))
+    print("NDCCSV rows",len(parsed),"first rows",[(i, row[:8]) for i,row in enumerate(parsed[:3])])
+    print("NDCCSV last rows",[(len(parsed)-i-1, row[:9]) for i,row in enumerate(reversed(parsed[-2:]))])
+except Exception as e:print("ndc archive probe failed",type(e).__name__,str(e)[:190])
