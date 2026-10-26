@@ -269,7 +269,7 @@ const RESEARCH_FILES = {
   readiness:['research_readiness_meta.json','json'],actionsMeta:['corporate_action_history_meta.json','json'],
   actions:['corporate_action_history_events.csv','csv'],universe:['corporate_action_history_universe.csv','csv'],
   exceptions:['market_session_exceptions.csv','csv'],revisions:['cohort_revision_changes.csv','csv'],
-  chipTrendMeta:['chip_trend_meta.json','json'],institutionalTrend:['institutional_trend.csv','csv'],holderTrend:['holder_trend.csv','csv']
+  master:['ordinary_stock_master.csv','csv'],chipTrendMeta:['chip_trend_meta.json','json'],institutionalTrend:['institutional_trend.csv','csv'],holderTrend:['holder_trend.csv','csv']
 };
 async function loadResearchData(){
   research.status='loading';if(state.page==='research')render();
@@ -361,10 +361,10 @@ function rOverview(){
   const snapshotDate=(rGet('official')||{}).display_date||'';
   const universeStatus=eligibility?state.stocks.filter(s=>!s.placeholder).map(s=>({stock:s,...eligibility.evaluate(state.prices[s.stock_id]||[],s.asof||snapshotDate)})):[];
   const eligibleBasic=universeStatus.filter(s=>s.eligible);
-  const securityMaster=rIndex('rank');
+  const securityMaster=rIndex('master');
   const screened=universeStatus.map(x=>{
     const identity=securityMaster.get(x.stock.stock_id)||{};
-    const verified=identity.ordinary_status==='已核對公司名錄'&&identity.market===x.stock.market;
+    const verified=!!identity.stock_id&&identity.market===x.stock.market;
     const hasBase=x.eligible;
     return {...x,identityVerified:verified,screenStatus:!verified?'普通股身分未確認':!hasBase?x.status:'初步可交易資料合格（因子未驗證）'};
   });
@@ -379,7 +379,7 @@ function rOverview(){
   const cards=[['籌碼可排名',ranked.length?' '+ranked.length:'—','當次已驗證排行'],['前瞻觀察紀錄',read.forward_observation_rows??rCount('forward'),'跨版本紀錄，非獨立樣本'],['歷史事件',meta.observed_historical_event_rows??rCount('actions'),'事件≠股利條件已驗證'],['獨立績效樣本',read.strict_performance_samples_eligible??0,'尚未通過，禁止勝率']];
   return `${rCards(cards)}
     <section class="card r-section"><div class="r-section-title"><h3>原始設計資格檢查（與籌碼排行分開）</h3></div>
-      <p class="hint">要求同股至少120個有效歷史收盤交易日、最近20筆皆具成交額，20日平均成交額至少新台幣3,000萬元，且價格歷史最新日必須與當次快照相同。本區同時檢查基本資料與官方公司名錄候選身分，身分來源僅為本次籌碼候選名錄；沒列入者顯示待確認而非推斷非普通股。不代表12因子覆蓋率≥60%或已具預測資格。</p>
+      <p class="hint">要求同股至少120個有效歷史收盤交易日、最近20筆皆具成交額，20日平均成交額至少新台幣3,000萬元，且價格歷史最新日必須與當次快照相同。本區同時檢查基本資料與官方公司名錄候選身分，身分來源僅為本次籌碼候選名錄；缺少公司名錄或來源異常者顯示待確認，不推斷為非普通股。不代表12因子覆蓋率≥60%或已具預測資格。</p>
       ${rCards([['快照股票',universeStatus.length,'尚未等同有效普通股母體'],['通過歷史及流動性',eligibleBasic.length,'未驗證普通股身分與12因子'],['普通股名錄有核對',identityVerified,'僅供身分候選，非證券種類最終認證'],['身分及基本資料同時符合',baseAndIdentity.length,'仍非12因子合格']])}
       <div class="table-wrap"><table class="data-table r-table"><thead><tr><th>股票</th><th>歷史日數</th><th>最新歷史日期</th><th>20日平均成交額</th><th>基本資格／身分</th></tr></thead><tbody>${qEligible.slice(0,60).map(x=>`<tr data-r-stock="${esc(x.stock.stock_id)}" tabindex="0"><td>${esc(x.stock.stock_id)} ${esc(x.stock.stock_name)}</td><td>${x.count}</td><td>${rVal(x.latest)}</td><td>${x.turnover===null?'資料不足':fmt(x.turnover,0)+' 元'}</td><td>${esc(x.screenStatus)}</td></tr>`).join('')||'<tr><td colspan="5">尚無符合條件的股票，或資料尚未載入</td></tr>'}</tbody></table></div>
       <p class="hint">歷史不足 ${insufficientHistory} 檔、流動性未達 ${insufficientLiquidity} 檔、歷史日期未對齊 ${staleHistory} 檔、20日成交額不足資料 ${unknownTurnover} 檔；分類依先後守門條件互斥。只顯示前60筆；輸入上方搜尋框可查未排名股票與缺漏原因。因子覆蓋度、普通股母體驗證及真正12因子模型仍未完成，不得以此表作投資排名。</p>
