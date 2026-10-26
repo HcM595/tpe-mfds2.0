@@ -1,0 +1,28 @@
+{
+  "version": "2.9D",
+  "generated_at_taipei": "2026-10-26T19:39:41+08:00",
+  "stock_rows": 1973,
+  "sector_groups": 61,
+  "usable_single_month_groups": 56,
+  "revenue_archive_rows": 1973,
+  "revision_flags": 0,
+  "semiconductor_market_groups": 2,
+  "semi_group_breadth_descriptive": 2,
+  "min_peers": 5,
+  "min_sector_coverage": 0.6,
+  "period_history_3_month_verified": false,
+  "industry_inventory_verified": false,
+  "industry_cycle_stage_verified": false,
+  "I1_factor_eligible": false,
+  "policy_impact_not_inferred_from_industry": true,
+  "excluded": {
+    "missing_yoy": 6
+  },
+  "notes": [
+    "同一市場＋官方公司名錄產業代碼分組；不同市場不可直接混加",
+    "只用最新官方月營收快照計算同一月份的正成長個股家數／有數據家數；至少5股且覆蓋同產業名錄至少60%才顯示擴散率",
+    "正成長占比是單月橫斷面；仍缺完整連續月度樣本及企業存貨變化，不是半導體週期階段或股價預測",
+    "月營收表出表日不是個別公司申報日；多次下載首次封存不可當歷史公布時點",
+    "月營收歷史從本站實際封存開始增長；舊數列若修訂只保留觀察與審核標記，不悄悄覆寫首次來源"
+  ]
+}

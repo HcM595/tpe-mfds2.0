@@ -1,7 +1,7 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-10-26T18:50:21+08:00",
-  "observations": 55,
+  "generated_at_taipei": "2026-10-26T19:39:03+08:00",
+  "observations": 65,
   "checked": 15,
   "fresh_success": 15,
   "fresh_ytd_unit_period_aligned": 15,
@@ -33,52 +33,52 @@
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1310": {
+    "1325": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1312": {
+    "1326": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1313": {
+    "1336": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1314": {
+    "1337": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1315": {
+    "1338": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1316": {
+    "1339": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1319": {
+    "1340": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1321": {
+    "1341": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1323": {
+    "1342": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1324": {
+    "1402": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -183,6 +183,36 @@
       "status": "not_checked_this_run"
     },
     "1309": {
+      "status": "not_checked_this_run"
+    },
+    "1310": {
+      "status": "not_checked_this_run"
+    },
+    "1312": {
+      "status": "not_checked_this_run"
+    },
+    "1313": {
+      "status": "not_checked_this_run"
+    },
+    "1314": {
+      "status": "not_checked_this_run"
+    },
+    "1315": {
+      "status": "not_checked_this_run"
+    },
+    "1316": {
+      "status": "not_checked_this_run"
+    },
+    "1319": {
+      "status": "not_checked_this_run"
+    },
+    "1321": {
+      "status": "not_checked_this_run"
+    },
+    "1323": {
+      "status": "not_checked_this_run"
+    },
+    "1324": {
       "status": "not_checked_this_run"
     },
     "1240": {

@@ -1,0 +1,17 @@
+{
+  "version": "2.9D",
+  "generated_at_taipei": "2026-10-26T19:39:41+08:00",
+  "official_listings_checked": 2,
+  "source_verified_this_run": 2,
+  "status_by_event": {
+    "IDA-2026-09-01-AIWAN": "ok",
+    "IDA-2026-09-14-MINERALS": "ok"
+  },
+  "official_agency": "經濟部產業發展署",
+  "mapping_company_sector_impact_verified": false,
+  "publication_time_of_day_verified": false,
+  "I2_factor_eligible": false,
+  "policy_event_scores_enabled": false,
+  "historic_backtest_enabled": false,
+  "warning": "本版本只列出可核對的官方政策公告及來源；未核實個股符合申請資格、實際資金流入或受惠效果。日期不代表交易日開盤前已知，禁止據此加分或宣稱勝率。"
+}
