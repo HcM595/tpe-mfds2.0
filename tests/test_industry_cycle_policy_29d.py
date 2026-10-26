@@ -33,7 +33,7 @@ class RevenueBreadth29D(unittest.TestCase):
         self.assertEqual(a["has_inventory_evidence"],"false")
         self.assertEqual(a["cycle_phase_verified"],"false")
         self.assertEqual(len(stocks),20)
-        weak,*,_=compute(companies,rev(listing[:4]),[],dt.date(2026,10,26))
+        weak,_,_,_,_=compute(companies,rev(listing[:4]),[],dt.date(2026,10,26))
         self.assertEqual(weak[0]["growth_diffusion_pct"],"")
         self.assertEqual(weak[0]["factor_I1_eligible"],"false")
     def test_wrong_period_future_and_null_yoy_never_zero(self):
