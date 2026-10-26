@@ -22,6 +22,10 @@ const assert = require('node:assert/strict');
      assert(text.includes('2026-10-22'),'dated source observations absent for '+id);
      assert(await panel.locator('svg').count()>=2,'missing trend charts for '+id);
      assert(!text.includes('NaN'),'NaN appears for '+id);
+     const researchText=await page.locator('#content').innerText();
+     assert(researchText.includes('2.8B S1／S3 歷史資料描述性觀察'),'descriptive factor section missing '+id);
+     assert(researchText.includes('法人5日期末'),'normalized flow date missing '+id);
+     assert(researchText.includes('未還原'),'price corporate-action limitations missing '+id);
      console.log('PASS browser stock:',id);
    }
    await page.locator('[data-r-tab="quality"]').click();
