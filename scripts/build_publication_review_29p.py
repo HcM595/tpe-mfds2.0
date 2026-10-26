@@ -90,7 +90,12 @@ def build(root=ROOT):
             if mismatch:blockers.add("archive_first_seen_disagrees_with_29o")
             if not g:blockers.add("publication_gate_missing")
             if not src:blockers.add("source_missing")
-            if src and src.get("source_status")!="ok":blockers.add("source_status_not_ok")
+            # Monthly revenue rows are archived raw table observations without a
+            # per-row source_status column. Their SHA/capture can be checked,
+            # but must never imply individual-company filing verification.
+            status=src.get("source_status") or ("archived_snapshot_only" if factor=="REVENUE" and src else "unavailable")
+            if status=="archived_snapshot_only":blockers.add("bulk_snapshot_not_individual_filing")
+            elif src and status!="ok":blockers.add("source_status_not_ok")
             if not official_endpoint(url):blockers.add("unverified_official_endpoint")
             if not checksum(sha):blockers.add("source_hash_missing_or_invalid")
             if not captured(first):blockers.add("capture_timestamp_unverified")
@@ -101,7 +106,7 @@ def build(root=ROOT):
                 # Candidate queue must never silently grant eligibility,
                 # even if a future upstream pipeline changes its definition.
                 blockers.add("manual_evidence_review_required")
-            raw_ok=(src.get("source_status")=="ok" and official_endpoint(url)
+            raw_ok=(status in ("ok","archived_snapshot_only") and official_endpoint(url)
                     and checksum(sha) and captured(first) and not mismatch)
             evidence_key=hashlib.sha256(
                 "|".join((market,sid,factor,sha or "no_hash")).encode("utf-8")).hexdigest()[:24]
@@ -109,7 +114,7 @@ def build(root=ROOT):
                 market=market,price_asof=base.get("price_asof",""),factor=factor,
                 evidence_key=evidence_key,source_report_day=report,
                 source_first_seen_utc=first,source_url=url,source_sha256=sha,
-                source_status=src.get("source_status","unavailable"),
+                source_status=status,
                 is_official_endpoint=str(official_endpoint(url)).lower(),
                 raw_provenance_complete=str(bool(raw_ok)).lower(),
                 verified_company_publication_utc="",publication_time_verified="false",
