@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'site/index.html'
+      - 'scripts/probe_sentiment_29c.py'
       - 'scripts/collect_macro_29b.py'
       - 'tests/test_macro_29b.py'
       - 'scripts/probe_macro_sources_29b.py'
@@ -120,6 +121,8 @@ jobs:
           assert all(row['model_eligible']=='false' for row in stocks)
           print('NDC/CBC original macro source and 12-factor evidence OK',m['records'])
           PY
+      - name: 2.9C Inspect official margin and intraday trading schemas
+        run: python scripts/probe_sentiment_29c.py
       - name: Install browser test runtime (bounded download, no unnecessary apt refresh)
         timeout-minutes: 8
         run: |
