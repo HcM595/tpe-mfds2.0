@@ -36,7 +36,7 @@ def write(path,rows):
 def official_endpoint(url):
     try:
         u=urlsplit(str(url or ""))
-        return u.scheme=="https" and (u.hostname or "").lower() in ALLOWED_HOSTS and bool(u.path)
+        return u.scheme=="https" and (u.hostname or "").lower() in ALLOWED_HOSTS and bool(u.path.strip("/"))
     except ValueError:return False
 def checksum(v):
     s=str(v or "")
