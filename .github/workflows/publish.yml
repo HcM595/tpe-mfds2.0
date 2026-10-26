@@ -116,6 +116,12 @@ jobs:
         run: python scripts/audit_f2f3_pit_29f.py
       - name: 2.9A 發布原始四層12因子逐股資料證據（雙引擎共用，嚴禁未驗證分數）
         run: python scripts/build_factor_evidence_29a.py
+      - name: 2.9O 輸出歷史首次取得、正式公布時間與逐股不可回測原因
+        run: |
+          python -m unittest tests/test_publication_gate_29o.py
+          python scripts/audit_publication_gate_29o.py
+          node --check site/asof_gate_29o.js
+          node tests/asof_gate_29o.test.cjs
       - name: 2.9L 驗證四個研究頁面、資料欄位與模型安全門檻
         run: python -m unittest tests/test_research_pages_29l.py
       - name: 保存真實價格與籌碼資料及更新進度
