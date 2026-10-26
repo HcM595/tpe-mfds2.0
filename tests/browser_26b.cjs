@@ -51,7 +51,7 @@ const assert = require('node:assert/strict');
    const screenText=await page.locator('#content').innerText();
    assert(screenText.includes('普通股名錄有核對'),'market company roster eligibility missing');
    assert(screenText.includes('原始四層12子因子就緒稽核'),'factor readiness missing');
-   assert(screenText.includes('2.8G 財務 F1 原始淨利與官方現金流觀察'),'financial coverage section missing');
+   assert(screenText.includes('2.8H 財務 F1 來源品質與逐批現金流涵蓋'),'financial coverage section missing');
    assert(screenText.includes('現金流／淨利比率繼續停用'),'cashflow ratio disabled warning missing');
    assert(screenText.includes('0 / 12'),'unverified factor model must not claim readiness');
    assert(await page.locator('#r-eligibility-view').count()===1,'eligibility status filter missing');
