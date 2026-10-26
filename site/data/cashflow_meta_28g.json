@@ -1,15 +1,36 @@
 {
-  "version": "2.8G",
-  "generated_at_taipei": "2026-10-26T15:31:45+08:00",
+  "version": "2.8H",
+  "generated_at_taipei": "2026-10-26T16:20:49+08:00",
   "focus_stocks": [
+    "8064",
+    "3533",
+    "2345",
+    "2330",
+    "2308",
+    "1101",
+    "1102",
+    "1103",
+    "1104",
+    "1108",
+    "1109",
+    "1110",
+    "1201",
+    "1203",
+    "1210"
+  ],
+  "priority_stocks": [
     "8064",
     "3533",
     "2345",
     "2330",
     "2308"
   ],
-  "observations": 5,
-  "fresh_observations": 5,
+  "batch_new_stock_cap": 10,
+  "general_business_income_universe": 1937,
+  "observations": 15,
+  "unit_verified_observations": 0,
+  "fresh_unit_verified": 0,
+  "fresh_observations": 15,
   "per_stock": {
     "8064": {
       "status": "ok",
@@ -35,10 +56,62 @@
       "status": "ok",
       "report_period": "2026Q2",
       "sha256": "421255c621c2aca2dd3d55df5e690864127873a25951a576a98f3f65ff60ef00"
+    },
+    "1101": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "a7176ac6a8f465b82ee3b45f38669b264856471135a6b7ca349205f1b3bbe096"
+    },
+    "1102": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "88ea1f89efcb4f01d5d02f28a650a9e68b621b2d5bee8ef99c17cfa148c86770"
+    },
+    "1103": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "c440f8a4b76d756bd91cbfae0291c469423ee22084a8d11a1482eb2c496c2d8c"
+    },
+    "1104": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "1ea6a5ac4b6bdf07272ed599df38cd38874767038b189fc4fb22c7ed8d76faa2"
+    },
+    "1108": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "0566aabf312e60d7ba0bcfd4aee14d80c40633f1a0da3ae8fbd39acc5db682ce"
+    },
+    "1109": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "ce6e3b81589a9a938cdb12346bd13a2423f10de453144d783e4010324d9111a7"
+    },
+    "1110": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "18668b5772fda57824abcd98fc1700d13e9b2e3ab94bf3c65e2b719775a8a91f"
+    },
+    "1201": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "f8d3b8e770ba54720a7df29cb3c2e7ce37be112f26a2c938ec25c64e31f011dd"
+    },
+    "1203": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "3a8efda784b4184855291cc60bfbf7471043e3fec3169ffcd246351bf139c157"
+    },
+    "1210": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "170a0f21cb1ee17d00035407e29e4de35d7f4f2c45c5492cd2d5b9f2f4f0e41d"
     }
   },
   "source": "MOPS official individual cash flow HTML",
   "operating_cf_is_ytd": true,
+  "source_units_checked_per_stock": true,
+  "cashflow_unit": "新台幣千元（逐筆需核對官方單位欄）",
   "amount_unit_verified": false,
   "income_accounting_basis_verified": false,
   "filing_timestamps_verified": false,
@@ -46,5 +119,6 @@
   "factor_F1_eligible": false,
   "backtest_use_enabled": false,
   "focus_only": true,
-  "warning": "只封存實際來源觀察。非全市場，無核實財報金額單位與淨利累計口徑前不得做數值比率；未核對公司申報時間前禁止點時回測。"
+  "rolling_general_business_backfill": true,
+  "warning": "逐股官方現金流原始單位可核對時才標註新台幣千元。淨利單位、累計會計口徑、合併範圍與申報時間尚未核對，因此不可計算現金流／淨利比率或進行點時回測；資料逐批回補，非完整全市場。"
 }
