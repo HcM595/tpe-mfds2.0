@@ -88,6 +88,32 @@ class OriginalFactorCoverage29A(unittest.TestCase):
                          {"M1":{"observation_period":"202611","composite_score":40,"light":"紅"}}, {})
         self.assertEqual(future["M1_state"],"no_data")
 
+    def test_f2_f3_source_days_and_peer_estimates_guarded(self):
+        stock,master,obs,industry,rev,inc,cf,ytd=sample()
+        valuation={"stock_id":"8064","market":"上櫃","asof":"2026-10-22",
+                   "pe_ratio":"12.5","pb_ratio":"1.75",
+                   "pe_peer_median":"15.8","pb_peer_median":"1.9",
+                   "peer_f2_ready":"true","first_seen_utc":"2026-10-26T12:00:00Z"}
+        governance={"stock_id":"8064","market":"上櫃","source_asof":"2026-10-22",
+                    "chairman_is_general_manager":"false",
+                    "first_seen_utc":"2026-10-26T12:00:00Z"}
+        evidence=build_row(stock,master,prices(),obs,industry,rev,inc,cf,ytd,{}, {},
+                           None,None,None,None,valuation,governance)
+        self.assertEqual(evidence["F2_state"],"partial")
+        self.assertEqual(evidence["F3_state"],"partial")
+        self.assertEqual(evidence["source_postdates_price"],"true")
+        self.assertEqual(evidence["verified_factor_count"],0)
+        self.assertEqual(evidence["model_eligible"],"false")
+        # Governance dated after stock's last price is not historically available.
+        governance["source_asof"]="2026-10-25"
+        late=build_row(stock,master,prices(),obs,industry,rev,inc,cf,ytd,{}, {},
+                       None,None,None,None,valuation,governance)
+        self.assertEqual(late["F3_state"],"no_data")
+        valuation["pe_peer_median"]=""
+        bad=build_row(stock,master,prices(),obs,industry,rev,inc,cf,ytd,{}, {},
+                       None,None,None,None,valuation,governance)
+        self.assertEqual(bad["F2_state"],"no_data")
+
     def test_i1_requires_sector24_peers_and_no_i2_policy_beneficiary_guess(self):
         stock,master,f,industry,rev,inc,cf,ytd=sample()
         master["sector"]="24"
