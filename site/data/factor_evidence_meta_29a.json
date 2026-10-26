@@ -1,6 +1,6 @@
 {
-  "version": "2.9E",
-  "generated_at_taipei": "2026-10-26T21:05:28+08:00",
+  "version": "2.9F",
+  "generated_at_taipei": "2026-10-26T21:22:09+08:00",
   "model": "TPE-MFDS original M1-M3 I1-I3 F1-F3 S1-S3; two engines A/B",
   "macro_observation_status": {
     "ndc": "ok",
@@ -11,6 +11,8 @@
   "policy_event_to_company_impact_verified": false,
   "F2_peer_valuation_and_expectations_verified": false,
   "F3_governance_quality_verified": false,
+  "F2_F3_three_clock_pit_verified": false,
+  "price_after_asof_excluded_from_eligibility": true,
   "retail_investor_sentiment_verified": false,
   "credit_balance_observations_not_retail_ownership": true,
   "stocks": 1949,
@@ -56,8 +58,8 @@
     },
     "F1": {
       "no_data": 6,
-      "partial": 1879,
-      "descriptive": 64,
+      "partial": 1870,
+      "descriptive": 73,
       "verified": 0
     },
     "F2": {
@@ -106,6 +108,8 @@
   "notes": [
     "observed_factor_count 只代表部分或描述性原始資料覆蓋，不是可建模或合格因子數，不能用它判斷60%門檻",
     "基本資格使用120個不同日期有效收盤、最近20個資料點成交額均值≥3000萬且收盤歷史日期對齊快照；未另外獨立證明每一官方交易日均存在",
+    "120日收盤與20日成交額初篩排除價格基準日之後的任何歷史資料，防止未來行情進入當時的資格判斷",
+    "F2與F3新增逐股三時鐘稽核：報表所屬日、本站首次取得原文SHA256版本、官方獨立發布時間（目前缺漏）。僅第一時鐘不能證明歷史可回測",
     "F2僅用官方股價估值比率與同市場同業同日期的中位數提供部分證據，缺盈餘預期差及公告時間，不是便宜或投資價值分數",
     "F3僅用董事長與總經理是否兼任的官方觀察提供部分證據，非治理良窳、股權衝突或合規評級",
     "I1只就官方半導體業24類且樣本與單月營收擴散率合格的個股提供部分原始證據；缺庫存和多期循環不得認證",

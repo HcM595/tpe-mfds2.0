@@ -1,0 +1,32 @@
+{
+  "version": "2.9F",
+  "generated_at_taipei": "2026-10-26T21:22:07+08:00",
+  "whole_universe_stocks": 1949,
+  "source_version_rows": 3960,
+  "new_versions_this_run": 3960,
+  "factors": {
+    "F2": {
+      "first_observed_after_price_cutoff": 1944,
+      "no_source": 5
+    },
+    "F3": {
+      "source_report_after_price": 1949
+    }
+  },
+  "three_clock_policy": {
+    "source_report_date": "交易所/揭露表自帶的資料所屬日（非正式公開時分）",
+    "observed_first_at_utc": "本站首次取得該原始內容SHA256版本的時間（不能倒推為公告日）",
+    "verified_publication_at_utc": null
+  },
+  "cutoff_policy": "保守以股價基準日台灣00:00作首次封存比較；但任何官方公布時間未核對之資料皆不可作歷史回測",
+  "strict_backtest_eligible": 0,
+  "model_scores_enabled": false,
+  "probabilities_enabled": false,
+  "raw_price_corporate_actions_adjusted": false,
+  "notes": [
+    "本次建立的逐股原始來源版本帳本只能記錄從現在起觀察到的版本；不能回填證交所過去的真正發布時分",
+    "每日保存來源SHA256與首次取得時刻，同一來源版本再次取得不得覆蓋首次時刻或歷史值",
+    "來源報表日<=股價日、本站首次封存<=股價日、官方獨立公布日已驗證是三項不同要求",
+    "歷史可回測資格保持全數封閉，直至獨立官方發布時分、盤中截止時間與公司行動價格調整全部驗證"
+  ]
+}
