@@ -86,6 +86,10 @@ jobs:
         run: python scripts/export_chip_trends.py
       - name: 2.8B 建立法人流量比及原始收盤波動的描述性觀察（不開啟12因子分數）
         run: python scripts/compute_factor_observations_28b.py
+      - name: 2.8C 下載及封存上市櫃官方月營收彙總（非個別公告日期）
+        run: python scripts/collect_monthly_revenue_28c.py
+      - name: 2.8C 計算相同市場產業20與60日相對強度（原始價量，非模型分數）
+        run: python scripts/compute_industry_relative_28c.py
       - name: 保存真實價格與籌碼資料及更新進度
         run: |
           git config user.name "github-actions[bot]"
