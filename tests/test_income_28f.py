@@ -31,6 +31,25 @@ class ProfitAudit28F(unittest.TestCase):
         self.assertEqual(rows[0]["cashflow_netincome_ratio"],"")
         self.assertEqual(rows[0]["amount_unit_verified"],"false")
         self.assertEqual(issues,{})
+    def test_actual_tpex_english_identity_columns(self):
+        master={str(3000+i):{"market":"上櫃"} for i in range(15)}
+        rows=[{"Date":"1151026","Year":"115","Season":"2",
+               "SecuritiesCompanyCode":str(3000+i),"CompanyName":f"上櫃公司{i}",
+               "本期淨利（淨損）":"-1234.00"} for i in range(15)]
+        observed,excluded=parse_rows(rows,"上櫃",master,"sha","2026-10-26T06:00:00Z",dt.date(2026,10,26))
+        self.assertEqual(len(observed),15)
+        self.assertEqual(observed[0]["report_period"],"2026Q2")
+        self.assertEqual(observed[0]["table_date"],"2026-10-26")
+        self.assertEqual(observed[0]["net_profit_source_value"],"-1234.00")
+        self.assertEqual(excluded,{})
+    def test_reject_conflicting_chinese_and_english_alias(self):
+        master={str(3000+i):{"market":"上櫃"} for i in range(15)}
+        rows=[{"Date":"1151026","出表日期":"1151025",
+               "Year":"115","Season":"2","SecuritiesCompanyCode":str(3000+i),
+               "CompanyName":f"股{i}","本期淨利（淨損）":"100"} for i in range(15)]
+        with self.assertRaises(ValueError):
+            parse_rows(rows,"上櫃",master,"sha","",dt.date(2026,10,26))
+
     def test_reject_untrusted_schema_and_future(self):
         market={str(2000+i):{"market":"上市"} for i in range(15)}
         with self.assertRaises(ValueError):

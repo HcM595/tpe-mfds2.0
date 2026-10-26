@@ -1,4 +1,4 @@
-name: TPE-MFDS 2.8F 財報來源及網頁驗收
+name: TPE-MFDS 2.8F.1 上櫃財報來源相容與全網站驗收
 on:
   pull_request:
     paths:
