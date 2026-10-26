@@ -72,7 +72,18 @@ jobs:
           u='https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap06_O_ci'
           try:
               req=urllib.request.Request(u,headers={'User-Agent':'TPE-MFDS-research-scheme-probe/2.8F1'})
-              with urllib.request.urlopen(req,timeout=30) as f: raw=json.loads(f.read(15000000))
+              with urllib.request.urlopen(req,timeout=30) as f:
+                  blob=f.read(30000001)
+                  print('TPEx status',f.status,'content-type',f.headers.get('content-type'),'content-length',f.headers.get('content-length'),'read-bytes',len(blob))
+              try: raw=json.loads(blob)
+              except json.JSONDecodeError as err:
+                  print('TPEx JSON error:',str(err)[:150]);raw=[]
+                  preview=blob.decode('utf-8-sig','replace').lstrip()
+                  if preview.startswith('['):
+                      try:
+                          rec,pos=json.JSONDecoder().raw_decode(preview[1:].lstrip())
+                          print('TPEx first object keys despite JSON issue',list(rec)[:55] if isinstance(rec,dict) else type(rec).__name__)
+                      except Exception as suberr:print('TPEx first-object parse error',str(suberr)[:120])
               print('TPEx root type',type(raw).__name__,'rows',len(raw) if isinstance(raw,list) else 'N/A')
               if isinstance(raw,list) and raw:
                   print('TPEx first record field names',list(raw[0].keys())[:55])
