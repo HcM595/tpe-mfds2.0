@@ -1,0 +1,63 @@
+{
+  "version": "2.9P",
+  "universe_stocks": 1949,
+  "candidate_rows": 5847,
+  "factors": {
+    "F2": {
+      "candidates": 1949,
+      "raw_provenance_complete": 1944,
+      "verified_company_release_time": 0,
+      "historically_usable": 0,
+      "blockers": {
+        "official_publication_unverified": 1949,
+        "source_authorization_missing": 1949,
+        "first_seen_after_cutoff": 1944,
+        "individual_company_publication_time_unverified": 1949,
+        "source_missing": 5,
+        "source_hash_missing_or_invalid": 5,
+        "missing_report_day": 5,
+        "capture_timestamp_unverified": 5,
+        "unverified_official_endpoint": 5,
+        "first_seen_unverified": 5
+      }
+    },
+    "F3": {
+      "candidates": 1949,
+      "raw_provenance_complete": 1949,
+      "verified_company_release_time": 0,
+      "historically_usable": 0,
+      "blockers": {
+        "report_after_price_day": 1949,
+        "source_authorization_missing": 1949,
+        "first_seen_after_cutoff": 1949,
+        "individual_company_publication_time_unverified": 1949,
+        "official_publication_unverified": 1949
+      }
+    },
+    "REVENUE": {
+      "candidates": 1949,
+      "raw_provenance_complete": 1943,
+      "verified_company_release_time": 0,
+      "historically_usable": 0,
+      "blockers": {
+        "source_authorization_missing": 1949,
+        "first_seen_after_cutoff": 1943,
+        "individual_company_publication_time_unverified": 1949,
+        "bulk_snapshot_not_individual_filing": 1943,
+        "official_publication_unverified": 1949,
+        "source_missing": 6,
+        "source_hash_missing_or_invalid": 6,
+        "missing_report_day": 6,
+        "capture_timestamp_unverified": 6,
+        "unverified_official_endpoint": 6,
+        "first_seen_unverified": 6
+      }
+    }
+  },
+  "model_scoring_enabled": false,
+  "performance_probabilities_enabled": false,
+  "strict_backtest_eligible": 0,
+  "evidence_rule": "OpenAPI source URL/SHA256 plus observed first_seen is archival evidence, NOT verified per-company publication time; reviewed timestamp and original event provenance must be separately established.",
+  "review_policy": "All generated entries remain awaiting independent publication proof. No auto-approval, no interpolation or retroactive release-time inference.",
+  "source": "2.9O publication_gate + authentic F2/F3/monthly revenue source snapshots"
+}
