@@ -429,7 +429,7 @@ function rOverview(){
       <h4>2.8D 收盤風險參考資料覆蓋</h4>
       ${rCards([['20日收盤區間可核對',riskMeta.ref20_available??'—','只用原始收盤，不是K棒真實高低價'],['60日收盤區間可核對',riskMeta.ref60_available??'—','資料缺漏就不推估'],['月營收已有觀察',riskMeta.revenue_observed??'—','尚未代表F1盈利品質模型完成'],['ATR／預測目標價','停用','尚無核實OHLC與完整還原股價']])}
       <p class="hint">股價仍未完成歷史除權息還原。所示參考區間不等於可成交支撐壓力，亦不是投資勝率或損益預估。${rMetaLink('risk','逐股歷史風險觀察')}</p>
-      <h4>2.8G 財務 F1 原始淨利與官方現金流觀察</h4>
+      <h4>2.8H 財務 F1 來源品質與逐批現金流涵蓋</h4>
       ${rCards([['一般業季度淨利原始觀察',incomeMeta.rows??'尚未取得','來源與報表期別可核對；不含金融與異業'],['營業現金流官方累計值',cfMeta.fresh_observations??'尚未取得','僅少數重點個股，非全市場'],['現金流／淨利比率','停用','金額單位、累計口徑及現金流仍待驗證'],['F1 財務品質因子','未完成','逐檔申報時間、跨期與樣本外檢查尚未完成']])}
       <p class="hint">2.8H MOPS現金流：本次成功 ${rVal(cfMeta.fresh_observations)}／${rVal(cfMeta.focus_stocks?.length)}，累計封存 ${rVal(cfMeta.observations)} 筆；其中來源金額單位已核對 ${rVal(cfMeta.unit_verified_observations)} 筆。資料逐批擴充，非全市場。淨利報表口徑與逐公司公告時間尚待驗證，現金流／淨利比率繼續停用。${rMetaLink('cashflow','現金流原始觀察')}。上市來源：${rVal(incomeMeta.markets?.['上市']?.status)}；上櫃來源：${rVal(incomeMeta.markets?.['上櫃']?.status)}。金額來源原值的單位、報表期間是否季累計仍待核對；不得使用於歷史回測。${rMetaLink('income','季度淨利觀察檔')}</p>
     </section>
