@@ -43,6 +43,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: 2.9N 三時鐘原始資料解析與網頁JS基礎語法檢查
+        run: |
+          node --check site/pit_clock_29n.js
+          node tests/pit_clock_29n.test.cjs
       - name: 取得官方最新收盤行情
         run: python scripts/fetch_official.py
       - name: 優先補齊東捷、嘉澤等個股與分批回補全市場
