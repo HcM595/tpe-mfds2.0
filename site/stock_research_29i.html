@@ -5,9 +5,9 @@
 <div id="out" hidden><section class="card"><h2 id="heading"></h2><p class="warning" id="caveat"></p><div class="metrics" id="headline"></div></section>
 <div class="grid"><section class="card"><h2>法人與大戶</h2><div class="scroll" id="chip"></div></section><section class="card"><h2>技術交叉確認</h2><div class="scroll" id="technical"></div></section>
 <section class="card"><h2>產業相對強度</h2><div class="scroll" id="industry"></div></section><section class="card"><h2>價格區間與風險</h2><div class="scroll" id="risk"></div></section></div>
-<section class="card"><h2>12因子研究資格</h2><div id="factor"></div></section></div>
+<section class="card"><h2>12因子研究資格</h2><div id="factor"></div></section><section class="card" id="pit-clock" aria-label="F2 F3三時鐘驗證"></section></div>
 <p class="muted">所有數值僅為歷史觀察。20／60日高低為歷史收盤價區間，並非已驗證支撐壓力；未做除權息還原，不能直接推導停損、報酬或ATR。</p>
-</main><script>
+</main><script src="./pit_clock_29n.js"></script><script>
 'use strict';
 const $=id=>document.getElementById(id);
 const E=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
@@ -31,6 +31,7 @@ function show(id){
  $('technical').innerHTML=details([['技術資料狀態',t.data_status],['MA20',num(t.ma20)],['MA60',num(t.ma60)],['高於MA20',t.close_above_ma20],['MA20上升',t.ma20_rising],['RSI14',num(t.rsi14)],['MACD柱',num(t.macd_hist,4)],['MACD柱改善',t.macd_hist_improving],['技術確認數',t.technical_confirmed_count? t.technical_confirmed_count+'/3':'—'],['持股結構分歧',t.holder_structure]]);
  $('industry').innerHTML=details([['產業',i.industry_name_from_revenue],['資料日',i.asof],['同業樣本20日',i.industry_peers_20],['相對市場20日（百分點）',num(i.industry_relative20_raw_pp)],['同業樣本60日',i.industry_peers_60],['相對市場60日（百分點）',num(i.industry_relative60_raw_pp)],['狀態',i.status],['調整除權息',i.price_adjusted]]);
  $('risk').innerHTML=details([['資料日',k.price_asof],['過去20日收盤高點',num(k.prior20_close_high)],['過去20日收盤低點',num(k.prior20_close_low)],['過去60日收盤高點',num(k.prior60_close_high)],['過去60日收盤低點',num(k.prior60_close_low)],['20日最大收盤回落',k.max_close_drawdown20_pct?num(k.max_close_drawdown20_pct)+'%':'—'],['20日年化歷史波動',k.realized_volatility20_annualized_pct?num(k.realized_volatility20_annualized_pct)+'%':'—'],['ATR可用',k.atr_available==='true'?'是':'否'],['價格已還原',k.price_adjusted==='true'?'是':'否']]);
+ window.MFDSPitClock.render(id,$('pit-clock'));
  $('factor').innerHTML=details([['歷史和流動性初篩',f.basic_data_status],['有原始觀察因子',f.observed_factor_count?f.observed_factor_count+'/12':'—'],['正式驗證因子',f.verified_factor_count?f.verified_factor_count+'/12':'—'],['正式模型資格',f.model_eligible==='true'?'有':'未啟用'],['資料首次封存晚於價格日',f.source_postdates_price==='true'?'是（警示）':'否或未知']])+'<p><a href="./factor_gaps_29h.html">查看各因子待補證據（可在該頁輸入相同代號）</a></p>';
 }
 function lookup(){const q=$('query').value.trim().toLowerCase();if(!q){$('status').textContent='請輸入股票代號或名稱';return}const match=all.find(x=>x.stock_id.toLowerCase()===q||x.stock_name.toLowerCase()===q)||all.find(x=>x.stock_name.toLowerCase().includes(q)||x.stock_id.includes(q));if(match)show(match.stock_id);else{$('status').textContent='找不到相符股票';$('out').hidden=true}}
