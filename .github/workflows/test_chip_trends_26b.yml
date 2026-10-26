@@ -1,8 +1,10 @@
-name: 2.6B 籌碼歷史單元驗收
+name: TPE-MFDS 2.8B 整合資料與網頁驗收
 on:
   pull_request:
     paths:
       - 'site/index.html'
+      - 'scripts/compute_factor_observations_28b.py'
+      - 'tests/test_factor_observations_28b.py'
       - 'site/data/factor_readiness_28a.json'
       - '.github/workflows/publish.yml'
       - 'site/research_eligibility_27a.js'
@@ -37,6 +39,11 @@ jobs:
         run: python scripts/export_chip_trends.py
       - name: Actual CSV schema and three-stock acceptance audit
         run: python tests/audit_chip_trends_26b.py
+      - name: Unit tests and real descriptive S1 S3 calculation
+        run: |
+          python -m unittest tests/test_factor_observations_28b.py
+          python scripts/compute_factor_observations_28b.py
+          python -c "import csv,json; d=json.load(open('site/data/factor_observations_meta_28b.json')); r=list(csv.DictReader(open('site/data/factor_observations_28b.csv'))); assert len(r)==d['stocks'] and len(r)>100 and not d['factor_scores_enabled'] and not d['probability_enabled']"
       - name: Install browser test runtime
         run: |
           npm install --no-save playwright@1.56.1
