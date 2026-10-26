@@ -95,7 +95,7 @@ def build_row(snap,master,prices,obs,industry,revenue,income,cashflow,ytd,
         out[f"{fid}_asof"]=date if condition and iso(date) else ""
     set_factor("M1",False) # official macro signal and publication history absent
     set_factor("M2",False) # official export/order history absent
-    set_factor("M3",bool(obs.get("foreign_20d_volume_ratio_pct")!="") and bool(obs.get("stock_id")),
+    set_factor("M3",number(obs.get("foreign_20d_volume_ratio_pct")) is not None and bool(obs.get("stock_id")),
                date=obs.get("s1_20d_end","")) # FX series remains missing
     # I1: company revenue/sector provided, inventory and business-cycle proof absent
     set_factor("I1",bool(revenue.get("revenue_period")) and bool(master.get("sector")),
@@ -121,9 +121,9 @@ def build_row(snap,master,prices,obs,industry,revenue,income,cashflow,ytd,
     set_factor("S1",s1,full=s1_full,date=obs.get("s1_20d_end") or obs.get("s1_5d_end",""))
     # Holder concentrations are not financing/daytrade sentiment.
     s2=bool(holder.get("holder_asof")) or bool(dayflow.get("holder_asof"))
-    set_factor("S2",s2,date=holder.get("holder_asof",dayflow.get("holder_asof","")))
-    s3=bool(obs.get("stock_id")) and obs.get("asof")==asof and bool(obs.get("s3_momentum20_raw_pct")!="")
-    set_factor("S3",s3,full=s3 and bool(obs.get("s3_momentum60_raw_pct")!=""),
+    set_factor("S2",s2,date=holder.get("holder_asof") or dayflow.get("holder_asof",""))
+    s3=bool(obs.get("stock_id")) and obs.get("asof")==asof and number(obs.get("s3_momentum20_raw_pct")) is not None
+    set_factor("S3",s3,full=s3 and number(obs.get("s3_momentum60_raw_pct")) is not None,
                date=obs.get("asof",""))
     states=[out[f"{factor}_state"] for factor in FACTOR_IDS]
     out["partial_factor_count"]=states.count("partial")
