@@ -66,6 +66,28 @@ class OriginalFactorCoverage29A(unittest.TestCase):
         self.assertEqual(row["source_postdates_price"],"true")
         self.assertTrue(all(row[x+"_state"] in STATES for x in FACTOR_IDS))
         self.assertEqual([k for k in HEAD if k.endswith("_state")].__len__(),12)
+    def test_official_macro_observations_still_not_verified_factors(self):
+        stock,master,f,industry,rev,inc,cf,ytd=sample()
+        macro={"M1":{"observation_period":"202608","composite_score":41,"light":"紅"},
+               "M2":{"export_period":"202608","export_yoy_pct":12.4,
+                     "order_direction_index":51.8},
+               "sources":{"ndc":{"first_seen_utc":"2026-10-26T08:00:00+00:00"},
+                          "cbc":{"first_seen_utc":"2026-10-26T08:00:00+00:00"}}}
+        row=build_row(stock,master,prices(),f,industry,rev,inc,cf,ytd,{}, {},macro,
+                      {"date":"2026-10-22","usd_twd_close":"30.5"})
+        self.assertEqual(row["M1_state"],"descriptive")
+        self.assertEqual(row["M1_asof"],"2026-08-31")
+        self.assertEqual(row["M2_state"],"partial")
+        self.assertEqual(row["M3_state"],"partial")
+        self.assertEqual(row["M3_asof"],"2026-10-22")
+        self.assertEqual(row["source_postdates_price"],"true")
+        self.assertEqual(row["verified_factor_count"],0)
+        self.assertEqual(row["model_eligible"],"false")
+        self.assertEqual(row["prediction_enabled"],"false")
+        future=build_row(stock,master,prices(),f,industry,rev,inc,cf,ytd,{}, {},
+                         {"M1":{"observation_period":"202611","composite_score":40,"light":"紅"}}, {})
+        self.assertEqual(future["M1_state"],"no_data")
+
     def test_missing_numeric_data_stays_absent_and_never_qualified(self):
         stock,master,f,ind,rev,inc,cf,ytd=sample()
         f["foreign_20d_volume_ratio_pct"]=""

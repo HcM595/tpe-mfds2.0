@@ -7,6 +7,8 @@ Source observation timestamps do not prove point-in-time publication. A recent
 archival snapshot can be newer than the stock's referenced price date.
 """
 import csv
+import bisect
+import calendar
 import datetime as dt
 import json
 import math
@@ -73,7 +75,7 @@ def eligibility(prices,asof,market_match,min_days=MIN_PRICE_DAYS):
                 basic_data_eligible="true" if status.startswith("初步通過") else "false")
 
 def build_row(snap,master,prices,obs,industry,revenue,income,cashflow,ytd,
-              holder,dayflow):
+              holder,dayflow,macro=None,fx_observation=None):
     sid=snap["stock_id"]; asof=snap.get("asof","")
     market=snap.get("market","")
     id_ok=bool(master and master.get("market")==market and market in ("上市","上櫃"))
@@ -93,10 +95,28 @@ def build_row(snap,master,prices,obs,industry,revenue,income,cashflow,ytd,
         state="descriptive" if condition and full else "partial" if condition else "no_data"
         out[f"{fid}_state"]=state
         out[f"{fid}_asof"]=date if condition and iso(date) else ""
-    set_factor("M1",False) # official macro signal and publication history absent
-    set_factor("M2",False) # official export/order history absent
-    set_factor("M3",number(obs.get("foreign_20d_volume_ratio_pct")) is not None and bool(obs.get("stock_id")),
-               date=obs.get("s1_20d_end","")) # FX series remains missing
+    macro=macro or {}
+    current_month=asof[:4]+asof[5:7] if iso(asof) else ""
+    def reference_month(period):
+        if not isinstance(period,str) or len(period)!=6 or not period.isdigit() or period>current_month:
+            return ""
+        y,month=int(period[:4]),int(period[4:])
+        try:return dt.date(y,month,calendar.monthrange(y,month)[1]).isoformat()
+        except ValueError:return ""
+    signal=macro.get("M1") or {}
+    export=macro.get("M2") or {}
+    fx=fx_observation or {}
+    m1_end=reference_month(signal.get("observation_period",""))
+    m1_full=bool(m1_end) and number(signal.get("composite_score")) is not None and signal.get("light") in ("藍","黃藍","綠","黃紅","紅")
+    set_factor("M1",m1_full,full=m1_full,date=m1_end)  # observation ONLY; release timestamp not verified
+    m2_end=reference_month(export.get("export_period",""))
+    m2_evidence=bool(m2_end) and (number(export.get("export_yoy_pct")) is not None or number(export.get("order_direction_index")) is not None)
+    set_factor("M2",m2_evidence,date=m2_end)  # order-count direction is NOT orders amount growth
+    fx_available=bool(fx.get("date")) and fx["date"]<=asof and number(fx.get("usd_twd_close")) is not None
+    local_flow=number(obs.get("foreign_20d_volume_ratio_pct")) is not None and bool(obs.get("stock_id"))
+    set_factor("M3",fx_available or local_flow,
+               date=fx.get("date","") if fx_available else obs.get("s1_20d_end",""))
+    # USD/TWD alone + stock flow are not an independently verified market-wide foreign flow factor.
     # I1: company revenue/sector provided, inventory and business-cycle proof absent
     set_factor("I1",bool(revenue.get("revenue_period")) and bool(master.get("sector")),
                date=revenue.get("table_date",""))
@@ -132,6 +152,7 @@ def build_row(snap,master,prices,obs,industry,revenue,income,cashflow,ytd,
     # Null publication date in legacy factor manifest, or first snapshot after
     # reference date, must NEVER be counted as time-valid for scoring.
     timestamps=[r.get("first_seen_utc","") for r in (revenue,income,cashflow,ytd)]
+    timestamps += [(macro.get("sources",{}).get(key) or {}).get("first_seen_utc","") for key in ("ndc","cbc")]
     later=False
     for stamp in timestamps:
         if stamp and iso(asof):
@@ -154,6 +175,12 @@ def build(root=ROOT):
     ytd=indexed(site/"mops_income_ytd_28i.csv")
     holders=indexed(site/"chip_signals.csv")
     flows=indexed(site/"chip_rank.csv")
+    macro_path=site/"macro_snapshot_29b.json"
+    macro=json.loads(macro_path.read_text(encoding="utf-8")) if macro_path.is_file() else {}
+    fxrows=[r for r in load(site/"macro_fx_history_29b.csv")
+            if iso(r.get("date")) and number(r.get("usd_twd_close")) is not None]
+    fxrows.sort(key=lambda r:r["date"])
+    fxdates=[r["date"] for r in fxrows]
     prices=defaultdict(list)
     for p in load(site/"price_history.csv"):
         if p.get("stock_id"):prices[p["stock_id"]].append(p)
@@ -162,10 +189,12 @@ def build(root=ROOT):
         sid=s.get("stock_id","")
         if not sid or not iso(s.get("asof")):continue
         if not s.get("market") in ("上市","上櫃"):continue
+        at=bisect.bisect_right(fxdates,s["asof"])-1
+        prior_fx=fxrows[at] if at>=0 else {}
         output.append(build_row(s,masters.get(sid,{}),prices.get(sid,[]),
                      obs.get(sid,{}),ind.get(sid,{}),rev.get(sid,{}),
                      inc.get(sid,{}),cf.get(sid,{}),ytd.get(sid,{}),
-                     holders.get(sid,{}),flows.get(sid,{})))
+                     holders.get(sid,{}),flows.get(sid,{}),macro,prior_fx))
     output.sort(key=lambda x:(x["market"],x["stock_id"]))
     site.mkdir(parents=True,exist_ok=True)
     with (site/"factor_evidence_29a.csv").open("w",encoding="utf-8",newline="") as fp:
@@ -184,8 +213,10 @@ def build(root=ROOT):
     if manifest_ids!=list(FACTOR_IDS) or not all(f.get("status")=="not_verified" for f in manifest["factors"]):
         raise ValueError("12-factor contract changed; refuse to publish a misleading readiness matrix")
     meta={
-       "version":"2.9A","generated_at_taipei":dt.datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
+       "version":"2.9B","generated_at_taipei":dt.datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
        "model":"TPE-MFDS original M1-M3 I1-I3 F1-F3 S1-S3; two engines A/B",
+       "macro_observation_status":macro.get("status",{}),
+       "macro_publication_dates_verified":False,
        "stocks":len(output),"basic_qualified":cnt["base_qualified"],
        "snapshots_with_archives_later_than_price":cnt["source_postdates_price"],
        "stocks_with_some_descriptive_observation":cnt["any_descriptive"],
@@ -201,6 +232,8 @@ def build(root=ROOT):
        "notes":[
          "observed_factor_count 只代表部分或描述性原始資料覆蓋，不是可建模或合格因子數，不能用它判斷60%門檻",
          "基本資格使用120個不同日期有效收盤、最近20個資料點成交額均值≥3000萬且收盤歷史日期對齊快照；未另外獨立證明每一官方交易日均存在",
+         "M1國發會最新景氣觀察為描述性來源，M2海關出口YoY及外銷訂單家數動向指數不是訂單金額YoY，M3央行匯率不等於完整市場外資動向",
+         "宏觀資料所屬統計月份／日不代表當日已公開，國發會歷史資料可能回溯修訂；不得用於點時回測",
          "source_postdates_price 是首次封存時間晚於價格基準日的警示，不替代公司實際公告時間",
          "任何缺官方來源公布時點、除權息、OHLC或回測獨立性時，不輸出分數、報酬、勝率或10/20/60日概率"
        ]
