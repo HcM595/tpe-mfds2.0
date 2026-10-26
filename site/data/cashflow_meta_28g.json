@@ -1,22 +1,22 @@
 {
-  "version": "2.8H",
-  "generated_at_taipei": "2026-10-26T16:20:49+08:00",
+  "version": "2.8H.1",
+  "generated_at_taipei": "2026-10-26T16:27:21+08:00",
   "focus_stocks": [
     "8064",
     "3533",
     "2345",
     "2330",
     "2308",
-    "1101",
-    "1102",
-    "1103",
-    "1104",
-    "1108",
-    "1109",
-    "1110",
-    "1201",
-    "1203",
-    "1210"
+    "1213",
+    "1215",
+    "1216",
+    "1217",
+    "1218",
+    "1219",
+    "1220",
+    "1225",
+    "1227",
+    "1229"
   ],
   "priority_stocks": [
     "8064",
@@ -27,9 +27,9 @@
   ],
   "batch_new_stock_cap": 10,
   "general_business_income_universe": 1937,
-  "observations": 15,
-  "unit_verified_observations": 0,
-  "fresh_unit_verified": 0,
+  "observations": 25,
+  "unit_verified_observations": 15,
+  "fresh_unit_verified": 15,
   "fresh_observations": 15,
   "per_stock": {
     "8064": {
@@ -57,55 +57,95 @@
       "report_period": "2026Q2",
       "sha256": "421255c621c2aca2dd3d55df5e690864127873a25951a576a98f3f65ff60ef00"
     },
-    "1101": {
+    "1213": {
       "status": "ok",
       "report_period": "2026Q2",
-      "sha256": "a7176ac6a8f465b82ee3b45f38669b264856471135a6b7ca349205f1b3bbe096"
+      "sha256": "777384792f5cda1291c8b38267246cbbcdbe467e53900ecb23e9950a1d139c07"
+    },
+    "1215": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "9ce0e87adedf95a6da59d6e7aea56d7ef603ca25070df4fbf9b0ea47515fdc57"
+    },
+    "1216": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "b10a68c9b9f64e32b009a214aed9d8de9d1aade2bb5f5e4065d6394d9d3783bf"
+    },
+    "1217": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "b4c6c550afe3f138b1b7232bae0c6d0c55f5ce6fbd83559cc545bfe5d27f5cc0"
+    },
+    "1218": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "4cf72a5c17248339bda75688be8a141205319357ce688fcfcb2921c1a8e7cc07"
+    },
+    "1219": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "c3496a4b0ee537639fa1c63cd92b59242b806ce52642ae340fa5eb58abc06d01"
+    },
+    "1220": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "450db892a25d6c0980c6b2207737ce6c462475119deacd7abc6019f40acf8c9f"
+    },
+    "1225": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "e5c5d7d225ca483ea4997ea1adc24d58e9f7e71fbb31118a32c5e57edeadc5d2"
+    },
+    "1227": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "4e40fc7dfe352154e5feffef1ef444ffc6ce5de688ee6cba6915ab84e783aa21"
+    },
+    "1229": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "895b49c55943ffaf1cee13acf726b4dd2f02473280abe73b190e353d2b769036"
+    },
+    "1101": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
     },
     "1102": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "88ea1f89efcb4f01d5d02f28a650a9e68b621b2d5bee8ef99c17cfa148c86770"
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
     },
     "1103": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "c440f8a4b76d756bd91cbfae0291c469423ee22084a8d11a1482eb2c496c2d8c"
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
     },
     "1104": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "1ea6a5ac4b6bdf07272ed599df38cd38874767038b189fc4fb22c7ed8d76faa2"
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
     },
     "1108": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "0566aabf312e60d7ba0bcfd4aee14d80c40633f1a0da3ae8fbd39acc5db682ce"
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
     },
     "1109": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "ce6e3b81589a9a938cdb12346bd13a2423f10de453144d783e4010324d9111a7"
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
     },
     "1110": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "18668b5772fda57824abcd98fc1700d13e9b2e3ab94bf3c65e2b719775a8a91f"
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
     },
     "1201": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "f8d3b8e770ba54720a7df29cb3c2e7ce37be112f26a2c938ec25c64e31f011dd"
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
     },
     "1203": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "3a8efda784b4184855291cc60bfbf7471043e3fec3169ffcd246351bf139c157"
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
     },
     "1210": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "170a0f21cb1ee17d00035407e29e4de35d7f4f2c45c5492cd2d5b9f2f4f0e41d"
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
     }
   },
   "source": "MOPS official individual cash flow HTML",
