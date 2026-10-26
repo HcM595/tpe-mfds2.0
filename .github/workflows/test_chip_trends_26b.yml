@@ -1,4 +1,4 @@
-name: 2.6B 籌碼歷史單元驗收
+name: TPE-MFDS 2.8B 整合資料與網頁驗收
 on:
   pull_request:
     paths:
