@@ -27,6 +27,7 @@
     const published = instant(officialPublished);
     if (published === null) return {eligible:false, reason:'official_publication_unverified'};
     if (published >= cut) return {eligible:false, reason:'publication_after_cutoff'};
+    if (published > captured) return {eligible:false, reason:'capture_precedes_official_release'};
     if (sourceVerified !== true) return {eligible:false, reason:'source_authorization_missing'};
     return {eligible:true, reason:'clocks_precede_cutoff'};
   }
