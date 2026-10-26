@@ -75,7 +75,7 @@ def parse_source(rows, market, master, sha, first_seen, now_date=None):
         revenue=numeric(r.get(FIELDS["revenue"]))
         yoy=numeric(r.get(FIELDS["yoy"]))
         mom=numeric(r.get(FIELDS["mom"]))
-        if not period or not release or not revenue is not None or revenue<0:
+        if not period or not release or revenue is None or revenue<0:
             skipped["invalid_period_release_or_revenue"]+=1
             continue
         if period>now_date.strftime("%Y-%m") or release>now_date.isoformat():
