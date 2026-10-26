@@ -1,0 +1,100 @@
+{
+  "version": "2.8I",
+  "generated_at_taipei": "2026-10-26T16:47:12+08:00",
+  "observations": 15,
+  "checked": 15,
+  "fresh_success": 15,
+  "fresh_ytd_unit_period_aligned": 5,
+  "income_report_ytd": "從MOPS第6欄提取當年年初累計本期淨利；第2欄為單季，不混用",
+  "amount_unit": "只有逐股MOPS原始表有唯一明確新台幣仟元標頭時才核實",
+  "per_stock": {
+    "8064": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "3533": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2345": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2330": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2308": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "1101": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": false
+    },
+    "1102": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": false
+    },
+    "1103": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": false
+    },
+    "1104": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": false
+    },
+    "1108": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": false
+    },
+    "1109": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": false
+    },
+    "1110": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": false
+    },
+    "1201": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": false
+    },
+    "1203": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": false
+    },
+    "1210": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": false
+    }
+  },
+  "focus_priority": [
+    "8064",
+    "3533",
+    "2345",
+    "2330",
+    "2308"
+  ],
+  "new_per_run": 10,
+  "f1_factor_enabled": false,
+  "cashflow_netincome_ratio_enabled": false,
+  "point_in_time_backtest_enabled": false,
+  "forecast_enabled": false,
+  "missing_proof": "合併報表與個別報表基礎、個別公司申報時間、歷史各季原始封存與樣本外檢驗"
+}
