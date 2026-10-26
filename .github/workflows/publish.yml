@@ -96,6 +96,8 @@ jobs:
         run: python scripts/collect_income_28f.py
       - name: 2.8G 封存官方MOPS重點個股累計營業活動現金流（不計算F1比率）
         run: python scripts/collect_cashflow_focus_28g.py
+      - name: 2.8I 核對MOPS單季與年初累計淨利原值並和現金流日期單位對齊（F1仍停用）
+        run: python -m scripts.collect_mops_income_ytd_28i
       - name: 保存真實價格與籌碼資料及更新進度
         run: |
           git config user.name "github-actions[bot]"
