@@ -13,6 +13,11 @@ try:
     s=b.decode("utf-8-sig",errors="replace")
     parser=TableReader();parser.feed(s)
     print("rows",len(parser.rows))
+    for idx in (4,5,6,7):
+        if idx < len(parser.rows):print("HEADER",idx,repr(parser.rows[idx][:12]))
+    for idx,row in enumerate(parser.rows):
+        if row and normalized(row[0])==normalized("本期淨利（淨損）"):
+            print("NET_INCOME_COLUMN_SHAPE",idx,"cells",len(row),"sample-values",repr(row[:9]))
     for i,row in enumerate(parser.rows):
         label=" | ".join(row)
         if any(x in label for x in ["單位：","會計項目","115年","114年","淨利","季","本期稅後"]):
