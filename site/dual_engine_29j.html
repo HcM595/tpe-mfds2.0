@@ -4,6 +4,7 @@ body{margin:0;background:#f3f6fa;color:#18344a;font:14px/1.6 system-ui,"Microsof
 <div class="panel toolbar"><label>研究引擎 <select id="engine"><option value="A">A｜趨勢動能</option><option value="B">B｜籌碼與價值</option></select></label><label>市場 <select id="market"><option value="all">上市＋上櫃</option><option>上市</option><option>上櫃</option></select></label><label>股票搜尋 <input id="q" placeholder="代號／名稱"></label><label><input type="checkbox" id="basic" checked> 限初步資料合格</label><label><input type="checkbox" id="complete"> 僅顯示本引擎條件全部可判定</label></div>
 <div class="panel metrics"><div><small>全市場基本資料列</small><b id="all">—</b></div><div><small>符合目前篩選</small><b id="visible">—</b></div><div><small>本引擎條件數</small><b id="count">—</b></div><div><small>正式模型合格</small><b id="eligible">—</b></div></div>
 <div class="panel"><h2 id="title">候選條件</h2><p id="rules" class="muted"></p><p id="status" class="muted">正在讀取歷史封存資料…</p><div class="scroll"><table><thead><tr><th>股票</th><th>價格日</th><th>已符合</th><th>未符合</th><th>無法判定</th><th>資料說明</th></tr></thead><tbody id="rows"></tbody></table></div><p class="muted">僅顯示前200檔，請用搜尋縮小範圍。按一下股票列查看逐項依據。</p><div id="details"></div></div></main>
+<script src="./asof_gate_29o.js"></script>
 <script>
 'use strict';
 const $=x=>document.getElementById(x),E=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
@@ -13,8 +14,8 @@ const filenames={factor:'factor_evidence_29a.csv',tech:'tech_crosscheck.csv',chi
 const D={},errors={};function get(key,id){return D[key]?.get(id)||{}};function check(label,has,yes,detail){return {label,status:!has?'缺資料':yes?'符合':'未符合',detail:detail||''}}
 function evaluate(base,engine){const id=base.stock_id,date=base.price_asof,tech=get('tech',id),chip=get('chip',id),sector=get('sector',id),rev=get('revenue',id),v=get('valuation',id),pit=get('pit',id),risk=get('risk',id);
 const same=(row,col)=>row[col]===date&&!!date;
-const f2Historical=pit.F2_usable_for_backtest==='true'&&!!pit.F2_publication_at_utc&&!!pit.F2_observed_first_at_utc&&pit.F2_observed_first_at_utc.slice(0,10)<=date;
-const revenueHistorical=rev.disclosure_time_verified==='true'&&!!rev.first_seen_utc&&rev.first_seen_utc.slice(0,10)<=date;
+const f2Historical=window.MFDSAsOfGate.f2(pit,v,date).eligible;
+const revenueHistorical=window.MFDSAsOfGate.revenue(rev,date).eligible;
 const a=[
 check('收盤高於MA20',same(tech,'price_asof')&&tech.data_status==='可驗證'&&['是','否'].includes(tech.close_above_ma20),tech.close_above_ma20==='是','技術資料日 '+(tech.price_asof||'缺漏')),
 check('MA20趨勢上升',same(tech,'price_asof')&&['是','否'].includes(tech.ma20_rising),tech.ma20_rising==='是','MA20資料日 '+(tech.price_asof||'缺漏')),

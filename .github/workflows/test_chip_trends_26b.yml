@@ -10,6 +10,10 @@ on:
       - 'tests/test_research_pages_29l.py'
       - 'tests/browser_research_29m.cjs'
       - 'site/pit_clock_29n.js'
+      - 'site/asof_gate_29o.js'
+      - 'scripts/audit_publication_gate_29o.py'
+      - 'tests/asof_gate_29o.test.cjs'
+      - 'tests/test_publication_gate_29o.py'
       - 'tests/pit_clock_29n.test.cjs'
       - 'scripts/audit_f2f3_pit_29f.py'
       - 'tests/test_fundamental_pit_29f.py'
@@ -70,12 +74,15 @@ jobs:
           node --check tests/chip_trends_26b.test.js
           node --check tests/browser_research_29m.cjs
           node --check site/pit_clock_29n.js
+          node --check site/asof_gate_29o.js
+          node --check tests/asof_gate_29o.test.cjs
           node --check tests/pit_clock_29n.test.cjs
       - name: Unit tests for missing sessions and invalid data
         run: |
           node tests/chip_trends_26b.test.js
           node tests/research_eligibility_27a.test.js
           node tests/pit_clock_29n.test.cjs
+          node tests/asof_gate_29o.test.cjs
       - name: Regenerate 2.6B CSV in checkout
         run: python scripts/export_chip_trends.py
       - name: Actual CSV schema and three-stock acceptance audit
@@ -245,6 +252,20 @@ jobs:
           assert original['count_verified_factors']==0 and original['model_eligible_stocks']==0
           assert original['price_after_asof_excluded_from_eligibility'] is True
           print('2.9F three clock version ledger verified',len(rows),len(versions),meta['factors'])
+          PY
+      - name: 2.9O verify conservative source publication clocks
+        run: |
+          python -m unittest tests/test_publication_gate_29o.py
+          python scripts/audit_publication_gate_29o.py
+          python - <<'PY'
+          import json,csv
+          m=json.load(open('site/data/publication_gate_meta_29o.json',encoding='utf-8'))
+          r=list(csv.DictReader(open('site/data/publication_gate_29o.csv',encoding='utf-8')))
+          assert len(r)==m['universe_stocks'] and len(r)>1000
+          assert not m['model_scoring_enabled'] and not m['probability_enabled']
+          assert m['strict_backtest_eligible']==0
+          assert all(x['F2_asof_clock_pass']=='false' and x['F3_asof_clock_pass']=='false' and x['REVENUE_asof_clock_pass']=='false' for x in r)
+          print('2.9O conservative publication gates verified',len(r))
           PY
       - name: Install browser test runtime (bounded download, no unnecessary apt refresh)
         timeout-minutes: 8

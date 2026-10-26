@@ -14,6 +14,7 @@ SOURCE_FILES = (
     "factor_evidence_29a.csv", "official_snapshot.csv", "chip_signals.csv",
     "tech_crosscheck.csv", "industry_relative_28c.csv", "risk_observations_28d.csv",
     "f2_valuation_29e.csv", "revenue_snapshot_28c.csv", "pit_f2f3_stock_29f.csv",
+    "publication_gate_29o.csv",
 )
 
 def read_rows(name):
@@ -70,6 +71,13 @@ class ResearchPageHealth(unittest.TestCase):
         self.assertIn("pit_clock_29n.js", stock)
         self.assertIn("pit_f2f3_stock_29f.csv", dual)
         self.assertIn("pit_f2f3_stock_29f.csv", compare)
+        self.assertIn("publication_gate_29o.csv", stock)
+        self.assertIn("asof_gate_29o.js", dual)
+        self.assertIn("asof_gate_29o.js", compare)
+        clock = json.loads((DATA / "publication_gate_meta_29o.json").read_text(encoding="utf-8"))
+        self.assertEqual(clock["strict_backtest_eligible"], 0)
+        self.assertFalse(clock["model_scoring_enabled"])
+        self.assertFalse(clock["probability_enabled"])
 
 if __name__ == "__main__":
     unittest.main()

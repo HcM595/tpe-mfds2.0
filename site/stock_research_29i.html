@@ -5,7 +5,8 @@
 <div id="out" hidden><section class="card"><h2 id="heading"></h2><p class="warning" id="caveat"></p><div class="metrics" id="headline"></div></section>
 <div class="grid"><section class="card"><h2>法人與大戶</h2><div class="scroll" id="chip"></div></section><section class="card"><h2>技術交叉確認</h2><div class="scroll" id="technical"></div></section>
 <section class="card"><h2>產業相對強度</h2><div class="scroll" id="industry"></div></section><section class="card"><h2>價格區間與風險</h2><div class="scroll" id="risk"></div></section></div>
-<section class="card"><h2>12因子研究資格</h2><div id="factor"></div></section><section class="card" id="pit-clock" aria-label="F2 F3三時鐘驗證"></section></div>
+<section class="card"><h2>12因子研究資格</h2><div id="factor"></div></section><section class="card" id="pit-clock" aria-label="F2 F3三時鐘驗證"></section>
+<section class="card" aria-label="2.9O公布時點稽核"><h2>2.9O｜歷史資料可得性與阻擋原因</h2><p class="muted">截止點：價格基準日臺灣時間00:00。資料所屬日、首次取得及官方公布時間須分別確認；通過時鐘檢查也不是模型或回測資格。</p><div class="scroll" id="release-audit"></div></section></div>
 <p class="muted">所有數值僅為歷史觀察。20／60日高低為歷史收盤價區間，並非已驗證支撐壓力；未做除權息還原，不能直接推導停損、報酬或ATR。</p>
 </main><script src="./pit_clock_29n.js"></script><script>
 'use strict';
@@ -14,8 +15,10 @@ const E=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt
 const val=v=>v===undefined||v===null||v===''?'—':E(v);
 const num=(v,d=2)=>{if(v===null||v===undefined||v==='')return '—';const n=Number(v);return Number.isFinite(n)?n.toLocaleString('zh-TW',{maximumFractionDigits:d}):'—'};
 function parseCSV(text){text=text.replace(/^\uFEFF/,'');let list=[],row=[],v='',quote=false;for(let i=0;i<text.length;i++){let c=text[i];if(c==='"'){if(quote&&text[i+1]==='"'){v+='"';i++}else quote=!quote}else if(c===','&&!quote){row.push(v);v=''}else if((c==='\r'||c==='\n')&&!quote){if(c==='\r'&&text[i+1]==='\n')i++;row.push(v);if(row.some(x=>x!==''))list.push(row);row=[];v=''}else v+=c}if(v!==''||row.length){row.push(v);list.push(row)}const header=list.shift()||[];return list.map(r=>Object.fromEntries(header.map((k,i)=>[k,r[i]??''])))}
-const resources={official:'official_snapshot.csv',chips:'chip_signals.csv',rank:'chip_rank.csv',tech:'tech_crosscheck.csv',industry:'industry_relative_28c.csv',risk:'risk_observations_28d.csv',factor:'factor_evidence_29a.csv'};
+const resources={official:'official_snapshot.csv',chips:'chip_signals.csv',rank:'chip_rank.csv',tech:'tech_crosscheck.csv',industry:'industry_relative_28c.csv',risk:'risk_observations_28d.csv',factor:'factor_evidence_29a.csv',publication:'publication_gate_29o.csv'};
 const data={};const issues={};let all=[];
+const clockReasons={invalid_price_day:'價格日不合法',missing_report_day:'來源報表日缺漏',report_after_price_day:'報表日晚於股價日',first_seen_unverified:'首次取得時間未驗證',first_seen_after_cutoff:'首次取得時間晚於研究截止點',official_publication_unverified:'正式公布時刻未驗證',publication_after_cutoff:'正式公布晚於截止點',capture_precedes_official_release:'聲稱的公布時間晚於首次取得，資料時間矛盾',source_authorization_missing:'來源歷史使用資格未開啟'};
+const reasonLabels=raw=>!raw?'尚無阻擋項目':raw.split(';').map(x=>clockReasons[x]||x).join('；');
 const details=items=>'<table><tbody>'+items.map(([a,b])=>'<tr><th>'+E(a)+'</th><td>'+val(b)+'</td></tr>').join('')+'</tbody></table>';
 const present=(source,id)=>data[source]?.get(id)||{};
 function show(id){
@@ -32,6 +35,21 @@ function show(id){
  $('industry').innerHTML=details([['產業',i.industry_name_from_revenue],['資料日',i.asof],['同業樣本20日',i.industry_peers_20],['相對市場20日（百分點）',num(i.industry_relative20_raw_pp)],['同業樣本60日',i.industry_peers_60],['相對市場60日（百分點）',num(i.industry_relative60_raw_pp)],['狀態',i.status],['調整除權息',i.price_adjusted]]);
  $('risk').innerHTML=details([['資料日',k.price_asof],['過去20日收盤高點',num(k.prior20_close_high)],['過去20日收盤低點',num(k.prior20_close_low)],['過去60日收盤高點',num(k.prior60_close_high)],['過去60日收盤低點',num(k.prior60_close_low)],['20日最大收盤回落',k.max_close_drawdown20_pct?num(k.max_close_drawdown20_pct)+'%':'—'],['20日年化歷史波動',k.realized_volatility20_annualized_pct?num(k.realized_volatility20_annualized_pct)+'%':'—'],['ATR可用',k.atr_available==='true'?'是':'否'],['價格已還原',k.price_adjusted==='true'?'是':'否']]);
  window.MFDSPitClock.render(id,$('pit-clock'));
+ const audit=present('publication',id);
+ $('release-audit').innerHTML=!audit.stock_id?'<p>目前沒有此股票的2.9O來源稽核檔；不能宣稱歷史可得。</p>':
+ details([['資料對照價格日',audit.price_asof],
+ ['F2 估值時鐘檢查',audit.F2_asof_clock_pass==='true'?'僅時鐘檢查通過（非模型資格）':'未通過'],
+ ['F2 首次取得（UTC）',audit.F2_first_seen_utc],
+ ['F2 官方公布（UTC）',audit.F2_verified_publication_utc||'未驗證'],
+ ['F2 阻擋原因',reasonLabels(audit.F2_blockers)],
+ ['F3 治理時鐘檢查',audit.F3_asof_clock_pass==='true'?'僅時鐘檢查通過（非模型資格）':'未通過'],
+ ['F3 官方公布（UTC）',audit.F3_verified_publication_utc||'未驗證'],
+ ['F3 阻擋原因',reasonLabels(audit.F3_blockers)],
+ ['月營收來源出表日',audit.REVENUE_source_report_day],
+ ['月營收首次取得（UTC）',audit.REVENUE_first_seen_utc],
+ ['月營收逐公司正式公布（UTC）',audit.REVENUE_verified_publication_utc||'未驗證'],
+ ['月營收時鐘檢查',audit.REVENUE_asof_clock_pass==='true'?'僅時鐘檢查通過（非模型資格）':'未通過'],
+ ['月營收阻擋原因',reasonLabels(audit.REVENUE_blockers)]]);
  $('factor').innerHTML=details([['歷史和流動性初篩',f.basic_data_status],['有原始觀察因子',f.observed_factor_count?f.observed_factor_count+'/12':'—'],['正式驗證因子',f.verified_factor_count?f.verified_factor_count+'/12':'—'],['正式模型資格',f.model_eligible==='true'?'有':'未啟用'],['資料首次封存晚於價格日',f.source_postdates_price==='true'?'是（警示）':'否或未知']])+'<p><a href="./factor_gaps_29h.html">查看各因子待補證據（可在該頁輸入相同代號）</a></p>';
 }
 function lookup(){const q=$('query').value.trim().toLowerCase();if(!q){$('status').textContent='請輸入股票代號或名稱';return}const match=all.find(x=>x.stock_id.toLowerCase()===q||x.stock_name.toLowerCase()===q)||all.find(x=>x.stock_name.toLowerCase().includes(q)||x.stock_id.includes(q));if(match)show(match.stock_id);else{$('status').textContent='找不到相符股票';$('out').hidden=true}}
