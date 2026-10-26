@@ -92,6 +92,8 @@ jobs:
         run: python scripts/compute_industry_relative_28c.py
       - name: 2.8D 計算歷史收盤風險參考與財務來源缺口（不計算ATR或勝率）
         run: python scripts/compute_risk_observations_28d.py
+      - name: 2.8F 封存一般業官方綜合損益表與F1現金流資料缺口（不得產生盈利品質分數）
+        run: python scripts/collect_income_28f.py
       - name: 保存真實價格與籌碼資料及更新進度
         run: |
           git config user.name "github-actions[bot]"
