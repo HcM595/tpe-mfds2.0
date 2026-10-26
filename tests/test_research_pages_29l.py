@@ -64,7 +64,7 @@ class ResearchPageHealth(unittest.TestCase):
         self.assertIn("source_postdates_price", stock)
         self.assertIn("basic_data_eligible", dual)
         self.assertIn("available", compare)
-        self.assertIn("對齊", stock)
+        self.assertIn("日期不同", stock)
         self.assertIn("無法判定", compare)
 
 if __name__ == "__main__":
