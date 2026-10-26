@@ -1,0 +1,33 @@
+{
+  "version": "2.8C",
+  "generated_at_taipei": "2026-10-26T11:42:17+08:00",
+  "total_rows": 1979,
+  "markets": {
+    "上市": {
+      "status": "ok",
+      "rows": 1086,
+      "source_hash": "a58c04b3bdc2b94632027018ca4f09f6ad053848addb7b9580b372626542fc17",
+      "latest_period": "2026-09",
+      "source": "https://openapi.twse.com.tw/v1/opendata/t187ap05_L",
+      "excluded": {
+        "invalid_period_release_or_revenue": 1,
+        "not_in_market_master": 1
+      }
+    },
+    "上櫃": {
+      "status": "ok",
+      "rows": 893,
+      "source_hash": "a27fea120daa8ef4543bcbf6e31426cad2e0201111ee8d97916fbb5fce2727a6",
+      "latest_period": "2026-09",
+      "source": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap05_O",
+      "excluded": {}
+    }
+  },
+  "revenue_unit": "新台幣千元；不得直接當作元",
+  "coverage": "官方最新月份快照，並非完整歷史序列",
+  "table_date_not_filing_date": true,
+  "per_stock_publication_time_verified": false,
+  "factor_F1_completed": false,
+  "probability_enabled": false,
+  "note": "出表日期是表格日期，非逐公司實際公告時間。不能把月份當知悉日，不能用於點時回測或F1盈利品質綜合分數。"
+}

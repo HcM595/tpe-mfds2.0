@@ -1,0 +1,17 @@
+{
+  "version": "2.8C",
+  "generated_at_taipei": "2026-10-26T11:42:23+08:00",
+  "stocks": 1949,
+  "relative20_available": 1928,
+  "relative60_available": 1928,
+  "status": "descriptive_only",
+  "relative_strength_definition": "同市場相同行情日：同產業個股原始動能中位數 - 全市場個股原始動能中位數（百分點）",
+  "minimum_industry_members": 5,
+  "minimum_market_members": 50,
+  "industry_source": "history_data/ordinary_stock_master.csv（分市場產業代碼；非整體跨市場對比）",
+  "adjusted_prices": false,
+  "official_independent_session_calendar_verified": false,
+  "factor_I3_verified": false,
+  "performance_metrics_enabled": false,
+  "note": "使用未還原收盤價；遇除權息可能扭曲動能。非投資回報、非預測、非已校準12因子。"
+}
