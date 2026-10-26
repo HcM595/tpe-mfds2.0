@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'site/index.html'
+      - 'scripts/probe_f2f3_29e.py'
       - 'scripts/build_industry_cycle_29d.py'
       - 'scripts/collect_policy_evidence_29d.py'
       - 'tests/test_industry_cycle_policy_29d.py'
@@ -178,6 +179,8 @@ jobs:
           assert fa['policy_event_to_company_impact_verified'] is False
           print('2.9D sector revenue and official policy registry checked',cy['stock_rows'],cy['sector_groups'],po['status_by_event'])
           PY
+      - name: Inspect TWSE and TPEx valuation and governance fields (read-only)
+        run: python scripts/probe_f2f3_29e.py
       - name: Install browser test runtime (bounded download, no unnecessary apt refresh)
         timeout-minutes: 8
         run: |
