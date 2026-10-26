@@ -1,27 +1,32 @@
 {
-  "version": "2.9A",
-  "generated_at_taipei": "2026-10-26T17:15:41+08:00",
+  "version": "2.9B",
+  "generated_at_taipei": "2026-10-26T17:38:37+08:00",
   "model": "TPE-MFDS original M1-M3 I1-I3 F1-F3 S1-S3; two engines A/B",
+  "macro_observation_status": {
+    "ndc": "ok",
+    "cbc": "ok"
+  },
+  "macro_publication_dates_verified": false,
   "stocks": 1949,
   "basic_qualified": 754,
-  "snapshots_with_archives_later_than_price": 1946,
-  "stocks_with_some_descriptive_observation": 1944,
+  "snapshots_with_archives_later_than_price": 1949,
+  "stocks_with_some_descriptive_observation": 1949,
   "per_factor": {
     "M1": {
-      "no_data": 1949,
+      "no_data": 0,
       "partial": 0,
-      "descriptive": 0,
+      "descriptive": 1949,
       "verified": 0
     },
     "M2": {
-      "no_data": 1949,
-      "partial": 0,
+      "no_data": 0,
+      "partial": 1949,
       "descriptive": 0,
       "verified": 0
     },
     "M3": {
-      "no_data": 320,
-      "partial": 1629,
+      "no_data": 0,
+      "partial": 1949,
       "descriptive": 0,
       "verified": 0
     },
@@ -45,8 +50,8 @@
     },
     "F1": {
       "no_data": 6,
-      "partial": 1928,
-      "descriptive": 15,
+      "partial": 1918,
+      "descriptive": 25,
       "verified": 0
     },
     "F2": {
@@ -95,6 +100,8 @@
   "notes": [
     "observed_factor_count 只代表部分或描述性原始資料覆蓋，不是可建模或合格因子數，不能用它判斷60%門檻",
     "基本資格使用120個不同日期有效收盤、最近20個資料點成交額均值≥3000萬且收盤歷史日期對齊快照；未另外獨立證明每一官方交易日均存在",
+    "M1國發會最新景氣觀察為描述性來源，M2海關出口YoY及外銷訂單家數動向指數不是訂單金額YoY，M3央行匯率不等於完整市場外資動向",
+    "宏觀資料所屬統計月份／日不代表當日已公開，國發會歷史資料可能回溯修訂；不得用於點時回測",
     "source_postdates_price 是首次封存時間晚於價格基準日的警示，不替代公司實際公告時間",
     "任何缺官方來源公布時點、除權息、OHLC或回測獨立性時，不輸出分數、報酬、勝率或10/20/60日概率"
   ]
