@@ -88,6 +88,29 @@ class OriginalFactorCoverage29A(unittest.TestCase):
                          {"M1":{"observation_period":"202611","composite_score":40,"light":"紅"}}, {})
         self.assertEqual(future["M1_state"],"no_data")
 
+    def test_i1_requires_sector24_peers_and_no_i2_policy_beneficiary_guess(self):
+        stock,master,f,industry,rev,inc,cf,ytd=sample()
+        master["sector"]="24"
+        breadth={"stock_id":stock["stock_id"],"market":"上櫃",
+                 "sector":"24","period":"2026-09",
+                 "table_date":"2026-10-17","growth_diffusion_pct":"60.0"}
+        x=build_row(stock,master,prices(),f,industry,rev,inc,cf,ytd,{}, {},
+                    None,None,None,breadth)
+        self.assertEqual(x["I1_state"],"partial")
+        self.assertEqual(x["I1_asof"],"2026-10-17")
+        self.assertEqual(x["I2_state"],"no_data")
+        self.assertEqual(x["verified_factor_count"],0)
+        self.assertEqual(x["model_eligible"],"false")
+        master["sector"]="27"
+        unrelated=build_row(stock,master,prices(),f,industry,rev,inc,cf,ytd,{}, {},
+                    None,None,None,breadth)
+        self.assertEqual(unrelated["I1_state"],"no_data")
+        master["sector"]="24"
+        breadth["table_date"]="2026-10-27"
+        future=build_row(stock,master,prices(),f,industry,rev,inc,cf,ytd,{}, {},
+                    None,None,None,breadth)
+        self.assertEqual(future["I1_state"],"no_data")
+
     def test_s2_requires_dated_credit_evidence_not_holder_concentration(self):
         stock,master,f,industry,rev,inc,cf,ytd=sample()
         holder={"holder_asof":"2026-10-22"}
