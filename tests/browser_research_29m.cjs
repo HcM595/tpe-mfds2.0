@@ -96,6 +96,22 @@ async function run() {
     assert(!(await page.locator('#table').innerText()).includes('NaN'), 'K displayed NaN');
     console.log('PASS 2.9K: compare 4 stocks, alternate engine, handle missing IDs');
 
+    // 2.9P: archival candidates are never self-certified as company filing times.
+    await visit('publication_review_29p.html');
+    await page.waitForFunction(() => document.querySelector('#status')?.textContent.includes('符合搜尋'), {timeout: 60000});
+    assert(Number((await page.locator('#total').innerText()).replace(/,/g,'')) > 5000, 'P evidence universe incomplete');
+    assert.equal(await page.locator('#rows tr').count(), 3, 'P should show F2 F3 and monthly revenue for 8064');
+    const proofText=await page.locator('#rows').innerText();
+    assert(proofText.includes('待獨立公告核實')&&proofText.includes('歷史回測不可用'),
+      'P candidates must not be mislabeled as verified historical knowledge');
+    assert((await page.locator('#verified').innerText()).trim()==='0','P invented verified source times');
+    await page.locator('#factor').selectOption('REVENUE');
+    assert.equal(await page.locator('#rows tr').count(),1,'P factor filter failed');
+    await page.locator('#factor').selectOption('all');
+    await page.locator('#q').fill('2330');
+    assert.equal(await page.locator('#rows tr').count(),3,'P stock lookup failed');
+    console.log('PASS 2.9P: source proof queue, factor filters and fail-closed release timestamps');
+
     assert.deepEqual(errors, [], 'Uncaught browser JavaScript errors: ' + errors.join('; '));
     console.log('PASS 2.9M: all four research pages passed real Chromium smoke tests');
   } finally {
