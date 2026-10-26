@@ -118,8 +118,12 @@ def collect(root=ROOT,fetcher=fetch,clock=None,stocks=None):
             continue
         try:
             year,quarter=int(inc["fiscal_year"]),int(inc["fiscal_quarter"])
-            if year>clock.year or year<2000 or quarter not in (1,2,3,4):
+            if year<2000 or quarter not in (1,2,3,4):
                 raise ValueError("invalid income period")
+            last_month=quarter*3
+            finish=dt.date(year,last_month,calendar.monthrange(year,last_month)[1])
+            if finish>clock.astimezone(ZoneInfo("Asia/Taipei")).date():
+                raise ValueError("future unfinished income quarter")
             raw=fetcher(sid,year,quarter)
             parsed=parse_statement(raw,year,quarter)
             digest=hashlib.sha256(raw).hexdigest()
