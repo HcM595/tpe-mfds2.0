@@ -28,6 +28,10 @@ const assert = require('node:assert/strict');
      assert(researchText.includes('未還原'),'price corporate-action limitations missing '+id);
      assert(researchText.includes('2.8C 公司月營收與產業相對強弱'),'fundamental industry panel missing '+id);
      assert(researchText.includes('出表日期不等於個別公司公告時點'),'monthly publication caveat missing '+id);
+     assert(researchText.includes('2.8D 波段風險觀察'),'risk analysis section missing '+id);
+     assert(researchText.includes('前20日最高收盤參考'),'risk high reference missing '+id);
+     assert(researchText.includes('沒有')||researchText.includes('未驗證'),'finance limitations unmarked '+id);
+     assert(!researchText.includes('ATR 已計算'),'nonexistent ATR should not be claimed '+id);
      console.log('PASS browser stock:',id);
    }
    await page.locator('[data-r-tab="quality"]').click();
