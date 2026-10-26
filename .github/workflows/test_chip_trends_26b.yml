@@ -1,8 +1,11 @@
-name: TPE-MFDS 2.9D 產業循環證據與政策事件雙引擎驗收
+name: TPE-MFDS 2.9E 官方估值與治理F2／F3雙引擎驗收
 on:
   pull_request:
     paths:
       - 'site/index.html'
+      - 'scripts/collect_f2f3_29e.py'
+      - 'tests/test_f2f3_29e.py'
+      - 'scripts/probe_f2f3_29e.py'
       - 'scripts/build_industry_cycle_29d.py'
       - 'scripts/collect_policy_evidence_29d.py'
       - 'tests/test_industry_cycle_policy_29d.py'
@@ -177,6 +180,32 @@ jobs:
           assert fa['model_eligible_stocks']==0 and fa['count_verified_factors']==0
           assert fa['policy_event_to_company_impact_verified'] is False
           print('2.9D sector revenue and official policy registry checked',cy['stock_rows'],cy['sector_groups'],po['status_by_event'])
+          PY
+      - name: Validate F2 peer valuation and F3 governance on official exchange snapshots
+        run: |
+          python -m unittest tests/test_f2f3_29e.py
+          python -m unittest tests/test_factor_evidence_29a.py
+          python -m py_compile scripts/collect_f2f3_29e.py
+          python scripts/collect_f2f3_29e.py
+          python scripts/build_factor_evidence_29a.py
+          python - <<'PY'
+          import csv,json
+          meta=json.load(open('site/data/company_f2f3_meta_29e.json'))
+          factors=json.load(open('site/data/factor_evidence_meta_29a.json'))
+          vals=list(csv.DictReader(open('site/data/f2_valuation_29e.csv')))
+          gov=list(csv.DictReader(open('site/data/f3_governance_29e.csv')))
+          assert len(vals)==meta['valuation_stocks'] and len(vals)>500
+          assert len(gov)==meta['governance_stocks'] and len(gov)>500
+          assert meta['valuation_peer_comparable']>100
+          assert factors['per_factor']['F2']['partial']>100
+          assert factors['per_factor']['F2']['verified']==0
+          assert factors['per_factor']['F3']['verified']==0
+          assert not meta['F2_expected_earnings_surprise_verified']
+          assert not meta['F3_governance_quality_factor_verified']
+          assert factors['count_verified_factors']==0 and factors['model_eligible_stocks']==0
+          assert all(x['factor_F2_eligible']=='false' for x in vals)
+          assert all(x['factor_F3_eligible']=='false' for x in gov)
+          print('2.9E official F2/F3 and original 12 factor evidence passed',meta['valuation_stocks'],meta['governance_stocks'],meta['valuation_peer_comparable'])
           PY
       - name: Install browser test runtime (bounded download, no unnecessary apt refresh)
         timeout-minutes: 8
