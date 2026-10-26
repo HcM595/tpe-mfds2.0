@@ -42,6 +42,11 @@ class TableReader(HTMLParser):
         if tag in ("td","th") and self.cell is not None and self.row is not None:
             self.row.append(" ".join(" ".join(self.cell).split()));self.cell=None
         if tag=="tr" and self.row is not None:
+            # Real MOPS markup may close <tr> without closing the inner <th>.
+            # Preserve that final header cell rather than silently discarding it.
+            if self.cell is not None:
+                self.row.append(" ".join(" ".join(self.cell).split()))
+                self.cell=None
             self.rows.append(self.row);self.row=None
 
 def normalized(v):
