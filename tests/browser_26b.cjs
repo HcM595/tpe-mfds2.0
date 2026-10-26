@@ -58,7 +58,7 @@ const assert = require('node:assert/strict');
    assert(screenText.includes('原始四層12子因子就緒稽核'),'factor readiness missing');
    assert(screenText.includes('2.9A 原始四層12因子證據矩陣'),'original Engine A matrix missing');
    assert(screenText.includes('逐股證據覆蓋'),'original full-universe evidence coverage missing');
-   assert(screenText.includes('正式可計分'),'evidence states confused with verified factors');
+   assert(screenText.includes('可正式計分'),'evidence states confused with verified factors');
    assert(screenText.includes('2.8I 財務 F1 來源品質與年初累計口徑對齊'),'financial coverage section missing');
    assert(screenText.includes('現金流／淨利比率繼續停用'),'cashflow ratio disabled warning missing');
     assert(screenText.includes('MOPS淨利年初累計原表核對'),'YTD source coverage card missing');
