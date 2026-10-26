@@ -1,8 +1,10 @@
-name: TPE-MFDS 2.9B 官方景氣與匯率宏觀因子雙引擎驗收
+name: TPE-MFDS 2.9C 官方信用交易與市場因子雙引擎驗收
 on:
   pull_request:
     paths:
       - 'site/index.html'
+      - 'scripts/collect_s2_credit_29c.py'
+      - 'tests/test_s2_credit_29c.py'
       - 'scripts/probe_sentiment_29c.py'
       - 'scripts/collect_macro_29b.py'
       - 'tests/test_macro_29b.py'
@@ -123,6 +125,27 @@ jobs:
           PY
       - name: 2.9C Inspect official margin and intraday trading schemas
         run: python scripts/probe_sentiment_29c.py
+      - name: Test source dated credit-trading records and no fictional S2 scores
+        run: |
+          python -m unittest tests/test_s2_credit_29c.py
+          python -m unittest tests/test_factor_evidence_29a.py
+          python scripts/collect_s2_credit_29c.py
+          python scripts/build_factor_evidence_29a.py
+          python - <<'PY'
+          import csv,json
+          meta=json.load(open('site/data/s2_credit_meta_29c.json'))
+          model=json.load(open('site/data/factor_evidence_meta_29a.json'))
+          credit=list(csv.DictReader(open('site/data/s2_credit_snapshot_29c.csv')))
+          assert meta['fresh_records']>200, 'official credit-trading providers returned insufficient data'
+          assert meta['stocks_observed']==len(credit)
+          assert model['per_factor']['S2']['partial']>100
+          assert model['per_factor']['S2']['verified']==0
+          assert not meta['retail_account_ownership_directly_measured']
+          assert not meta['per_stock_daytrade_volume_available']
+          assert not meta['factor_scores_enabled'] and not meta['probabilities_enabled']
+          assert all(row['retail_sentiment_factor_eligible']=='false' for row in credit)
+          print('2.9C TWSE/TPEx S2 source and unchanged model guardrails verified',meta['fresh_records'])
+          PY
       - name: Install browser test runtime (bounded download, no unnecessary apt refresh)
         timeout-minutes: 8
         run: |
