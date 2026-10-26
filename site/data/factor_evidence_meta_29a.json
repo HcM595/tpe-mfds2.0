@@ -1,0 +1,101 @@
+{
+  "version": "2.9A",
+  "generated_at_taipei": "2026-10-26T17:15:41+08:00",
+  "model": "TPE-MFDS original M1-M3 I1-I3 F1-F3 S1-S3; two engines A/B",
+  "stocks": 1949,
+  "basic_qualified": 754,
+  "snapshots_with_archives_later_than_price": 1946,
+  "stocks_with_some_descriptive_observation": 1944,
+  "per_factor": {
+    "M1": {
+      "no_data": 1949,
+      "partial": 0,
+      "descriptive": 0,
+      "verified": 0
+    },
+    "M2": {
+      "no_data": 1949,
+      "partial": 0,
+      "descriptive": 0,
+      "verified": 0
+    },
+    "M3": {
+      "no_data": 320,
+      "partial": 1629,
+      "descriptive": 0,
+      "verified": 0
+    },
+    "I1": {
+      "no_data": 6,
+      "partial": 1943,
+      "descriptive": 0,
+      "verified": 0
+    },
+    "I2": {
+      "no_data": 1949,
+      "partial": 0,
+      "descriptive": 0,
+      "verified": 0
+    },
+    "I3": {
+      "no_data": 21,
+      "partial": 0,
+      "descriptive": 1928,
+      "verified": 0
+    },
+    "F1": {
+      "no_data": 6,
+      "partial": 1928,
+      "descriptive": 15,
+      "verified": 0
+    },
+    "F2": {
+      "no_data": 1949,
+      "partial": 0,
+      "descriptive": 0,
+      "verified": 0
+    },
+    "F3": {
+      "no_data": 1949,
+      "partial": 0,
+      "descriptive": 0,
+      "verified": 0
+    },
+    "S1": {
+      "no_data": 221,
+      "partial": 99,
+      "descriptive": 1629,
+      "verified": 0
+    },
+    "S2": {
+      "no_data": 0,
+      "partial": 1949,
+      "descriptive": 0,
+      "verified": 0
+    },
+    "S3": {
+      "no_data": 131,
+      "partial": 97,
+      "descriptive": 1721,
+      "verified": 0
+    }
+  },
+  "initial_min_price_sessions": 120,
+  "min_20d_average_turnover_twd": 30000000,
+  "minimum_factor_coverage_initial": 0.6,
+  "production_target_coverage": 0.75,
+  "count_verified_factors": 0,
+  "model_eligible_stocks": 0,
+  "model_scores_enabled": false,
+  "performance_probabilities_enabled": false,
+  "point_in_time_publications_verified": false,
+  "ordinary_stock_security_type_independently_verified": false,
+  "session_calendar_independently_verified": false,
+  "raw_close_corporate_actions_adjusted": false,
+  "notes": [
+    "observed_factor_count 只代表部分或描述性原始資料覆蓋，不是可建模或合格因子數，不能用它判斷60%門檻",
+    "基本資格使用120個不同日期有效收盤、最近20個資料點成交額均值≥3000萬且收盤歷史日期對齊快照；未另外獨立證明每一官方交易日均存在",
+    "source_postdates_price 是首次封存時間晚於價格基準日的警示，不替代公司實際公告時間",
+    "任何缺官方來源公布時點、除權息、OHLC或回測獨立性時，不輸出分數、報酬、勝率或10/20/60日概率"
+  ]
+}
