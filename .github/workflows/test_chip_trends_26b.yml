@@ -1,8 +1,10 @@
-name: TPE-MFDS 2.9A 原始12因子雙引擎證據及整站驗收
+name: TPE-MFDS 2.9B 官方景氣與匯率宏觀因子雙引擎驗收
 on:
   pull_request:
     paths:
       - 'site/index.html'
+      - 'scripts/collect_macro_29b.py'
+      - 'tests/test_macro_29b.py'
       - 'scripts/probe_macro_sources_29b.py'
       - 'scripts/build_factor_evidence_29a.py'
       - 'tests/test_factor_evidence_29a.py'
@@ -97,8 +99,27 @@ jobs:
           assert all(r['verified_factor_count']=='0' and r['prediction_enabled']=='false' for r in rows)
           print('12-factor full-universe model evidence regression OK:',len(rows))
           PY
-      - name: Probe public NDC/CBC official macro source formats
-        run: python scripts/probe_macro_sources_29b.py
+      - name: Official NDC business signals and CBC exchange-rate ingestion
+        run: |
+          python -m unittest tests/test_macro_29b.py
+          python -m py_compile scripts/collect_macro_29b.py
+          python scripts/collect_macro_29b.py
+          python scripts/build_factor_evidence_29a.py
+          python - <<'PY'
+          import csv,json
+          m=json.load(open('site/data/macro_snapshot_29b.json'))
+          f=json.load(open('site/data/factor_evidence_meta_29a.json'))
+          stocks=list(csv.DictReader(open('site/data/factor_evidence_29a.csv')))
+          assert m['records']['ndc']>100 and m['records']['cbc']>100
+          assert m['M1']['observation_period'] and m['M3']['exchange_close_date']
+          assert m['M1']['published_at'] is None and m['M2']['published_at'] is None
+          assert not m['factor_scores_enabled'] and not m['probability_enabled']
+          assert not f['model_scores_enabled'] and not f['performance_probabilities_enabled']
+          assert f['macro_publication_dates_verified'] is False
+          assert len(stocks)==f['stocks'] and f['count_verified_factors']==0
+          assert all(row['model_eligible']=='false' for row in stocks)
+          print('NDC/CBC original macro source and 12-factor evidence OK',m['records'])
+          PY
       - name: Install browser test runtime (bounded download, no unnecessary apt refresh)
         timeout-minutes: 8
         run: |
