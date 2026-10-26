@@ -16,6 +16,7 @@ class PublicationGateTests(unittest.TestCase):
         self.assertIn("source_authorization_missing",check(d,d,early,early,False)[1])
         self.assertIn("first_seen_after_cutoff",check(d,d,late,early,True)[1])
         self.assertIn("publication_after_cutoff",check(d,d,early,late,True)[1])
+        self.assertIn("capture_precedes_official_release",check(d,d,"2026-10-21T15:59:58Z",early,True)[1])
         self.assertIn("official_publication_unverified",check(d,d,early,"",True)[1])
         self.assertIn("report_after_price_day",check(d,"2026-10-23",early,early,True)[1])
         self.assertIn("invalid_price_day",check("2026-02-30",d,early,early,True)[1])
