@@ -39,15 +39,16 @@
     var records = Array.from(days.values()).sort(function (a, b) { return a.date.localeCompare(b.date); });
     return {records:records, invalid:invalid, duplicate:duplicate};
   }
-  function flowWindow(records, n, pricePoints) {
+  function flowWindow(records, n, pricePoints, marketSessions) {
     if (!records.length) return {ok:false, reason:'無法人歷史紀錄'};
     var last = records[records.length-1].date;
     // Use the existing actual stock price sessions as a calendar for this stock,
     // and do not mistake the last N archived rows for N consecutive sessions.
-    var sessions = Array.from(new Set((Array.isArray(pricePoints) ? pricePoints : [])
-      .filter(function (x) { return validDate(x.date) && x.date <= last && numeric(x.close) > 0; })
-      .map(function (x) { return x.date; }))).sort().slice(-n);
-    if (sessions.length < n) return {ok:false, reason:'有效價格交易日不足，無法核對'+n+'日'};
+    var reference = Array.isArray(marketSessions) && marketSessions.length ? marketSessions : [];
+    var sessions = Array.from(new Set(reference.filter(function (d) {
+      return validDate(d) && d <= last;
+    }))).sort().slice(-n);
+    if (sessions.length < n) return {ok:false, reason:'同市場法人日期不足，無法核對'+n+'日'};
     var byDate = new Map(records.map(function (x) { return [x.date, x]; }));
     var missing = sessions.filter(function (d) { return !byDate.has(d); });
     if (missing.length) return {ok:false, reason:n+'個交易日中缺少'+missing.length+'日法人資料'};
@@ -118,8 +119,13 @@
     if (flow.some(function (r) {return r.dealer_net_shares===null;})) flags.push('自營商欄位部分缺值，不以零取代');
     if (f.invalid || h.invalid) flags.push('排除格式或數值異常：法人'+f.invalid+'筆、集保'+h.invalid+'筆');
     if (f.duplicate || h.duplicate) flags.push('重複日期已去重：法人'+f.duplicate+'筆、集保'+h.duplicate+'筆');
+    // Source-dated market sessions, not stale per-stock price history.
+    // Only actual archived dates in the matching market are accepted.
+    var market = flow.length ? flow[flow.length-1].market : '';
+    var marketSessions = Array.from(new Set((Array.isArray(flowRows)?flowRows:[])
+      .filter(function(r){return r.market===market && validDate(r.date);}).map(function(r){return r.date;}))).sort();
     var summ = [5,10,20].map(function (n) {
-      var s = flowWindow(flow, n, prices);
+      var s = flowWindow(flow, n, prices, marketSessions);
       return '<tr><td>'+n+'個交易日</td><td>'+html(s.ok ? fmtShares(s.sums[0]) : '—')+'</td><td>'+
         html(s.ok ? fmtShares(s.sums[1]) : '—')+'</td><td>'+
         html(s.ok ? fmtShares(s.sums[2]) : '—')+'</td><td>'+
@@ -137,7 +143,7 @@
       '<p class="hint">法人有效紀錄 '+flow.length+' 筆（最後 '+html(flowLast||'—')+'）；大戶有效紀錄 '+holder.length+
       ' 筆（最後 '+html(holderLast||'—')+'）。資料產製：'+html(meta.generated_at_taipei||'未標示')+'。未補值、未插值、不代表勝率。</p>'+status+
       '<h4>外資／投信／自營商：5、10、20 個交易日淨買賣超</h4>'+
-      '<p class="hint">使用本站同股已累積的真實價格交易日逐日對照法人紀錄；任一交易日缺漏，該期間不給合計。法人日期與最新價格可能不同日。</p>'+
+      '<p class="hint">以已封存同市場法人實際有紀錄的日期建立交易日參考，逐日核對此股法人紀錄；非交易所獨立日曆驗證；任一交易日缺漏，該期間不給合計。法人日期與最新價格可能不同日。</p>'+
       '<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>期間</th><th>外資</th><th>投信</th><th>自營商</th><th>核對區間／缺漏</th></tr></thead><tbody>'+summ+'</tbody></table></div>'+
       '<h4>法人每日淨買賣超趨勢</h4>'+
       lineChart(flow.slice(-26),['foreign_net_shares','trust_net_shares'],
