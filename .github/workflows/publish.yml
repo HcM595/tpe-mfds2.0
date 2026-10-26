@@ -62,6 +62,8 @@ jobs:
         run: python scripts/chip_pipeline.py
       - name: 核對上市櫃普通股公司名錄並產出2.3籌碼強度排行
         run: python scripts/stock_rank.py
+      - name: 發布官方上市櫃公司名錄供全市場資格查詢
+        run: cp history_data/ordinary_stock_master.csv site/data/ordinary_stock_master.csv
       - name: 2.3.3 籌碼與技術面雙軌交叉驗證
         run: python scripts/tech_crosscheck.py
       - name: 2.4A 封存當次籌碼排名與技術訊號（防未來資料洩漏）
