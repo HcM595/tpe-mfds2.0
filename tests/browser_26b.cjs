@@ -26,6 +26,8 @@ const assert = require('node:assert/strict');
      assert(researchText.includes('2.8B S1／S3 歷史資料描述性觀察'),'descriptive factor section missing '+id);
      assert(researchText.includes('法人5日期末'),'normalized flow date missing '+id);
      assert(researchText.includes('未還原'),'price corporate-action limitations missing '+id);
+     assert(researchText.includes('2.8C 公司月營收與產業相對強弱'),'fundamental industry panel missing '+id);
+     assert(researchText.includes('出表日期不等於個別公司公告時點'),'monthly publication caveat missing '+id);
      console.log('PASS browser stock:',id);
    }
    await page.locator('[data-r-tab="quality"]').click();
