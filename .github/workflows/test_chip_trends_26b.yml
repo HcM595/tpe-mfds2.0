@@ -11,6 +11,9 @@ on:
       - 'tests/browser_research_29m.cjs'
       - 'site/pit_clock_29n.js'
       - 'site/asof_gate_29o.js'
+      - 'site/publication_review_29p.html'
+      - 'scripts/build_publication_review_29p.py'
+      - 'tests/test_publication_review_29p.py'
       - 'scripts/audit_publication_gate_29o.py'
       - 'tests/asof_gate_29o.test.cjs'
       - 'tests/test_publication_gate_29o.py'
@@ -266,6 +269,21 @@ jobs:
           assert m['strict_backtest_eligible']==0
           assert all(x['F2_asof_clock_pass']=='false' and x['F3_asof_clock_pass']=='false' and x['REVENUE_asof_clock_pass']=='false' for x in r)
           print('2.9O conservative publication gates verified',len(r))
+          PY
+      - name: 2.9P verify publication evidence review queue and fail-closed disclosure status
+        run: |
+          python -m unittest tests/test_publication_review_29p.py
+          python scripts/build_publication_review_29p.py
+          python - <<'PY'
+          import csv,json
+          rows=list(csv.DictReader(open('site/data/publication_review_queue_29p.csv',encoding='utf-8')))
+          meta=json.load(open('site/data/publication_review_meta_29p.json',encoding='utf-8'))
+          assert len(rows)==meta['candidate_rows']==meta['universe_stocks']*3
+          assert len(rows)>5000
+          assert all(x['publication_time_verified']=='false' and x['historical_clock_eligible']=='false' for x in rows)
+          assert all(not x['verified_company_publication_utc'] for x in rows)
+          assert meta['strict_backtest_eligible']==0 and not meta['model_scoring_enabled']
+          print('2.9P unpublished source proofs quarantined',len(rows))
           PY
       - name: Install browser test runtime (bounded download, no unnecessary apt refresh)
         timeout-minutes: 8
