@@ -1,0 +1,133 @@
+{
+  "version": "2.8A",
+  "model": "TPE-MFDS 四層12子因子",
+  "status": "not_trained",
+  "data_cutoff": "各來源獨立，不能共用單一截止日",
+  "live_factor_score_enabled": false,
+  "probability_enabled": false,
+  "coverage_threshold_initial": 0.6,
+  "coverage_threshold_production_target": 0.75,
+  "notes": "本表是原始因子資料契約及缺口盤點，非已計算分數、亦非資料已全部驗證。只有來源和公布時點被明確核對後才能開啟對應因子。",
+  "factors": [
+    {
+      "id": "M1",
+      "layer": "宏觀",
+      "label": "景氣對策信號",
+      "required": "國發會景氣分數與公告日",
+      "status": "not_verified",
+      "value": null,
+      "published_at": null,
+      "available_on": null
+    },
+    {
+      "id": "M2",
+      "layer": "宏觀",
+      "label": "外需動能",
+      "required": "外銷訂單、出口YoY與公告日",
+      "status": "not_verified",
+      "value": null,
+      "published_at": null,
+      "available_on": null
+    },
+    {
+      "id": "M3",
+      "layer": "宏觀",
+      "label": "匯率與資金",
+      "required": "USD/TWD變化與外資整體流向",
+      "status": "not_verified",
+      "value": null,
+      "published_at": null,
+      "available_on": null
+    },
+    {
+      "id": "I1",
+      "layer": "產業",
+      "label": "半導體週期",
+      "required": "營收擴散率與產業存貨動態",
+      "status": "not_verified",
+      "value": null,
+      "published_at": null,
+      "available_on": null
+    },
+    {
+      "id": "I2",
+      "layer": "產業",
+      "label": "政策扶持度",
+      "required": "有公告證據的政策事件",
+      "status": "not_verified",
+      "value": null,
+      "published_at": null,
+      "available_on": null
+    },
+    {
+      "id": "I3",
+      "layer": "產業",
+      "label": "產業輪動強度",
+      "required": "產業20/60日相對強度",
+      "status": "not_verified",
+      "value": null,
+      "published_at": null,
+      "available_on": null
+    },
+    {
+      "id": "F1",
+      "layer": "公司",
+      "label": "盈利品質",
+      "required": "營收YoY與現金流淨利比",
+      "status": "not_verified",
+      "value": null,
+      "published_at": null,
+      "available_on": null
+    },
+    {
+      "id": "F2",
+      "layer": "公司",
+      "label": "估值與預期差",
+      "required": "同業估值或授權預估差",
+      "status": "not_verified",
+      "value": null,
+      "published_at": null,
+      "available_on": null
+    },
+    {
+      "id": "F3",
+      "layer": "公司",
+      "label": "公司治理",
+      "required": "股權結構及揭露時點",
+      "status": "not_verified",
+      "value": null,
+      "published_at": null,
+      "available_on": null
+    },
+    {
+      "id": "S1",
+      "layer": "市場行為",
+      "label": "法人動向",
+      "required": "外資與投信的流量比率及日期",
+      "status": "not_verified",
+      "value": null,
+      "published_at": null,
+      "available_on": null
+    },
+    {
+      "id": "S2",
+      "layer": "市場行為",
+      "label": "散戶情緒",
+      "required": "融資、當沖與股東級距",
+      "status": "not_verified",
+      "value": null,
+      "published_at": null,
+      "available_on": null
+    },
+    {
+      "id": "S3",
+      "layer": "市場行為",
+      "label": "技術與波動",
+      "required": "20/60動能、波動率與ATR",
+      "status": "not_verified",
+      "value": null,
+      "published_at": null,
+      "available_on": null
+    }
+  ]
+}

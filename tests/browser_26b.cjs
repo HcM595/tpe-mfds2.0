@@ -31,6 +31,8 @@ const assert = require('node:assert/strict');
    await page.waitForFunction(() => document.querySelector('#content')?.textContent.includes('身分及基本資料同時符合'),{timeout:60000});
    const screenText=await page.locator('#content').innerText();
    assert(screenText.includes('普通股名錄有核對'),'market company roster eligibility missing');
+   assert(screenText.includes('原始四層12子因子就緒稽核'),'factor readiness missing');
+   assert(screenText.includes('0 / 12'),'unverified factor model must not claim readiness');
    assert(await page.locator('#r-query').count()===1,'existing screener missing');
    await page.setViewportSize({width:390,height:844});
    await page.locator('[data-r-tab="stock"]').click();
