@@ -96,10 +96,11 @@ jobs:
           assert all(r['verified_factor_count']=='0' and r['prediction_enabled']=='false' for r in rows)
           print('12-factor full-universe model evidence regression OK:',len(rows))
           PY
-      - name: Install browser test runtime
+      - name: Install browser test runtime (bounded download, no unnecessary apt refresh)
+        timeout-minutes: 8
         run: |
-          npm install --no-save playwright@1.56.1
-          npx playwright install --with-deps chromium
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install chromium
       - name: Include published company master for browser test
         run: cp history_data/ordinary_stock_master.csv site/data/ordinary_stock_master.csv
       - name: Validate 12-factor manifest
