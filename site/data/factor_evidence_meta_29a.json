@@ -1,12 +1,14 @@
 {
-  "version": "2.9B",
-  "generated_at_taipei": "2026-10-26T17:38:37+08:00",
+  "version": "2.9C",
+  "generated_at_taipei": "2026-10-26T18:03:48+08:00",
   "model": "TPE-MFDS original M1-M3 I1-I3 F1-F3 S1-S3; two engines A/B",
   "macro_observation_status": {
     "ndc": "ok",
     "cbc": "ok"
   },
   "macro_publication_dates_verified": false,
+  "retail_investor_sentiment_verified": false,
+  "credit_balance_observations_not_retail_ownership": true,
   "stocks": 1949,
   "basic_qualified": 754,
   "snapshots_with_archives_later_than_price": 1949,
@@ -50,8 +52,8 @@
     },
     "F1": {
       "no_data": 6,
-      "partial": 1918,
-      "descriptive": 25,
+      "partial": 1908,
+      "descriptive": 35,
       "verified": 0
     },
     "F2": {
@@ -73,8 +75,8 @@
       "verified": 0
     },
     "S2": {
-      "no_data": 0,
-      "partial": 1949,
+      "no_data": 110,
+      "partial": 1839,
       "descriptive": 0,
       "verified": 0
     },
@@ -100,6 +102,7 @@
   "notes": [
     "observed_factor_count 只代表部分或描述性原始資料覆蓋，不是可建模或合格因子數，不能用它判斷60%門檻",
     "基本資格使用120個不同日期有效收盤、最近20個資料點成交額均值≥3000萬且收盤歷史日期對齊快照；未另外獨立證明每一官方交易日均存在",
+    "S2只使用日期已確認的官方融資融券餘額作為部分原始證據，非真正的散戶比例或逐股當沖率；不可給正式情緒分數",
     "M1國發會最新景氣觀察為描述性來源，M2海關出口YoY及外銷訂單家數動向指數不是訂單金額YoY，M3央行匯率不等於完整市場外資動向",
     "宏觀資料所屬統計月份／日不代表當日已公開，國發會歷史資料可能回溯修訂；不得用於點時回測",
     "source_postdates_price 是首次封存時間晚於價格基準日的警示，不替代公司實際公告時間",
