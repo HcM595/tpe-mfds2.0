@@ -78,6 +78,24 @@ class RevenueBreadth29D(unittest.TestCase):
         self.assertTrue(all(r["factor_I1_eligible"]=="false" for r in out))
         self.assertTrue(all(r["three_month_history"]=="false" for r in out))
 class PolicyRegistry29D(unittest.TestCase):
+    def test_policy_event_official_alternate_source_does_not_guess_company_benefit(self):
+        title="亞灣智慧網通國際拓點與服務應用示範研發計畫"
+        raw=("<html><body><h1>"+title+"</h1><p>發布日期：2026-09-01</p>"+("完整政策內容"*30)+"</body></html>").encode()
+        with tempfile.TemporaryDirectory() as folder:
+            primary="https://www.ida.gov.tw/ctlr?PRO=policy.PolicyView&id=12053"
+            alt="https://www.ida.gov.tw/ctlr?PRO=grant.DisclosureView&id=17246"
+            def alternate(url):
+                if url==primary:raise OSError("temporary official policy page failure")
+                if url!=alt:raise AssertionError("unexpected nonofficial URL")
+                return raw
+            events=[("IDA-2026-09-01-AIWAN","2026-09-01",title,primary)]
+            data,meta=policies(Path(folder),alternate,
+                dt.datetime(2026,10,26,tzinfo=dt.timezone.utc),events)
+            self.assertEqual(data[0]["official_url"],alt)
+            self.assertEqual(data[0]["source_status"],"ok")
+            self.assertEqual(meta["source_verified_this_run"],1)
+            self.assertFalse(meta["I2_factor_eligible"])
+
     def test_policy_page_title_date_verified_no_stock_link(self):
         day="2026-09-01";title="亞灣智慧網通國際拓點與服務應用示範研發計畫"
         raw=("<html><body><h1>"+title+"</h1><p>發布日期："+day+"</p><p>"+("內容"*100)+"</p></body></html>").encode()
