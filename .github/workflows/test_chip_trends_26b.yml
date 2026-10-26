@@ -1,4 +1,4 @@
-name: TPE-MFDS 2.8G 官方現金流封存與全網站驗收
+name: TPE-MFDS 2.8H 官方現金流單位及逐批涵蓋驗收
 on:
   pull_request:
     paths:
