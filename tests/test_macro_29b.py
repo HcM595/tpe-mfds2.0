@@ -29,7 +29,7 @@ def ndc_fixture():
         for n,t in data.items():z.writestr(n,t)
     return b.getvalue()
 def fx_fixture():
-    d=dt.date(2026,8,1)
+    d=dt.date(2026,5,1)
     entries=[{"日期":(d+dt.timedelta(days=i)).strftime("%Y%m%d"),"NTD_USD":f"{30+i*0.002:.3f}"}
         for i in range(110)]
     return json.dumps(entries).encode()
