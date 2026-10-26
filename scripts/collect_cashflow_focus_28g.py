@@ -22,11 +22,12 @@ from zoneinfo import ZoneInfo
 
 BASE=Path(__file__).resolve().parents[1]
 FOCUS=("8064","3533","2345","2330","2308")
+NEW_STOCKS_PER_RUN=10  # bounded public-source polling; not all-market on day one
 URL="https://mopsov.twse.com.tw/mops/web/ajax_t164sb05"
 HEAD=["stock_id","stock_name","market","report_period","cashflow_period_start",
       "cashflow_period_end","cashflow_ytd_operating_raw","cashflow_prior_ytd_operating_raw",
       "cashflow_source_label","source_url","source_sha256","first_seen_utc","source_status",
-      "amount_unit_verified","net_profit_period_basis_verified","company_filing_time_verified",
+      "amount_unit_verified","cashflow_unit","cashflow_unit_source_text","net_profit_period_basis_verified","company_filing_time_verified",
       "cashflow_netincome_ratio","factor_F1_eligible","source_caveat"]
 
 class TableReader(HTMLParser):
@@ -67,10 +68,19 @@ def parse_html(raw,year,quarter):
     wanted=normalized("營業活動之淨現金流入（流出）")
     hits=[r for r in rows.rows if len(r)>=3 and normalized(r[0])==wanted]
     if len(hits)!=1:raise ValueError("exact operating cash flow label missing/ambiguous")
+    exact_units={normalized(x) for x in (
+        "單位：新台幣仟元","單位：新臺幣仟元",
+        "單位：新台幣千元","單位：新臺幣千元")}
+    evidence=[cell for row in rows.rows for cell in row if normalized(cell) in exact_units]
+    # A file-level unit must be present exactly once in this official statement.
+    verified=len(evidence)==1
     now=numeric_text(hits[0][1]);last=numeric_text(hits[0][2])
     if now is None:raise ValueError("current-year operating cash flow missing or not numeric")
     return {"start":f"{year}-01-01","end":f"{year}-{last_month:02d}-{last_date:02d}",
-            "current":now,"prior":last or "","label":hits[0][0]}
+            "current":now,"prior":last or "","label":hits[0][0],
+            "unit_verified":verified,
+            "unit":"新台幣千元" if verified else "",
+            "unit_source_text":evidence[0] if verified else ""}
 
 def read_csv(path):
     if not path.is_file():return []
@@ -89,7 +99,7 @@ def fetch(stock_id,year,quarter):
     })
     with urllib.request.urlopen(req,timeout=35) as resp:return resp.read(3_000_001)
 
-def collect(base=BASE,fetcher=fetch,clock=None,focus=FOCUS):
+def collect(base=BASE,fetcher=fetch,clock=None,focus=None):
     clock=clock or dt.datetime.now(dt.timezone.utc)
     site=base/"site"/"data"
     master={r["stock_id"]:r for r in read_csv(base/"history_data"/"ordinary_stock_master.csv")}
@@ -97,6 +107,14 @@ def collect(base=BASE,fetcher=fetch,clock=None,focus=FOCUS):
     dest=site/"cashflow_focus_28g.csv"
     past={r["stock_id"]:r for r in read_csv(dest)}
     archive=base/"history_data"/"cashflow_sources"
+    if focus is None:
+        # Always refresh priority stocks. Add up to 10 new/outdated stocks.
+        pending=[sid for sid in sorted(latest_income)
+                 if sid in master and sid not in FOCUS
+                 and (sid not in past or
+                      past[sid].get("report_period")!=latest_income[sid].get("report_period"))]
+        focus=tuple(FOCUS)+tuple(pending[:NEW_STOCKS_PER_RUN])
+    focus=tuple(dict.fromkeys(focus))
     result=[];statuses={}
     for sid in focus:
         inc=latest_income.get(sid)
@@ -129,10 +147,15 @@ def collect(base=BASE,fetcher=fetch,clock=None,focus=FOCUS):
                        cashflow_prior_ytd_operating_raw=parsed["prior"],
                        cashflow_source_label=parsed["label"],source_url=URL,source_sha256=sha,
                        first_seen_utc=seen,source_status="ok",
-                       amount_unit_verified="false",net_profit_period_basis_verified="false",
+                       amount_unit_verified="true" if parsed["unit_verified"] else "false",
+                       cashflow_unit=parsed["unit"],cashflow_unit_source_text=parsed["unit_source_text"],
+                       net_profit_period_basis_verified="false",
                        company_filing_time_verified="false",cashflow_netincome_ratio="",
                        factor_F1_eligible="false",
-                       source_caveat="MOPS年初累計營業活動淨現金流原值；單位、淨利累計口徑與公司申報時點仍待核實，不能計算比率")
+                       source_caveat=("MOPS年初累計營業活動淨現金流原值；"+
+                           ("現金流單位已核對（新台幣千元），但" if parsed["unit_verified"]
+                            else "現金流單位尚未核實，且")+
+                           "淨利的會計口徑與公司申報時點仍未核實，不能計算F1比率"))
             result.append(out)
             statuses[sid]={"status":"ok","report_period":inc["report_period"],"sha256":sha}
         except (OSError,ValueError,TypeError,KeyError,UnicodeError) as e:
