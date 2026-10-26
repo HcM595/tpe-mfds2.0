@@ -1,0 +1,37 @@
+{
+  "version": "2.9O",
+  "universe_stocks": 1949,
+  "cutoff": "價格基準日 00:00 Asia/Taipei（嚴格小於）",
+  "clock_gate_pass": {
+    "F2": 0,
+    "F3": 0,
+    "REVENUE": 0
+  },
+  "blocker_counts": {
+    "F2": {
+      "first_seen_after_cutoff": 1944,
+      "official_publication_unverified": 1949,
+      "source_authorization_missing": 1949,
+      "missing_report_day": 5,
+      "first_seen_unverified": 5
+    },
+    "F3": {
+      "report_after_price_day": 1949,
+      "first_seen_after_cutoff": 1949,
+      "official_publication_unverified": 1949,
+      "source_authorization_missing": 1949
+    },
+    "REVENUE": {
+      "first_seen_after_cutoff": 1943,
+      "official_publication_unverified": 1949,
+      "source_authorization_missing": 1949,
+      "missing_report_day": 6,
+      "first_seen_unverified": 6
+    }
+  },
+  "model_scoring_enabled": false,
+  "probability_enabled": false,
+  "strict_backtest_eligible": 0,
+  "disclaimer": "時鐘門檻通過也不代表12因子已驗證；未還原價格、證券身分、樣本外研究和發佈來源仍須各自驗收。",
+  "release_rule": "不得以表格出表日、月份、原始報表日或本網站首次取得時間，冒充逐公司正式公告時間。"
+}
