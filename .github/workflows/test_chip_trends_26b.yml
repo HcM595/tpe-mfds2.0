@@ -1,8 +1,11 @@
-name: TPE-MFDS 2.8F.1 上櫃財報來源相容與全網站驗收
+name: TPE-MFDS 2.8G 官方現金流封存與全網站驗收
 on:
   pull_request:
     paths:
       - 'site/index.html'
+      - 'scripts/collect_cashflow_focus_28g.py'
+      - 'tests/test_cashflow_28g.py'
+      - 'scripts/probe_mops_cashflow_28g.py'
       - 'scripts/collect_income_28f.py'
       - 'tests/test_income_28f.py'
       - 'scripts/compute_risk_observations_28d.py'
@@ -65,6 +68,10 @@ jobs:
         run: |
           python -m unittest tests/test_income_28f.py
           python -m py_compile scripts/collect_income_28f.py
+      - name: Test official cumulative cashflow period, source and F1 disable rules
+        run: |
+          python -m unittest tests/test_cashflow_28g.py
+          python -m py_compile scripts/collect_cashflow_focus_28g.py
       - name: Install browser test runtime
         run: |
           npm install --no-save playwright@1.56.1
