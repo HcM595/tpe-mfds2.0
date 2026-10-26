@@ -3,6 +3,11 @@ on:
   pull_request:
     paths:
       - 'site/index.html'
+      - 'site/factor_gaps_29h.html'
+      - 'site/stock_research_29i.html'
+      - 'site/dual_engine_29j.html'
+      - 'site/compare_29k.html'
+      - 'tests/test_research_pages_29l.py'
       - 'scripts/audit_f2f3_pit_29f.py'
       - 'tests/test_fundamental_pit_29f.py'
       - 'scripts/collect_f2f3_29e.py'
@@ -244,6 +249,8 @@ jobs:
       - name: Validate 12-factor manifest
         run: |
           python -c "import json; d=json.load(open('site/data/factor_readiness_28a.json')); assert len(d['factors']) == 12 and not d['probability_enabled'] and not d['live_factor_score_enabled']"
+      - name: 2.9L validate all four research pages and published data contracts
+        run: python -m unittest tests/test_research_pages_29l.py
       - name: Browser smoke test against generated site
         run: |
           python scripts/export_chip_trends.py
