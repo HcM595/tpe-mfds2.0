@@ -39,6 +39,16 @@ class OfficialCashflow28G(unittest.TestCase):
         mismatch=html().replace("<tr><td>金額".encode("utf-8"), "<tr><th>單位：美元</th></tr><tr><td>金額".encode("utf-8"))
         self.assertFalse(parse_html(mismatch,2026,2)["unit_verified"])
 
+    def test_actual_mops_unclosed_th_unit_header(self):
+        # Archived MOPS examples render <th>單位：新台幣仟元</tr> without </th>.
+        # This is valid source evidence despite the imperfect HTML.
+        raw=html().replace("<tr><td>金額".encode("utf-8"),
+            "<tr><th class='tblHead' colspan='7'>單位：新台幣仟元</tr><tr><td>金額".encode("utf-8"))
+        parsed=parse_html(raw,2026,2)
+        self.assertEqual(parsed["unit_source_text"],"單位：新台幣仟元")
+        self.assertEqual(parsed["unit"],"新台幣千元")
+        self.assertTrue(parsed["unit_verified"])
+
     def test_incremental_batch_keeps_previous_rows_and_freshness(self):
         with tempfile.TemporaryDirectory() as tmp:
             base=Path(tmp)

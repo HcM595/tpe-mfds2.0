@@ -42,6 +42,11 @@ class TableReader(HTMLParser):
         if tag in ("td","th") and self.cell is not None and self.row is not None:
             self.row.append(" ".join(" ".join(self.cell).split()));self.cell=None
         if tag=="tr" and self.row is not None:
+            # Real MOPS markup may close <tr> without closing the inner <th>.
+            # Preserve that final header cell rather than silently discarding it.
+            if self.cell is not None:
+                self.row.append(" ".join(" ".join(self.cell).split()))
+                self.cell=None
             self.rows.append(self.row);self.row=None
 
 def normalized(v):
@@ -175,7 +180,7 @@ def collect(base=BASE,fetcher=fetch,clock=None,focus=None):
         with dest.open("w",encoding="utf-8",newline="") as f:
             w=csv.DictWriter(f,fieldnames=HEAD,lineterminator="\n",extrasaction="ignore")
             w.writeheader();w.writerows(result)
-    meta={"version":"2.8H","generated_at_taipei":clock.astimezone(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
+    meta={"version":"2.8H.1","generated_at_taipei":clock.astimezone(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
           "focus_stocks":list(focus),"priority_stocks":list(FOCUS),
           "batch_new_stock_cap":NEW_STOCKS_PER_RUN,
           "general_business_income_universe":len(latest_income),
@@ -199,4 +204,4 @@ def collect(base=BASE,fetcher=fetch,clock=None,focus=None):
 
 if __name__=="__main__":
     rows,meta=collect()
-    print("2.8H official MOPS cashflow",meta["fresh_observations"],"fresh of",len(meta["focus_stocks"]),"units checked",meta["fresh_unit_verified"])
+    print("2.8H.1 official MOPS cashflow",meta["fresh_observations"],"fresh of",len(meta["focus_stocks"]),"units checked",meta["fresh_unit_verified"])

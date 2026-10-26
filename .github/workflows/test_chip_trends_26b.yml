@@ -1,4 +1,4 @@
-name: TPE-MFDS 2.8H 官方現金流單位及逐批涵蓋驗收
+name: TPE-MFDS 2.8H.1 官方MOPS單位標題驗收
 on:
   pull_request:
     paths:
