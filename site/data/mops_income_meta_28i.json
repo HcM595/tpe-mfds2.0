@@ -1,10 +1,10 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-10-26T23:22:21+08:00",
-  "observations": 172,
+  "generated_at_taipei": "2026-10-26T23:28:18+08:00",
+  "observations": 178,
   "checked": 15,
-  "fresh_success": 12,
-  "fresh_ytd_unit_period_aligned": 12,
+  "fresh_success": 11,
+  "fresh_ytd_unit_period_aligned": 11,
   "income_report_ytd": "從MOPS第6欄提取當年年初累計本期淨利；第2欄為單季，不混用",
   "amount_unit": "只有逐股MOPS原始表有唯一明確新台幣仟元標頭時才核實",
   "per_stock": {
@@ -33,49 +33,48 @@
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1609": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "1611": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "1612": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
     "1614": {
-      "status": "unavailable",
-      "reason": "<urlopen error timed out>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
     "1615": {
-      "status": "unavailable",
-      "reason": "<urlopen error timed out>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
     "1616": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "1702": {
       "status": "unavailable",
       "reason": "<urlopen error timed out>"
     },
-    "1617": {
+    "1707": {
+      "status": "unavailable",
+      "reason": "<urlopen error timed out>"
+    },
+    "1708": {
+      "status": "unavailable",
+      "reason": "<urlopen error timed out>"
+    },
+    "1709": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1618": {
+    "1710": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1623": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
+    "1711": {
+      "status": "unavailable",
+      "reason": "<urlopen error timed out>"
     },
-    "1626": {
+    "1712": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -507,6 +506,27 @@
       "status": "not_checked_this_run"
     },
     "1608": {
+      "status": "not_checked_this_run"
+    },
+    "1609": {
+      "status": "not_checked_this_run"
+    },
+    "1611": {
+      "status": "not_checked_this_run"
+    },
+    "1612": {
+      "status": "not_checked_this_run"
+    },
+    "1617": {
+      "status": "not_checked_this_run"
+    },
+    "1618": {
+      "status": "not_checked_this_run"
+    },
+    "1623": {
+      "status": "not_checked_this_run"
+    },
+    "1626": {
       "status": "not_checked_this_run"
     },
     "1240": {
