@@ -14,6 +14,7 @@ const assert = require('node:assert/strict');
    await page.locator('#nav > button[data-page="research"][data-research-tab="stock"]').click();
    await page.locator('#r-stock-form').waitFor({timeout:60000});
    assert.equal(await page.locator('#nav > button.nav-btn.active').count(),1,'multiple primary entries marked active');
+   assert((await page.locator('.logo small').innerText()).includes('2.8E'),'sidebar version misleading');
    assert.equal(await page.locator('.r-tabs').count(),0,'duplicated top research tabs not removed');
    for(const id of ['8064','3533','2345']){
      await page.locator('[data-r-stock="'+id+'"]').first().click();
@@ -46,6 +47,16 @@ const assert = require('node:assert/strict');
    assert(screenText.includes('普通股名錄有核對'),'market company roster eligibility missing');
    assert(screenText.includes('原始四層12子因子就緒稽核'),'factor readiness missing');
    assert(screenText.includes('0 / 12'),'unverified factor model must not claim readiness');
+   assert(await page.locator('#r-eligibility-view').count()===1,'eligibility status filter missing');
+   await page.locator('#r-eligibility-view').selectOption('all');
+   await page.waitForFunction(()=>document.querySelector('#r-eligibility-page')?.textContent.includes('第 1／'),{timeout:60000});
+   const before=await page.locator('#r-eligibility-page').innerText();
+   assert(before.includes('每頁60檔'),'eligibility pagination label missing');
+   assert(await page.locator('[data-r-action="elig-next"]').isEnabled(),'full-market next page should be available');
+   await page.locator('[data-r-action="elig-next"]').click();
+   assert((await page.locator('#r-eligibility-page').innerText()).includes('第 2／'),'eligibility next page broken');
+   await page.locator('#r-eligibility-view').selectOption('excluded');
+   assert((await page.locator('#r-eligibility-page').innerText()).includes('第 1／'),'changing eligibility scope must reset page');
    assert(await page.locator('#r-query').count()===1,'existing screener missing');
    // Main chip rule is distinct from weighted ranking and must remain reachable.
    await page.locator('#nav > button[data-page="chip"]').click();
