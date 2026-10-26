@@ -18,7 +18,7 @@ def sample(id="8064"):
     asof="2026-10-22"
     stock={"stock_id":id,"stock_name":"測試","market":"上櫃","asof":asof}
     master={"stock_id":id,"market":"上櫃","sector":"電子"}
-    f={"stock_id":id,"asof":asof,"foreign_20d_volume_ratio_pct":"0","s1_5d_end":asof,
+    f={"stock_id":id,"asof":asof,"foreign_20d_volume_ratio_pct":"0","trust_20d_volume_ratio_pct":"0","foreign_5d_volume_ratio_pct":"0","trust_5d_volume_ratio_pct":"0","s1_5d_end":asof,
        "s1_20d_end":asof,"s3_momentum20_raw_pct":"0","s3_momentum60_raw_pct":"0"}
     industry={"stock_id":id,"asof":asof,"industry_relative20_raw_pp":"0",
               "industry_relative60_raw_pp":"1"}
@@ -77,7 +77,7 @@ class OriginalFactorCoverage29A(unittest.TestCase):
         self.assertEqual(out["M3_state"],"no_data")
         self.assertEqual(out["I3_state"],"no_data")
         self.assertEqual(out["S3_state"],"no_data")
-        self.assertEqual(out["S1_state"],"descriptive") # both windows dated
+        self.assertEqual(out["S1_state"],"partial") # 20d missing a normalized foreign ratio
         self.assertEqual(out["F1_state"],"partial")
         self.assertEqual(out["S2_state"],"no_data")
     def test_end_to_end_with_real_manifest_contract_and_duplicate_roster(self):
