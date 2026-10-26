@@ -29,6 +29,38 @@ class OfficialCashflow28G(unittest.TestCase):
         self.assertEqual(data["end"],"2026-06-30")
         self.assertEqual(data["current"],"196004")
         self.assertEqual(data["prior"],"309863")
+    def test_official_exact_unit_header_proves_only_cashflow_units(self):
+        unit=html().replace(b"<tr><td>金額", "<tr><th>單位：新台幣仟元</th></tr><tr><td>金額".encode("utf-8"))
+        record=parse_html(unit,2026,2)
+        self.assertTrue(record["unit_verified"])
+        self.assertEqual(record["unit"],"新台幣千元")
+        self.assertEqual(record["unit_source_text"],"單位：新台幣仟元")
+        self.assertFalse(parse_html(html(),2026,2)["unit_verified"])
+        mismatch=html().replace(b"<tr><td>金額", "<tr><th>單位：美元</th></tr><tr><td>金額".encode("utf-8"))
+        self.assertFalse(parse_html(mismatch,2026,2)["unit_verified"])
+
+    def test_incremental_batch_keeps_previous_rows_and_freshness(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base=Path(tmp)
+            companies=[{"stock_id":str(5000+i),"market":"上市"} for i in range(16)]
+            income=[{"stock_id":r["stock_id"],"stock_name":"測試股","market":"上市",
+                     "report_period":"2026Q2","fiscal_year":"2026","fiscal_quarter":"2"}
+                    for r in companies]
+            save(base/"history_data"/"ordinary_stock_master.csv",companies)
+            save(base/"site"/"data"/"income_snapshot_28f.csv",income)
+            official=html().replace(b"<tr><td>金額","<tr><th>單位：新台幣仟元</th></tr><tr><td>金額".encode())
+            records,m=collect(base,lambda *_:official,dt.datetime(2026,10,26,tzinfo=dt.timezone.utc))
+            self.assertEqual(m["fresh_observations"],10)
+            self.assertEqual(m["unit_verified_observations"],10)
+            self.assertEqual(m["fresh_unit_verified"],10)
+            self.assertEqual(len(records),10)
+            records2,m2=collect(base,lambda *_:official,dt.datetime(2026,10,27,tzinfo=dt.timezone.utc))
+            self.assertEqual(len(records2),16)
+            self.assertEqual(m2["fresh_observations"],6)
+            self.assertEqual(m2["unit_verified_observations"],16)
+            self.assertEqual(sum(1 for r in records2 if r["source_status"]=="not_checked_this_run"),10)
+            self.assertFalse(m2["factor_F1_eligible"])
+            self.assertFalse(m2["cashflow_to_netincome_ratio_enabled"])
     def test_reject_wrong_period_and_non_numeric(self):
         with self.assertRaises(ValueError):parse_html(html(end_month="09"),2026,2)
         with self.assertRaises(ValueError):parse_html(html(year=114),2026,2)
