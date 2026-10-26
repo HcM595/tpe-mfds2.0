@@ -1,8 +1,10 @@
-name: TPE-MFDS 2.8I 官方損益表累計口徑與網頁驗收
+name: TPE-MFDS 2.9A 原始12因子雙引擎證據及整站驗收
 on:
   pull_request:
     paths:
       - 'site/index.html'
+      - 'scripts/build_factor_evidence_29a.py'
+      - 'tests/test_factor_evidence_29a.py'
       - 'scripts/collect_mops_income_ytd_28i.py'
       - 'tests/test_mops_income_28i.py'
       - 'scripts/probe_mops_income_28i.py'
@@ -79,6 +81,21 @@ jobs:
         run: |
           python -m unittest tests/test_mops_income_28i.py
           python -m py_compile scripts/collect_mops_income_ytd_28i.py
+      - name: Test original 4-layer 12-factor evidence matrix against real archived stocks
+        run: |
+          python -m unittest tests/test_factor_evidence_29a.py
+          python scripts/build_factor_evidence_29a.py
+          python - <<'PY'
+          import csv,json
+          with open('site/data/factor_evidence_meta_29a.json',encoding='utf-8') as f:m=json.load(f)
+          with open('site/data/factor_evidence_29a.csv',encoding='utf-8') as f:rows=list(csv.DictReader(f))
+          assert len(rows)==m['stocks'] and len(rows)>100
+          assert m['count_verified_factors']==0 and m['model_eligible_stocks']==0
+          assert not m['model_scores_enabled'] and not m['performance_probabilities_enabled']
+          assert len(m['per_factor'])==12
+          assert all(r['verified_factor_count']=='0' and r['prediction_enabled']=='false' for r in rows)
+          print('12-factor full-universe model evidence regression OK:',len(rows))
+          PY
       - name: Install browser test runtime
         run: |
           npm install --no-save playwright@1.56.1
