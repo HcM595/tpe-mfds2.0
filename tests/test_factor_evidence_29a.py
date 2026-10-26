@@ -88,6 +88,25 @@ class OriginalFactorCoverage29A(unittest.TestCase):
                          {"M1":{"observation_period":"202611","composite_score":40,"light":"紅"}}, {})
         self.assertEqual(future["M1_state"],"no_data")
 
+    def test_s2_requires_dated_credit_evidence_not_holder_concentration(self):
+        stock,master,f,industry,rev,inc,cf,ytd=sample()
+        holder={"holder_asof":"2026-10-22"}
+        row=build_row(stock,master,prices(),f,industry,rev,inc,cf,ytd,holder,{})
+        self.assertEqual(row["S2_state"],"no_data")
+        credit={"stock_id":"8064","report_date":"2026-10-22",
+                "margin_balance_units":"100","short_balance_units":"20",
+                "first_seen_utc":"2026-10-26T08:00:00Z"}
+        with_evidence=build_row(stock,master,prices(),f,industry,rev,inc,cf,ytd,
+                                holder,{},None,None,credit)
+        self.assertEqual(with_evidence["S2_state"],"partial")
+        self.assertEqual(with_evidence["S2_asof"],"2026-10-22")
+        self.assertEqual(with_evidence["verified_factor_count"],0)
+        self.assertEqual(with_evidence["model_eligible"],"false")
+        credit["report_date"]="2026-10-27"
+        future=build_row(stock,master,prices(),f,industry,rev,inc,cf,ytd,
+                         holder,{},None,None,credit)
+        self.assertEqual(future["S2_state"],"no_data")
+
     def test_missing_numeric_data_stays_absent_and_never_qualified(self):
         stock,master,f,ind,rev,inc,cf,ytd=sample()
         f["foreign_20d_volume_ratio_pct"]=""
