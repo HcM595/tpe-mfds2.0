@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'site/index.html'
+      - 'site/data/factor_readiness_28a.json'
       - '.github/workflows/publish.yml'
       - 'site/research_eligibility_27a.js'
       - 'tests/research_eligibility_27a.test.js'
@@ -42,6 +43,9 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Include published company master for browser test
         run: cp history_data/ordinary_stock_master.csv site/data/ordinary_stock_master.csv
+      - name: Validate 12-factor manifest
+        run: |
+          python -c "import json; d=json.load(open('site/data/factor_readiness_28a.json')); assert len(d['factors']) == 12 and not d['probability_enabled'] and not d['live_factor_score_enabled']"
       - name: Browser smoke test against generated site
         run: |
           python scripts/export_chip_trends.py
