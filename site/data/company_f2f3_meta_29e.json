@@ -1,6 +1,6 @@
 {
   "version": "2.9E",
-  "generated_at_taipei": "2026-10-26T23:31:53+08:00",
+  "generated_at_taipei": "2026-10-27T06:19:47+08:00",
   "valuation_stocks": 1975,
   "valuation_peer_comparable": 1538,
   "governance_stocks": 1985,
@@ -27,19 +27,19 @@
     "上市_governance": {
       "status": "ok",
       "rows": 1091,
-      "source_sha256": "ac1c98c6c4343e924cd4dea1ad4b90c071e76e4e2f0170e448a8932ba68d93ff",
+      "source_sha256": "05d5491fa41a2df625830fb51bf1dee762de74ab59652e9fcb1abbde189e540e",
       "source_url": "https://openapi.twse.com.tw/v1/opendata/t187ap33_L",
       "source_dates": [
-        "2026-10-25"
+        "2026-10-26"
       ]
     },
     "上櫃_governance": {
       "status": "ok",
       "rows": 894,
-      "source_sha256": "eaf67addf0082da2b334b233de49c9de6d03ec89b6dabcf74444f023d2b903f4",
+      "source_sha256": "0d0d97aae4f2acc99769931147a1f02385c3a7a00d375a7c1259a244f4ff08fa",
       "source_url": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap33_O",
       "source_dates": [
-        "2026-10-25"
+        "2026-10-26"
       ]
     }
   },
