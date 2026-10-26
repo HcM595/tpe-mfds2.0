@@ -162,23 +162,41 @@ def collect(base=BASE,fetcher=fetch,clock=None,focus=None):
             statuses[sid]={"status":"stale_backup" if sid in past else "unavailable","reason":str(e)[:200]}
             if sid in past:result.append(dict(past[sid],source_status="stale_backup"))
         if fetcher is fetch:time.sleep(0.8)
+    # Previously archived records outside today's batch remain visible,
+    # explicitly marked as NOT queried in this run.
+    for sid,row in sorted(past.items()):
+        if sid not in focus:
+            result.append(dict(row,source_status="not_checked_this_run"))
+            statuses[sid]={"status":"not_checked_this_run",
+                           "report_period":row.get("report_period","")}
+    result.sort(key=lambda x:(x.get("market",""),x.get("stock_id","")))
     site.mkdir(parents=True,exist_ok=True)
     if result:
         with dest.open("w",encoding="utf-8",newline="") as f:
             w=csv.DictWriter(f,fieldnames=HEAD,lineterminator="\n",extrasaction="ignore")
             w.writeheader();w.writerows(result)
-    meta={"version":"2.8G","generated_at_taipei":clock.astimezone(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
-          "focus_stocks":list(focus),"observations":len(result),
+    meta={"version":"2.8H","generated_at_taipei":clock.astimezone(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
+          "focus_stocks":list(focus),"priority_stocks":list(FOCUS),
+          "batch_new_stock_cap":NEW_STOCKS_PER_RUN,
+          "general_business_income_universe":len(latest_income),
+          "observations":len(result),
+          "unit_verified_observations":sum(1 for x in result if x.get("amount_unit_verified")=="true"),
+          "fresh_unit_verified":sum(1 for x in result if x.get("source_status")=="ok"
+                                    and x.get("amount_unit_verified")=="true"),
           "fresh_observations":sum(1 for x in result if x["source_status"]=="ok"),
           "per_stock":statuses,"source":"MOPS official individual cash flow HTML",
-          "operating_cf_is_ytd":True,"amount_unit_verified":False,
+          "operating_cf_is_ytd":True,
+          "source_units_checked_per_stock":True,
+          "cashflow_unit":"新台幣千元（逐筆需核對官方單位欄）",
+          "amount_unit_verified":False, # never grant blanket verification
           "income_accounting_basis_verified":False,"filing_timestamps_verified":False,
           "cashflow_to_netincome_ratio_enabled":False,"factor_F1_eligible":False,
           "backtest_use_enabled":False,"focus_only":True,
-          "warning":"只封存實際來源觀察。非全市場，無核實財報金額單位與淨利累計口徑前不得做數值比率；未核對公司申報時間前禁止點時回測。"}
+          "rolling_general_business_backfill":True,
+          "warning":"逐股官方現金流原始單位可核對時才標註新台幣千元。淨利單位、累計會計口徑、合併範圍與申報時間尚未核對，因此不可計算現金流／淨利比率或進行點時回測；資料逐批回補，非完整全市場。"}
     (site/"cashflow_meta_28g.json").write_text(json.dumps(meta,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     return result,meta
 
 if __name__=="__main__":
     rows,meta=collect()
-    print("2.8G official cashflow focus observations",meta["fresh_observations"],"of",len(FOCUS))
+    print("2.8H official MOPS cashflow",meta["fresh_observations"],"fresh of",len(meta["focus_stocks"]),"units checked",meta["fresh_unit_verified"])
