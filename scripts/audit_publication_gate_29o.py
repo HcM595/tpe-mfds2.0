@@ -52,6 +52,8 @@ def check(price_day,report_day,first_seen,publication,authorized):
     release=instant(publication)
     if release is None: blockers.append("official_publication_unverified")
     elif release>=cutoff: blockers.append("publication_after_cutoff")
+    if first is not None and release is not None and release>first:
+        blockers.append("capture_precedes_official_release")
     if not authorized: blockers.append("source_authorization_missing")
     return not blockers,blockers
 
