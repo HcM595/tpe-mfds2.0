@@ -75,7 +75,7 @@ def eligibility(prices,asof,market_match,min_days=MIN_PRICE_DAYS):
                 basic_data_eligible="true" if status.startswith("初步通過") else "false")
 
 def build_row(snap,master,prices,obs,industry,revenue,income,cashflow,ytd,
-              holder,dayflow,macro=None,fx_observation=None):
+              holder,dayflow,macro=None,fx_observation=None,s2_credit=None):
     sid=snap["stock_id"]; asof=snap.get("asof","")
     market=snap.get("market","")
     id_ok=bool(master and master.get("market")==market and market in ("上市","上櫃"))
@@ -139,9 +139,15 @@ def build_row(snap,master,prices,obs,industry,revenue,income,cashflow,ytd,
     s1=bool(obs.get("stock_id")) and obs.get("asof")==asof and bool(obs.get("s1_5d_end")) and all(number(obs.get(k)) is not None for k in ("foreign_5d_volume_ratio_pct","trust_5d_volume_ratio_pct"))
     s1_full=s1 and bool(obs.get("s1_20d_end")) and all(number(obs.get(k)) is not None for k in ("foreign_20d_volume_ratio_pct","trust_20d_volume_ratio_pct"))
     set_factor("S1",s1,full=s1_full,date=obs.get("s1_20d_end") or obs.get("s1_5d_end",""))
-    # Holder concentrations are not financing/daytrade sentiment.
-    s2=bool(holder.get("holder_asof")) or bool(dayflow.get("holder_asof"))
-    set_factor("S2",s2,date=holder.get("holder_asof") or dayflow.get("holder_asof",""))
+    # Margin balances are credit leverage observations, not measured retail sentiment.
+    # Large-holder concentrations are NOT substitutes for financing or day-trading.
+    credit=s2_credit or {}
+    credit_date=credit.get("report_date","")
+    credit_valid=bool(iso(credit_date) and credit_date<=asof and
+                  credit.get("stock_id")==sid and
+                  number(credit.get("margin_balance_units")) is not None and
+                  number(credit.get("short_balance_units")) is not None)
+    set_factor("S2",credit_valid,date=credit_date if credit_valid else "")
     s3=bool(obs.get("stock_id")) and obs.get("asof")==asof and number(obs.get("s3_momentum20_raw_pct")) is not None
     set_factor("S3",s3,full=s3 and number(obs.get("s3_momentum60_raw_pct")) is not None,
                date=obs.get("asof",""))
@@ -153,6 +159,7 @@ def build_row(snap,master,prices,obs,industry,revenue,income,cashflow,ytd,
     # reference date, must NEVER be counted as time-valid for scoring.
     timestamps=[r.get("first_seen_utc","") for r in (revenue,income,cashflow,ytd)]
     timestamps += [(macro.get("sources",{}).get(key) or {}).get("first_seen_utc","") for key in ("ndc","cbc")]
+    timestamps.append(credit.get("first_seen_utc",""))
     later=False
     for stamp in timestamps:
         if stamp and iso(asof):
@@ -175,6 +182,7 @@ def build(root=ROOT):
     ytd=indexed(site/"mops_income_ytd_28i.csv")
     holders=indexed(site/"chip_signals.csv")
     flows=indexed(site/"chip_rank.csv")
+    credits=indexed(site/"s2_credit_snapshot_29c.csv")
     macro_path=site/"macro_snapshot_29b.json"
     macro=json.loads(macro_path.read_text(encoding="utf-8")) if macro_path.is_file() else {}
     fxrows=[r for r in load(site/"macro_fx_history_29b.csv")
@@ -194,7 +202,7 @@ def build(root=ROOT):
         output.append(build_row(s,masters.get(sid,{}),prices.get(sid,[]),
                      obs.get(sid,{}),ind.get(sid,{}),rev.get(sid,{}),
                      inc.get(sid,{}),cf.get(sid,{}),ytd.get(sid,{}),
-                     holders.get(sid,{}),flows.get(sid,{}),macro,prior_fx))
+                     holders.get(sid,{}),flows.get(sid,{}),macro,prior_fx,credits.get(sid,{})))
     output.sort(key=lambda x:(x["market"],x["stock_id"]))
     site.mkdir(parents=True,exist_ok=True)
     with (site/"factor_evidence_29a.csv").open("w",encoding="utf-8",newline="") as fp:
@@ -213,10 +221,12 @@ def build(root=ROOT):
     if manifest_ids!=list(FACTOR_IDS) or not all(f.get("status")=="not_verified" for f in manifest["factors"]):
         raise ValueError("12-factor contract changed; refuse to publish a misleading readiness matrix")
     meta={
-       "version":"2.9B","generated_at_taipei":dt.datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
+       "version":"2.9C","generated_at_taipei":dt.datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
        "model":"TPE-MFDS original M1-M3 I1-I3 F1-F3 S1-S3; two engines A/B",
        "macro_observation_status":macro.get("status",{}),
        "macro_publication_dates_verified":False,
+       "retail_investor_sentiment_verified":False,
+       "credit_balance_observations_not_retail_ownership":True,
        "stocks":len(output),"basic_qualified":cnt["base_qualified"],
        "snapshots_with_archives_later_than_price":cnt["source_postdates_price"],
        "stocks_with_some_descriptive_observation":cnt["any_descriptive"],
@@ -232,6 +242,7 @@ def build(root=ROOT):
        "notes":[
          "observed_factor_count 只代表部分或描述性原始資料覆蓋，不是可建模或合格因子數，不能用它判斷60%門檻",
          "基本資格使用120個不同日期有效收盤、最近20個資料點成交額均值≥3000萬且收盤歷史日期對齊快照；未另外獨立證明每一官方交易日均存在",
+         "S2只使用日期已確認的官方融資融券餘額作為部分原始證據，非真正的散戶比例或逐股當沖率；不可給正式情緒分數",
          "M1國發會最新景氣觀察為描述性來源，M2海關出口YoY及外銷訂單家數動向指數不是訂單金額YoY，M3央行匯率不等於完整市場外資動向",
          "宏觀資料所屬統計月份／日不代表當日已公開，國發會歷史資料可能回溯修訂；不得用於點時回測",
          "source_postdates_price 是首次封存時間晚於價格基準日的警示，不替代公司實際公告時間",
