@@ -65,6 +65,20 @@ jobs:
         run: |
           python -m unittest tests/test_income_28f.py
           python -m py_compile scripts/collect_income_28f.py
+      - name: Inspect live TPEx income data field names (diagnostic only)
+        run: |
+          python - <<'PY'
+          import json,urllib.request
+          u='https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap06_O_ci'
+          try:
+              req=urllib.request.Request(u,headers={'User-Agent':'TPE-MFDS-research-scheme-probe/2.8F1'})
+              with urllib.request.urlopen(req,timeout=30) as f: raw=json.loads(f.read(15000000))
+              print('TPEx root type',type(raw).__name__,'rows',len(raw) if isinstance(raw,list) else 'N/A')
+              if isinstance(raw,list) and raw:
+                  print('TPEx first record field names',list(raw[0].keys())[:55])
+                  print('TPEx first two record code-like field values',[(k,str(v)[:35]) for k,v in raw[0].items() if any(t in k.lower() for t in ['code','公司','year','季度','季別','年度'])][:9])
+          except Exception as e:print('TPEx inspect failed:',type(e).__name__,str(e)[:220])
+          PY
       - name: Install browser test runtime
         run: |
           npm install --no-save playwright@1.56.1
