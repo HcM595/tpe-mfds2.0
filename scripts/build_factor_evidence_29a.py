@@ -75,7 +75,7 @@ def eligibility(prices,asof,market_match,min_days=MIN_PRICE_DAYS):
                 basic_data_eligible="true" if status.startswith("初步通過") else "false")
 
 def build_row(snap,master,prices,obs,industry,revenue,income,cashflow,ytd,
-              holder,dayflow,macro=None,fx_observation=None,s2_credit=None,sector_breadth=None):
+              holder,dayflow,macro=None,fx_observation=None,s2_credit=None,sector_breadth=None,f2_valuation=None,f3_governance=None):
     sid=snap["stock_id"]; asof=snap.get("asof","")
     market=snap.get("market","")
     id_ok=bool(master and master.get("market")==market and market in ("上市","上櫃"))
@@ -144,8 +144,24 @@ def build_row(snap,master,prices,obs,industry,revenue,income,cashflow,ytd,
     f1_evidence=revenue_data or cf_observed or ytd_observed
     set_factor("F1",f1_evidence,full=(revenue_data and cf_observed and income_proof),
                date=revenue.get("table_date",""))
-    set_factor("F2",False) # peer valuation, estimates absent
-    set_factor("F3",False) # governance and dated disclosures absent
+    valuation=f2_valuation or {}
+    governance=f3_governance or {}
+    valuation_date=valuation.get("asof","")
+    f2_valid=(valuation.get("stock_id")==sid and valuation.get("market")==market and
+              iso(valuation_date) and valuation_date<=asof and
+              valuation.get("peer_f2_ready")=="true" and
+              number(valuation.get("pe_ratio")) is not None and
+              number(valuation.get("pb_ratio")) is not None and
+              number(valuation.get("pe_peer_median")) is not None and
+              number(valuation.get("pb_peer_median")) is not None)
+    # F2 contains expectations/surprise; a peer quote ratio alone is partial.
+    set_factor("F2",f2_valid,date=valuation_date if f2_valid else "")
+    gov_date=governance.get("source_asof","")
+    f3_valid=(governance.get("stock_id")==sid and governance.get("market")==market and
+              iso(gov_date) and gov_date<=asof and
+              governance.get("chairman_is_general_manager") in ("true","false"))
+    # Chair/CEO overlap is descriptive, never a governance quality rating.
+    set_factor("F3",f3_valid,date=gov_date if f3_valid else "")
     s1=bool(obs.get("stock_id")) and obs.get("asof")==asof and bool(obs.get("s1_5d_end")) and all(number(obs.get(k)) is not None for k in ("foreign_5d_volume_ratio_pct","trust_5d_volume_ratio_pct"))
     s1_full=s1 and bool(obs.get("s1_20d_end")) and all(number(obs.get(k)) is not None for k in ("foreign_20d_volume_ratio_pct","trust_20d_volume_ratio_pct"))
     set_factor("S1",s1,full=s1_full,date=obs.get("s1_20d_end") or obs.get("s1_5d_end",""))
@@ -170,6 +186,7 @@ def build_row(snap,master,prices,obs,industry,revenue,income,cashflow,ytd,
     timestamps=[r.get("first_seen_utc","") for r in (revenue,income,cashflow,ytd)]
     timestamps += [(macro.get("sources",{}).get(key) or {}).get("first_seen_utc","") for key in ("ndc","cbc")]
     timestamps.append(credit.get("first_seen_utc",""))
+    timestamps.extend([valuation.get("first_seen_utc",""),governance.get("first_seen_utc","")])
     later=False
     for stamp in timestamps:
         if stamp and iso(asof):
@@ -194,6 +211,8 @@ def build(root=ROOT):
     flows=indexed(site/"chip_rank.csv")
     credits=indexed(site/"s2_credit_snapshot_29c.csv")
     breadth=indexed(site/"industry_breadth_29d.csv")
+    f2=indexed(site/"f2_valuation_29e.csv")
+    f3=indexed(site/"f3_governance_29e.csv")
     macro_path=site/"macro_snapshot_29b.json"
     macro=json.loads(macro_path.read_text(encoding="utf-8")) if macro_path.is_file() else {}
     fxrows=[r for r in load(site/"macro_fx_history_29b.csv")
@@ -213,7 +232,7 @@ def build(root=ROOT):
         output.append(build_row(s,masters.get(sid,{}),prices.get(sid,[]),
                      obs.get(sid,{}),ind.get(sid,{}),rev.get(sid,{}),
                      inc.get(sid,{}),cf.get(sid,{}),ytd.get(sid,{}),
-                     holders.get(sid,{}),flows.get(sid,{}),macro,prior_fx,credits.get(sid,{}),breadth.get(sid,{})))
+                     holders.get(sid,{}),flows.get(sid,{}),macro,prior_fx,credits.get(sid,{}),breadth.get(sid,{}),f2.get(sid,{}),f3.get(sid,{})))
     output.sort(key=lambda x:(x["market"],x["stock_id"]))
     site.mkdir(parents=True,exist_ok=True)
     with (site/"factor_evidence_29a.csv").open("w",encoding="utf-8",newline="") as fp:
@@ -232,12 +251,14 @@ def build(root=ROOT):
     if manifest_ids!=list(FACTOR_IDS) or not all(f.get("status")=="not_verified" for f in manifest["factors"]):
         raise ValueError("12-factor contract changed; refuse to publish a misleading readiness matrix")
     meta={
-       "version":"2.9D","generated_at_taipei":dt.datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
+       "version":"2.9E","generated_at_taipei":dt.datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
        "model":"TPE-MFDS original M1-M3 I1-I3 F1-F3 S1-S3; two engines A/B",
        "macro_observation_status":macro.get("status",{}),
        "macro_publication_dates_verified":False,
        "industry_inventory_and_cycle_verified":False,
        "policy_event_to_company_impact_verified":False,
+       "F2_peer_valuation_and_expectations_verified":False,
+       "F3_governance_quality_verified":False,
        "retail_investor_sentiment_verified":False,
        "credit_balance_observations_not_retail_ownership":True,
        "stocks":len(output),"basic_qualified":cnt["base_qualified"],
@@ -255,6 +276,8 @@ def build(root=ROOT):
        "notes":[
          "observed_factor_count 只代表部分或描述性原始資料覆蓋，不是可建模或合格因子數，不能用它判斷60%門檻",
          "基本資格使用120個不同日期有效收盤、最近20個資料點成交額均值≥3000萬且收盤歷史日期對齊快照；未另外獨立證明每一官方交易日均存在",
+         "F2僅用官方股價估值比率與同市場同業同日期的中位數提供部分證據，缺盈餘預期差及公告時間，不是便宜或投資價值分數",
+         "F3僅用董事長與總經理是否兼任的官方觀察提供部分證據，非治理良窳、股權衝突或合規評級",
          "I1只就官方半導體業24類且樣本與單月營收擴散率合格的個股提供部分原始證據；缺庫存和多期循環不得認證",
          "I2官方政策公告有來源不代表任一公司獲益，未逐股核對資格和影響之前因子保持無資料",
          "S2只使用日期已確認的官方融資融券餘額作為部分原始證據，非真正的散戶比例或逐股當沖率；不可給正式情緒分數",
