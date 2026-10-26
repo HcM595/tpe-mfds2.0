@@ -27,6 +27,7 @@
 <div id="content"></div><div class="footer">TPE-MFDS 2.6B · 法人與大戶歷史分析 · 保留2.3.3舊版查詢｜本機瀏覽器運算｜無下單功能｜不提供未經回測的上漲機率。</div></main></div>
 <input id="snapshotFile" type="file" accept=".csv,text/csv" class="hidden"><input id="pricesFile" type="file" accept=".csv,text/csv" class="hidden"><div id="toast" class="toast hidden" role="status"></div>
 <script src="./chip_trends_26b.js"></script>
+<script src="./research_eligibility_27a.js"></script>
 <script>
 'use strict';
 const GROUPS=[{id:'M',name:'宏觀週期',description:'景氣、外需、匯率與資金環境',cols:['M1','M2','M3']},{id:'I',name:'產業動力',description:'產業週期、政策、產業輪動',cols:['I1','I2','I3']},{id:'F',name:'公司質地',description:'盈利品質、估值與預期差、公司治理',cols:['F1','F2','F3']},{id:'S',name:'市場行為',description:'外資、散戶情緒、技術波動',cols:['S1','S2','S3']}];
@@ -307,7 +308,7 @@ function researchView(){
     <div class="r-warnings"><strong>研究資料狀態：</strong>${research.status==='loading'?'資料讀取中。':research.status==='error'?'無法取得後端資料，請檢查網站部署。':'已載入部分或全部公開報告。'} ${rStatusKey('rank','籌碼排行')} ${rStatusKey('tech','技術驗證')} ${rStatusKey('forward','歷史訊號')} ${rStatusKey('actions','除權息事件')} ${rStatusKey('readiness','品質稽核')} ${rStatusKey('institutionalTrend','法人歷史')} ${rStatusKey('holderTrend','大戶歷史')}</div>
     <div class="r-tabs" role="tablist" aria-label="整合研究選單">${[['overview','市場快篩'],['stock','個股分析'],['history','訊號追蹤'],['quality','資料品質']].map(([id,label])=>`<button type="button" role="tab" aria-selected="${research.tab===id?'true':'false'}" class="${research.tab===id?'active':''}" data-r-tab="${id}">${label}</button>`).join('')}</div>
     <section aria-label="${esc(rTabTitle())}">${({overview:rOverview,stock:rStock,history:rHistory,quality:rQuality})[research.tab]()}</section>
-    <div class="r-bottom">所有排名屬資料描述與研究觀察，不是預測勝率；前瞻觀察不代表成交績效。未驗證的股利配發條件、還原OHLC、資料公布時點及樣本獨立性，均不得用來計算正式報酬。</div>
+    <div class="r-bottom">籌碼100分不等於12因子綜合模型；現階段不提供已校準的10／20／60日預測。所有排名屬資料描述與研究觀察，不是預測勝率；前瞻觀察不代表成交績效。未驗證的股利配發條件、還原OHLC、資料公布時點及樣本獨立性，均不得用來計算正式報酬。</div>
   </div>`;
 }
 // 2.6B: full-universe lookup is separate from the narrow eligible rank list.
@@ -346,9 +347,21 @@ function rOverview(){
       && (research.tech==='全部'||(research.tech==='三項確認'&&t.technical_confirmed_count==='3')||(research.tech==='大戶分歧'&&String(t.holder_structure||'').includes('分歧'))||(research.tech==='雙級距增加'&&String(t.holder_structure||'').includes('雙級距增加')));
   }).sort((a,b)=>(num(a.chip_strength_rank)??999999)-(num(b.chip_strength_rank)??999999));
   const directMatches=rDirectMatches(q);
+  const eligibility = window.MFDSResearchEligibility;
+  const snapshotDate=(rGet('official')||{}).display_date||'';
+  const universeStatus=eligibility?state.stocks.filter(s=>!s.placeholder).map(s=>({stock:s,...eligibility.evaluate(state.prices[s.stock_id]||[],s.asof||snapshotDate)})):[];
+  const eligibleBasic=universeStatus.filter(s=>s.eligible);
+  const insufficientHistory=universeStatus.filter(s=>s.count<120).length;
+  const insufficientLiquidity=universeStatus.filter(s=>s.status==='流動性未達門檻').length;
   const read=rGet('readiness')||{};
   const cards=[['籌碼可排名',ranked.length?' '+ranked.length:'—','當次已驗證排行'],['前瞻觀察紀錄',read.forward_observation_rows??rCount('forward'),'跨版本紀錄，非獨立樣本'],['歷史事件',meta.observed_historical_event_rows??rCount('actions'),'事件≠股利條件已驗證'],['獨立績效樣本',read.strict_performance_samples_eligible??0,'尚未通過，禁止勝率']];
   return `${rCards(cards)}
+    <section class="card r-section"><div class="r-section-title"><h3>原始設計資格檢查（與籌碼排行分開）</h3></div>
+      <p class="hint">要求同股至少120個有效歷史收盤交易日、最近20筆皆具成交額，20日平均成交額至少新台幣3,000萬元，且價格歷史最新日必須與當次快照相同。本區是基本資格檢查，不代表12因子覆蓋率≥60%或已具預測資格。</p>
+      ${rCards([['快照股票',universeStatus.length,'尚未等同有效普通股母體'],['符合基本資料條件',eligibleBasic.length,'仍待12因子與公告時間驗證'],['歷史不足',insufficientHistory,'未達120日'],['流動性不足',insufficientLiquidity,'已可計算20日均成交額']])}
+      <div class="table-wrap"><table class="data-table r-table"><thead><tr><th>股票</th><th>歷史日數</th><th>最新歷史日期</th><th>20日平均成交額</th><th>基本資格</th></tr></thead><tbody>${(q?universeStatus.filter(x=>[x.stock.stock_id,x.stock.stock_name,x.stock.sector].join(' ').toLowerCase().includes(q)):universeStatus.filter(x=>x.eligible)).slice(0,60).map(x=>`<tr data-r-stock="${esc(x.stock.stock_id)}" tabindex="0"><td>${esc(x.stock.stock_id)} ${esc(x.stock.stock_name)}</td><td>${x.count}</td><td>${rVal(x.latest)}</td><td>${x.turnover===null?'資料不足':fmt(x.turnover,0)+' 元'}</td><td>${esc(x.status)}</td></tr>`).join('')||'<tr><td colspan="5">尚無符合條件的股票，或資料尚未載入</td></tr>'}</tbody></table></div>
+      <p class="hint">只顯示前60筆。因子覆蓋度、普通股母體驗證及真正12因子模型仍未完成，不得以此表作投資排名。</p>
+    </section>
     <section class="card r-section"><div class="r-section-title"><div><h3>籌碼與技術進階篩選</h3><p>根據已發布的籌碼100分與技術雙軌報告；缺值不當作0。</p></div>${rMetaLink('rank','檢視原始排行')}</div>
     <div class="r-filter"><label>搜尋股票<input id="r-query" class="field" value="${esc(research.query)}" placeholder="代號、名稱、產業，例如8064" /></label><label>市場<select id="r-market" class="field"><option>全部</option>${['上市','上櫃'].map(x=>`<option ${research.market===x?'selected':''}>${x}</option>`).join('')}</select></label><label>技術／大戶<select id="r-tech" class="field">${['全部','三項確認','大戶分歧','雙級距增加'].map(x=>`<option ${research.tech===x?'selected':''}>${x}</option>`).join('')}</select></label></div>
     ${q?`<div class="r-panel" style="margin-bottom:13px"><h3>全市場個股快速查詢（不受籌碼排名條件限制）</h3>
@@ -381,7 +394,7 @@ function rStock(){
     <div class="r-panel" style="margin-top:13px"><strong>籌碼排名狀態：</strong>${esc(rankReason)}。
       ${chip.chip_reason?`<p class="hint">法人／大戶資料條件：${esc(chip.chip_reason)}</p>`:''}
       <p class="hint">籌碼排名、描述性技術指標與技術雙軌驗證是不同資料集；缺席不等於得0分。</p></div>
-    ${rCards([['籌碼100分',rNum(rank.chip_strength_score,2),'名次 '+(ranked?rank.chip_strength_rank:'未排名')],['當次收盤價',rNum(rank.close||tech.close||ss.close,2),'尚未調整除權息'],['大戶400張以上',rNum(chip.large400_pct,2)+'%','集保資料日 '+(chip.holder_asof||'—')],['技術確認',crosschecked && tech.technical_confirmed_count!==undefined?tech.technical_confirmed_count+'/3':'—',crosschecked?'2.3.3候選名單驗證':'未列入技術雙軌候選名單']])}
+    ${rCards([['籌碼強度100分（非12因子）',rNum(rank.chip_strength_score,2),'名次 '+(ranked?rank.chip_strength_rank:'未排名')],['當次收盤價',rNum(rank.close||tech.close||ss.close,2),'尚未調整除權息'],['大戶400張以上',rNum(chip.large400_pct,2)+'%','集保資料日 '+(chip.holder_asof||'—')],['技術確認',crosschecked && tech.technical_confirmed_count!==undefined?tech.technical_confirmed_count+'/3':'—',crosschecked?'2.3.3候選名單驗證':'未列入技術雙軌候選名單']])}
     <div class="r-two"><section class="r-panel"><h3>法人籌碼與大戶級距</h3><dl class="r-dl">${[['外資近5日',chip.foreign_5d_shares,'股'],['投信近5日',chip.trust_5d_shares,'股'],['400張以上持股比率',chip.large400_pct,'%'],['400張以上4週變化',chip.large400_4w_pp,'pp'],['1,000張以上持股比率',chip.large1000_pct,'%'],['1,000張以上4週變化',chip.large1000_4w_pp,'pp'],['法人統計日期',chip.flow_asof,''],['集保統計日期',chip.holder_asof,'']].map(([label,value,unit])=>`<div><dt>${esc(label)}</dt><dd>${value===undefined||value===''?'—':unit===''?esc(value):rNum(value,2)+unit}</dd></div>`).join('')}</dl><p class="hint">大戶級距為集保帳戶集中度，不等於特定主力持股。</p></section>
     <section class="r-panel"><h3>2.3.3技術雙軌驗證（僅候選名單）</h3>
     ${!crosschecked?'<p class="hint">這檔股票不在已發布的技術雙軌候選名單內，因此不能宣稱通過或未通過三項確認；可參考下方獨立的價格技術計算。</p>':'<p class="hint">下列值來自候選名單的技術驗證報告，與下方價格自行計算分開呈現。</p>'}
