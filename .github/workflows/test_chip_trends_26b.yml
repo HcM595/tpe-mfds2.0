@@ -1,4 +1,4 @@
-name: TPE-MFDS 2.9F 估值治理三時鐘點時稽核與整站驗收
+name: TPE-MFDS 2.9M 獨立研究頁瀏覽器回歸與整站驗收
 on:
   pull_request:
     paths:
@@ -8,6 +8,7 @@ on:
       - 'site/dual_engine_29j.html'
       - 'site/compare_29k.html'
       - 'tests/test_research_pages_29l.py'
+      - 'tests/browser_research_29m.cjs'
       - 'scripts/audit_f2f3_pit_29f.py'
       - 'tests/test_fundamental_pit_29f.py'
       - 'scripts/collect_f2f3_29e.py'
@@ -65,6 +66,7 @@ jobs:
           node --check site/chip_trends_26b.js
           node --check site/research_eligibility_27a.js
           node --check tests/chip_trends_26b.test.js
+          node --check tests/browser_research_29m.cjs
       - name: Unit tests for missing sessions and invalid data
         run: |
           node tests/chip_trends_26b.test.js
@@ -256,3 +258,4 @@ jobs:
           python scripts/export_chip_trends.py
           python -m http.server 8765 --directory site >/tmp/mfds-http.log 2>&1 &
           node tests/browser_26b.cjs
+          node tests/browser_research_29m.cjs
