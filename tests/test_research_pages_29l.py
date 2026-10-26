@@ -13,7 +13,7 @@ PAGES = ("factor_gaps_29h.html", "stock_research_29i.html", "dual_engine_29j.htm
 SOURCE_FILES = (
     "factor_evidence_29a.csv", "official_snapshot.csv", "chip_signals.csv",
     "tech_crosscheck.csv", "industry_relative_28c.csv", "risk_observations_28d.csv",
-    "f2_valuation_29e.csv", "revenue_snapshot_28c.csv",
+    "f2_valuation_29e.csv", "revenue_snapshot_28c.csv", "pit_f2f3_stock_29f.csv",
 )
 
 def read_rows(name):
@@ -66,6 +66,10 @@ class ResearchPageHealth(unittest.TestCase):
         self.assertIn("available", compare)
         self.assertIn("日期不同", stock)
         self.assertIn("無法判定", compare)
+        self.assertIn("pit_clock_29n.js", factor)
+        self.assertIn("pit_clock_29n.js", stock)
+        self.assertIn("pit_f2f3_stock_29f.csv", dual)
+        self.assertIn("pit_f2f3_stock_29f.csv", compare)
 
 if __name__ == "__main__":
     unittest.main()
