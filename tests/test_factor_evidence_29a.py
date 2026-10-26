@@ -50,6 +50,15 @@ class OriginalFactorCoverage29A(unittest.TestCase):
         self.assertEqual(eligibility(one_missing,"2026-10-22",True)["basic_data_status"],"近20日成交額資料不足")
         self.assertEqual(eligibility(p,"2026-10-23",True)["basic_data_status"],"歷史資料尚未對齊最新收盤日")
         self.assertEqual(eligibility(p,"2026-10-22",False)["basic_data_eligible"],"false")
+    def test_future_price_rows_excluded_from_asof_eligibility(self):
+        valid=prices()
+        later=dict(valid[-1],date="2026-10-23",close="9999",trade_value_twd="999999999999")
+        result=eligibility(valid+[later],"2026-10-22",True)
+        self.assertEqual(result["price_sessions"],125)
+        self.assertEqual(result["latest_history_date"],"2026-10-22")
+        self.assertEqual(result["avg20_trade_value_twd"],40_000_000)
+        self.assertEqual(result["basic_data_eligible"],"true")
+
     def test_all_twelve_explicitly_present_and_no_scores(self):
         stock,master,f,industry,rev,inc,cf,ytd=sample()
         row=build_row(stock,master,prices(),f,industry,rev,inc,cf,ytd,{"holder_asof":"2026-10-22"},{})

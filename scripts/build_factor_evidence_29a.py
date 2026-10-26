@@ -54,7 +54,7 @@ def eligibility(prices,asof,market_match,min_days=MIN_PRICE_DAYS):
     # the history includes every official trading day or is adjusted OHLC.
     distinct={}
     for p in prices:
-        if iso(p.get("date")) and number(p.get("close")) is not None and number(p["close"])>0:
+        if iso(p.get("date")) and p["date"]<=asof and number(p.get("close")) is not None and number(p["close"])>0:
             distinct[p["date"]]=p
     days=sorted(distinct)
     count=len(days)
@@ -251,7 +251,7 @@ def build(root=ROOT):
     if manifest_ids!=list(FACTOR_IDS) or not all(f.get("status")=="not_verified" for f in manifest["factors"]):
         raise ValueError("12-factor contract changed; refuse to publish a misleading readiness matrix")
     meta={
-       "version":"2.9E","generated_at_taipei":dt.datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
+       "version":"2.9F","generated_at_taipei":dt.datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
        "model":"TPE-MFDS original M1-M3 I1-I3 F1-F3 S1-S3; two engines A/B",
        "macro_observation_status":macro.get("status",{}),
        "macro_publication_dates_verified":False,
@@ -259,6 +259,8 @@ def build(root=ROOT):
        "policy_event_to_company_impact_verified":False,
        "F2_peer_valuation_and_expectations_verified":False,
        "F3_governance_quality_verified":False,
+       "F2_F3_three_clock_pit_verified":False,
+       "price_after_asof_excluded_from_eligibility":True,
        "retail_investor_sentiment_verified":False,
        "credit_balance_observations_not_retail_ownership":True,
        "stocks":len(output),"basic_qualified":cnt["base_qualified"],
@@ -276,6 +278,8 @@ def build(root=ROOT):
        "notes":[
          "observed_factor_count 只代表部分或描述性原始資料覆蓋，不是可建模或合格因子數，不能用它判斷60%門檻",
          "基本資格使用120個不同日期有效收盤、最近20個資料點成交額均值≥3000萬且收盤歷史日期對齊快照；未另外獨立證明每一官方交易日均存在",
+         "120日收盤與20日成交額初篩排除價格基準日之後的任何歷史資料，防止未來行情進入當時的資格判斷",
+         "F2與F3新增逐股三時鐘稽核：報表所屬日、本站首次取得原文SHA256版本、官方獨立發布時間（目前缺漏）。僅第一時鐘不能證明歷史可回測",
          "F2僅用官方股價估值比率與同市場同業同日期的中位數提供部分證據，缺盈餘預期差及公告時間，不是便宜或投資價值分數",
          "F3僅用董事長與總經理是否兼任的官方觀察提供部分證據，非治理良窳、股權衝突或合規評級",
          "I1只就官方半導體業24類且樣本與單月營收擴散率合格的個股提供部分原始證據；缺庫存和多期循環不得認證",
