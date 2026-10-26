@@ -1,0 +1,23 @@
+{
+  "version": "2.8B",
+  "generated_at_taipei": "2026-10-26T09:01:40+08:00",
+  "stocks": 1949,
+  "s1_full": 1629,
+  "s1_partial": 99,
+  "s3_momentum60": 1721,
+  "s3_momentum20": 1818,
+  "status": "descriptive_only_not_model_eligible",
+  "s1_unit": "各期間法人買賣超股數／同期間成交股數 ×100（百分比，非持股比例）",
+  "s3_unit": "原始未調整收盤價；20/60日動能與20日年化對數波動率",
+  "market_day_reference": "同市場封存價量涵蓋至少50檔時的實際觀察日期；不是獨立驗證的官方交易日曆",
+  "corporate_actions_adjusted": false,
+  "publication_times_verified": false,
+  "factor_scores_enabled": false,
+  "probability_enabled": false,
+  "caveats": [
+    "沒有OHLC不得計算ATR",
+    "沒有除權息調整不得將原始動能解讀為實際總報酬",
+    "法人流量比率不代表外資持股比例",
+    "各交易日來源可能缺漏；缺漏期間不補值不計算"
+  ]
+}
