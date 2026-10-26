@@ -16,6 +16,9 @@ EVENTS=[
  ("IDA-2026-09-14-MINERALS","2026-09-14","關鍵礦物應用高值化推動計畫",
   "https://www.ida.gov.tw/ctlr?PRO=policy.PolicyView&id=12054")
 ]
+OFFICIAL_FALLBACKS={
+ "IDA-2026-09-01-AIWAN":("https://www.ida.gov.tw/ctlr?PRO=grant.DisclosureView&id=17246",)
+}
 COLUMNS=["event_id","official_publication_date","event_short_title","official_url",
          "source_status","raw_source_sha256","first_seen_utc","policy_relevance_to_stock_verified",
          "sector_causal_impact_verified","available_for_backtest",
@@ -62,8 +65,21 @@ def collect(root=BASE,fetcher=fetch,clock=None,events=EVENTS):
                    available_for_backtest="false",
                    source_note="僅是經濟部產業發展署正式公告事件；沒有實證的個別上市櫃公司受惠或當日可知時間，不計入I2分數")
         try:
-            raw=fetcher(url)
-            if not prove(raw,title,day):raise ValueError("official event title/date not found on HTML")
+            raw=None
+            matched_url=""
+            last_error=""
+            for candidate in (url,)+OFFICIAL_FALLBACKS.get(eid,()):
+                try:
+                    payload=fetcher(candidate)
+                    if not prove(payload,title,day):
+                        raise ValueError("title and official publication date not both verified")
+                    raw=payload
+                    matched_url=candidate
+                    break
+                except (OSError,ValueError,UnicodeError) as ex:
+                    last_error=str(ex)[:150]
+            if raw is None:
+                raise ValueError("no official event mirror passed source validation: "+last_error)
             digest=hashlib.sha256(raw).hexdigest()
             folder=archived/eid;folder.mkdir(parents=True,exist_ok=True)
             path=folder/(digest+".html")
@@ -71,7 +87,7 @@ def collect(root=BASE,fetcher=fetch,clock=None,events=EVENTS):
             if not path.is_file():
                 path.write_bytes(raw)
                 first.write_text(clock.isoformat(timespec="seconds")+"\n",encoding="utf-8")
-            row.update(source_status="ok",raw_source_sha256=digest,
+            row.update(source_status="ok",official_url=matched_url,raw_source_sha256=digest,
                        first_seen_utc=first.read_text(encoding="utf-8").strip())
             statuses[eid]="ok"
         except (OSError,ValueError,UnicodeError) as ex:
