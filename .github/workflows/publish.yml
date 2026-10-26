@@ -102,6 +102,10 @@ jobs:
         run: python scripts/collect_macro_29b.py
       - name: 2.9C 封存有日期的官方逐股融資融券餘額（非散戶情緒分數）
         run: python scripts/collect_s2_credit_29c.py
+      - name: 2.9D 保存同市場同業月營收擴散率與持續增加的月度歷史（非產業景氣轉折預測）
+        run: python scripts/build_industry_cycle_29d.py
+      - name: 2.9D 核對經濟部產業政策公告並封存證據（I2個股受惠仍未驗證）
+        run: python scripts/collect_policy_evidence_29d.py
       - name: 2.9A 發布原始四層12因子逐股資料證據（雙引擎共用，嚴禁未驗證分數）
         run: python scripts/build_factor_evidence_29a.py
       - name: 保存真實價格與籌碼資料及更新進度

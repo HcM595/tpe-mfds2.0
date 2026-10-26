@@ -75,7 +75,7 @@ def eligibility(prices,asof,market_match,min_days=MIN_PRICE_DAYS):
                 basic_data_eligible="true" if status.startswith("初步通過") else "false")
 
 def build_row(snap,master,prices,obs,industry,revenue,income,cashflow,ytd,
-              holder,dayflow,macro=None,fx_observation=None,s2_credit=None):
+              holder,dayflow,macro=None,fx_observation=None,s2_credit=None,sector_breadth=None):
     sid=snap["stock_id"]; asof=snap.get("asof","")
     market=snap.get("market","")
     id_ok=bool(master and master.get("market")==market and market in ("上市","上櫃"))
@@ -117,10 +117,20 @@ def build_row(snap,master,prices,obs,industry,revenue,income,cashflow,ytd,
     set_factor("M3",fx_available or local_flow,
                date=fx.get("date","") if fx_available else obs.get("s1_20d_end",""))
     # USD/TWD alone + stock flow are not an independently verified market-wide foreign flow factor.
-    # I1: company revenue/sector provided, inventory and business-cycle proof absent
-    set_factor("I1",bool(revenue.get("revenue_period")) and bool(master.get("sector")),
-               date=revenue.get("table_date",""))
-    set_factor("I2",False) # no dated policy database
+    # The original I1 is SEMICONDUCTOR CYCLE, not any listed firm's revenue.
+    # Even peer YoY diffusion is only partial until inventory and multi-period
+    # business-cycle chronology are sourced and point-in-time dates checked.
+    breadth=sector_breadth or {}
+    semi=master.get("sector")=="24"
+    breadth_ok=(semi and breadth.get("stock_id")==sid and
+                breadth.get("market")==market and breadth.get("sector")=="24" and
+                breadth.get("period")==revenue.get("revenue_period") and
+                number(breadth.get("growth_diffusion_pct")) is not None and
+                iso(breadth.get("table_date","")) and breadth["table_date"]<=asof)
+    set_factor("I1",breadth_ok,date=breadth.get("table_date",""))
+    # An authenticated Ministry announcement alone does NOT identify this
+    # stock's eligibility, economic benefit, or a causal impact.
+    set_factor("I2",False)
     relative20=number(industry.get("industry_relative20_raw_pp"))
     relative60=number(industry.get("industry_relative60_raw_pp"))
     industry_date=industry.get("asof","")
@@ -183,6 +193,7 @@ def build(root=ROOT):
     holders=indexed(site/"chip_signals.csv")
     flows=indexed(site/"chip_rank.csv")
     credits=indexed(site/"s2_credit_snapshot_29c.csv")
+    breadth=indexed(site/"industry_breadth_29d.csv")
     macro_path=site/"macro_snapshot_29b.json"
     macro=json.loads(macro_path.read_text(encoding="utf-8")) if macro_path.is_file() else {}
     fxrows=[r for r in load(site/"macro_fx_history_29b.csv")
@@ -202,7 +213,7 @@ def build(root=ROOT):
         output.append(build_row(s,masters.get(sid,{}),prices.get(sid,[]),
                      obs.get(sid,{}),ind.get(sid,{}),rev.get(sid,{}),
                      inc.get(sid,{}),cf.get(sid,{}),ytd.get(sid,{}),
-                     holders.get(sid,{}),flows.get(sid,{}),macro,prior_fx,credits.get(sid,{})))
+                     holders.get(sid,{}),flows.get(sid,{}),macro,prior_fx,credits.get(sid,{}),breadth.get(sid,{})))
     output.sort(key=lambda x:(x["market"],x["stock_id"]))
     site.mkdir(parents=True,exist_ok=True)
     with (site/"factor_evidence_29a.csv").open("w",encoding="utf-8",newline="") as fp:
@@ -221,10 +232,12 @@ def build(root=ROOT):
     if manifest_ids!=list(FACTOR_IDS) or not all(f.get("status")=="not_verified" for f in manifest["factors"]):
         raise ValueError("12-factor contract changed; refuse to publish a misleading readiness matrix")
     meta={
-       "version":"2.9C","generated_at_taipei":dt.datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
+       "version":"2.9D","generated_at_taipei":dt.datetime.now(ZoneInfo("Asia/Taipei")).isoformat(timespec="seconds"),
        "model":"TPE-MFDS original M1-M3 I1-I3 F1-F3 S1-S3; two engines A/B",
        "macro_observation_status":macro.get("status",{}),
        "macro_publication_dates_verified":False,
+       "industry_inventory_and_cycle_verified":False,
+       "policy_event_to_company_impact_verified":False,
        "retail_investor_sentiment_verified":False,
        "credit_balance_observations_not_retail_ownership":True,
        "stocks":len(output),"basic_qualified":cnt["base_qualified"],
@@ -242,6 +255,8 @@ def build(root=ROOT):
        "notes":[
          "observed_factor_count 只代表部分或描述性原始資料覆蓋，不是可建模或合格因子數，不能用它判斷60%門檻",
          "基本資格使用120個不同日期有效收盤、最近20個資料點成交額均值≥3000萬且收盤歷史日期對齊快照；未另外獨立證明每一官方交易日均存在",
+         "I1只就官方半導體業24類且樣本與單月營收擴散率合格的個股提供部分原始證據；缺庫存和多期循環不得認證",
+         "I2官方政策公告有來源不代表任一公司獲益，未逐股核對資格和影響之前因子保持無資料",
          "S2只使用日期已確認的官方融資融券餘額作為部分原始證據，非真正的散戶比例或逐股當沖率；不可給正式情緒分數",
          "M1國發會最新景氣觀察為描述性來源，M2海關出口YoY及外銷訂單家數動向指數不是訂單金額YoY，M3央行匯率不等於完整市場外資動向",
          "宏觀資料所屬統計月份／日不代表當日已公開，國發會歷史資料可能回溯修訂；不得用於點時回測",
