@@ -9,16 +9,16 @@ const days = ['2026-10-12','2026-10-13','2026-10-14','2026-10-15','2026-10-16'];
 const price = days.map(date=>({date,close:100}));
 let valid = model.entries(days.map(d=>row(d)), '8064', fields, false);
 assert.equal(valid.records.length,5);
-let sum=model.flowWindow(valid.records,5,price);
+let sum=model.flowWindow(valid.records,5,price,days);
 assert.equal(sum.ok,true);
 assert.deepEqual(sum.sums,[5000,500,-1000]);
-assert.equal(model.flowWindow(valid.records,10,price).ok,false);
+assert.equal(model.flowWindow(valid.records,10,price,days).ok,false);
 valid=model.entries([row(days[0]),row(days[0]),row('2026-10-13',''),row('bad-date'),{...row(days[2]),stock_id:'2345'}],'8064',fields,false);
 assert.equal(valid.duplicate,1);
 assert.equal(valid.invalid,2);
 assert.equal(valid.records.length,1);
 valid=model.entries(days.filter(d=>d!==days[2]).map(d=>row(d)),'8064',fields,false);
-assert.equal(model.flowWindow(valid.records,5,price).ok,false);
+assert.equal(model.flowWindow(valid.records,5,price,days).ok,false);
 assert.equal(model.validDate('2026-02-30'),false);
 assert.equal(model.validDate('2026-10-22'),true);
 const holders=model.entries([{date:'2026-10-22',stock_id:'8064',holder400_pct:'105',holder1000_pct:'50'},
@@ -26,3 +26,11 @@ const holders=model.entries([{date:'2026-10-22',stock_id:'8064',holder400_pct:'1
 assert.equal(holders.invalid,1);
 assert.equal(holders.records.length,1);
 console.log('2.6B chip history unit tests passed');
+
+// Stale stock price series must not shift institutional end-date backward.
+const latestDay = '2026-10-22';
+const newer = model.entries([...days.map(d=>row(d)),row(latestDay)], '8064', fields, false);
+const w = model.flowWindow(newer.records,5,price,[...days,latestDay]);
+assert.equal(w.ok,true);
+assert.equal(w.to,latestDay);
+assert.equal(w.from,days[1]);
