@@ -35,8 +35,24 @@ def normalize_key(v):
     return re.sub(r"[\s()（）【】\[\]・,，：:、\u3000]+","",
                   unicodedata.normalize("NFKC",str(v or "")).replace("－","-"))
 
+# Official TPEx schema uses English identity/date fields, while TWSE uses Chinese.
+# The mapping is exact and narrow; no fuzzy column guessing is permitted.
+FIELD_ALIASES={
+    "Date":"出表日期",
+    "Year":"年度",
+    "Season":"季別",
+    "SecuritiesCompanyCode":"公司代號",
+    "CompanyName":"公司名稱",
+}
+
 def normalize_row(row):
-    return {normalize_key(k):v for k,v in row.items()}
+    mapped={}
+    for key,value in row.items():
+        canonical=FIELD_ALIASES.get(normalize_key(key),normalize_key(key))
+        if canonical in mapped and str(mapped[canonical])!=str(value):
+            raise ValueError("conflicting identity/date aliases for "+canonical)
+        mapped[canonical]=value
+    return mapped
 
 def number(x):
     if x is None or str(x).strip() in ("","-","--","N/A","NA"):return None
