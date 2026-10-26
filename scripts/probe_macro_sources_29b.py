@@ -19,6 +19,10 @@ for name,url in URLS:
     print(name,"first item keys",list(obj[0])[:25],"first item",str(obj[0])[:500])
    if isinstance(obj,dict):
     print(name,"root keys",list(obj)[:30])
+    if name=="ndc-metadata":
+     result=obj.get("result"); print("NDC result type",type(result).__name__)
+     if isinstance(result,dict):
+      print("NDC result keys",list(result)[:35]);print("NDC distribution",str(result.get("distribution",result.get("resource",{})))[:1800])
     for k,v in obj.items():
      if isinstance(v,list) and v and isinstance(v[0],dict):
       print(name,k,"first keys",list(v[0])[:30])
