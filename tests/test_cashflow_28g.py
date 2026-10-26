@@ -30,13 +30,13 @@ class OfficialCashflow28G(unittest.TestCase):
         self.assertEqual(data["current"],"196004")
         self.assertEqual(data["prior"],"309863")
     def test_official_exact_unit_header_proves_only_cashflow_units(self):
-        unit=html().replace(b"<tr><td>金額", "<tr><th>單位：新台幣仟元</th></tr><tr><td>金額".encode("utf-8"))
+        unit=html().replace("<tr><td>金額".encode("utf-8"), "<tr><th>單位：新台幣仟元</th></tr><tr><td>金額".encode("utf-8"))
         record=parse_html(unit,2026,2)
         self.assertTrue(record["unit_verified"])
         self.assertEqual(record["unit"],"新台幣千元")
         self.assertEqual(record["unit_source_text"],"單位：新台幣仟元")
         self.assertFalse(parse_html(html(),2026,2)["unit_verified"])
-        mismatch=html().replace(b"<tr><td>金額", "<tr><th>單位：美元</th></tr><tr><td>金額".encode("utf-8"))
+        mismatch=html().replace("<tr><td>金額".encode("utf-8"), "<tr><th>單位：美元</th></tr><tr><td>金額".encode("utf-8"))
         self.assertFalse(parse_html(mismatch,2026,2)["unit_verified"])
 
     def test_incremental_batch_keeps_previous_rows_and_freshness(self):
@@ -48,7 +48,7 @@ class OfficialCashflow28G(unittest.TestCase):
                     for r in companies]
             save(base/"history_data"/"ordinary_stock_master.csv",companies)
             save(base/"site"/"data"/"income_snapshot_28f.csv",income)
-            official=html().replace(b"<tr><td>金額","<tr><th>單位：新台幣仟元</th></tr><tr><td>金額".encode())
+            official=html().replace("<tr><td>金額".encode("utf-8"),"<tr><th>單位：新台幣仟元</th></tr><tr><td>金額".encode())
             records,m=collect(base,lambda *_:official,dt.datetime(2026,10,26,tzinfo=dt.timezone.utc))
             self.assertEqual(m["fresh_observations"],10)
             self.assertEqual(m["unit_verified_observations"],10)
