@@ -60,6 +60,10 @@ async function run() {
     assert((await page.locator('#title').innerText()).includes('B｜'), 'J engine selection not reflected');
     await page.locator('#rows tr').first().click();
     assert((await page.locator('#details').innerText()).includes('400張以上大戶4週增加'), 'J conditions not disclosed');
+    assert((await page.locator('#details').innerText()).includes('未核實F2正式公布時間'), 'J future or unverified F2 must stay unknown');
+    const jDetails = await page.locator('#details').innerText();
+    assert(/同業本益比低於中位數（原值）[^]*?缺資料/.test(jDetails), 'J must block unverified F2 from passing');
+
     console.log('PASS 2.9J: market filter, engine B and per-stock conditions');
 
     // 2.9K: side-by-side dates, unknowns, capital flow and holder direction.
@@ -69,6 +73,10 @@ async function run() {
     assert((await page.locator('#table').innerText()).includes('8064'));
     await page.locator('#engine').selectOption('B');
     assert((await page.locator('#details').innerText()).includes('本益比低於同業中位數'), 'K B-engine conditions missing');
+    const kDetails = await page.locator('#details').innerText();
+    assert(kDetails.includes('未核實官方公告時間'), 'K future F2 must be marked not assessable');
+    assert(kDetails.includes('無法判定'), 'K should show unknown factor conditions');
+
     await page.locator('#stocks').fill('2330,999999');
     await page.locator('#compare').click();
     assert.equal(await page.locator('#table tbody tr').count(), 2, 'K custom comparison did not refresh');
