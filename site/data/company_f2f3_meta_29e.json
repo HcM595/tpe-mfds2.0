@@ -1,0 +1,61 @@
+{
+  "version": "2.9E",
+  "generated_at_taipei": "2026-10-26T21:05:13+08:00",
+  "valuation_stocks": 1975,
+  "valuation_peer_comparable": 1538,
+  "governance_stocks": 1985,
+  "chair_ceo_concurrent_count": 441,
+  "sources": {
+    "上市_valuation": {
+      "status": "ok",
+      "rows": 1084,
+      "source_sha256": "91e30e46425d29cc75d85108a207474483fa6cb4e9bb33c43cb00994d935a2e8",
+      "source_url": "https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL",
+      "source_dates": [
+        "2026-10-22"
+      ]
+    },
+    "上櫃_valuation": {
+      "status": "ok",
+      "rows": 891,
+      "source_sha256": "00766976e2296b5b819d7152b839a42ff8120fb59f2561a55a3d56af4774d310",
+      "source_url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_peratio_analysis",
+      "source_dates": [
+        "2026-10-22"
+      ]
+    },
+    "上市_governance": {
+      "status": "ok",
+      "rows": 1091,
+      "source_sha256": "ac1c98c6c4343e924cd4dea1ad4b90c071e76e4e2f0170e448a8932ba68d93ff",
+      "source_url": "https://openapi.twse.com.tw/v1/opendata/t187ap33_L",
+      "source_dates": [
+        "2026-10-25"
+      ]
+    },
+    "上櫃_governance": {
+      "status": "ok",
+      "rows": 894,
+      "source_sha256": "eaf67addf0082da2b334b233de49c9de6d03ec89b6dabcf74444f023d2b903f4",
+      "source_url": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap33_O",
+      "source_dates": [
+        "2026-10-25"
+      ]
+    }
+  },
+  "min_same_sector_peer_sample": 5,
+  "cross_market_peers_mixed": false,
+  "F2_expected_earnings_surprise_verified": false,
+  "F2_valuation_quality_factor_verified": false,
+  "F3_governance_quality_factor_verified": false,
+  "historical_announcement_time_verified": false,
+  "factor_scores_enabled": false,
+  "backtested_probabilities_enabled": false,
+  "notes": [
+    "本益比、淨值比、殖利率為官方目前觀察，不等於便宜或昂貴，沒有分析師一致預期與EPS公告時點",
+    "同市場／同產業／同日期，且至少5檔有效比率才計算同業中位數；不混合跨市場樣本",
+    "本益比為負或無法計算時保持缺值，不補0；本益比可能因虧損而不存在",
+    "董事長是否兼任總經理是事實揭露，無法僅憑兼任與否評價公司治理好壞",
+    "本版不具獨立官方發布時分、最新資料修訂時分或歷史除權息後EPS一致性，因此F2/F3只提供部分資料，不啟用模型計分"
+  ]
+}
