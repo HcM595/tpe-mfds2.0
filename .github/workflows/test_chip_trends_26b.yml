@@ -1,4 +1,4 @@
-name: TPE-MFDS 2.8F 財報來源及網頁驗收
+name: TPE-MFDS 2.8F.1 上櫃財報來源相容與全網站驗收
 on:
   pull_request:
     paths:
@@ -65,31 +65,6 @@ jobs:
         run: |
           python -m unittest tests/test_income_28f.py
           python -m py_compile scripts/collect_income_28f.py
-      - name: Inspect live TPEx income data field names (diagnostic only)
-        run: |
-          python - <<'PY'
-          import json,urllib.request
-          u='https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap06_O_ci'
-          try:
-              req=urllib.request.Request(u,headers={'User-Agent':'TPE-MFDS-research-scheme-probe/2.8F1'})
-              with urllib.request.urlopen(req,timeout=30) as f:
-                  blob=f.read(30000001)
-                  print('TPEx status',f.status,'content-type',f.headers.get('content-type'),'content-length',f.headers.get('content-length'),'read-bytes',len(blob))
-              try: raw=json.loads(blob)
-              except json.JSONDecodeError as err:
-                  print('TPEx JSON error:',str(err)[:150]);raw=[]
-                  preview=blob.decode('utf-8-sig','replace').lstrip()
-                  if preview.startswith('['):
-                      try:
-                          rec,pos=json.JSONDecoder().raw_decode(preview[1:].lstrip())
-                          print('TPEx first object keys despite JSON issue',list(rec)[:55] if isinstance(rec,dict) else type(rec).__name__)
-                      except Exception as suberr:print('TPEx first-object parse error',str(suberr)[:120])
-              print('TPEx root type',type(raw).__name__,'rows',len(raw) if isinstance(raw,list) else 'N/A')
-              if isinstance(raw,list) and raw:
-                  print('TPEx first record field names',list(raw[0].keys())[:55])
-                  print('TPEx first two record code-like field values',[(k,str(v)[:35]) for k,v in raw[0].items() if any(t in k.lower() for t in ['code','公司','year','季度','季別','年度'])][:9])
-          except Exception as e:print('TPEx inspect failed:',type(e).__name__,str(e)[:220])
-          PY
       - name: Install browser test runtime
         run: |
           npm install --no-save playwright@1.56.1
