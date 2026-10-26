@@ -1,4 +1,4 @@
-name: TPE-MFDS 2.8D 整合資料與網頁驗收
+name: TPE-MFDS 2.8E 導覽與研究功能驗收
 on:
   pull_request:
     paths:
