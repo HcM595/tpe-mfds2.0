@@ -2,9 +2,11 @@
 <div class="card toolbar"><label>選擇引擎 <select id="engine"><option value="A">A 趨勢動能</option><option value="B">B 籌碼價值</option></select></label><label>股票代號（逗號分隔，最多5檔） <input id="stocks" value="8064,3533,2345,2330" style="min-width:270px"></label><button id="compare">比較</button></div><p id="status" class="muted">正在讀取資料…</p><section class="card"><h2>並排比較</h2><div id="table" class="scroll"></div><p class="tiny">「完整度」只計可判定條件數／6，「符合數」只計通過研究條件數／6，兩者不能互換。日期一致性比對價格、法人與集保報表所屬日期；不代表發布時間已驗證。</p></section><section class="card"><h2>逐檔條件與來源缺口</h2><div id="details" class="grid"></div></section></main><script>
 'use strict';const $=x=>document.getElementById(x);const E=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));const n=x=>x===''||x==null?null:(Number.isFinite(Number(x))?Number(x):null);
 function csv(t){t=t.replace(/^\uFEFF/,'');let rows=[],r=[],v='',q=false;for(let i=0;i<t.length;i++){let c=t[i];if(c==='"'){if(q&&t[i+1]==='"'){v+='"';i++}else q=!q}else if(c===','&&!q){r.push(v);v=''}else if((c==='\r'||c==='\n')&&!q){if(c==='\r'&&t[i+1]==='\n')i++;r.push(v);if(r.some(x=>x!==''))rows.push(r);r=[];v=''}else v+=c}if(v!==''||r.length){r.push(v);rows.push(r)}const h=rows.shift()||[];return rows.map(r=>Object.fromEntries(h.map((k,i)=>[k,r[i]??''])))}
-const paths={factor:'factor_evidence_29a.csv',chip:'chip_signals.csv',tech:'tech_crosscheck.csv',industry:'industry_relative_28c.csv',valuation:'f2_valuation_29e.csv',revenue:'revenue_snapshot_28c.csv'};const D={},errors={};function get(k,id){return D[k]?.get(id)||{}}
+const paths={factor:'factor_evidence_29a.csv',chip:'chip_signals.csv',tech:'tech_crosscheck.csv',industry:'industry_relative_28c.csv',valuation:'f2_valuation_29e.csv',pit:'pit_f2f3_stock_29f.csv',revenue:'revenue_snapshot_28c.csv'};const D={},errors={};function get(k,id){return D[k]?.get(id)||{}}
 function verdict(label,valid,ok,explain){return {label,status:!valid?'無法判定':ok?'符合':'未符合',explain}}
-function analyze(id,engine){const b=get('factor',id);if(!b.stock_id)return null;const d=b.price_asof,c=get('chip',id),t=get('tech',id),i=get('industry',id),v=get('valuation',id),r=get('revenue',id);const same=(row,k)=>!!d&&row[k]===d;
+function analyze(id,engine){const b=get('factor',id);if(!b.stock_id)return null;const d=b.price_asof,c=get('chip',id),t=get('tech',id),i=get('industry',id),v=get('valuation',id),pit=get('pit',id),r=get('revenue',id);const same=(row,k)=>!!d&&row[k]===d;
+const f2Historical=pit.F2_usable_for_backtest==='true'&&!!pit.F2_publication_at_utc&&!!pit.F2_observed_first_at_utc&&pit.F2_observed_first_at_utc.slice(0,10)<=d;
+const revenueHistorical=r.disclosure_time_verified==='true'&&!!r.first_seen_utc&&r.first_seen_utc.slice(0,10)<=d;
 const checks=engine==='A'?[
 verdict('高於MA20',same(t,'price_asof')&&t.data_status==='可驗證'&&['是','否'].includes(t.close_above_ma20),t.close_above_ma20==='是',t.price_asof||'技術日缺漏'),
 verdict('MA20上升',same(t,'price_asof')&&['是','否'].includes(t.ma20_rising),t.ma20_rising==='是',t.price_asof||'技術日缺漏'),
@@ -15,9 +17,9 @@ verdict('投信5日買超',same(c,'flow_asof')&&n(c.trust_5d_shares)!==null,n(c.
 verdict('400張以上4週增持',same(c,'holder_asof')&&n(c.large400_4w_pp)!==null,n(c.large400_4w_pp)>0,c.holder_asof||'集保日缺漏'),
 verdict('1000張以上4週增持',same(c,'holder_asof')&&n(c.large1000_4w_pp)!==null,n(c.large1000_4w_pp)>0,c.holder_asof||'集保日缺漏'),
 verdict('外資5日買超',same(c,'flow_asof')&&n(c.foreign_5d_shares)!==null,n(c.foreign_5d_shares)>0,c.flow_asof||'法人日缺漏'),
-verdict('本益比低於同業中位數',same(v,'asof')&&n(v.pe_ratio)>0&&n(v.pe_peer_median)>0,n(v.pe_ratio)<n(v.pe_peer_median),'原始估值；未核實公告時點'),
-verdict('股價淨值比低於同業中位數',same(v,'asof')&&n(v.pb_ratio)>0&&n(v.pb_peer_median)>0,n(v.pb_ratio)<n(v.pb_peer_median),'原始估值；非低估認證'),
-verdict('月營收年增正值',!!r.table_date&&r.table_date<=d&&n(r.month_revenue_yoy_pct)!==null,n(r.month_revenue_yoy_pct)>0,'彙總表日期；非個別公告時刻')];
+verdict('本益比低於同業中位數',f2Historical&&same(v,'asof')&&n(v.pe_ratio)>0&&n(v.pe_peer_median)>0,n(v.pe_ratio)<n(v.pe_peer_median),'未核實官方公告時間及當日可得性：不可判定'),
+verdict('股價淨值比低於同業中位數',f2Historical&&same(v,'asof')&&n(v.pb_ratio)>0&&n(v.pb_peer_median)>0,n(v.pb_ratio)<n(v.pb_peer_median),'資料可得時點未核實；非低估認證'),
+verdict('月營收年增正值',revenueHistorical&&!!r.table_date&&r.table_date<=d&&n(r.month_revenue_yoy_pct)!==null,n(r.month_revenue_yoy_pct)>0,'無個別公告時間驗證則不列為符合')];
 const available=checks.filter(x=>x.status!=='無法判定').length,pass=checks.filter(x=>x.status==='符合').length;
 const dates=[['價格',d],['法人',c.flow_asof],['集保',c.holder_asof]];const completeDates=dates.every(x=>x[1]);const aligned=completeDates&&dates.every(x=>x[1]===d);
 const fh=n(c.foreign_5d_shares),th=n(c.trust_5d_shares),large=n(c.large1000_4w_pp),mid=n(c.large400_4w_pp);
