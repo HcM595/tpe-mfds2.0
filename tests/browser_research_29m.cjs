@@ -19,6 +19,13 @@ async function run() {
     assert.equal(await page.locator('#rows tr').count(), 12, 'H must show exactly twelve factors');
     assert(Number((await page.locator('#total').innerText()).replace(/,/g, '')) > 1000, 'H stock universe missing');
     assert((await page.locator('#summary').innerText()).includes('已驗證因子：0/12'), 'H unverifiable factors misrepresented');
+    await page.waitForFunction(() => document.querySelectorAll('#pit-clock tbody tr').length === 2, {timeout: 60000});
+    const pitH = await page.locator('#pit-clock').innerText();
+    assert(pitH.includes('本站首次取得（UTC）'),'H capture clock missing');
+    assert(pitH.includes('官方公布時刻（UTC）'),'H publication clock missing');
+    assert(pitH.includes('未驗證／不可倒填'),'H missing official announcement not labelled');
+    assert(pitH.includes('不可作歷史回測'),'H PIT screen must not permit historical testing');
+
     await page.locator('#stock').fill('2330');
     await page.locator('#lookup').click();
     assert((await page.locator('#stocktitle').innerText()).startsWith('2330 '), 'H lookup did not change stock');
@@ -32,6 +39,9 @@ async function run() {
       assert(await page.locator(sel).count() > 0, 'I missing panel ' + sel);
     }
     assert((await page.locator('#caveat').innerText()).includes('資料日期'), 'I date disclosure missing');
+    await page.waitForFunction(() => document.querySelectorAll('#pit-clock tbody tr').length === 2, {timeout: 60000});
+    assert((await page.locator('#pit-clock').innerText()).includes('不可作歷史回測'),'I PIT verification missing');
+
     assert((await page.locator('#risk').innerText()).includes('價格已還原'), 'I raw-price risk warning missing');
     await page.locator('#query').fill('3533');
     await page.locator('#find').click();
