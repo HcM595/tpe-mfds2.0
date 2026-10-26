@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'site/index.html'
+      - 'scripts/probe_macro_sources_29b.py'
       - 'scripts/build_factor_evidence_29a.py'
       - 'tests/test_factor_evidence_29a.py'
       - 'scripts/collect_mops_income_ytd_28i.py'
@@ -96,6 +97,8 @@ jobs:
           assert all(r['verified_factor_count']=='0' and r['prediction_enabled']=='false' for r in rows)
           print('12-factor full-universe model evidence regression OK:',len(rows))
           PY
+      - name: Probe public NDC/CBC official macro source formats
+        run: python scripts/probe_macro_sources_29b.py
       - name: Install browser test runtime (bounded download, no unnecessary apt refresh)
         timeout-minutes: 8
         run: |
