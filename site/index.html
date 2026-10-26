@@ -483,6 +483,7 @@ function rStock(){
       <p class="hint">目前月營收：${risk.f1_revenue_available==='true'?'已有來源觀察':'資料未取得'}；營業現金流／淨利比：未驗證；估值及預期差：未驗證；公司治理與公告時間：未驗證。不可用單月營收成長代替盈利品質模型。</p>`}
     </section>
     <section class="r-panel r-subpanel"><h3>2.8G 公開資訊觀測站營業活動現金流（非F1分數）</h3>
+      <p class="hint">資料方法：官方現金流量表的營業活動現金流是<strong>年初累計</strong>，不是當季單期金額；<strong>金額單位、淨利累計口徑、申報時間仍未驗證</strong>。即使資料有數字，現金流／淨利比與F1分數也不啟用。</p>
       ${!cashflow.stock_id ? '<p class="hint">本股尚未列入有限的重點股票現金流封存，或官方財報讀取失敗。未提供的數值不是零。</p>' : `
       <p class="hint">來源：MOPS 個別公司現金流量表；${esc(cashflow.source_status==='ok'?'官方資料已封存':'舊資料備援，未確認最新')}。現金流為年初至本季底累計，並非單一季度數字。報表金額單位、現金流與淨利的會計口徑及實際公司申報時間尚未獨立驗證。</p>
       <dl class="r-dl">${[['財報期別',cashflow.report_period],['現金流期間起',cashflow.cashflow_period_start],['現金流期間迄',cashflow.cashflow_period_end],['營業活動淨現金流入／流出（來源原值，單位待核）',cashflow.cashflow_ytd_operating_raw],['去年同期累計現金流（來源原值，單位待核）',cashflow.cashflow_prior_ytd_operating_raw],['原始資料首次封存 UTC',cashflow.first_seen_utc],['財報來源狀態',cashflow.source_status],['與淨利期別對齊',cashflow.report_period===income.report_period?'期別標籤相同，仍待會計口徑驗證':'期別不符或淨利缺漏，禁止比較'],['現金流／淨利比','未啟用'],['F1盈利品質','未驗證']].map(([k,v])=>`<div><dt>${esc(k)}</dt><dd>${rVal(v)}</dd></div>`).join('')}</dl>
