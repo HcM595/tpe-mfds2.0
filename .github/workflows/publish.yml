@@ -90,6 +90,8 @@ jobs:
         run: python scripts/collect_monthly_revenue_28c.py
       - name: 2.8C 計算相同市場產業20與60日相對強度（原始價量，非模型分數）
         run: python scripts/compute_industry_relative_28c.py
+      - name: 2.8D 計算歷史收盤風險參考與財務來源缺口（不計算ATR或勝率）
+        run: python scripts/compute_risk_observations_28d.py
       - name: 保存真實價格與籌碼資料及更新進度
         run: |
           git config user.name "github-actions[bot]"
