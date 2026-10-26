@@ -1,0 +1,50 @@
+{
+  "version": "2.8G",
+  "generated_at_taipei": "2026-10-26T15:31:45+08:00",
+  "focus_stocks": [
+    "8064",
+    "3533",
+    "2345",
+    "2330",
+    "2308"
+  ],
+  "observations": 5,
+  "fresh_observations": 5,
+  "per_stock": {
+    "8064": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "59e99ae10cbfa529f6487a25569f59aa43e1053ad50ab9f67da54fcb9c6ad29d"
+    },
+    "3533": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "2a46678ee61c5eb814deaa8babf833f37f61ca89b3665f105da06c57db6af6de"
+    },
+    "2345": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "def7ce61d068df26ed5462efd615915225b4dde61b99f4aad64e4f6a8958377b"
+    },
+    "2330": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "4ab7fef914342dd714a31340fe26d9e991ef733061bce253d690b9c2ddc08677"
+    },
+    "2308": {
+      "status": "ok",
+      "report_period": "2026Q2",
+      "sha256": "421255c621c2aca2dd3d55df5e690864127873a25951a576a98f3f65ff60ef00"
+    }
+  },
+  "source": "MOPS official individual cash flow HTML",
+  "operating_cf_is_ytd": true,
+  "amount_unit_verified": false,
+  "income_accounting_basis_verified": false,
+  "filing_timestamps_verified": false,
+  "cashflow_to_netincome_ratio_enabled": false,
+  "factor_F1_eligible": false,
+  "backtest_use_enabled": false,
+  "focus_only": true,
+  "warning": "只封存實際來源觀察。非全市場，無核實財報金額單位與淨利累計口徑前不得做數值比率；未核對公司申報時間前禁止點時回測。"
+}
