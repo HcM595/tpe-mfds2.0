@@ -110,6 +110,11 @@ async function run() {
     await page.locator('#factor').selectOption('all');
     await page.locator('#q').fill('2330');
     assert.equal(await page.locator('#rows tr').count(),3,'P stock lookup failed');
+    await visit('publication_review_29p.html?stock=3533');
+    await page.waitForFunction(() => document.querySelector('#status')?.textContent.includes('符合搜尋'), {timeout: 60000});
+    assert.equal(await page.locator('#rows tr').count(),3,'P stock deep link should show all factor sources');
+    assert((await page.locator('#rows tr').first().innerText()).includes('3533'),
+       'P page did not preserve stock ID passed from research detail');
     console.log('PASS 2.9P: source proof queue, factor filters and fail-closed release timestamps');
 
     assert.deepEqual(errors, [], 'Uncaught browser JavaScript errors: ' + errors.join('; '));
