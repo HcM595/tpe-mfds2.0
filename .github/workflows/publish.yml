@@ -138,6 +138,19 @@ jobs:
         run: |
           python -m unittest tests/test_event_bodies_29s.py
           python -m scripts.audit_event_bodies_29s
+      - name: 3.0A 驗證全市場工作台來源與原始資訊不推導勝率
+        run: |
+          node --check site/research_core_30a.js
+          node tests/research_core_30a.test.cjs
+          python - <<'PY'
+          import csv
+          with open('site/data/factor_evidence_29a.csv',encoding='utf-8-sig',newline='') as f:
+              rows=list(csv.DictReader(f))
+          assert len(rows)>=1000
+          assert len({r['stock_id'] for r in rows})==len(rows)
+          assert all(r['model_eligible']=='false' and r['prediction_enabled']=='false' for r in rows)
+          print('3.0A research source sanity check:',len(rows),'stocks; forecasting disabled')
+          PY
       - name: 2.9L 驗證四個研究頁面、資料欄位與模型安全門檻
         run: python -m unittest tests/test_research_pages_29l.py
       - name: 保存真實價格與籌碼資料及更新進度
