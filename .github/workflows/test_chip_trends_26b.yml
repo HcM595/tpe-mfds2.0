@@ -333,7 +333,7 @@ jobs:
       - name: 2.9S verify archived full statement bodies and unresolved financial timing
         run: |
           python -m unittest tests/test_event_bodies_29s.py
-          python scripts/audit_event_bodies_29s.py
+          python -m scripts.audit_event_bodies_29s
           python - <<'PY'
           import json,csv
           m=json.load(open('site/data/material_event_body_review_meta_29s.json',encoding='utf-8'))
