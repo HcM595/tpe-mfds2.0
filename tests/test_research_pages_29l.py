@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 DATA = SITE / "data"
-PAGES = ("factor_gaps_29h.html", "stock_research_29i.html", "dual_engine_29j.html", "compare_29k.html", "publication_review_29p.html")
+PAGES = ("factor_gaps_29h.html", "stock_research_29i.html", "dual_engine_29j.html", "compare_29k.html", "publication_review_29p.html", "material_events_29q.html")
 SOURCE_FILES = (
     "factor_evidence_29a.csv", "official_snapshot.csv", "chip_signals.csv",
     "tech_crosscheck.csv", "industry_relative_28c.csv", "risk_observations_28d.csv",
@@ -72,6 +72,13 @@ class ResearchPageHealth(unittest.TestCase):
         self.assertIn("pit_f2f3_stock_29f.csv", dual)
         self.assertIn("pit_f2f3_stock_29f.csv", compare)
         self.assertIn("publication_gate_29o.csv", stock)
+        events=(SITE / "material_events_29q.html").read_text(encoding="utf-8")
+        self.assertIn("material_events_29q.csv",events)
+        meta_events=json.loads((DATA / "material_events_meta_29q.json").read_text(encoding="utf-8"))
+        self.assertEqual(meta_events["verified_first_publication_times"],0)
+        self.assertEqual(meta_events["events_mapped_to_F2_F3_revenue"],0)
+        self.assertFalse(meta_events["model_scoring_enabled"])
+        self.assertTrue((DATA / "material_events_29q.csv").exists())
         review=(SITE / "publication_review_29p.html").read_text(encoding="utf-8")
         self.assertIn("publication_review_queue_29p.csv",review)
         meta_review=json.loads((DATA / "publication_review_meta_29p.json").read_text(encoding="utf-8"))
