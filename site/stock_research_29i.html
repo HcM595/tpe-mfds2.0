@@ -52,6 +52,7 @@ function show(id){
  ['月營收阻擋原因',reasonLabels(audit.REVENUE_blockers)]]);
  $('release-audit').insertAdjacentHTML('beforeend','<p><a href="./publication_review_29p.html?stock='+encodeURIComponent(id)+'">查看本股待核查官方公布證據</a></p>');
  $('release-audit').insertAdjacentHTML('beforeend','<p><a href="./event_crosscheck_29r.html?stock='+encodeURIComponent(id)+'">比對本股重大訊息與財務來源版本（2.9R）</a></p>');
+ $('release-audit').insertAdjacentHTML('beforeend','<p><a href="./event_body_audit_29s.html?stock='+encodeURIComponent(id)+'">核對本股重大訊息正文與原始來源版本（2.9S）</a></p>');
  $('factor').innerHTML=details([['歷史和流動性初篩',f.basic_data_status],['有原始觀察因子',f.observed_factor_count?f.observed_factor_count+'/12':'—'],['正式驗證因子',f.verified_factor_count?f.verified_factor_count+'/12':'—'],['正式模型資格',f.model_eligible==='true'?'有':'未啟用'],['資料首次封存晚於價格日',f.source_postdates_price==='true'?'是（警示）':'否或未知']])+'<p><a href="./factor_gaps_29h.html">查看各因子待補證據（可在該頁輸入相同代號）</a></p>';
 }
 function lookup(){const q=$('query').value.trim().toLowerCase();if(!q){$('status').textContent='請輸入股票代號或名稱';return}const match=all.find(x=>x.stock_id.toLowerCase()===q||x.stock_name.toLowerCase()===q)||all.find(x=>x.stock_name.toLowerCase().includes(q)||x.stock_id.includes(q));if(match)show(match.stock_id);else{$('status').textContent='找不到相符股票';$('out').hidden=true}}
