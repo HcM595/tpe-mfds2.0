@@ -1,10 +1,10 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-10-27T21:31:54+08:00",
-  "observations": 262,
+  "generated_at_taipei": "2026-10-28T06:44:45+08:00",
+  "observations": 272,
   "checked": 15,
-  "fresh_success": 14,
-  "fresh_ytd_unit_period_aligned": 14,
+  "fresh_success": 15,
+  "fresh_ytd_unit_period_aligned": 15,
   "income_report_ytd": "從MOPS第6欄提取當年年初累計本期淨利；第2欄為單季，不混用",
   "amount_unit": "只有逐股MOPS原始表有唯一明確新台幣仟元標頭時才核實",
   "per_stock": {
@@ -33,51 +33,52 @@
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2031": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2032": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2033": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2034": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2035": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2038": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2049": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2059": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
     "2061": {
-      "status": "unavailable",
-      "reason": "<urlopen error timed out>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
-    "2062": {
+    "2063": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2064": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2065": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2066": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2067": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2069": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2070": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2072": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2073": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -742,6 +743,30 @@
     "2030": {
       "status": "not_checked_this_run"
     },
+    "2031": {
+      "status": "not_checked_this_run"
+    },
+    "2032": {
+      "status": "not_checked_this_run"
+    },
+    "2033": {
+      "status": "not_checked_this_run"
+    },
+    "2034": {
+      "status": "not_checked_this_run"
+    },
+    "2038": {
+      "status": "not_checked_this_run"
+    },
+    "2049": {
+      "status": "not_checked_this_run"
+    },
+    "2059": {
+      "status": "not_checked_this_run"
+    },
+    "2062": {
+      "status": "not_checked_this_run"
+    },
     "1240": {
       "status": "not_checked_this_run"
     },
@@ -824,6 +849,9 @@
       "status": "not_checked_this_run"
     },
     "1815": {
+      "status": "not_checked_this_run"
+    },
+    "2035": {
       "status": "not_checked_this_run"
     }
   },

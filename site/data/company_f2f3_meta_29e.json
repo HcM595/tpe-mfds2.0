@@ -1,18 +1,18 @@
 {
   "version": "2.9E",
-  "generated_at_taipei": "2026-10-27T21:34:01+08:00",
-  "valuation_stocks": 1977,
-  "valuation_peer_comparable": 1539,
-  "governance_stocks": 1985,
-  "chair_ceo_concurrent_count": 441,
+  "generated_at_taipei": "2026-10-28T06:45:23+08:00",
+  "valuation_stocks": 1980,
+  "valuation_peer_comparable": 1542,
+  "governance_stocks": 1987,
+  "chair_ceo_concurrent_count": 442,
   "sources": {
     "上市_valuation": {
       "status": "ok",
-      "rows": 1084,
-      "source_sha256": "91e30e46425d29cc75d85108a207474483fa6cb4e9bb33c43cb00994d935a2e8",
+      "rows": 1087,
+      "source_sha256": "ac7c2532f1461352c2e7c3a86a297c51f3f062096ca210266498c8bada7605c1",
       "source_url": "https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL",
       "source_dates": [
-        "2026-10-22"
+        "2026-10-27"
       ]
     },
     "上櫃_valuation": {
@@ -26,20 +26,20 @@
     },
     "上市_governance": {
       "status": "ok",
-      "rows": 1091,
-      "source_sha256": "05d5491fa41a2df625830fb51bf1dee762de74ab59652e9fcb1abbde189e540e",
+      "rows": 1092,
+      "source_sha256": "ac6815fac178b5aafa1956ae0159f5527165055a90e464823a8203738c987d15",
       "source_url": "https://openapi.twse.com.tw/v1/opendata/t187ap33_L",
       "source_dates": [
-        "2026-10-26"
+        "2026-10-27"
       ]
     },
     "上櫃_governance": {
       "status": "ok",
-      "rows": 894,
-      "source_sha256": "0d0d97aae4f2acc99769931147a1f02385c3a7a00d375a7c1259a244f4ff08fa",
+      "rows": 895,
+      "source_sha256": "a8b31396e8324451780a7660aabd051be39b95546b974d2a51d30763ac7cc678",
       "source_url": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap33_O",
       "source_dates": [
-        "2026-10-26"
+        "2026-10-27"
       ]
     }
   },
