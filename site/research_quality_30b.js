@@ -32,7 +32,7 @@ function sourceCounts(inputs,failures={}){
 }
 function firstCaptureStatus(timestamp,priceDay){
  if(!validDay(priceDay))return 'price_date_invalid';
- if(typeof timestamp!=='string'||!/^(\\d{4}-\\d{2}-\\d{2})T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$/.test(timestamp))return 'first_seen_unknown';
+ if(typeof timestamp!=='string'||!/^(\d{4}-\d{2}-\d{2})T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/.test(timestamp))return 'first_seen_unknown';
  const captured=Date.parse(timestamp),cutoff=Date.parse(priceDay+'T00:00:00+08:00');
  if(!Number.isFinite(captured)||!Number.isFinite(cutoff))return 'first_seen_unknown';
  return captured<cutoff?'before_cutoff':'after_cutoff';
