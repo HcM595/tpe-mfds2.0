@@ -44,6 +44,8 @@ class BodyEvidenceTests(unittest.TestCase):
                          ("","reporting_period_missing"))
         self.assertEqual(revenue_period_candidate("公告月營收","未列資料期間"),
                          ("","reporting_period_missing"))
+        self.assertEqual(revenue_period_candidate("公告115年9月月營收","更正115年8月營業收入資料"),
+                         ("","ambiguous_multiple_months"))
 
     def test_exact_archived_raw_body_and_factor_lock(self):
         with tempfile.TemporaryDirectory() as tmp:
