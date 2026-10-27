@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 DATA = SITE / "data"
-PAGES = ("factor_gaps_29h.html", "stock_research_29i.html", "dual_engine_29j.html", "compare_29k.html", "publication_review_29p.html", "material_events_29q.html", "event_body_audit_29s.html")
+PAGES = ("factor_gaps_29h.html", "stock_research_29i.html", "dual_engine_29j.html", "compare_29k.html", "publication_review_29p.html", "material_events_29q.html", "event_body_audit_29s.html", "research_hub_30a.html")
 SOURCE_FILES = (
     "factor_evidence_29a.csv", "official_snapshot.csv", "chip_signals.csv",
     "tech_crosscheck.csv", "industry_relative_28c.csv", "risk_observations_28d.csv",
@@ -98,7 +98,7 @@ class ResearchPageHealth(unittest.TestCase):
         links_html=(SITE / "event_crosscheck_29r.html").read_text(encoding="utf-8")
         self.assertIn("publication_event_links_29r.csv",links_html)
         self.assertIn("event_crosscheck_29r.html",(SITE / "material_events_29q.html").read_text(encoding="utf-8"))
-        self.assertIn("event_crosscheck_29r.html",(SITE / "publication_review_29p.html", "research_hub_30a.html").read_text(encoding="utf-8"))
+        self.assertIn("event_crosscheck_29r.html",(SITE / "publication_review_29p.html").read_text(encoding="utf-8"))
         cross_meta=json.loads((DATA / "publication_event_links_meta_29r.json").read_text(encoding="utf-8"))
         self.assertEqual(cross_meta["verified_event_to_factor_value_links"],0)
         self.assertEqual(cross_meta["historical_factor_eligible"],0)
