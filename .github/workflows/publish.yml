@@ -126,6 +126,10 @@ jobs:
         run: |
           python -m unittest tests/test_publication_review_29p.py
           python scripts/build_publication_review_29p.py
+      - name: 2.9Q 封存上市與上櫃每日重大訊息發言時間（與財務因子首次公告分離）
+        run: |
+          python -m unittest tests/test_material_events_29q.py
+          python scripts/collect_material_events_29q.py
       - name: 2.9L 驗證四個研究頁面、資料欄位與模型安全門檻
         run: python -m unittest tests/test_research_pages_29l.py
       - name: 保存真實價格與籌碼資料及更新進度

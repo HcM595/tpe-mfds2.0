@@ -12,6 +12,9 @@ on:
       - 'site/pit_clock_29n.js'
       - 'site/asof_gate_29o.js'
       - 'site/publication_review_29p.html'
+      - 'site/material_events_29q.html'
+      - 'scripts/collect_material_events_29q.py'
+      - 'tests/test_material_events_29q.py'
       - 'scripts/build_publication_review_29p.py'
       - 'tests/test_publication_review_29p.py'
       - 'scripts/audit_publication_gate_29o.py'
@@ -284,6 +287,22 @@ jobs:
           assert all(not x['verified_company_publication_utc'] for x in rows)
           assert meta['strict_backtest_eligible']==0 and not meta['model_scoring_enabled']
           print('2.9P unpublished source proofs quarantined',len(rows))
+          PY
+      - name: 2.9Q material disclosure speech-time archive schema and no false factor-release proof
+        run: |
+          python -m unittest tests/test_material_events_29q.py
+          python scripts/collect_material_events_29q.py
+          python - <<'PY'
+          import csv,json
+          rows=list(csv.DictReader(open('site/data/material_events_29q.csv',encoding='utf-8')))
+          meta=json.load(open('site/data/material_events_meta_29q.json',encoding='utf-8'))
+          assert meta['events_captured']==len(rows)
+          assert meta['verified_first_publication_times']==0
+          assert meta['events_mapped_to_F2_F3_revenue']==0
+          assert meta['historical_factor_eligible']==0
+          assert not meta['model_scoring_enabled'] and not meta['probability_enabled']
+          assert all(x['factor_release_time_eligible']=='false' and x['event_first_publication_verified']=='false' for x in rows)
+          print('2.9Q official material-event observations archived',len(rows),meta['sources'])
           PY
       - name: Install browser test runtime (bounded download, no unnecessary apt refresh)
         timeout-minutes: 8

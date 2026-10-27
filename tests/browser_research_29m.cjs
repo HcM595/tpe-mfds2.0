@@ -117,6 +117,22 @@ async function run() {
        'P page did not preserve stock ID passed from research detail');
     console.log('PASS 2.9P: source proof queue, factor filters and fail-closed release timestamps');
 
+    // 2.9Q: material announcements are events; never certify F2/F3/revenue release.
+    await visit('material_events_29q.html');
+    await page.waitForFunction(() => document.querySelector('#status')?.textContent.includes('符合搜尋'), {timeout:60000});
+    assert.equal((await page.locator('#verified').innerText()).trim(),'0',
+      'Q should never certify original public release without independent proof');
+    assert.equal((await page.locator('#mapped').innerText()).trim(),'0',
+      'Q material information must not become F2/F3/revenue signals');
+    assert((await page.locator('.notice').innerText()).includes('不是各項財務資料首次公布時間'),
+      'Q must distinguish speech time from financial release time');
+    await page.locator('#q').fill('8064');
+    assert((await page.locator('#status').innerText()).includes('符合搜尋'),
+      'Q searchable stock event catalogue missing');
+    await page.locator('#market').selectOption('上櫃');
+    assert.equal((await page.locator('#verified').innerText()).trim(),'0');
+    console.log('PASS 2.9Q: material speech clock, no retrospective factor-release certification');
+
     assert.deepEqual(errors, [], 'Uncaught browser JavaScript errors: ' + errors.join('; '));
     console.log('PASS 2.9M: all four research pages passed real Chromium smoke tests');
   } finally {
