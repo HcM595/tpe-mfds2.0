@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 DATA = SITE / "data"
-PAGES = ("factor_gaps_29h.html", "stock_research_29i.html", "dual_engine_29j.html", "compare_29k.html", "publication_review_29p.html", "material_events_29q.html")
+PAGES = ("factor_gaps_29h.html", "stock_research_29i.html", "dual_engine_29j.html", "compare_29k.html", "publication_review_29p.html", "material_events_29q.html", "event_body_audit_29s.html")
 SOURCE_FILES = (
     "factor_evidence_29a.csv", "official_snapshot.csv", "chip_signals.csv",
     "tech_crosscheck.csv", "industry_relative_28c.csv", "risk_observations_28d.csv",
@@ -79,6 +79,15 @@ class ResearchPageHealth(unittest.TestCase):
         self.assertEqual(meta_events["events_mapped_to_F2_F3_revenue"],0)
         self.assertFalse(meta_events["model_scoring_enabled"])
         self.assertTrue((DATA / "material_events_29q.csv").exists())
+        body=(SITE / "event_body_audit_29s.html").read_text(encoding="utf-8")
+        self.assertIn("material_event_body_review_29s.csv",body)
+        self.assertIn("event_body_audit_29s.html",(SITE / "event_crosscheck_29r.html").read_text(encoding="utf-8"))
+        evidence=json.loads((DATA / "material_event_body_review_meta_29s.json").read_text(encoding="utf-8"))
+        self.assertEqual(evidence["verified_financial_payload_equivalences"],0)
+        self.assertEqual(evidence["independently_verified_first_publications"],0)
+        self.assertEqual(evidence["historical_factor_eligible"],0)
+        self.assertFalse(evidence["model_scores_enabled"])
+        self.assertTrue((DATA / "material_event_body_review_29s.csv").exists())
         links_html=(SITE / "event_crosscheck_29r.html").read_text(encoding="utf-8")
         self.assertIn("publication_event_links_29r.csv",links_html)
         self.assertIn("event_crosscheck_29r.html",(SITE / "material_events_29q.html").read_text(encoding="utf-8"))
