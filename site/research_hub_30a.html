@@ -154,7 +154,7 @@ $('tab-compare').onclick=()=>{display('compare');setQuery({view:'compare',stocks
 $('tab-quality').onclick=()=>{display('quality');setQuery({view:'quality'})};
 ['q','market','basic','institution','holders-filter','technical','size'].forEach(id=>$(id).addEventListener(id==='q'?'input':'change',()=>{pageIndex=0;renderMarket()}));
 $('export-market').onclick=()=>browserCSV(C.filterRows(all,filters()),'mfds_30b_market_observations');
-$('export-compare').onclick=()=>browserCSV([...new Set($('stock-list').value.split(/[,，\\s]+/).map(x=>x.trim()).filter(Boolean))].slice(0,5).map(rowFor).filter(Boolean),'mfds_30b_stock_comparison');
+$('export-compare').onclick=()=>browserCSV([...new Set($('stock-list').value.split(/[,，\s]+/).map(x=>x.trim()).filter(Boolean))].slice(0,5).map(rowFor).filter(Boolean),'mfds_30b_stock_comparison');
 $('reset').onclick=()=>{for(const id of ['q','market','basic','institution','holders-filter','technical'])$(id).value=id==='q'?'':'all';pageIndex=0;renderMarket()};
 $('prev').onclick=()=>{pageIndex--;renderMarket()};$('next').onclick=()=>{pageIndex++;renderMarket()};
 $('market-rows').addEventListener('click',e=>{const btn=e.target.closest('[data-stock],[data-add]');if(!btn)return;if(btn.dataset.stock){$('stock-id').value=btn.dataset.stock;navigateStock(btn.dataset.stock)}
