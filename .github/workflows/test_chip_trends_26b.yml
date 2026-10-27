@@ -78,6 +78,11 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+# New commits supersede earlier PR checks; the scheduled publishing workflow is separate.
+concurrency:
+  group: mfds-acceptance-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
