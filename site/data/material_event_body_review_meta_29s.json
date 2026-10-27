@@ -1,0 +1,17 @@
+{
+  "version": "2.9S",
+  "archived_events": 17,
+  "event_rows": 17,
+  "original_body_validated": 17,
+  "missing_or_inconsistent": 0,
+  "same_event_revisions": 0,
+  "unverified_reporting_period_candidates": 0,
+  "explicit_subject_candidates": 0,
+  "verified_financial_payload_equivalences": 0,
+  "independently_verified_first_publications": 0,
+  "historical_factor_eligible": 0,
+  "model_scores_enabled": false,
+  "performance_probabilities_enabled": false,
+  "source": "archived 2.9Q immutable raw JSON; event_key/company/market/source_sha/first_seen crosscheck",
+  "caveat": "重大訊息正文及期間文字只能供人工查核；來源數值比對及首次公布證據尚未確立。"
+}

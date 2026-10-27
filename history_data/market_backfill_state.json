@@ -3,7 +3,7 @@
   "attempted_weekdays": 281,
   "failed_dates": [],
   "notes": "逐日回補；交易所無資料日不產生行情",
-  "range_start": "2025-09-22",
-  "asof": "2026-10-22",
+  "range_start": "2025-09-27",
+  "asof": "2026-10-27",
   "reached_start": true
 }

@@ -1,10 +1,10 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-10-27T09:28:15+08:00",
-  "observations": 236,
+  "generated_at_taipei": "2026-10-27T18:28:02+08:00",
+  "observations": 243,
   "checked": 15,
-  "fresh_success": 13,
-  "fresh_ytd_unit_period_aligned": 13,
+  "fresh_success": 12,
+  "fresh_ytd_unit_period_aligned": 12,
   "income_report_ytd": "從MOPS第6欄提取當年年初累計本期淨利；第2欄為單季，不混用",
   "amount_unit": "只有逐股MOPS原始表有唯一明確新台幣仟元標頭時才核實",
   "per_stock": {
@@ -33,50 +33,49 @@
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1904": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "1905": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
     "1906": {
-      "status": "unavailable",
-      "reason": "<urlopen error [Errno 111] Connection refused>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
     "1907": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2010": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2012": {
       "status": "unavailable",
       "reason": "<urlopen error timed out>"
     },
-    "1909": {
+    "2013": {
+      "status": "unavailable",
+      "reason": "<urlopen error timed out>"
+    },
+    "2014": {
+      "status": "unavailable",
+      "reason": "<urlopen error timed out>"
+    },
+    "2015": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2002": {
+    "2017": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2006": {
+    "2020": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2007": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2008": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2009": {
+    "2022": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -664,6 +663,30 @@
       "status": "not_checked_this_run"
     },
     "1903": {
+      "status": "not_checked_this_run"
+    },
+    "1904": {
+      "status": "not_checked_this_run"
+    },
+    "1905": {
+      "status": "not_checked_this_run"
+    },
+    "1909": {
+      "status": "not_checked_this_run"
+    },
+    "2002": {
+      "status": "not_checked_this_run"
+    },
+    "2006": {
+      "status": "not_checked_this_run"
+    },
+    "2007": {
+      "status": "not_checked_this_run"
+    },
+    "2008": {
+      "status": "not_checked_this_run"
+    },
+    "2009": {
       "status": "not_checked_this_run"
     },
     "1240": {

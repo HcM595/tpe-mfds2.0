@@ -1,35 +1,38 @@
 {
   "version": "2.4C",
   "status": "ok",
-  "generated_at_taipei": "2026-10-27T09:26:10+08:00",
-  "latest_audited_snapshot_id": "20261027T012608322337Z-run40432426370-attempt1",
-  "latest_signal_first_observed_at_utc": "2026-10-23T10:41:20.985421Z",
-  "latest_cohort_id": "cohort-e44357f9405834d6f1e693b5",
-  "new_cohort_created": false,
-  "cohorts_total": 3,
-  "latest_cohort_registered_at_utc": "2026-10-23T10:41:23.281076Z",
-  "latest_cohort_qualified": 77,
-  "observation_rows_all_cohorts": 249,
-  "observation_eligible_rows_all_cohorts": 228,
-  "data_quality_isolated_rows": 21,
+  "generated_at_taipei": "2026-10-27T18:26:04+08:00",
+  "latest_audited_snapshot_id": "20261027T102601654826Z-run40488222911-attempt1",
+  "latest_signal_first_observed_at_utc": "2026-10-27T10:26:01.654826Z",
+  "latest_cohort_id": "cohort-e3e86ad2c412a5ce10b8164d",
+  "new_cohort_created": true,
+  "cohorts_total": 4,
+  "latest_cohort_registered_at_utc": "2026-10-27T10:26:04.336643Z",
+  "latest_cohort_qualified": 66,
+  "observation_rows_all_cohorts": 318,
+  "observation_eligible_rows_all_cohorts": 294,
+  "data_quality_isolated_rows": 24,
   "market_classification_conflicts": 0,
-  "unique_signal_fingerprints_in_archive": 3,
+  "unique_signal_fingerprints_in_archive": 4,
   "repeat_signal_snapshots": 57,
   "horizon_status_counts": {
     "10": {
-      "等待參考交易日": 228,
-      "不列入_非有效排名": 15,
-      "暫緩_異常待核實": 6
+      "觀察中_無績效": 228,
+      "不列入_非有效排名": 17,
+      "暫緩_異常待核實": 7,
+      "等待參考交易日": 66
     },
     "20": {
-      "等待參考交易日": 228,
-      "不列入_非有效排名": 15,
-      "暫緩_異常待核實": 6
+      "觀察中_無績效": 228,
+      "不列入_非有效排名": 17,
+      "暫緩_異常待核實": 7,
+      "等待參考交易日": 66
     },
     "60": {
-      "等待參考交易日": 228,
-      "不列入_非有效排名": 15,
-      "暫緩_異常待核實": 6
+      "觀察中_無績效": 228,
+      "不列入_非有效排名": 17,
+      "暫緩_異常待核實": 7,
+      "等待參考交易日": 66
     }
   },
   "calendar_validation_version": "2.4D",
@@ -54,12 +57,12 @@
     },
     "coverage_dates": {
       "上市": {
-        "first": "2026-03-03",
-        "last": "2026-10-22"
+        "first": "2026-03-04",
+        "last": "2026-10-27"
       },
       "上櫃": {
-        "first": "2026-03-03",
-        "last": "2026-10-22"
+        "first": "2026-03-04",
+        "last": "2026-10-27"
       }
     }
   },

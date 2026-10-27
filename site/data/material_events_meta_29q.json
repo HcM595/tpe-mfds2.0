@@ -1,11 +1,11 @@
 {
   "version": "2.9Q",
-  "generated_at_taipei": "2026-10-27T09:31:52+08:00",
-  "events_captured": 10,
-  "new_events_this_run": 0,
+  "generated_at_taipei": "2026-10-27T18:30:37+08:00",
+  "events_captured": 17,
+  "new_events_this_run": 7,
   "events_by_market": {
     "上市": 9,
-    "上櫃": 1
+    "上櫃": 8
   },
   "sources": {
     "上市": {
@@ -16,12 +16,12 @@
     },
     "上櫃": {
       "status": "ok",
-      "latest_events": 1,
-      "source_sha256": "83d63646a3ddf0432dba593b37d7a93b78be0869ac5396e593f6b20ed5f1682d",
+      "latest_events": 7,
+      "source_sha256": "713b5d59889956ea15aaff0998697696d3f11eaf0c36a4c7ee92aba2255a317b",
       "source_url": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap04_O"
     }
   },
-  "parseable_source_speech_clock": 10,
+  "parseable_source_speech_clock": 17,
   "verified_first_publication_times": 0,
   "events_mapped_to_F2_F3_revenue": 0,
   "historical_factor_eligible": 0,

@@ -1,7 +1,7 @@
 {
   "version": "2.4E",
   "status": "ok",
-  "generated_at_taipei": "2026-10-27T09:26:10+08:00",
+  "generated_at_taipei": "2026-10-27T18:26:05+08:00",
   "sources": {
     "TWSE": {
       "status": "ok",
@@ -14,20 +14,20 @@
     },
     "TPEx": {
       "status": "ok",
-      "rows_this_run": 71,
-      "new_source_version_saved": false,
-      "latest_sha256": "94ed0e921d95be1877e7f7fbf1e36f20b428ec214ea8f96669e0776252e3587e",
-      "source_first_seen_at_utc": "2026-10-24T11:24:12.457127Z",
+      "rows_this_run": 62,
+      "new_source_version_saved": true,
+      "latest_sha256": "6826d77e028fa79bfe0d89963daecc6f9c3d366dd21669cc7ace3b3287ebd7f6",
+      "source_first_seen_at_utc": "2026-10-27T10:26:05.332036Z",
       "source_url": "https://www.tpex.org.tw/openapi/v1/tpex_exright_prepost",
       "error": null
     }
   },
-  "source_archive_versions_total": 2,
-  "new_archives": 0,
+  "source_archive_versions_total": 3,
+  "new_archives": 1,
   "rolling_events_ever_seen": 93,
   "event_cash_pending": 15,
   "announced_value_revision_flags": 0,
-  "forward_observation_rows": 249,
+  "forward_observation_rows": 318,
   "forward_rows_with_any_rolling_notice": 0,
   "coverage_scope": "只包含執行本系統後取得的滾動官方預告；歷史空白不能推定無公司行動",
   "historical_corporate_actions_complete": false,

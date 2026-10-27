@@ -1,30 +1,34 @@
 {
   "version": "2.2.1",
-  "asof": "2026-10-22",
-  "created_at_taipei": "2026-10-27T09:25:31+08:00",
+  "asof": "2026-10-27",
+  "created_at_taipei": "2026-10-27T18:25:03+08:00",
   "notes": "下載空值與市場休市分別紀錄；歷史TDCC來源為非官方鏡像，非集保直接提供歷史API。",
   "market_history": {
     "twse": {
-      "attempted_days": 3,
-      "new_rows": 0,
+      "attempted_days": 6,
+      "new_rows": 1083,
       "no_data_days": [
+        "2026-10-26",
+        "2026-10-23",
         "2026-10-09",
         "2026-09-28",
         "2026-09-25"
       ],
       "errors": [],
-      "status": "no_new_data"
+      "status": "ok"
     },
     "tpex": {
-      "attempted_days": 3,
-      "new_rows": 0,
+      "attempted_days": 6,
+      "new_rows": 772,
       "no_data_days": [
+        "2026-10-26",
+        "2026-10-23",
         "2026-10-09",
         "2026-09-28",
         "2026-09-25"
       ],
       "errors": [],
-      "status": "no_new_data"
+      "status": "ok"
     }
   },
   "tdcc_archive": {
@@ -36,38 +40,38 @@
   },
   "focus": {
     "8064": {
-      "flow_dates": 36,
-      "latest_flow": "2026-10-22",
+      "flow_dates": 37,
+      "latest_flow": "2026-10-27",
       "holder_weeks": 13,
       "latest_holder": "2026-10-22",
       "ready_for_5d_flow": true,
       "ready_for_4w_holder": true
     },
     "3533": {
-      "flow_dates": 36,
-      "latest_flow": "2026-10-22",
+      "flow_dates": 37,
+      "latest_flow": "2026-10-27",
       "holder_weeks": 13,
       "latest_holder": "2026-10-22",
       "ready_for_5d_flow": true,
       "ready_for_4w_holder": true
     },
     "2330": {
-      "flow_dates": 36,
-      "latest_flow": "2026-10-22",
+      "flow_dates": 37,
+      "latest_flow": "2026-10-27",
       "holder_weeks": 13,
       "latest_holder": "2026-10-22",
       "ready_for_5d_flow": true,
       "ready_for_4w_holder": true
     },
     "2345": {
-      "flow_dates": 36,
-      "latest_flow": "2026-10-22",
+      "flow_dates": 37,
+      "latest_flow": "2026-10-27",
       "holder_weeks": 13,
       "latest_holder": "2026-10-22",
       "ready_for_5d_flow": true,
       "ready_for_4w_holder": true
     }
   },
-  "flow_history_rows": 66765,
+  "flow_history_rows": 68620,
   "holder_history_rows": 38440
 }

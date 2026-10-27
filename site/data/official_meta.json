@@ -1,17 +1,17 @@
 {
   "status": "ok",
-  "generated_at_taipei": "2026-10-27T09:25:06+08:00",
+  "generated_at_taipei": "2026-10-27T18:24:42+08:00",
   "markets": {
     "上市": {
       "status": "ok",
-      "rows": 1081,
-      "date": "2026-10-22",
-      "source": "openapi"
+      "rows": 1089,
+      "date": "2026-10-27",
+      "source": "MI_INDEX_RWD"
     },
     "上櫃": {
       "status": "ok",
-      "rows": 868,
-      "date": "2026-10-22",
+      "rows": 872,
+      "date": "2026-10-27",
       "source": "openapi"
     }
   },
@@ -23,15 +23,37 @@
     "上市MI_INDEX舊路徑": "https://www.twse.com.tw/exchangeReport/MI_INDEX"
   },
   "notes": "各市場顯示各自已驗證的收盤日期。日期不同不當作同步行情；籌碼強度排名只在法人與股價日期一致時給分。非即時報價。",
+  "twse_alternative": {
+    "attempted": true,
+    "requested_date": "2026-10-27",
+    "result": "selected",
+    "attempts": [
+      {
+        "name": "STOCK_DAY_ALL_RWD",
+        "url": "https://www.twse.com.tw/rwd/zh/afterTrading/STOCK_DAY_ALL?date=20261027&response=json",
+        "result": "failed",
+        "error": "RuntimeError: HTTP 200; Content-Type=text/csv;charset=utf-8; 138120 bytes; non-JSON preview='日期,證券代號,證券名稱,成交股數,成交金額,開盤價,最高價,最低價,收盤價,漲跌價差,成交筆數 \"1151027\",\"00400A\",\"主動國泰動能高息\",\"4195243'"
+      },
+      {
+        "name": "MI_INDEX_RWD",
+        "url": "https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX?date=20261027&response=json&type=ALLBUT0999",
+        "response_date": "2026-10-27",
+        "rows": 1089,
+        "result": "selected"
+      }
+    ],
+    "selected_source": "MI_INDEX_RWD",
+    "response_date": "2026-10-27"
+  },
   "market_dates": {
-    "上市": "2026-10-22",
-    "上櫃": "2026-10-22"
+    "上市": "2026-10-27",
+    "上櫃": "2026-10-27"
   },
   "markets_included": [
     "上市",
     "上櫃"
   ],
-  "display_date": "2026-10-22",
+  "display_date": "2026-10-27",
   "aligned": true,
   "tracked_symbols_found": {
     "8064": true,

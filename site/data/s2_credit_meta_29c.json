@@ -1,18 +1,13 @@
 {
   "version": "2.9C",
-  "generated_at_taipei": "2026-10-27T09:31:33+08:00",
+  "generated_at_taipei": "2026-10-27T18:30:26+08:00",
   "stocks_observed": 1863,
-  "fresh_records": 1863,
+  "fresh_records": 802,
   "sources": {
     "上市": {
-      "status": "ok",
-      "rows": 1061,
-      "excluded_or_missing": 0,
-      "report_dates": [
-        "2026-10-22"
-      ],
-      "sha256": "7f0e9387df720ce531150d30996c9e1bb78c02d1520f2a68c7f220cc0aca9963",
-      "url": "https://www.twse.com.tw/rwd/zh/marginTrading/MI_MARGN?date=20261022&selectType=ALL&response=json"
+      "status": "stale_backup",
+      "reason": "TWSE dated credit statement not OK",
+      "url": "https://www.twse.com.tw/rwd/zh/marginTrading/MI_MARGN?date=20261027&selectType=ALL&response=json"
     },
     "上櫃": {
       "status": "ok",
