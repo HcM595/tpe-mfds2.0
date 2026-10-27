@@ -1,6 +1,6 @@
 {
   "version": "2.9F",
-  "generated_at_taipei": "2026-10-27T18:49:08+08:00",
+  "generated_at_taipei": "2026-10-27T21:34:14+08:00",
   "model": "TPE-MFDS original M1-M3 I1-I3 F1-F3 S1-S3; two engines A/B",
   "macro_observation_status": {
     "ndc": "ok",
@@ -58,8 +58,8 @@
     },
     "F1": {
       "no_data": 9,
-      "partial": 1709,
-      "descriptive": 243,
+      "partial": 1701,
+      "descriptive": 251,
       "verified": 0
     },
     "F2": {

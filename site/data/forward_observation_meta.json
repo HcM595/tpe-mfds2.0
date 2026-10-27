@@ -1,38 +1,38 @@
 {
   "version": "2.4C",
   "status": "ok",
-  "generated_at_taipei": "2026-10-27T18:47:12+08:00",
-  "latest_audited_snapshot_id": "20261027T104709899988Z-run40490991597-attempt1",
-  "latest_signal_first_observed_at_utc": "2026-10-27T10:26:01.654826Z",
-  "latest_cohort_id": "cohort-e3e86ad2c412a5ce10b8164d",
-  "new_cohort_created": false,
-  "cohorts_total": 4,
-  "latest_cohort_registered_at_utc": "2026-10-27T10:26:04.336643Z",
+  "generated_at_taipei": "2026-10-27T21:29:39+08:00",
+  "latest_audited_snapshot_id": "20261027T132936979626Z-run40512238393-attempt1",
+  "latest_signal_first_observed_at_utc": "2026-10-27T13:29:36.979626Z",
+  "latest_cohort_id": "cohort-dd8669ab3edea1278ba2885e",
+  "new_cohort_created": true,
+  "cohorts_total": 5,
+  "latest_cohort_registered_at_utc": "2026-10-27T13:29:39.135314Z",
   "latest_cohort_qualified": 66,
-  "observation_rows_all_cohorts": 318,
-  "observation_eligible_rows_all_cohorts": 294,
-  "data_quality_isolated_rows": 24,
+  "observation_rows_all_cohorts": 387,
+  "observation_eligible_rows_all_cohorts": 360,
+  "data_quality_isolated_rows": 27,
   "market_classification_conflicts": 0,
-  "unique_signal_fingerprints_in_archive": 4,
+  "unique_signal_fingerprints_in_archive": 5,
   "repeat_signal_snapshots": 58,
   "horizon_status_counts": {
     "10": {
       "觀察中_無績效": 228,
-      "不列入_非有效排名": 17,
-      "暫緩_異常待核實": 7,
-      "等待參考交易日": 66
+      "不列入_非有效排名": 19,
+      "暫緩_異常待核實": 8,
+      "等待參考交易日": 132
     },
     "20": {
       "觀察中_無績效": 228,
-      "不列入_非有效排名": 17,
-      "暫緩_異常待核實": 7,
-      "等待參考交易日": 66
+      "不列入_非有效排名": 19,
+      "暫緩_異常待核實": 8,
+      "等待參考交易日": 132
     },
     "60": {
       "觀察中_無績效": 228,
-      "不列入_非有效排名": 17,
-      "暫緩_異常待核實": 7,
-      "等待參考交易日": 66
+      "不列入_非有效排名": 19,
+      "暫緩_異常待核實": 8,
+      "等待參考交易日": 132
     }
   },
   "calendar_validation_version": "2.4D",
