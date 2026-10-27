@@ -13,6 +13,9 @@ on:
       - 'site/asof_gate_29o.js'
       - 'site/publication_review_29p.html'
       - 'site/material_events_29q.html'
+      - 'site/event_crosscheck_29r.html'
+      - 'scripts/reconcile_publication_events_29r.py'
+      - 'tests/test_publication_event_links_29r.py'
       - 'scripts/collect_material_events_29q.py'
       - 'tests/test_material_events_29q.py'
       - 'scripts/build_publication_review_29p.py'
@@ -303,6 +306,26 @@ jobs:
           assert not meta['model_scoring_enabled'] and not meta['probability_enabled']
           assert all(x['factor_release_time_eligible']=='false' and x['event_first_publication_verified']=='false' for x in rows)
           print('2.9Q official material-event observations archived',len(rows),meta['sources'])
+          PY
+      - name: 2.9R reconcile topic-only material events and enforce historical publication non-eligibility
+        run: |
+          python -m unittest tests/test_publication_event_links_29r.py
+          python scripts/reconcile_publication_events_29r.py
+          python - <<'PY'
+          import csv,json
+          meta=json.load(open('site/data/publication_event_links_meta_29r.json',encoding='utf-8'))
+          linked=list(csv.DictReader(open('site/data/publication_event_links_29r.csv',encoding='utf-8')))
+          events=list(csv.DictReader(open('site/data/material_event_topics_29r.csv',encoding='utf-8')))
+          assert len(linked)==meta['reviewed_factor_rows']==5847
+          assert len(events)==meta['archived_events']
+          assert meta['verified_event_to_factor_value_links']==0
+          assert meta['official_first_publication_verified']==0
+          assert meta['historical_factor_eligible']==0
+          assert not meta['model_scoring_enabled'] and not meta['performance_probabilities_enabled']
+          assert all(x['release_time_verified']=='false' and x['historical_clock_eligible']=='false' for x in linked)
+          assert all(x['event_and_factor_payload_identical']=='false' for x in linked)
+          assert all(x['factor_release_proof']=='false' for x in events)
+          print('2.9R protected event correlations',len(linked),'review rows',len(events),'events')
           PY
       - name: Install browser test runtime (bounded download, no unnecessary apt refresh)
         timeout-minutes: 8
