@@ -261,8 +261,12 @@ jobs:
           assert meta['source_version_rows']==len(versions) and len(versions)>1000
           assert meta['strict_backtest_eligible']==0
           assert meta['three_clock_policy']['verified_publication_at_utc'] is None
-          assert meta['factors']['F2']['first_observed_after_price_cutoff']>100
-          assert meta['factors']['F3']['source_report_after_price']>100
+          for factor in ('F2','F3'):
+              blockers=meta['factors'][factor]
+              assert blockers and all(type(v)==int and v>=0 for v in blockers.values())
+              assert sum(blockers.values())==len(rows), (factor,blockers)
+          # A particular missing-source/time category may disappear as as-of
+          # dates move. Never force a stale blocker to stay above 100.
           assert all(row['F2_usable_for_backtest']=='false' and row['F3_usable_for_backtest']=='false' for row in rows)
           assert all(row['historical_backtest_eligible']=='false' for row in versions)
           assert original['count_verified_factors']==0 and original['model_eligible_stocks']==0
