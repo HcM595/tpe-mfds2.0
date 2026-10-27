@@ -1,10 +1,13 @@
-name: TPE-MFDS 3.0A 全市場統一研究工作台與逐股資料稽核
+name: TPE-MFDS 3.0B 逐股來源品質與匯出回歸驗收
 on:
   pull_request:
     paths:
       - 'site/index.html'
       - 'site/research_hub_30a.html'
       - 'site/research_core_30a.js'
+      - 'site/research_quality_30b.js'
+      - 'tests/research_quality_30b.test.cjs'
+      - 'tests/browser_quality_30b.cjs'
       - 'tests/research_core_30a.test.cjs'
       - 'tests/browser_workbench_30a.cjs'
       - 'site/factor_gaps_29h.html'
@@ -373,6 +376,12 @@ jobs:
           node --check site/research_core_30a.js
           node --check tests/browser_workbench_30a.cjs
           node tests/research_core_30a.test.cjs
+      - name: 3.0B verify source-quality rules and safe CSV export
+        run: |
+          node --check site/research_quality_30b.js
+          node --check tests/research_quality_30b.test.cjs
+          node --check tests/browser_quality_30b.cjs
+          node tests/research_quality_30b.test.cjs
       - name: Browser smoke test against generated site
         run: |
           python scripts/export_chip_trends.py
@@ -380,3 +389,4 @@ jobs:
           node tests/browser_26b.cjs
           node tests/browser_research_29m.cjs
           node tests/browser_workbench_30a.cjs
+          node tests/browser_quality_30b.cjs
