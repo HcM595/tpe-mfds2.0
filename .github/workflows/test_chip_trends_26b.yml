@@ -13,6 +13,9 @@ on:
       - 'site/asof_gate_29o.js'
       - 'site/publication_review_29p.html'
       - 'site/material_events_29q.html'
+      - 'site/event_body_audit_29s.html'
+      - 'scripts/audit_event_bodies_29s.py'
+      - 'tests/test_event_bodies_29s.py'
       - 'site/event_crosscheck_29r.html'
       - 'scripts/reconcile_publication_events_29r.py'
       - 'tests/test_publication_event_links_29r.py'
@@ -326,6 +329,24 @@ jobs:
           assert all(x['event_and_factor_payload_identical']=='false' for x in linked)
           assert all(x['factor_release_proof']=='false' for x in events)
           print('2.9R protected event correlations',len(linked),'review rows',len(events),'events')
+          PY
+      - name: 2.9S verify archived full statement bodies and unresolved financial timing
+        run: |
+          python -m unittest tests/test_event_bodies_29s.py
+          python -m scripts.audit_event_bodies_29s
+          python - <<'PY'
+          import json,csv
+          m=json.load(open('site/data/material_event_body_review_meta_29s.json',encoding='utf-8'))
+          rows=list(csv.DictReader(open('site/data/material_event_body_review_29s.csv',encoding='utf-8')))
+          assert len(rows)==m['event_rows']==m['archived_events']
+          assert m['verified_financial_payload_equivalences']==0
+          assert m['independently_verified_first_publications']==0
+          assert m['historical_factor_eligible']==0
+          assert not m['model_scores_enabled'] and not m['performance_probabilities_enabled']
+          assert all(r['history_eligible']=='false' and
+                     r['independent_first_publication_verified']=='false' and
+                     r['financial_value_equivalence_verified']=='false' for r in rows)
+          print('2.9S archival body audit verified',len(rows),'events; provenance matched',m['original_body_validated'])
           PY
       - name: Install browser test runtime (bounded download, no unnecessary apt refresh)
         timeout-minutes: 8

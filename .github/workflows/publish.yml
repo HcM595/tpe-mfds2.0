@@ -134,6 +134,10 @@ jobs:
         run: |
           python -m unittest tests/test_publication_event_links_29r.py
           python scripts/reconcile_publication_events_29r.py
+      - name: 2.9S 核對原始重大訊息正文、報表期間與來源版本時鐘（不開放模型）
+        run: |
+          python -m unittest tests/test_event_bodies_29s.py
+          python -m scripts.audit_event_bodies_29s
       - name: 2.9L 驗證四個研究頁面、資料欄位與模型安全門檻
         run: python -m unittest tests/test_research_pages_29l.py
       - name: 保存真實價格與籌碼資料及更新進度

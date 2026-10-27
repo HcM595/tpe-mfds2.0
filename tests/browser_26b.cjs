@@ -13,10 +13,11 @@ const assert = require('node:assert/strict');
    assert.equal(await page.locator('#nav-research-tools').count(),1,'research tools folder missing');
    assert.equal(await page.locator('#nav-research-tools').evaluate(el=>el.open),false,'tools should start collapsed');
    await page.locator('#nav-research-tools summary').click();
-   assert.equal(await page.locator('#nav-research-tools a.nav-tool-link').count(),6,'six standalone research tools not grouped');
+   assert.equal(await page.locator('#nav-research-tools a.nav-tool-link').count(),7,'seven standalone research tools not grouped');
    assert.equal(await page.locator('#nav-research-tools a[href="./factor_gaps_29h.html"]').count(),1,'factor gaps tool missing');
    assert.equal(await page.locator('#nav-research-tools a[href="./publication_review_29p.html"]').count(),1,'official publication proof review link missing');
    assert.equal(await page.locator('#nav-research-tools a[href="./material_events_29q.html"]').count(),1,'material event observation link missing');
+   assert.equal(await page.locator('#nav-research-tools a[href="./event_body_audit_29s.html"]').count(),1,'original material body review link missing');
    await page.locator('#nav-research-tools summary').click();
 
    assert.equal(await page.locator('#nav > button[data-page="stock"]').count(),0,'legacy stock screen must be collapsed');
@@ -24,7 +25,7 @@ const assert = require('node:assert/strict');
    await page.locator('#nav > button[data-page="research"][data-research-tab="stock"]').click();
    await page.locator('#r-stock-form').waitFor({timeout:60000});
    assert.equal(await page.locator('#nav > button.nav-btn.active').count(),1,'multiple primary entries marked active');
-   assert((await page.locator('.logo small').innerText()).includes('2.9Q'),'sidebar version misleading');
+   assert((await page.locator('.logo small').innerText()).includes('2.9S'),'sidebar version misleading');
    assert.equal(await page.locator('.r-tabs').count(),0,'duplicated top research tabs not removed');
    for(const id of ['8064','3533','2345']){
      await page.locator('[data-r-stock="'+id+'"]').first().click();
