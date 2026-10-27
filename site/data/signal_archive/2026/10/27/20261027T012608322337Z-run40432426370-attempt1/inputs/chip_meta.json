@@ -1,0 +1,96 @@
+{
+  "version": "2.2.1",
+  "generated_at_taipei": "2026-10-27T09:25:55+08:00",
+  "sources": {
+    "twse": {
+      "status": "ok",
+      "rows": 1072,
+      "latest_date": "2026-10-22"
+    },
+    "tpex": {
+      "status": "ok",
+      "rows": 788,
+      "latest_date": "2026-10-22"
+    },
+    "tdcc": {
+      "status": "ok",
+      "rows": 2970,
+      "latest_date": "2026-10-22"
+    }
+  },
+  "notes": "同步增持僅為描述性篩選，非預測；歷史集保備份若來源為第三方鏡像須與官方最新快照交叉核對。",
+  "backfill": {
+    "asof": "2026-10-22",
+    "focus": {
+      "8064": {
+        "flow_dates": 36,
+        "latest_flow": "2026-10-22",
+        "holder_weeks": 13,
+        "latest_holder": "2026-10-22",
+        "ready_for_5d_flow": true,
+        "ready_for_4w_holder": true
+      },
+      "3533": {
+        "flow_dates": 36,
+        "latest_flow": "2026-10-22",
+        "holder_weeks": 13,
+        "latest_holder": "2026-10-22",
+        "ready_for_5d_flow": true,
+        "ready_for_4w_holder": true
+      },
+      "2330": {
+        "flow_dates": 36,
+        "latest_flow": "2026-10-22",
+        "holder_weeks": 13,
+        "latest_holder": "2026-10-22",
+        "ready_for_5d_flow": true,
+        "ready_for_4w_holder": true
+      },
+      "2345": {
+        "flow_dates": 36,
+        "latest_flow": "2026-10-22",
+        "holder_weeks": 13,
+        "latest_holder": "2026-10-22",
+        "ready_for_5d_flow": true,
+        "ready_for_4w_holder": true
+      }
+    },
+    "tdcc_archive": {
+      "mode": "unofficial_mirror",
+      "new_weeks": [],
+      "new_rows": 0,
+      "errors": [],
+      "repository": "https://github.com/wirelessr/tdcc-opendata-archive"
+    },
+    "market_history": {
+      "twse": {
+        "attempted_days": 3,
+        "new_rows": 0,
+        "no_data_days": [
+          "2026-10-09",
+          "2026-09-28",
+          "2026-09-25"
+        ],
+        "errors": [],
+        "status": "no_new_data"
+      },
+      "tpex": {
+        "attempted_days": 3,
+        "new_rows": 0,
+        "no_data_days": [
+          "2026-10-09",
+          "2026-09-28",
+          "2026-09-25"
+        ],
+        "errors": [],
+        "status": "no_new_data"
+      }
+    }
+  },
+  "flow_history_rows": 66765,
+  "holder_history_rows": 38440,
+  "stocks_with_chip_records": 2978,
+  "matching_stocks": 83,
+  "ready_stocks": 1875,
+  "selection_rule": "5個有效法人交易日：外資淨買超>0 且投信淨買超>0；兩期集保持股相隔約28日：400張以上比例增幅>0pp；均需資料未過期。"
+}

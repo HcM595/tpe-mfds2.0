@@ -1,22 +1,22 @@
 {
   "version": "2.8H.1",
-  "generated_at_taipei": "2026-10-27T08:27:23+08:00",
+  "generated_at_taipei": "2026-10-27T09:26:26+08:00",
   "focus_stocks": [
     "8064",
     "3533",
     "2345",
     "2330",
     "2308",
-    "2020",
-    "2022",
-    "2023",
-    "2024",
-    "2025",
-    "2027",
-    "2028",
-    "2029",
-    "2030",
-    "2031"
+    "2032",
+    "2033",
+    "2034",
+    "2035",
+    "2038",
+    "2049",
+    "2059",
+    "2061",
+    "2062",
+    "2063"
   ],
   "priority_stocks": [
     "8064",
@@ -27,10 +27,10 @@
   ],
   "batch_new_stock_cap": 10,
   "general_business_income_universe": 1937,
-  "observations": 254,
-  "unit_verified_observations": 244,
-  "fresh_unit_verified": 15,
-  "fresh_observations": 15,
+  "observations": 261,
+  "unit_verified_observations": 251,
+  "fresh_unit_verified": 12,
+  "fresh_observations": 12,
   "per_stock": {
     "8064": {
       "status": "ok",
@@ -57,55 +57,52 @@
       "report_period": "2026Q2",
       "sha256": "421255c621c2aca2dd3d55df5e690864127873a25951a576a98f3f65ff60ef00"
     },
-    "2020": {
+    "2032": {
       "status": "ok",
       "report_period": "2026Q2",
-      "sha256": "0e8ecb3308b157c01f8dcddf3821fed62d6e0d556db2065ec10259c3f6270e42"
+      "sha256": "ea2236c7ca0f36e6b44b1c15cf3bd0884a848d7d8ffd259a5e59a38dbd10813c"
     },
-    "2022": {
+    "2033": {
       "status": "ok",
       "report_period": "2026Q2",
-      "sha256": "d97e090ccbf0007460c007b3be2ab1501bb62aebcb583eefc3642cdc3d211ef6"
+      "sha256": "a44713921e47633024b431e246e9f24696885af807ec01f9d4d7c99e76208985"
     },
-    "2023": {
+    "2034": {
       "status": "ok",
       "report_period": "2026Q2",
-      "sha256": "b12742acab9f84e30478defcd1e2affe5abca4a9226ca59de30b735ba8fe99f8"
+      "sha256": "5e2dbceff19eaa8e67d5e517c3326ec2dfc61972de66341c24536cc8d3cf0184"
     },
-    "2024": {
+    "2035": {
       "status": "ok",
       "report_period": "2026Q2",
-      "sha256": "17991fd6cdb741bc9d260d75b211b051b19a03cfc012e97e016e5a422e97b41f"
+      "sha256": "246df81fa4db59a6137de37d0789783244b083d6797b9db3d10854cdc14be9d3"
     },
-    "2025": {
+    "2038": {
       "status": "ok",
       "report_period": "2026Q2",
-      "sha256": "62cdb45ea0ca9c6d75dafac6bd8a46ba9347dfa4545dd252a365a49cd1dfad3f"
+      "sha256": "08ef98629c4de0df74c4b78a7739ddaba55b206a91c072e600f272aff9b4a92a"
     },
-    "2027": {
+    "2049": {
       "status": "ok",
       "report_period": "2026Q2",
-      "sha256": "08bade7f59866455e1a06dff2b431c3c4bdab0db647baec9d6898b3f2132ac76"
+      "sha256": "0b775e87c3f7da3aa52dd0cc1768771cc890e5d0ed89975673fa7e94512b6100"
     },
-    "2028": {
+    "2059": {
       "status": "ok",
       "report_period": "2026Q2",
-      "sha256": "e5b3cdb7521936948eb46298b0b6a2bd8578c5fefc38c5ea20d34e0660490b93"
+      "sha256": "f24b4de3be34a673b8e58c06bffc4a655a59c95d83b85fff984d126a951131bf"
     },
-    "2029": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "be350245586f374945de9e65694d65a3a5e6c954e2eca82c0a64058d9155f6d3"
+    "2061": {
+      "status": "unavailable",
+      "reason": "<urlopen error [Errno 111] Connection refused>"
     },
-    "2030": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "b7a5973bf023017af5eee8a210c3c7c61f9fedbe069486b01980b83124e5fe05"
+    "2062": {
+      "status": "unavailable",
+      "reason": "<urlopen error [Errno 111] Connection refused>"
     },
-    "2031": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "2eee2c8c68921170214ba6ec7f0ac1e306ed221dc57eb8e8a1d29e3a605938ac"
+    "2063": {
+      "status": "unavailable",
+      "reason": "<urlopen error timed out>"
     },
     "1101": {
       "status": "not_checked_this_run",
@@ -1060,6 +1057,46 @@
       "report_period": "2026Q2"
     },
     "2017": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2020": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2022": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2023": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2024": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2025": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2027": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2028": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2029": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2030": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2031": {
       "status": "not_checked_this_run",
       "report_period": "2026Q2"
     }

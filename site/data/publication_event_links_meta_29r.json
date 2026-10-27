@@ -1,0 +1,25 @@
+{
+  "version": "2.9R",
+  "reviewed_factor_rows": 5847,
+  "unique_stocks": 1949,
+  "archived_events": 10,
+  "subject_categories": {
+    "other_corporate_disclosure": 9,
+    "general_financial_statement_topic": 1
+  },
+  "subject_only_candidate_links": 0,
+  "candidate_rows_after_price_cutoff": 0,
+  "verified_event_to_factor_value_links": 0,
+  "official_first_publication_verified": 0,
+  "historical_factor_eligible": 0,
+  "model_scoring_enabled": false,
+  "performance_probabilities_enabled": false,
+  "reconciliation_policy": "Same company+market and explicit subject hints only; F2 quote ratios have no automatic event connection. Candidate ≠ value equivalence ≠ official publication certification.",
+  "next_evidence_needed": [
+    "specific event source body",
+    "source reporting period",
+    "raw filing value/hash match",
+    "independent official release proof",
+    "original source first capture before historical cutoff"
+  ]
+}
