@@ -1,7 +1,7 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-10-27T07:51:43+08:00",
-  "observations": 218,
+  "generated_at_taipei": "2026-10-27T08:27:49+08:00",
+  "observations": 228,
   "checked": 15,
   "fresh_success": 15,
   "fresh_ytd_unit_period_aligned": 15,
@@ -33,52 +33,52 @@
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1781": {
+    "1802": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1783": {
+    "1805": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1784": {
+    "1806": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1785": {
+    "1808": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1786": {
+    "1809": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1788": {
+    "1810": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1789": {
+    "1813": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1795": {
+    "1815": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1796": {
+    "1817": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1799": {
+    "1903": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -632,6 +632,18 @@
     "1776": {
       "status": "not_checked_this_run"
     },
+    "1783": {
+      "status": "not_checked_this_run"
+    },
+    "1786": {
+      "status": "not_checked_this_run"
+    },
+    "1789": {
+      "status": "not_checked_this_run"
+    },
+    "1795": {
+      "status": "not_checked_this_run"
+    },
     "1240": {
       "status": "not_checked_this_run"
     },
@@ -690,6 +702,24 @@
       "status": "not_checked_this_run"
     },
     "1780": {
+      "status": "not_checked_this_run"
+    },
+    "1781": {
+      "status": "not_checked_this_run"
+    },
+    "1784": {
+      "status": "not_checked_this_run"
+    },
+    "1785": {
+      "status": "not_checked_this_run"
+    },
+    "1788": {
+      "status": "not_checked_this_run"
+    },
+    "1796": {
+      "status": "not_checked_this_run"
+    },
+    "1799": {
       "status": "not_checked_this_run"
     }
   },

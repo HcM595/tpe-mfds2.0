@@ -1,0 +1,32 @@
+{
+  "version": "2.9Q",
+  "generated_at_taipei": "2026-10-27T08:28:39+08:00",
+  "events_captured": 10,
+  "new_events_this_run": 10,
+  "events_by_market": {
+    "上市": 9,
+    "上櫃": 1
+  },
+  "sources": {
+    "上市": {
+      "status": "ok",
+      "latest_events": 9,
+      "source_sha256": "f9c9ea3d460de6d463794c4ec516dfe9718ddbe0bb5ae20c6805e1fa999f40e1",
+      "source_url": "https://openapi.twse.com.tw/v1/opendata/t187ap04_L"
+    },
+    "上櫃": {
+      "status": "ok",
+      "latest_events": 1,
+      "source_sha256": "83d63646a3ddf0432dba593b37d7a93b78be0869ac5396e593f6b20ed5f1682d",
+      "source_url": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap04_O"
+    }
+  },
+  "parseable_source_speech_clock": 10,
+  "verified_first_publication_times": 0,
+  "events_mapped_to_F2_F3_revenue": 0,
+  "historical_factor_eligible": 0,
+  "model_scoring_enabled": false,
+  "probability_enabled": false,
+  "time_semantics": "發言日期／發言時間是官方重大訊息來源欄位；不得當作估值、公司治理或營收資料版本的獨立首次公布證明。",
+  "archive_policy": "以來源原始位元組SHA256建不可覆寫版本，首次取得UTC獨立保存；遇來源或格式失敗不捏造資料。"
+}

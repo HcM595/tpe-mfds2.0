@@ -9,16 +9,16 @@
       "verified_company_release_time": 0,
       "historically_usable": 0,
       "blockers": {
-        "official_publication_unverified": 1949,
         "source_authorization_missing": 1949,
-        "first_seen_after_cutoff": 1944,
         "individual_company_publication_time_unverified": 1949,
-        "source_missing": 5,
+        "official_publication_unverified": 1949,
+        "first_seen_after_cutoff": 1944,
         "source_hash_missing_or_invalid": 5,
+        "source_missing": 5,
         "missing_report_day": 5,
-        "capture_timestamp_unverified": 5,
+        "first_seen_unverified": 5,
         "unverified_official_endpoint": 5,
-        "first_seen_unverified": 5
+        "capture_timestamp_unverified": 5
       }
     },
     "F3": {
@@ -27,11 +27,11 @@
       "verified_company_release_time": 0,
       "historically_usable": 0,
       "blockers": {
-        "report_after_price_day": 1949,
         "source_authorization_missing": 1949,
-        "first_seen_after_cutoff": 1949,
+        "official_publication_unverified": 1949,
         "individual_company_publication_time_unverified": 1949,
-        "official_publication_unverified": 1949
+        "first_seen_after_cutoff": 1949,
+        "report_after_price_day": 1949
       }
     },
     "REVENUE": {
@@ -41,16 +41,16 @@
       "historically_usable": 0,
       "blockers": {
         "source_authorization_missing": 1949,
-        "first_seen_after_cutoff": 1943,
-        "individual_company_publication_time_unverified": 1949,
-        "bulk_snapshot_not_individual_filing": 1943,
         "official_publication_unverified": 1949,
-        "source_missing": 6,
+        "individual_company_publication_time_unverified": 1949,
+        "first_seen_after_cutoff": 1943,
+        "bulk_snapshot_not_individual_filing": 1943,
         "source_hash_missing_or_invalid": 6,
+        "source_missing": 6,
         "missing_report_day": 6,
-        "capture_timestamp_unverified": 6,
+        "first_seen_unverified": 6,
         "unverified_official_endpoint": 6,
-        "first_seen_unverified": 6
+        "capture_timestamp_unverified": 6
       }
     }
   },
