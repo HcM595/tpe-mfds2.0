@@ -38,17 +38,18 @@ def write(path,rows):
         w.writeheader();w.writerows(rows)
 def revenue_period_candidate(title,body):
     """Unverified text observation; never infer a filing from bare financial numbers."""
+    found=set()
     for source in (title,body):
         s=" ".join(str(source or "").split())
-        # Require revenue language within the relevant text, not generic FY labels.
+        # Require revenue language in that component; never treat bare dates
+        # from an asset or equity announcement as a reporting period.
         if not re.search(r"月營收|合併營收|營業收入",s):continue
-        months=set()
         for m in MONTH.finditer(s):
             year,month=int(m.group("year")),int(m.group("month"))
             if year<200:year+=1911
-            if 2000<=year<=2100:months.add(f"{year:04d}-{month:02d}")
-        if len(months)==1:return next(iter(months)),"text_only_period_not_verified"
-        if len(months)>1:return "","ambiguous_multiple_months"
+            if 2000<=year<=2100:found.add(f"{year:04d}-{month:02d}")
+    if len(found)==1:return next(iter(found)),"text_only_period_not_verified"
+    if len(found)>1:return "","ambiguous_multiple_months"
     return "","reporting_period_missing"
 def load_verified_archives(root,markets):
     """Re-validate archived source byte hash and first observation sidecar."""
