@@ -13,7 +13,7 @@ async function main(){
   assert(universe>=1500,'3.0 workbench should index all listed/OTC master stocks');
   assert.equal((await page.locator('#approved').innerText()).trim(),'0','unverified scores must remain disabled');
   assert((await page.locator('#loading').innerText()).includes('來源載入成功不等於歷史回測資格'));
-  assert((await page.locator('.note').innerText()).includes('集保持股為週資料'));
+  assert((await page.locator('main > p.note').innerText()).includes('集保持股為週資料'));
   await page.locator('#size').selectOption('20');
   assert.equal(await page.locator('#market-rows tr').count(),20);
   await page.locator('#next').click();
