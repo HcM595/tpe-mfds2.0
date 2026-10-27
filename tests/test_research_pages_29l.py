@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 DATA = SITE / "data"
-PAGES = ("factor_gaps_29h.html", "stock_research_29i.html", "dual_engine_29j.html", "compare_29k.html", "publication_review_29p.html", "material_events_29q.html", "event_body_audit_29s.html")
+PAGES = ("factor_gaps_29h.html", "stock_research_29i.html", "dual_engine_29j.html", "compare_29k.html", "publication_review_29p.html", "material_events_29q.html", "event_body_audit_29s.html", "research_hub_30a.html")
 SOURCE_FILES = (
     "factor_evidence_29a.csv", "official_snapshot.csv", "chip_signals.csv",
     "tech_crosscheck.csv", "industry_relative_28c.csv", "risk_observations_28d.csv",
@@ -54,6 +54,7 @@ class ResearchPageHealth(unittest.TestCase):
             self.assertEqual(row["prediction_enabled"], "false")
 
     def test_page_contracts(self):
+        home = (SITE / "index.html").read_text(encoding="utf-8")
         factor = (SITE / PAGES[0]).read_text(encoding="utf-8")
         stock = (SITE / PAGES[1]).read_text(encoding="utf-8")
         dual = (SITE / PAGES[2]).read_text(encoding="utf-8")
@@ -88,6 +89,12 @@ class ResearchPageHealth(unittest.TestCase):
         self.assertEqual(evidence["historical_factor_eligible"],0)
         self.assertFalse(evidence["model_scores_enabled"])
         self.assertTrue((DATA / "material_event_body_review_29s.csv").exists())
+        workbench=(SITE / "research_hub_30a.html").read_text(encoding="utf-8")
+        self.assertIn("research_core_30a.js",workbench)
+        self.assertIn("factor_evidence_29a.csv",workbench)
+        self.assertIn("modelEligible",workbench)
+        self.assertIn("集保持股為週資料",workbench)
+        self.assertIn("research_hub_30a.html",home)
         links_html=(SITE / "event_crosscheck_29r.html").read_text(encoding="utf-8")
         self.assertIn("publication_event_links_29r.csv",links_html)
         self.assertIn("event_crosscheck_29r.html",(SITE / "material_events_29q.html").read_text(encoding="utf-8"))

@@ -10,6 +10,7 @@ const assert = require('node:assert/strict');
    // 2.8E: one sidebar navigation; no duplicated research tab bar.
    assert.equal(await page.locator('#nav > button.nav-btn').count(),7,'main navigation contains duplicate legacy pages');
    assert.equal(await page.locator('#nav > a[href]').count(),0,'standalone research links should be collapsed');
+   assert.equal(await page.locator('#nav .nav-primary-hub a[href="./research_hub_30a.html"]').count(),1,'integrated research workbench entry missing');
    assert.equal(await page.locator('#nav-research-tools').count(),1,'research tools folder missing');
    assert.equal(await page.locator('#nav-research-tools').evaluate(el=>el.open),false,'tools should start collapsed');
    await page.locator('#nav-research-tools summary').click();
@@ -25,7 +26,7 @@ const assert = require('node:assert/strict');
    await page.locator('#nav > button[data-page="research"][data-research-tab="stock"]').click();
    await page.locator('#r-stock-form').waitFor({timeout:60000});
    assert.equal(await page.locator('#nav > button.nav-btn.active').count(),1,'multiple primary entries marked active');
-   assert((await page.locator('.logo small').innerText()).includes('2.9S'),'sidebar version misleading');
+   assert((await page.locator('.logo small').innerText()).includes('3.0A'),'sidebar version misleading');
    assert.equal(await page.locator('.r-tabs').count(),0,'duplicated top research tabs not removed');
    for(const id of ['8064','3533','2345']){
      await page.locator('[data-r-stock="'+id+'"]').first().click();

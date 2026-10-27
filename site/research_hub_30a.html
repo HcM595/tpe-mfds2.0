@@ -1,0 +1,135 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>TPE-MFDS 3.0A｜統一研究工作台</title><style>
+:root{--nav:#193750;--teal:#146b62;--border:#dce6ed;--muted:#627889;--bg:#f3f7fa}
+*{box-sizing:border-box}body{font:14px/1.65 system-ui,"Microsoft JhengHei",sans-serif;background:var(--bg);color:#213c50;margin:0}
+main{max-width:1450px;margin:auto;padding:24px}h1{font-size:26px;margin:8px 0}h2{font-size:19px;margin:0 0 13px}h3{font-size:16px;margin:0 0 10px}a{color:#176c9e}label{display:flex;flex-direction:column;gap:4px;color:#405970;font-size:12px;font-weight:600}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;flex-wrap:wrap}header nav a{margin-left:15px}
+.card{background:#fff;border:1px solid var(--border);border-radius:13px;padding:19px;margin:16px 0}.note{padding:13px 15px;background:#fff8eb;border:1px solid #e8d4b2;border-radius:10px}.muted,small{color:var(--muted)}.tiny{font-size:12px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.stats>div{padding:13px;background:#fff;border:1px solid var(--border);border-radius:11px}.stats b{display:block;font-size:24px;font-variant-numeric:tabular-nums}
+.tabs,.toolbar,.actions{display:flex;align-items:center;flex-wrap:wrap;gap:9px}.tabs button{background:#eaf0f4;color:#34576b}.tabs button.active{background:#205e7c;color:#fff}.toolbar{margin:14px 0}
+button,input,select{font:inherit;border:1px solid #b8cbd7;border-radius:8px;padding:9px 11px}button{cursor:pointer;background:#245f7f;color:white;border-color:transparent}button.secondary{background:#eef4f8;color:#305d78}button:disabled{opacity:.5;cursor:default}input{width:100%;min-width:140px}label.search{flex:1;min-width:200px}label.select{min-width:145px}label.comparebox{flex:1;min-width:280px}
+.wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:980px}td,th{border-bottom:1px solid #e2eaf0;padding:10px;text-align:left;vertical-align:top;white-space:normal}th{background:#f1f6fa;color:#526e80;font-size:12px}td{font-variant-numeric:tabular-nums}.tap{background:none;border:none;color:#146b96;text-decoration:underline;font-weight:700;padding:0}.positive{color:#16735d}.negative{color:#a34d42}.caution{color:#956c1b}.pill{display:inline-block;background:#edf2f5;border-radius:6px;padding:2px 7px;font-size:12px;color:#455e70}.foot{font-size:12px;color:#627889;margin-top:12px}
+.layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.layout>div{border:1px solid #e0eaf0;padding:15px;border-radius:10px;background:#fbfdff}
+.datum{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid #ecf0f4}.datum:last-child{border:0}.datum span:first-child{color:#5c7385}.datum span:last-child{text-align:right;word-break:break-word}.subhead{font-size:12px;font-weight:700;color:#5c7385;margin-top:12px}.mainnote{line-height:1.8}
+#loading{min-height:24px}.comparetable{min-width:860px}.comparetable td:not(:first-child){min-width:140px}.comparetable th:first-child{min-width:165px}
+.linkrow{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}.linkrow a{font-weight:600}#pager{display:flex;gap:10px;align-items:center;justify-content:flex-end;margin-top:12px}
+@media(max-width:820px){main{padding:13px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.layout{grid-template-columns:1fr}.card{padding:13px}.stats b{font-size:19px}header nav a{margin-left:0;margin-right:10px}}
+</style></head><body><main>
+<header><div><div class="tiny">TPE-MFDS · FACTUAL RESEARCH · 3.0A</div><h1>台股統一研究工作台</h1><p class="muted">全市場資料觀察、個股分析、跨股比較與來源可用性——整合在同一畫面</p></div><nav><a href="./index.html">研究中心首頁</a><a href="./factor_gaps_29h.html">12 因子缺口</a><a href="./publication_review_29p.html">來源核查</a></nav></header>
+<p class="note"><b>研究用途，非買賣評級。</b> 法人、集保大戶與技術面僅為不同日期的原始觀察。集保持股為週資料，公告可得時點尚未獨立驗證；原始價格未完整除權息還原。符合篩選條件不代表歷史可回測、成功機率或預測報酬。正式模型及機率功能保持停用。</p>
+<div class="stats" aria-label="研究資料摘要"><div><small>普通股逐股研究資料</small><b id="universe">—</b></div><div><small>初步行情／流動性覆蓋</small><b id="basics">—</b></div><div><small>法人5日資料對齊</small><b id="flows">—</b></div><div><small>集保持股原始觀察</small><b id="holders">—</b></div><div><small>正式模型資格</small><b id="approved">—</b></div></div>
+<p id="loading" class="muted" role="status">讀取上市櫃研究資料中…</p>
+<div class="card"><div class="tabs" role="group" aria-label="研究工作區"><button id="tab-market" class="active" type="button">全市場篩選</button><button id="tab-detail" class="secondary" type="button">個股深入研究</button><button id="tab-compare" class="secondary" type="button">跨股比較</button></div></div>
+<section id="screen-market" class="card">
+<h2>全市場：篩選原始觀察</h2>
+<div class="toolbar"><label class="search">股票代號或名稱<input id="q" value="" placeholder="輸入8064、3533、台積電"></label>
+<label class="select">市場<select id="market"><option value="all">上市＋上櫃</option><option value="上市">上市</option><option value="上櫃">上櫃</option></select></label>
+<label class="select">基本資料完整度<select id="basic"><option value="all">全部</option><option value="eligible">行情與流動性初步通過</option></select></label>
+<label class="select">法人5日觀察<select id="institution"><option value="all">全部</option><option value="both">外資／投信同買</option><option value="foreign">外資買超</option><option value="split">法人分歧／中性</option></select></label>
+<label class="select">大戶持股週資料<select id="holders-filter"><option value="all">全部</option><option value="up">400／1000張級距同增</option><option value="split">級距分歧／中性</option></select></label>
+<label class="select">原始技術狀態<select id="technical"><option value="all">全部</option><option value="3">三項描述條件皆符合</option><option value="ma20">收盤高於MA20</option><option value="missing">技術資料未同步</option></select></label>
+<label class="select">每頁數量<select id="size"><option value="20">20</option><option value="50" selected>50</option><option value="100">100</option></select></label>
+<button class="secondary" id="reset">重設條件</button>
+</div><p id="filter-status" class="muted"></p>
+<div class="wrap"><table><thead><tr><th>股票</th><th>價格資料日</th><th>20日均成交額（NT$）</th><th>外資5日股數</th><th>投信5日股數</th><th>1000張大戶4週變動</th><th>技術狀態</th><th>來源狀態</th><th>操作</th></tr></thead><tbody id="market-rows"></tbody></table></div>
+<div id="pager"><button id="prev" class="secondary">上一頁</button><span id="pages"></span><button id="next" class="secondary">下一頁</button></div><p class="foot">篩選依股票代號排列，非依報酬或勝率排名。集保週變動使用最近有日期的觀察，不將其認定為當日已公布；技術資料只涵蓋能核對的部分股票。</p></section>
+<section id="screen-detail" class="card" hidden><h2>個股深入研究與資料來源時鐘</h2><div class="toolbar"><label class="search">查詢股票代號<input id="stock-id" placeholder="例如8064" value="8064"></label><button id="lookup">查詢</button></div><p id="detail-status" class="muted"></p><div id="detail" class="layout"></div><div id="detail-links" class="linkrow"></div></section>
+<section id="screen-compare" class="card" hidden><h2>跨股比較：同一欄位、不同資料日期</h2><div class="toolbar"><label class="comparebox">輸入2～5個股票代號，使用逗號分隔<input id="stock-list" value="8064,3533,2345,2330"></label><button id="compare">開始比較</button></div><p id="compare-status" class="muted"></p><div id="compare-view" class="wrap"></div><p class="foot">這不是相對優劣排名；比較欄位必須參考各資料的所屬日期，缺漏不代表看空。估值只展示原始來源，不代表已驗證價值因子。</p></section>
+</main><script src="./research_core_30a.js"></script><script>
+'use strict';
+const C=window.MFDSWorkbench,$=id=>document.getElementById(id),E=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
+const files={factor:'factor_evidence_29a.csv',chip:'chip_signals.csv',tech:'tech_crosscheck.csv',industry:'industry_relative_28c.csv',risk:'risk_observations_28d.csv',valuation:'f2_valuation_29e.csv',revenue:'revenue_snapshot_28c.csv',publication:'publication_gate_29o.csv'};
+let all=[],byId=new Map(),pageIndex=0,view='market',failures={};
+const filters=()=>({q:$('q').value,market:$('market').value,basic:$('basic').value,institution:$('institution').value,holders:$('holders-filter').value,technical:$('technical').value});
+const pretty=x=>x===null||x===undefined?'—':C.fmt(x);
+function colorNumber(v,unit=''){if(v===null)return '—';const sign=v>0?'positive':v<0?'negative':'';return '<span class="'+sign+'">'+E(C.sign(v,unit))+'</span>';}
+function field(name,value){return '<div class="datum"><span>'+E(name)+'</span><span>'+E(value??'—')+'</span></div>'}
+function ensure(){if(!all.length)throw Error('研究資料尚未載入')}
+function display(section){view=section;for(const name of ['market','detail','compare']){$('screen-'+name).hidden=name!==section;const tab=$('tab-'+name);tab.className=name===section?'active':'secondary';}if(section==='market')renderMarket();if(section==='detail')renderDetail();if(section==='compare')renderCompare();}
+function setQuery(params){const u=new URL(location.href);for(const k of ['view','stock','stocks'])u.searchParams.delete(k);Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,v));history.replaceState(null,'',u.pathname+u.search+u.hash)}
+function rowFor(id){return byId.get(String(id||'').trim())}
+function stockButton(r){return '<button class="tap" data-stock="'+E(r.id)+'">'+E(r.id)+' '+E(r.name)+'</button><div class="tiny">'+E(r.market)+'</div>'}
+function sourceMark(r){return (r.sourcePostdates?'<span class="caution">來源晚於價格日</span>':'')+'<span class="tiny">法人 '+E(r.flowDateOK?'同價格日':'不同步／缺漏')+'；集保 '+E(r.holderDateOK?'較早週資料':'不可核對')+'</span>';}
+function renderMarket(){if(!all.length)return;const filtered=C.filterRows(all,filters()),size=Number($('size').value),max=Math.max(1,Math.ceil(filtered.length/size));pageIndex=Math.min(pageIndex,max-1);const result=filtered.slice(pageIndex*size,(pageIndex+1)*size);
+$('filter-status').textContent='篩選符合 '+filtered.length.toLocaleString()+' 檔；已顯示 '+result.length+' 檔。這是原始觀察條件，不是模型選股名單。';
+$('market-rows').innerHTML=result.map(r=>'<tr><td>'+stockButton(r)+'</td><td>'+E(r.asof)+'</td><td>'+E(pretty(r.turnover))+'</td><td>'+colorNumber(r.foreign)+'</td><td>'+colorNumber(r.trust)+'</td><td>'+colorNumber(r.lot1000Delta,'pp')+'<div class="tiny">週截至 '+E(r.holderAsOf||'未取得')+'</div></td><td>'+E(r.technicalStatus||'缺漏')+'</td><td>'+sourceMark(r)+'</td><td><button class="secondary" data-add="'+E(r.id)+'">加入比較</button></td></tr>').join('')||'<tr><td colspan="9">這組條件沒有可顯示的股票；可重設或放寬資料條件。</td></tr>';
+$('pages').textContent=(pageIndex+1)+' / '+max;
+$('prev').disabled=pageIndex===0;$('next').disabled=pageIndex>=max-1;
+}
+function navigateStock(id){$('stock-id').value=id;display('detail');setQuery({view:'detail',stock:id});}
+function renderDetail(){if(!all.length)return;const id=$('stock-id').value.trim(),r=rowFor(id);if(!r){$('detail-status').textContent='找不到此股票代號的逐股研究資料。';$('detail').innerHTML='';$('detail-links').innerHTML='';return;}
+$('detail-status').textContent=r.id+' '+r.name+'｜價格資料日 '+r.asof+'｜基本資料 '+r.basicStatus+'｜12因子正式驗證 '+r.verifiedFactors+'/12（非模型分數）';
+const group=(title,items)=>'<div><h3>'+E(title)+'</h3>'+items.map(x=>field(x[0],x[1])).join('')+'</div>';
+const fmt=pretty,sign=C.sign;
+$('detail').innerHTML=[
+group('價格、技術與原始波動',[
+ ['研究基準日',r.asof],['原始收盤價',fmt(r.close)],['MA20／MA60',fmt(r.ma20)+' ／ '+fmt(r.ma60)],
+ ['RSI14',fmt(r.rsi)],['收盤高於MA20',r.aboveMa20||'未核實'],['MA20上升',r.ma20Rising||'未核實'],['MACD柱改善',r.macdImprove||'未核實'],
+ ['20日原始價年化波動',C.pct(r.vol20)],['60日原始收盤最大回撤',C.pct(r.dd60)],['是否已完成除權息還原',r.priceAdjusted?'原資料標記完成':'尚未完成，請勿視為總報酬']
+]),
+group('法人交易（截至同日才顯示）',[
+ ['資料截至',r.flowAsOf||'未取得'],['是否對齊研究日',r.flowDateOK?'是':'否／缺漏'],
+ ['外資5日買賣超股數',sign(r.foreign)],['投信5日買賣超股數',sign(r.trust)],
+ ['外資與投信方向',r.institutionDirection],['20日平均成交金額NT$',fmt(r.turnover)]
+]),
+group('大戶持股（週資料，僅描述）',[
+ ['集保觀察週截至',r.holderAsOf||'未取得'],['相對價格基準日',C.asOfLabel(r.holderAsOf,r.asof)],
+ ['400張以上持股占比',C.pct(r.lot400Pct)],['400張以上近4週變動',sign(r.lot400Delta,' pp')],
+ ['1000張以上持股占比',C.pct(r.lot1000Pct)],['1000張以上近4週變動',sign(r.lot1000Delta,' pp')],
+ ['持股級距一致性',r.holderDirection],['公告可得時點','尚未逐日獨立驗證，不可推定歷史當日已知']
+]),
+group('產業、財務原始資料',[
+ ['產業分組',r.sectorName||'未取得'],['產業相對大盤20日動能差',sign(r.sectorRelative20,' pp')+'（產業中位數）'],
+ ['本益比原始值',fmt(r.pe)],['股價淨值比原始值',fmt(r.pb)],
+ ['估值來源日',r.valuationAsOf||'未取得'],['估值首次取得UTC',r.valuationFirstSeen||'未取得'],
+ ['月營收所屬月份',r.revenuePeriod||'未取得'],['月營收年增率',C.pct(r.revenueYoY)],
+ ['月營收首次取得UTC',r.revenueFirstSeen||'未取得']
+]),
+group('來源可信度與正式模型限制',[
+ ['初步行情／流動性資格',r.basicEligible?'通過（非12因子資格）':'尚未達門檻'],['12因子有原始觀察',r.coverageFactors+'/12'],
+ ['獨立驗證完成的因子',r.verifiedFactors+'/12'],
+ ['F2／F3／月營收歷史時鐘',r.releaseF2+' ／ '+r.releaseF3+' ／ '+r.releaseRevenue],
+ ['來源晚於價格日',r.sourcePostdates?'存在，禁止追認':'主檔未標記（不代表全面核實）'],
+ ['正式模型資格',r.modelEligible?'需額外審核':'停用'],['勝率及回測預測',r.predictionEnabled?'資料仍需獨立稽核':'停用']
+])].join('');
+const link=(filename,label)=>'<a href="./'+filename+'?stock='+encodeURIComponent(id)+'">'+E(label)+'</a>';
+$('detail-links').innerHTML=link('stock_research_29i.html','完整原始研究')+link('factor_gaps_29h.html','12因子來源缺口')+link('publication_review_29p.html','官方來源核查')+link('event_body_audit_29s.html','重大訊息正文');
+}
+function renderCompare(){if(!all.length)return;const ids=[...new Set($('stock-list').value.split(/[,，\s]+/).map(x=>x.trim()).filter(Boolean))].slice(0,5);const rows=ids.map(rowFor).filter(Boolean);
+const missing=ids.filter(id=>!rowFor(id));$('compare-status').textContent='輸入 '+ids.length+' 檔，找到 '+rows.length+' 檔'+(missing.length?'；未知代號 '+missing.join('、'):'')+'。最多比較5檔；未核實資料一律留白或標註來源日期。';
+if(!rows.length){$('compare-view').innerHTML='<p>沒有可比較的股票，請輸入正確代號。</p>';return;}
+const cells=[
+ ['股票',r=>r.id+' '+r.name],['市場／價格基準日',r=>r.market+' ／ '+r.asof],
+ ['基本行情與流動性資格',r=>r.basicEligible?'初步通過':'未達門檻'],
+ ['20日平均成交金額NT$',r=>pretty(r.turnover)],
+ ['外資5日股數',r=>C.sign(r.foreign)],['投信5日股數',r=>C.sign(r.trust)],
+ ['法人資料日',r=>r.flowAsOf||'缺漏'],['1000張以上持股占比',r=>C.pct(r.lot1000Pct)],
+ ['1000張以上近4週變動',r=>C.sign(r.lot1000Delta,' pp')],['集保持股截至日',r=>r.holderAsOf||'缺漏'],
+ ['原始收盤價',r=>pretty(r.close)],['20日均線',r=>pretty(r.ma20)],['RSI14',r=>pretty(r.rsi)],
+ ['技術三確認',r=>r.aboveMa20==='是'&&r.ma20Rising==='是'&&r.macdImprove==='是'?'三項皆符合（描述性）':r.technicalStatus],
+ ['產業相對20日動能',r=>C.sign(r.sectorRelative20,' pp')],['原始20日年化波動',r=>C.pct(r.vol20)],
+ ['本益比／來源日',r=>pretty(r.pe)+' ／ '+(r.valuationAsOf||'缺漏')],
+ ['月營收年增率／資料月份',r=>C.pct(r.revenueYoY)+' ／ '+(r.revenuePeriod||'缺漏')],
+ ['獨立驗證的12因子數',r=>r.verifiedFactors+'/12'],
+ ['正式模型及回測',r=>r.modelEligible?'需審核':'停用']
+];
+$('compare-view').innerHTML='<table class="comparetable"><thead><tr><th>研究欄位</th>'+rows.map(r=>'<th>'+E(r.id)+' '+E(r.name)+'</th>').join('')+'</tr></thead><tbody>'+cells.map(([label,get])=>'<tr><th>'+E(label)+'</th>'+rows.map(r=>'<td>'+E(get(r))+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
+}
+$('tab-market').onclick=()=>{display('market');setQuery({view:'market'})};
+$('tab-detail').onclick=()=>{display('detail');setQuery({view:'detail',stock:$('stock-id').value})};
+$('tab-compare').onclick=()=>{display('compare');setQuery({view:'compare',stocks:$('stock-list').value})};
+['q','market','basic','institution','holders-filter','technical','size'].forEach(id=>$(id).addEventListener(id==='q'?'input':'change',()=>{pageIndex=0;renderMarket()}));
+$('reset').onclick=()=>{for(const id of ['q','market','basic','institution','holders-filter','technical'])$(id).value=id==='q'?'':'all';pageIndex=0;renderMarket()};
+$('prev').onclick=()=>{pageIndex--;renderMarket()};$('next').onclick=()=>{pageIndex++;renderMarket()};
+$('market-rows').addEventListener('click',e=>{const btn=e.target.closest('[data-stock],[data-add]');if(!btn)return;if(btn.dataset.stock){$('stock-id').value=btn.dataset.stock;navigateStock(btn.dataset.stock)}
+else if(btn.dataset.add){let ids=[...new Set($('stock-list').value.split(/[,，\s]+/).filter(Boolean))];if(!ids.includes(btn.dataset.add))ids.push(btn.dataset.add);ids=ids.slice(-5);$('stock-list').value=ids.join(',');display('compare');setQuery({view:'compare',stocks:ids.join(',')})}});
+$('lookup').onclick=()=>{renderDetail();setQuery({view:'detail',stock:$('stock-id').value})};
+$('stock-id').addEventListener('keydown',e=>{if(e.key==='Enter')$('lookup').click()});
+$('compare').onclick=()=>{renderCompare();setQuery({view:'compare',stocks:$('stock-list').value})};
+const params=new URLSearchParams(location.search);
+if(/^\d{4,6}$/.test(params.get('stock')||''))$('stock-id').value=params.get('stock');
+if(params.get('stocks'))$('stock-list').value=params.get('stocks');
+const pendingView=['market','detail','compare'].includes(params.get('view'))?params.get('view'):(params.has('stock')?'detail':params.has('stocks')?'compare':'market');
+(async()=>{try{const inputs={};await Promise.all(Object.entries(files).map(async([key,path])=>{try{const response=await fetch('./data/'+path,{cache:'no-store'});if(!response.ok)throw Error('HTTP '+response.status);inputs[key]=C.parseCSV(await response.text())}catch(err){inputs[key]=[];failures[key]=err.message}}));if(failures.factor)throw Error('研究主資料無法取得：'+failures.factor);
+all=C.merge(inputs);byId=new Map(all.map(x=>[x.id,x]));$('universe').textContent=all.length.toLocaleString();$('basics').textContent=all.filter(x=>x.basicEligible).length.toLocaleString();$('flows').textContent=all.filter(x=>x.flowDateOK).length.toLocaleString();$('holders').textContent=all.filter(x=>x.holderDateOK).length.toLocaleString();$('approved').textContent=all.filter(x=>x.modelEligible&&x.predictionEnabled).length.toLocaleString();
+$('loading').textContent='已載入 '+all.length.toLocaleString()+' 檔逐股資料。'+(Object.keys(failures).length?'部分來源無法取得：'+Object.entries(failures).map(([k,v])=>k+' '+v).join('；'):'所有所需研究來源已載入。')+'來源載入成功不等於歷史回測資格。';display(pendingView);}catch(err){$('loading').textContent='無法啟動研究工作台：'+err.message}})();
+</script></body></html>
