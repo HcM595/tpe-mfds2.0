@@ -133,6 +133,27 @@ async function run() {
     assert.equal((await page.locator('#verified').innerText()).trim(),'0');
     console.log('PASS 2.9Q: material speech clock, no retrospective factor-release certification');
 
+    // 2.9R: title-only event correlations cannot become historical F2/F3/revenue.
+    await visit('event_crosscheck_29r.html?stock=8064');
+    await page.waitForFunction(() => document.querySelector('#status')?.textContent.includes('符合'), {timeout: 60000});
+    assert(Number((await page.locator('#total').innerText()).replace(/,/g,'')) > 5000,'R factor review stock coverage');
+    assert.equal(await page.locator('#rows tr').count(),3,'R 8064 must have F2 F3 and revenue review');
+    assert.equal((await page.locator('#proved').innerText()).trim(),'0','R cannot certify any first public disclosure');
+    await page.locator('#q').fill('9904');
+    assert.equal(await page.locator('#rows tr').count(),3,'R stock filter must retain three evidence types');
+    const content = await page.locator('#rows').innerText();
+    assert(content.includes('歷史回測不可用'),'R must visibly block historical use');
+    assert(!(await page.locator('#rows').innerText()).includes('NaN'),'R should not display NaN');
+    await page.locator('#factor').selectOption('F2');
+    assert.equal(await page.locator('#rows tr').count(),1,'R factor filtering failed');
+    const f2Row=await page.locator('#rows tr').first().innerText();
+    assert(f2Row.includes('F2 原始估值')&&f2Row.includes('0'),'R must not attach financial warnings to F2 PE');
+    await page.locator('#factor').selectOption('all');
+    await page.locator('#candidate').selectOption('yes');
+    assert.equal(await page.locator('#rows tr').count(),1,'R no true factor release candidates for income warning');
+    assert((await page.locator('#rows').innerText()).includes('沒有符合條件'), 'R false event candidate was invented');
+    console.log('PASS 2.9R: stock/company matching, unrelated event negative control and no time certification');
+
     assert.deepEqual(errors, [], 'Uncaught browser JavaScript errors: ' + errors.join('; '));
     console.log('PASS 2.9M: all four research pages passed real Chromium smoke tests');
   } finally {
