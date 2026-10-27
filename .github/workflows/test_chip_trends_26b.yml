@@ -1,8 +1,12 @@
-name: TPE-MFDS 2.9M 獨立研究頁瀏覽器回歸與整站驗收
+name: TPE-MFDS 3.0A 全市場統一研究工作台與逐股資料稽核
 on:
   pull_request:
     paths:
       - 'site/index.html'
+      - 'site/research_hub_30a.html'
+      - 'site/research_core_30a.js'
+      - 'tests/research_core_30a.test.cjs'
+      - 'tests/browser_workbench_30a.cjs'
       - 'site/factor_gaps_29h.html'
       - 'site/stock_research_29i.html'
       - 'site/dual_engine_29j.html'
@@ -319,7 +323,7 @@ jobs:
           meta=json.load(open('site/data/publication_event_links_meta_29r.json',encoding='utf-8'))
           linked=list(csv.DictReader(open('site/data/publication_event_links_29r.csv',encoding='utf-8')))
           events=list(csv.DictReader(open('site/data/material_event_topics_29r.csv',encoding='utf-8')))
-          assert len(linked)==meta['reviewed_factor_rows']==5847
+          assert len(linked)==meta['reviewed_factor_rows']==meta['unique_stocks']*3
           assert len(events)==meta['archived_events']
           assert meta['verified_event_to_factor_value_links']==0
           assert meta['official_first_publication_verified']==0
@@ -360,9 +364,15 @@ jobs:
           python -c "import json; d=json.load(open('site/data/factor_readiness_28a.json')); assert len(d['factors']) == 12 and not d['probability_enabled'] and not d['live_factor_score_enabled']"
       - name: 2.9L validate all four research pages and published data contracts
         run: python -m unittest tests/test_research_pages_29l.py
+      - name: 3.0A test unified stock market joins and fail-closed raw source dates
+        run: |
+          node --check site/research_core_30a.js
+          node --check tests/browser_workbench_30a.cjs
+          node tests/research_core_30a.test.cjs
       - name: Browser smoke test against generated site
         run: |
           python scripts/export_chip_trends.py
           python -m http.server 8765 --directory site >/tmp/mfds-http.log 2>&1 &
           node tests/browser_26b.cjs
           node tests/browser_research_29m.cjs
+          node tests/browser_workbench_30a.cjs
