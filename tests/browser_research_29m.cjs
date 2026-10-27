@@ -154,6 +154,24 @@ async function run() {
     assert((await page.locator('#rows').innerText()).includes('沒有符合條件'), 'R false event candidate was invented');
     console.log('PASS 2.9R: stock/company matching, unrelated event negative control and no time certification');
 
+    // 2.9S: inspect raw official statements and retain first-seen distinction.
+    await visit('event_body_audit_29s.html?stock=3680');
+    await page.waitForFunction(() => document.querySelector('#status')?.textContent.includes('符合'), {timeout:60000});
+    assert(Number((await page.locator('#total').innerText()).replace(/,/g,''))>=1,'S archived statement list missing');
+    assert(Number((await page.locator('#body').innerText()).replace(/,/g,''))>=1,'S no original raw bodies validated');
+    assert.equal((await page.locator('#eligible').innerText()).trim(),'0','S must never certify first-publication time');
+    assert((await page.locator('#rows').innerText()).includes('3680'),'S stock deep link failed');
+    assert((await page.locator('#rows').innerText()).includes('首封存UTC'),'S first seen clock missing');
+    assert((await page.locator('#rows').innerText()).includes('未驗證／不可回測'),'S stock erroneously backtest eligible');
+    await page.locator('#rows details summary').first().click();
+    assert((await page.locator('#rows .excerpt').first().innerText()).length>10,'S body excerpt missing');
+    await page.locator('#q').fill('4958');
+    assert((await page.locator('#rows').innerText()).includes('4958'),'S event search failed');
+    await page.locator('#state').selectOption('invalid');
+    assert((await page.locator('#rows').innerText()).includes('沒有符合條件') ||
+           (await page.locator('#rows').innerText()).includes('來源版本未完成核對'),
+           'S evidence status filter failed');
+    console.log('PASS 2.9S: raw material body, source first-seen, stock search and no-release gate');
     assert.deepEqual(errors, [], 'Uncaught browser JavaScript errors: ' + errors.join('; '));
     console.log('PASS 2.9M: all four research pages passed real Chromium smoke tests');
   } finally {
