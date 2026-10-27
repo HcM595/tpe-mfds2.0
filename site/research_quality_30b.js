@@ -30,19 +30,32 @@ function sourceCounts(inputs,failures={}){
       id==='risk'?'原始收盤計算未必完成除權息還原':'資料筆數並非可交易股票數或模型得分'};
  });
 }
+function firstCaptureStatus(timestamp,priceDay){
+ if(!validDay(priceDay))return 'price_date_invalid';
+ if(typeof timestamp!=='string'||!/^(\\d{4}-\\d{2}-\\d{2})T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$/.test(timestamp))return 'first_seen_unknown';
+ const captured=Date.parse(timestamp),cutoff=Date.parse(priceDay+'T00:00:00+08:00');
+ if(!Number.isFinite(captured)||!Number.isFinite(cutoff))return 'first_seen_unknown';
+ return captured<cutoff?'before_cutoff':'after_cutoff';
+}
+function captureNote(timestamp,day){
+ const state=firstCaptureStatus(timestamp,day);
+ return state==='after_cutoff'?'本站首次取得晚於價格日臺北00:00，禁止追認':
+   state==='before_cutoff'?'本站首次取得早於保守截止，但尚缺官方首次公告驗證':
+   '來源首次取得時間或價格日未能完整核實';
+}
 function evidence(r){
  if(!r)return[];
- const value=(ok,reason,asof='')=>({ok,reason,asof:asof||''});
  const risk=r.close!==null?
-   value(!r.priceAdjusted,'已取得原始價格；尚未完成除權息調整，僅供描述',r.asof):
-   value(false,'缺少與股價日一致的價格來源',r.asof);
+   (r.priceAdjusted?'來源標記已調整，仍需核對公司行動版本':
+     '已取得原始價格；尚未完成除權息調整，僅供描述'):
+     '缺少與股價日一致的價格來源';
  // status is descriptive; do not call raw unadjusted data "verified".
  const cls=r.flowAsOf?dayClass(r.flowAsOf,r.asof):'unverified';
  return [
   {name:'逐股研究主檔',state:r.basicEligible?'observed':'limited',
    detail:r.basicStatus||'未取得',asof:r.asof},
   {name:'原始價格與風險',state:r.close===null?'missing':'observed',
-   detail:r.close===null?'價格缺漏／不同步':risk.reason,asof:r.asof},
+   detail:r.close===null?'價格缺漏／不同步':risk,asof:r.asof},
   {name:'外資／投信5日',state:r.flowDateOK?'observed':'missing',
    detail:r.flowDateOK?'流量觀察日與價格日一致；未證明發佈時刻':
       cls==='future'?'來源日期晚於價格基準日（禁止追認）':'交易日不同步或來源缺漏',
@@ -56,11 +69,11 @@ function evidence(r){
      '三項技術條件為描述性觀察，不是歷史勝率',asof:r.asof},
   {name:'F2估值公開時間',state:r.releaseF2==='true'?'clock_only':'blocked',
    detail:r.releaseF2==='true'?'僅來源時鐘條件通過，並非12因子通過':
-     '無完整公告、首次取得與價格截止點證據；不可作歷史因子',
+     '無完整官方公告與價格截止點證據；不可作歷史因子；'+captureNote(r.valuationFirstSeen,r.asof),
    asof:r.valuationAsOf},
   {name:'月營收公開時間',state:r.releaseRevenue==='true'?'clock_only':'blocked',
    detail:r.releaseRevenue==='true'?'僅來源時鐘條件通過，不代表模型合格':
-     '月營收表格日期不等於逐公司公開時刻；不可作歷史因子',asof:r.revenueTableDate},
+     '月營收表格日期不等於逐公司公開時刻；不可作歷史因子；'+captureNote(r.revenueFirstSeen,r.asof),asof:r.revenueTableDate},
   {name:'F3治理公開時間',state:r.releaseF3==='true'?'clock_only':'blocked',
    detail:r.releaseF3==='true'?'僅來源時鐘條件通過，不代表模型合格':
      '逐公司治理公告時刻尚未獨立核實',asof:''},
@@ -121,7 +134,7 @@ function exportRows(rows,{bom=true}={}){
  }
  return (bom?'\uFEFF':'')+body.join('\r\n')+'\r\n';
 }
-const api={SOURCE_NAMES,sourceCounts,validDay,dayClass,evidence,summarize,COLUMNS,safeCell,exportRows};
+const api={SOURCE_NAMES,sourceCounts,validDay,dayClass,firstCaptureStatus,captureNote,evidence,summarize,COLUMNS,safeCell,exportRows};
 if(typeof module!=='undefined'&&module.exports)module.exports=api;
 if(root)root.MFDSResearchQuality=api;
 })(typeof window!=='undefined'?window:null);
