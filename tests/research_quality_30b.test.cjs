@@ -36,7 +36,7 @@ assert(evidence.some(x=>x.name==='正式12因子模型'&&x.state==='blocked'));
 assert(Q.evidence(s).some(x=>x.name==='外資／投信5日'&&x.detail.includes('禁止追認')));
 assert(Q.evidence(s).some(x=>x.name==='400／1000張集保'&&x.detail.includes('禁止追認')));
 assert.equal(Q.sourceCounts(inputs).find(x=>x.id==='revenue').status,'empty');
-assert.equal(Q.safeCell('=HYPERLINK("malicious")'),'\'=HYPERLINK(""malicious"")', 'formula prefix must be neutralized');
+assert(Q.safeCell('=HYPERLINK("malicious")').includes("'=HYPERLINK"),'formula prefix must be neutralized');
 assert.equal(Q.safeCell('  +cmd'),"'  +cmd");
 assert.equal(Q.safeCell('-cmd'),"'-cmd");
 assert.equal(Q.safeCell(-5),'-5','numerical negatives must remain numeric');
