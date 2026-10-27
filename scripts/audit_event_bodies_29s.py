@@ -43,7 +43,7 @@ def revenue_period_candidate(title,body):
         s=" ".join(str(source or "").split())
         # Require revenue language in that component; never treat bare dates
         # from an asset or equity announcement as a reporting period.
-        if not re.search(r"月營收|合併營收|營業收入",s):continue
+        if not re.search(r"月營收|合併營收|營業收入|營收",s):continue
         for m in MONTH.finditer(s):
             year,month=int(m.group("year")),int(m.group("month"))
             if year<200:year+=1911
