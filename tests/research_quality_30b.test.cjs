@@ -6,6 +6,13 @@ assert.equal(Q.validDay('2026-02-29'),false);
 assert.equal(Q.dayClass('2026-10-22','2026-10-27'),'prior_day');
 assert.equal(Q.dayClass('2026-10-28','2026-10-27'),'future');
 assert.equal(Q.dayClass('garbled','2026-10-27'),'unverified');
+assert.equal(Q.firstCaptureStatus('2026-10-26T15:59:59Z','2026-10-27'),'before_cutoff');
+assert.equal(Q.firstCaptureStatus('2026-10-26T16:00:00Z','2026-10-27'),'after_cutoff');
+assert.equal(Q.firstCaptureStatus('2026-10-27T08:01:00+08:00','2026-10-27'),'after_cutoff');
+assert.equal(Q.firstCaptureStatus('2026-10-26','2026-10-27'),'first_seen_unknown');
+assert.equal(Q.firstCaptureStatus('2026-10-26T11:00:00','2026-10-27'),'first_seen_unknown');
+assert(Q.captureNote('2026-10-27T00:01:00+08:00','2026-10-27').includes('禁止追認'));
+
 const factor=[
  {stock_id:'8064',stock_name:'東捷',market:'上櫃',price_asof:'2026-10-27',basic_data_eligible:'true',model_eligible:'false',prediction_enabled:'false',verified_factor_count:'0',observed_factor_count:'9'},
  {stock_id:'3533',stock_name:'嘉澤',market:'上市',price_asof:'2026-10-27',basic_data_eligible:'false',model_eligible:'false',prediction_enabled:'false',verified_factor_count:'0',observed_factor_count:'7'}];
