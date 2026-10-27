@@ -54,6 +54,7 @@ class ResearchPageHealth(unittest.TestCase):
             self.assertEqual(row["prediction_enabled"], "false")
 
     def test_page_contracts(self):
+        home = (SITE / "index.html").read_text(encoding="utf-8")
         factor = (SITE / PAGES[0]).read_text(encoding="utf-8")
         stock = (SITE / PAGES[1]).read_text(encoding="utf-8")
         dual = (SITE / PAGES[2]).read_text(encoding="utf-8")
