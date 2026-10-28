@@ -31,6 +31,7 @@ async function run(){
   await page.reload({waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>document.querySelector('#loading')?.textContent.includes('已載入'),{timeout:60000});
   assert((await page.locator('#snapshot-status').innerText()).includes('8/9'),'modified corporate action data must be quarantined');
+  await page.locator('#tab-quality').click();
   assert((await page.locator('#action-summary').innerText()).includes('除權息稽核來源異常'));
   await page.locator('#tab-detail').click();
   await page.locator('#stock-id').fill('1101');
