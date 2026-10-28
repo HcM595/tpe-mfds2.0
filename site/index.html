@@ -480,6 +480,7 @@ ${rCards([['逐股證據覆蓋',evidenceMeta.stocks??'—','非正式模型資�
     <p class="hint">各項只計入資料日和來源條件符合者；集合之間有交集，不應相加。週資料最遲14個日曆日前，未確認官方發布時點；「三面交集」不代表預測勝率或買進訊號。</p>
     ${crossError?`<p class="note-box" role="alert">交叉來源無法驗證：${esc(crossError)}；本次不顯示符合名單。</p>`:''}
     <div class="r-filter"><label>搜尋股票<input id="r-query" class="field" value="${esc(research.query)}" placeholder="代號、名稱、產業，例如8064" /></label><label>市場<select id="r-market" class="field"><option>全部</option>${['上市','上櫃'].map(x=>`<option ${research.market===x?'selected':''}>${x}</option>`).join('')}</select></label><label>交叉訊號<select id="r-cross" class="field" aria-label="法人、大戶、技術交叉篩選">${[['all','全部可排名'],['institution','外資＋投信同買'],['holders','兩級距大戶同增'],['technical','技術三項確認'],['confluence','法人＋大戶＋技術全部符合'],['review','仍有未符合／待核對條件']].map(([value,label])=>`<option value="${value}" ${research.cross===value?'selected':''}>${label}</option>`).join('')}</select></label></div>
+    <div class="row" style="margin:8px 0 13px"><button type="button" id="r-cross-export" class="btn mini" ${crossError?'disabled':''}>匯出目前交叉條件 CSV</button><span class="hint">含股價／法人／集保日期、各條件判斷及未通過原因；研究觀察，不是回測績效。</span></div>
     ${q?`<div class="r-panel" style="margin-bottom:13px"><h3>全市場個股快速查詢（不受籌碼排名條件限制）</h3>
       <p class="hint">以下從已載入的上市櫃官方行情中尋找股票；不在籌碼100分排行內，仍可開啟個股研究頁。</p>
       ${directMatches.length?`<div style="display:flex;flex-wrap:wrap;gap:8px">${directMatches.map(s=>`<button type="button" class="btn mini" data-r-stock="${esc(s.stock_id)}">${esc(s.stock_id)} ${esc(s.stock_name)} · ${esc(s.market||'市場未確認')}</button>`).join('')}</div>`:
@@ -647,6 +648,23 @@ function bindResearch(){
   document.querySelectorAll('[data-r-action="refresh"]').forEach(b=>b.addEventListener('click',()=>loadResearchData()));
   const elig=$('r-eligibility-view');if(elig)elig.addEventListener('change',e=>{research.eligibilityView=e.target.value;research.eligibilityPage=0;render()});
   for(const [selector,delta] of [['elig-prev',-1],['elig-next',1]])document.querySelectorAll('[data-r-action="'+selector+'"]').forEach(b=>b.addEventListener('click',()=>{research.eligibilityPage=Math.max(0,(research.eligibilityPage||0)+delta);render()}));
+  const exportCross=$('r-cross-export');
+  if(exportCross)exportCross.addEventListener('click',()=>{
+    const lib=window.MFDSChipTechCrossfilter;
+    try{
+      if(!lib||!rGet('rank'))throw Error('來源尚未載入');
+      const result=lib.screen(rArray('rank'),rArray('tech'),{
+        query:research.query,market:research.market,mode:research.cross||'all',
+        asofLimit:(rGet('official')||{}).display_date||''
+      });
+      const blob=new Blob(['\uFEFF'+lib.toCSV(result)],{type:'text/csv;charset=utf-8'});
+      const link=document.createElement('a');
+      link.href=URL.createObjectURL(blob);link.download='TPE_MFDS_30L_交叉觀察_'+(research.cross||'all')+'.csv';
+      document.body.appendChild(link);link.click();link.remove();
+      setTimeout(()=>URL.revokeObjectURL(link.href),1200);
+      notif('已匯出交叉條件與資料日期；不代表交易建議或勝率。');
+    }catch(error){notif('無法匯出交叉資料：'+String(error.message||error))}
+  });
   const q=$('r-query');if(q)q.addEventListener('input',e=>{
     research.query=e.target.value;research.eligibilityPage=0;const caret=q.selectionStart;render();const next=$('r-query');if(next){next.focus();next.setSelectionRange(caret,caret)}
   });
