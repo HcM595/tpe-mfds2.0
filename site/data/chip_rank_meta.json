@@ -1,22 +1,23 @@
 {
   "version": "2.3A+B",
-  "generated_at_taipei": "2026-10-28T16:27:13.264390+08:00",
+  "generated_at_taipei": "2026-10-28T16:46:32.510883+08:00",
   "status": "ok",
   "master": {
     "source_status": {
       "上市": "ok",
-      "上櫃": "ok"
+      "上櫃": "ok_csv_fallback"
     },
-    "errors": [],
+    "errors": [
+      "上櫃: IncompleteRead: IncompleteRead(343672 bytes read, 733263 more expected)"
+    ],
     "count": 1987,
     "conflicting_ids": []
   },
   "original_chip_matches": 62,
   "candidate_rows": 62,
-  "eligible_ranked": 9,
+  "eligible_ranked": 59,
   "excluded_or_pending": {
-    "法人日期與最新收盤行情日期不同": 50,
-    "法人日期與最新收盤行情日期不同；20日平均成交額不足3000萬元": 3
+    "20日平均成交額不足3000萬元": 3
   },
   "min_20d_avg_turnover_twd": 30000000,
   "min_trade_days": 20,

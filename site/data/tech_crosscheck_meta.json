@@ -1,20 +1,22 @@
 {
   "version": "2.3.3",
-  "generated_at_taipei": "2026-10-28T16:27:14+08:00",
+  "generated_at_taipei": "2026-10-28T16:46:33+08:00",
   "status": "ok",
   "rank_candidates": 62,
-  "eligible_ranked": 9,
-  "eligible_verified": 9,
+  "eligible_ranked": 59,
+  "eligible_verified": 59,
   "technical_status_counts": {
-    "部分確認": 8,
-    "三項確認": 1
+    "部分確認": 33,
+    "三項確認": 25,
+    "尚未確認": 1
   },
   "holder_structure_counts": {
-    "雙級距增加": 2,
-    "持股結構分歧": 7
+    "雙級距增加": 24,
+    "持股結構分歧": 28,
+    "單級距增加，另一級距持平": 7
   },
   "eligible_data_status_counts": {
-    "可驗證": 9
+    "可驗證": 59
   },
   "anomaly_count": 0,
   "checks": [
