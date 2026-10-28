@@ -1,26 +1,26 @@
 {
   "version": "2.4A",
   "status": "ok",
-  "updated_at_utc": "2026-10-28T11:30:49.983149Z",
-  "snapshot_id": "20261028T113049983149Z-run40680342163-attempt1",
-  "snapshot_path": "signal_archive/2026/10/28/20261028T113049983149Z-run40680342163-attempt1/snapshot.json",
+  "updated_at_utc": "2026-10-28T11:35:26.006372Z",
+  "snapshot_id": "20261028T113526006372Z-run40680838261-attempt1",
+  "snapshot_path": "signal_archive/2026/10/28/20261028T113526006372Z-run40680838261-attempt1/snapshot.json",
   "latest_snapshot": {
-    "snapshot_id": "20261028T113049983149Z-run40680342163-attempt1",
-    "snapshot_sha256": "0d2a3b319dd76ba46d10d0ca7188aacddace9caf4296aa89c788406f6ced5178",
-    "captured_at_utc": "2026-10-28T11:30:49.983149Z",
+    "snapshot_id": "20261028T113526006372Z-run40680838261-attempt1",
+    "snapshot_sha256": "ab573fece3de3ef12e7df5c2ac1a2f1ca6e3fed0abbd02a338dba9c963a36880",
+    "captured_at_utc": "2026-10-28T11:35:26.006372Z",
     "source_price_dates": [
       "2026-10-28"
     ],
     "eligible_ranked": 59,
     "eligible_verified": 59,
     "signal_fingerprint": "35147d0f1abb16d2b3226b87a57a1f97e098a28275f31dda53b66cf81948c684",
-    "snapshot_path": "signal_archive/2026/10/28/20261028T113049983149Z-run40680342163-attempt1/snapshot.json",
+    "snapshot_path": "signal_archive/2026/10/28/20261028T113526006372Z-run40680838261-attempt1/snapshot.json",
     "first_seen_snapshot_id": "20261028T103522309157Z-run40673043251-attempt1",
     "same_signal_as_earlier_snapshot": true
   },
-  "snapshots_total": 76,
+  "snapshots_total": 77,
   "unique_signal_fingerprints": 8,
-  "repeated_signal_snapshots": 68,
+  "repeated_signal_snapshots": 69,
   "summary": {
     "rank_candidates": 62,
     "eligible_ranked": 59,
@@ -44,9 +44,9 @@
       "單級距增加，另一級距持平": 7
     },
     "source_generated_at_taipei": {
-      "chip_rank": "2026-10-28T19:30:49.182489+08:00",
-      "tech_crosscheck": "2026-10-28T19:30:49+08:00",
-      "official_meta": "2026-10-28T19:29:36+08:00"
+      "chip_rank": "2026-10-28T19:35:25.162783+08:00",
+      "tech_crosscheck": "2026-10-28T19:35:25+08:00",
+      "official_meta": "2026-10-28T19:33:51+08:00"
     }
   },
   "note": "快照在GitHub與GitHub Pages中保留，不可修改或回填過去首次觀測時間。source_published_at未知；首次封存時間不等於來源公告時間。"
