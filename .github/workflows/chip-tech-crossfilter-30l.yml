@@ -1,0 +1,44 @@
+name: 3.0L 法人・大戶・技術交叉條件驗收
+on:
+  pull_request:
+    paths:
+      - 'site/index.html'
+      - 'site/chip_tech_crossfilter_30l.js'
+      - 'site/editorial_30k.css'
+      - 'tests/chip_tech_crossfilter_30l.test.cjs'
+      - 'tests/browser_crossfilter_30l.cjs'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/chip-tech-crossfilter-30l.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  crossfilter-acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source date and disjoint-holder-tier checks on real rank/tech files
+        run: |
+          node --check site/chip_tech_crossfilter_30l.js
+          node --check tests/chip_tech_crossfilter_30l.test.cjs
+          node --check tests/browser_crossfilter_30l.cjs
+          node tests/chip_tech_crossfilter_30l.test.cjs
+          python -m unittest -v tests/test_original_goal_site_30j.py tests/test_editorial_30k.py
+      - name: Install headless browser
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install chromium
+      - name: Verify actual integrated interface and existing deep workbench
+        run: |
+          python -m http.server 8765 --directory site > /tmp/mfds-30l-http.log 2>&1 &
+          sleep 2
+          node tests/browser_crossfilter_30l.cjs
+          node tests/browser_26b.cjs
+          node tests/browser_workbench_30a.cjs
