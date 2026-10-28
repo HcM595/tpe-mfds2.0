@@ -88,7 +88,7 @@ function state(signal){
    tech:techKnown?(tech?'技術三確認':'技術未達三確認'):'技術資料不足',
    techCount:techKnown?signal.technical_confirmed_count:'—',
    holder,holderDate:signal.holder_asof||'—',
-   flow:'封存未包含外資／投信原始股數；不可推論法人同買',
+   flow:'未封存外資／投信原始股數；不可推論法人同買',
    score:ranked?signal.chip_strength_score:'—',rankNumber:ranked?signal.chip_strength_rank:'—'};
 }
 function compare(before,after,stockIds){
