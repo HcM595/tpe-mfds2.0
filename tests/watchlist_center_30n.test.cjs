@@ -8,11 +8,8 @@ const W=require('../site/watchlist_center_30n.js');
 
 const dir=path.join(__dirname,'../site/data/');
 const csv=name=>parseCSV(fs.readFileSync(dir+name,'utf8').replace(/^\uFEFF/,''));
-const data=(name)=>{
- const rows=csv(name),heads=rows[0];
- return rows.slice(1).filter(x=>x.some(y=>y.trim())).map(x=>
-   Object.fromEntries(heads.map((h,i)=>[h,(x[i]||'').trim()])));
-};
+// Shared research core already parses CSV as an array of stock-keyed objects.
+const data=name=>csv(name);
 const keys={rank:'chip_rank.csv',chip:'chip_signals.csv',tech:'tech_crosscheck.csv',
  factor:'factor_evidence_29a.csv',revenue:'revenue_snapshot_28c.csv',
  risk:'risk_observations_28d.csv',valuation:'f2_valuation_29e.csv',
