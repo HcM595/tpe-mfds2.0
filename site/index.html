@@ -60,6 +60,7 @@
 <script src="./stock_evidence_30m.js"></script>
 <script src="./watchlist_center_30n.js"></script>
 <script src="./watch_history_30o.js"></script>
+<script src="./watch_timeline_30p.js"></script>
 <script src="./chip_trends_26b.js"></script>
 <script src="./research_eligibility_27a.js"></script>
 <script>
@@ -69,6 +70,7 @@ const FACTOR_NAME={M1:'景氣對策信號',M2:'外需動能',M3:'匯率與資金
 const STORAGE='mfds-web-watch-v1';let watch=[];try{watch=window.MFDSWatchlist30N.ids(JSON.parse(localStorage.getItem(STORAGE)||'[]'))}catch(e){watch=[]}
 const watchUi={query:'',mode:'all',sort:'manual',report:null};
 const watchHistoryUi={status:'idle',days:[],first:'',second:'',earlier:null,later:null,error:'',serial:0};
+const watchTimelineUi={status:'idle',from:'',to:'',stock:'',mode:'all',docs:[],error:'',serial:0};
 const state={historyNote:'讀取中',page:'overview',mode:'demo',stocks:[],prices:{},watch,search:'',sector:'全部產業',market:'全部市場',sort:'score',minValue:30000000,current:'DEMO01',weights:{M:25,I:25,F:25,S:25},horizon:20,sourceInfo:null,coverage:null,chipSignals:{},chipMeta:null,chipFilter:'all',rankRows:[],rankMeta:null,rankOnlyTech:false,rankSearch:'',rankTechFilter:'all',techRows:{},techMeta:null};
 const $=id=>document.getElementById(id),fmt=(n,d=0)=>Number.isFinite(n)?n.toLocaleString('zh-TW',{maximumFractionDigits:d,minimumFractionDigits:d}):'—';
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -759,6 +761,87 @@ function screenerView(){let rows=rowsFiltered(),sectors=['全部產業',...new S
 function buildChart(points){if(!points||points.length<2)return '<div class="empty">尚未匯入這檔股票的歷史價格。可在「資料與操作說明」頁匯入每日價格CSV。</div>';let vals=points.map(p=>p.close),n=vals.length,w=760,h=235,pad={l:50,r:12,t:15,b:28},min=Math.min(...vals),max=Math.max(...vals),range=Math.max(1e-7,max-min),x=i=>pad.l+i/(n-1)*(w-pad.l-pad.r),y=v=>pad.t+(max-v)/range*(h-pad.t-pad.b);let line=vals.map((v,i)=>`${i?'L':'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' '),area=`${line} L${x(n-1)},${h-pad.b} L${x(0)},${h-pad.b} Z`,ticks=Array.from({length:5},(_,i)=>min+range*i/4).reverse(),avg=vals.map((_,i)=>i>=19?sum(vals.slice(i-19,i+1))/20:null),avgLine=avg.map((v,i)=>v===null?'':`${avg[i-1]===null?'M':'L'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');return `<div class="plot-box"><svg class="plot" role="img" aria-label="價格走勢示意" viewBox="0 0 ${w} ${h}"><defs><linearGradient id="areaGrad" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#3b94a8" stop-opacity=".23"/><stop offset="1" stop-color="#3b94a8" stop-opacity=".01"/></linearGradient></defs>${ticks.map(v=>`<g><line x1="${pad.l}" x2="${w-pad.r}" y1="${y(v)}" y2="${y(v)}" stroke="#e3eaf0"/><text x="${pad.l-7}" y="${y(v)+4}" fill="#71869a" font-size="11" text-anchor="end">${fmt(v,1)}</text></g>`).join('')}<path d="${area}" fill="url(#areaGrad)"/><path d="${line}" fill="none" stroke="#2d8098" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="${avgLine}" fill="none" stroke="#d69d53" stroke-width="2" stroke-linejoin="round"/> <text x="${pad.l}" y="${h-6}" fill="#8ca0af" font-size="10">${esc(points[0].date)}</text><text x="${w-pad.r}" y="${h-6}" text-anchor="end" fill="#8ca0af" font-size="10">${esc(points.at(-1).date)}</text></svg><div class="legend"><span><i></i> 收盤價</span><span><i class="avg"></i> 20期均線</span></div></div>`}
 function factorBreakdown(s){let calc=s.calc;return GROUPS.map(g=>`<div class="factor-group"><div class="factor-hd"><span>${g.name} <span class="hint">${g.description}</span></span><span class="chip">${calc.scores[g.id]===null?'—':fmt(calc.scores[g.id],1)+' 分'}</span></div>${g.cols.map(c=>{let v=num(s.f?.[c]);if(v===null||v< -1||v>1)return `<div class="factor-line"><span>${c} ${FACTOR_NAME[c]}</span><div class="hint">尚無有效值</div><b>—</b></div>`;return `<div class="factor-line"><span>${c} ${FACTOR_NAME[c]}</span><div class="meter"><span class="${v<0?'neg':''}" style="margin-left:${v<0?fmt(50+v*50,1):50}%;width:${fmt(Math.abs(v)*50,1)}%"></span></div><b>${v>0?'+':''}${fmt(v,2)}</b></div>`}).join('')}</div>`).join('')}
 function stockView(){let stock=derive().find(x=>x.stock_id===state.current)||derive()[0];if(!stock)return'<section class="card" style="margin-top:20px"><div class="empty">沒有股票資料。請匯入CSV或切換示範。</div></section>';state.current=stock.stock_id;let points=state.prices[stock.stock_id],valid=stock.calc.valid;const options=state.stocks.map(x=>`<option value="${esc(x.stock_id)}" ${stock.stock_id===x.stock_id?'selected':''}>${esc(x.stock_id)} ${esc(x.stock_name)}</option>`).join('');let ret20=state.mode==='official'?null:(points?.length>=21?((points.at(-1).close/points.at(-21).close)-1)*100:null),ma20=points?.length>=20?sum(points.slice(-20).map(x=>x.close))/20:null;return `<div class="section-head"><div class="detail-title"><h2>${esc(stock.stock_id)} · ${esc(stock.stock_name)}</h2><span class="pill">${esc(stock.sector)}</span><span class="pill">${esc(stock.market)}</span></div><div class="row"><input id="stockCodeInput" class="field" inputmode="numeric" placeholder="直接輸入8064等代號" style="width:165px" maxlength="6" aria-label="輸入股票代號"><button class="btn" data-action="findStock">查詢代號</button><select id="stockPick" class="field" aria-label="切換股票">${options}</select><button class="btn" data-action="watch" data-id="${esc(stock.stock_id)}">${state.watch.includes(stock.stock_id)?'★ 已加入自選':'☆ 加入自選'}</button></div></div><div class="grid4" style="margin-top:13px"><div class="stat"><small>綜合因子分數</small><strong>${valid?fmt(stock.calc.total,1):'—'}</strong><span>${valid?'研究分數，非勝率':'資料覆蓋不足'}</span></div><div class="stat"><small>最新匯入收盤價</small><strong>${fmt(stock.close,2)}</strong><span>${esc(stock.asof||'資料日期未提供')}${stock.placeholder?'（無可核實價格）':''}</span></div><div class="stat"><small>大戶持股比率</small><strong>${stock.large_holder_pct===null?'—':fmt(stock.large_holder_pct,1)+'%'}</strong><span>需確認同一持股級距定義</span></div><div class="stat"><small>大戶持股變化</small><strong>${stock.large_holder_change_pp===null?'—':(stock.large_holder_change_pp>0?'+':'')+fmt(stock.large_holder_change_pp,2)}</strong><span>百分點（pp）</span></div></div>${chipStockPanel(stock.stock_id)}<div class="layout2"><section class="card"><div class="card-head"><div><h2>歷史價格走勢</h2><span class="hint">${state.mode==='demo'?'完全虛構的價格走勢':'依已累積或匯入的價格資料繪製'}</span></div></div>${buildChart(points)}<div style="margin-top:14px"><h3>技術指標（2.1新增）</h3>${technicalsView(points)}</div><div class="meta-cards" style="margin-top:15px"><div class="meta-card"><small>20期未還原變化（正式資料停用）</small><b>${ret20===null?'—':(ret20>0?'+':'')+fmt(ret20,2)+'%'}</b></div><div class="meta-card"><small>20期均價</small><b>${fmt(ma20,2)}</b></div><div class="meta-card"><small>法人近5日</small><b>${chipBadge(stock.stock_id)}</b></div></div></section><section class="card"><div class="card-head"><h2>四層因子概況</h2><span class="chip">${stock.calc.count}/12 有效</span></div><div class="sect-bars">${GROUPS.map(g=>`<div class="sect-row"><span>${g.name}</span><div class="meter"><span style="width:${fmt(stock.calc.scores[g.id]||0,1)}%"></span></div><strong>${stock.calc.scores[g.id]===null?'—':fmt(stock.calc.scores[g.id],1)}</strong></div>`).join('')}</div><div class="note-box">本評分用的是可解釋的規則，尚未用真實歷史資料訓練。請勿將高分視為未來一定上漲。</div></section></div><div class="layout2"><section class="card"><div class="card-head"><h2>12因子明細</h2><span class="hint">標準化評分 −1 到 +1</span></div>${factorBreakdown(stock)}</section><section class="card"><h2>預測與風險檢查</h2><div class="note-box" style="margin:15px 0">預測上漲機率、預期報酬與價格區間：<strong>尚未啟用</strong>。必須先以真實歷史資料進行嚴格樣本外回測及機率校準。</div><div class="small-table"><table class="small-table"><tr><th>分析週期</th><td><div class="control-toggle">${[10,20,60].map(d=>`<button data-action="horizon" data-value="${d}" class="${state.horizon===d?'active':''}">${d}日</button>`).join('')}</div></td></tr><tr><th>預測上漲機率</th><td>尚無已驗證模型</td></tr><tr><th>預期報酬</th><td>尚無已驗證模型</td></tr><tr><th>資料覆蓋率</th><td>${stock.calc.count}/12</td></tr><tr><th>模型狀態</th><td>${valid?'可計算描述性評分':'需補資料才可計算評分'}</td></tr></table></div><div class="divider"></div><h3>資料責任提醒</h3><p class="subtle">模型分數是否可信，取決於資料來源、公告日期、歷史調整與回測設計。此頁不提供止損價、買賣點或自動下單。</p></section></div>`}
+function watchTimelineReport(){
+ const ui=watchTimelineUi,mod=window.MFDSWatchTimeline30P;
+ if(!mod||ui.status!=='ready'||!ui.docs.length||!state.watch.includes(ui.stock))return null;
+ return mod.build(ui.docs,ui.stock);
+}
+function watchTimelinePanel(){
+ const ui=watchTimelineUi,mod=window.MFDSWatchTimeline30P,days=watchHistoryUi.days;
+ if(!mod)return '<section class="card r-section" role="alert">3.0P時間軸模組尚未載入。</section>';
+ const known=state.watch.includes(ui.stock)?ui.stock:(state.watch[0]||'');
+ if(ui.stock!==known)ui.stock=known;
+ const start=ui.from&&days.some(x=>x.date===ui.from)?ui.from:days[0]?.date||'';
+ const end=ui.to&&days.some(x=>x.date===ui.to)?ui.to:days.at(-1)?.date||'';
+ const dateOptions=(selected)=>days.map(d=>'<option value="'+esc(d.date)+'"'+(d.date===selected?' selected':'')+'>'+
+     esc(d.date)+'</option>').join('');
+ const names=watchUi.report?.records||[];
+ const stocks=state.watch.map(id=>{
+  const name=names.find(x=>x.id===id)?.name||'';
+  return '<option value="'+esc(id)+'"'+(id===known?' selected':'')+'>'+esc(id+' '+name)+'</option>';
+ }).join('');
+ let report=null,reason=ui.error;
+ try{report=watchTimelineReport()}catch(e){reason=String(e.message||e)}
+ const ready=!!report;
+ return '<section class="card r-watch-timeline r-section" aria-label="3.0P自選股研究時間軸">'+
+  '<div class="r-section-title"><div><div class="r-eyebrow">RESEARCH TIMELINE · 3.0P</div>'+
+  '<h3>逐日研究狀態時間軸</h3>'+
+  '<p>依封存價格日排序：辨識候選變化、技術確認、集保週來源更新與資料未更新。</p></div>'+
+  '<span class="chip">'+days.length+' 個獨立價格日</span></div>'+
+  '<div class="r-timeline-controls">'+
+  '<label for="r-timeline-stock">追蹤股票<select class="field" id="r-timeline-stock"'+(!state.watch.length?' disabled':'')+'>'+stocks+'</select></label>'+
+  '<label for="r-timeline-from">起始封存日<select class="field" id="r-timeline-from"'+(!days.length?' disabled':'')+'>'+dateOptions(start)+'</select></label>'+
+  '<label for="r-timeline-to">結束封存日<select class="field" id="r-timeline-to"'+(!days.length?' disabled':'')+'>'+dateOptions(end)+'</select></label>'+
+  '<button type="button" class="btn btn-primary" id="r-timeline-go"'+(!state.watch.length||days.length<2||ui.status==='loading'?' disabled':'')+'>驗證並建立時間軸</button>'+
+  '</div>'+
+  '<div class="r-timeline-info">從 '+days.length+' 個不同價格日選擇；同日重跑不重複計算，缺少封存的日子不會補出虛構狀態。最多核對90個封存價格日。</div>'+
+  (ui.status==='loading'?'<p role="status" class="r-watch-notice">正在依序核對所選封存的SHA256，未完成前不顯示任何歷史結果。</p>':'')+
+  (reason?'<p role="alert" class="r-watch-notice">'+esc(reason)+'</p>':'')+
+  (ready?'<div class="r-timeline-result">'+
+    '<div class="r-timeline-subtools"><label for="r-timeline-filter">顯示<select class="field" id="r-timeline-filter">'+
+     [['all','全部觀察'],['changes','主要狀態變化'],['new_holder','集保新週資料'],['not_updated','未更新／待核對']].map(([v,n])=>
+       '<option value="'+v+'"'+(ui.mode===v?' selected':'')+'>'+n+'</option>').join('')+'</select></label>'+
+     '<button type="button" id="r-timeline-export" class="btn mini">↓ 匯出時間軸 CSV</button></div>'+
+     mod.render(report,ui.mode)+'</div>':
+    '<div class="r-empty">'+(!state.watch.length?'先加入至少一檔自選股；不需持有股票。':
+      days.length<2?'目前不同封存價格日不足兩個，尚不能建立時間軸。':
+      '選擇股票和日期範圍，按「驗證並建立時間軸」。')+'</div>')+
+  '<p class="r-watch-foot">本頁「逐日」指**有封存的價格日**，目前並未涵蓋每個交易日。來源首次封存與官方資料首次公開時間是不同概念；不計算未核實的勝率或獲利。</p>'+
+  '</section>';
+}
+async function buildWatchTimeline(){
+ const ui=watchTimelineUi,mod=window.MFDSWatchTimeline30P,arch=window.MFDSWatchHistory30O;
+ const serial=++ui.serial;
+ ui.status='loading';ui.docs=[];ui.error='';
+ if(state.page==='watch')render();
+ try{
+  if(!mod||!arch)throw Error('封存研究模組未載入');
+  const dates=watchHistoryUi.days;
+  if(!state.watch.length||!state.watch.includes(ui.stock))throw Error('請選擇名單中的股票');
+  if(!ui.from||!ui.to||ui.from>=ui.to)throw Error('請設定由早到晚的兩個不同日期');
+  const selected=dates.filter(x=>x.date>=ui.from&&x.date<=ui.to);
+  if(selected.length<2||selected.length>mod.MAX_DAYS)
+   throw Error('僅能比較2至90個不同的封存價格日');
+  // No later snapshots, stale same-day reruns or live data may enter history.
+  const load=async path=>{
+   const response=await fetch('./data/'+path+'?t='+Date.now(),{cache:'no-store'});
+   if(!response.ok)throw Error('封存無法讀取 HTTP '+response.status);
+   return new Uint8Array(await response.arrayBuffer());
+  };
+  // Keep the number of simultaneous archive downloads bounded.
+  const docs=[];
+  for(const d of selected){
+   const verified=await arch.loadSnapshot(d.first,load);
+   if(serial!==ui.serial)return;
+   docs.push(verified);
+  }
+  mod.build(docs,ui.stock);
+  if(serial!==ui.serial)return;
+  ui.docs=docs;ui.status='ready';
+ }catch(e){if(serial!==ui.serial)return;ui.status='error';ui.error=String(e.message||e);ui.docs=[]}
+ if(state.page==='watch')render();
+}
+
 function watchHistoryPanel(){
  const ui=watchHistoryUi;
  const mod=window.MFDSWatchHistory30O;
@@ -817,6 +900,11 @@ async function loadWatchHistoryIndex(){
   ui.days=days;ui.first=days.at(-2).date;ui.second=days.at(-1).date;
   ui.status='idle';ui.error='';
  }catch(e){if(serial!==ui.serial)return;ui.days=[];ui.status='error';ui.error=String(e.message||e)}
+ if(serial===ui.serial&&ui.days.length){
+  const p=watchTimelineUi;
+  if(!p.from||!ui.days.some(d=>d.date===p.from))p.from=ui.days[0].date;
+  if(!p.to||!ui.days.some(d=>d.date===p.to))p.to=ui.days.at(-1).date;
+ }
  if(state.page==='watch')render();
 }
 async function compareWatchHistory(){
@@ -856,7 +944,7 @@ function watchView(){
  watchUi.report=error?null:report;
  try{
   return helper.render(report,{codes:state.watch,query:watchUi.query,mode:watchUi.mode,
-    sort:watchUi.sort,loading:research.status==='loading',error,quoteMode:state.mode})+watchHistoryPanel();
+    sort:watchUi.sort,loading:research.status==='loading',error,quoteMode:state.mode})+watchTimelinePanel()+watchHistoryPanel();
  }catch(e){
   return '<section class="card" role="alert">自選股內容校驗失敗：'+esc(String(e.message||e))+
     '。請前往「資料品質」確認研究來源。</section>';
@@ -864,6 +952,36 @@ function watchView(){
 }
 function settingsView(){return `<div class="layout2"><section class="card"><h2>資料匯入</h2><p class="subtle">不用安裝Python。可按頁面右上方的『官方最新收盤行情』，或匯入CSV計算排名。官方行情只含基本價格，不含多因子分數。</p><div class="drop" id="drop"><div style="font-size:26px;color:#4a86a2">⇧</div><strong>匯入「因子快照 CSV」</strong><p class="hint">每檔股票一列；包含代碼、名稱、資料日期與M1～S3的標準化因子</p><button class="btn btn-primary" data-action="importSnapshot">選擇因子資料檔</button></div><div class="file-actions" style="margin-top:16px"><button class="btn" data-action="importPrices">匯入每日價格 CSV</button><button class="btn" data-action="export">匯出篩選結果</button></div><p class="note-box">匯入資料只在本機瀏覽器中讀取與運算，不會自動上傳到雲端，也不會自行更新股價。請自行確認合法來源與資料完整性。</p><div class="divider"></div><h3>檔案範例與欄位說明</h3><p class="subtle">下載包中包含「因子快照_示範.csv」與「每日價格_示範.csv」。若用Excel修改，請另存為 UTF-8 CSV。</p><p class="hint">最低必要欄位：stock_id、stock_name、sector、market、close、avg_trade_value_twd、M1～S3。12個因子使用−1～+1尺度。允許缺值，但少於9個有效因子、任一層少於2個時不給總分。</p></section><section class="card"><h2>四層因子權重</h2><p class="subtle">設定只改變規則分數。不是模型重新訓練，也不能視為提高勝率。</p>${GROUPS.map(g=>`<div class="slider-line"><label for="weight-${g.id}">${g.name}</label><input id="weight-${g.id}" type="range" min="0" max="50" step="5" value="${state.weights[g.id]}"><strong>${state.weights[g.id]}</strong></div>`).join('')}<p class="hint">各層原始份數會自動按總和正規化；不能全部設為0。</p><button class="btn" data-action="weightsReset">恢復四層各25%</button><div class="divider"></div><h3>模型出處</h3><p class="subtle">採用原始 TPE-MFDS 台股版所列的四層12個因子：宏觀、產業、公司與市場行為。原文件標題稱「四層九維」，但實際列出了12項，本版以實際因子為準。</p></section></div><div class="section-head"><h2>三步驟開始操作</h2></div><section class="card"><div class="steps"><div class="step"><div class="stepnum">1</div><div><strong>先看總覽和選股排名</strong><p>公開網站預設讀取已發布的官方收盤行情；只有手動點選「示範資料」才切換至DEMO。</p></div></div><div class="step"><div class="stepnum">2</div><div><strong>確認最新官方資料或匯入CSV</strong><p>匯入後，頁面會顯示你檔案裡的股票。公開網站的行情由GitHub排程更新；CSV僅為本機替代資料，不可當成已核實模型因子。</p></div></div><div class="step"><div class="stepnum">3</div><div><strong>點股票代號深入分析</strong><p>查看12因子、集保相關欄位與走勢圖；資料不足時會顯示缺值。</p></div></div></div></section><div class="section-head"><h2>目前版本與下一階段</h2></div><section class="card"><table class="small-table"><thead><tr><th>項目</th><th>目前版本</th><th>正式上線時</th></tr></thead><tbody><tr><td>開啟方式</td><td>本機雙擊HTML展示示範；公開網站由網址開啟</td><td>GitHub Pages部署後有固定網址</td></tr><tr><td>全市場資料</td><td>可顯示部署時下載的上市、上櫃最新收盤行情（若來源可用）</td><td>完整12因子排名仍需串接</td></tr><tr><td>集保／法人</td><td>由CSV提供</td><td>定時取官方合法資料</td></tr><tr><td>10／20／60日預測</td><td>尚未啟用</td><td>完成樣本外驗證後再提供</td></tr><tr><td>資料儲存</td><td>本機暫存；自選代碼保存於瀏覽器</td><td>資料庫＋更新排程</td></tr><tr><td>交易下單</td><td>無</td><td>不列入研究系統範圍</td></tr></tbody></table></section>`}
 function bind(){
+ const timeline=watchTimelineUi;
+ const selectStock=$('r-timeline-stock');
+ if(selectStock)selectStock.addEventListener('change',e=>{
+  timeline.stock=e.target.value;timeline.status=timeline.docs.length?'ready':'idle';
+  timeline.error='';render();
+ });
+ for(const [id,key] of [['r-timeline-from','from'],['r-timeline-to','to']]){
+  const el=$(id);
+  if(el)el.addEventListener('change',e=>{
+   timeline[key]=e.target.value;timeline.docs=[];timeline.status='idle';
+   timeline.error='';timeline.serial++;render();
+  });
+ }
+ const timelineGo=$('r-timeline-go');
+ if(timelineGo)timelineGo.addEventListener('click',()=>buildWatchTimeline());
+ const timelineFilter=$('r-timeline-filter');
+ if(timelineFilter)timelineFilter.addEventListener('change',e=>{timeline.mode=e.target.value;render()});
+ const timelineExport=$('r-timeline-export');
+ if(timelineExport)timelineExport.addEventListener('click',()=>{
+  try{
+   const m=window.MFDSWatchTimeline30P,report=watchTimelineReport();
+   if(!report)throw Error('未取得通過SHA256核驗的歷史對照');
+   const blob=new Blob(['\uFEFF'+m.toCSV(report,timeline.mode)],{type:'text/csv;charset=utf-8'});
+   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+   a.download='TPE_MFDS_30P_'+report.stock_id+'_'+report.start+'_'+report.end+'.csv';
+   document.body.append(a);a.click();a.remove();
+   setTimeout(()=>URL.revokeObjectURL(a.href),1200);
+   notif('已匯出已驗證的研究封存時間軸，不代表歷史績效。');
+  }catch(e){notif('時間軸資料無法匯出：'+String(e.message||e))}
+ });
  const first=$('r-history-first'),second=$('r-history-second');
  if(first)first.addEventListener('change',e=>{watchHistoryUi.first=e.target.value;watchHistoryUi.earlier=null;watchHistoryUi.later=null;watchHistoryUi.status='idle';render()});
  if(second)second.addEventListener('change',e=>{watchHistoryUi.second=e.target.value;watchHistoryUi.earlier=null;watchHistoryUi.later=null;watchHistoryUi.status='idle';render()});
