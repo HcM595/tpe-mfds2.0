@@ -179,6 +179,8 @@ jobs:
           python scripts/build_research_snapshot_30d.py --verify-only
           node --check site/research_snapshot_30d.js
           node tests/research_snapshot_30d.test.cjs
+      - name: 3.0K 文青研究介面、唯一七項主選單與研究資料館驗收
+        run: python -m unittest -v tests/test_editorial_30k.py
       - name: 3.0J 核對初衷功能、全部主要頁面連結與九源版本一致性
         run: python -m unittest -v tests/test_original_goal_site_30j.py
       - name: 2.9L 驗證四個研究頁面、資料欄位與模型安全門檻
