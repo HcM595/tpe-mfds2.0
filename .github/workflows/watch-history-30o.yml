@@ -1,0 +1,45 @@
+name: 3.0O 自選股歷史封存對照驗收
+on:
+  pull_request:
+    paths:
+      - 'site/index.html'
+      - 'site/watch_history_30o.js'
+      - 'site/editorial_30k.css'
+      - 'tests/watch_history_30o.test.cjs'
+      - 'tests/browser_watch_history_30o.cjs'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/watch-history-30o.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  watch-history-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check first-seen PIT and exact-byte digest on actual GitHub archives
+        run: |
+          node --check site/watch_history_30o.js
+          node --check tests/watch_history_30o.test.cjs
+          node --check tests/browser_watch_history_30o.cjs
+          node tests/watch_history_30o.test.cjs
+          node tests/watchlist_center_30n.test.cjs
+          python -m unittest -v tests/test_original_goal_site_30j.py
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install chromium
+      - name: Browser test real archive comparisons, existing watchlist and mobile
+        run: |
+          python -m http.server 8765 --directory site > /tmp/mfds-30o-http.log 2>&1 &
+          sleep 2
+          node tests/browser_watch_history_30o.cjs
+          node tests/browser_watchlist_30n.cjs
+          node tests/browser_stock_evidence_30m.cjs
