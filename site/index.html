@@ -788,7 +788,7 @@ function stockView(){let stock=derive().find(x=>x.stock_id===state.current)||der
 function watchTimelineReport(){
  const ui=watchTimelineUi,mod=window.MFDSWatchTimeline30P;
  if(!mod||ui.status!=='ready'||!ui.docs.length||!state.watch.includes(ui.stock))return null;
- return mod.build(ui.docs,ui.stock);
+ return mod.build(ui.docs,ui.stock,rArray('historyEvidence'));
 }
 function watchTimelinePanel(){
  const ui=watchTimelineUi,mod=window.MFDSWatchTimeline30P,days=watchHistoryUi.days;
@@ -859,7 +859,7 @@ async function buildWatchTimeline(){
    if(serial!==ui.serial)return;
    docs.push(verified);
   }
-  mod.build(docs,ui.stock);
+  mod.build(docs,ui.stock,rArray('historyEvidence'));
   if(serial!==ui.serial)return;
   ui.docs=docs;ui.status='ready';
  }catch(e){if(serial!==ui.serial)return;ui.status='error';ui.error=String(e.message||e);ui.docs=[]}
@@ -908,7 +908,7 @@ function watchHistoryPanel(){
      report?table:'<div class="r-empty">選擇兩個不同價格日期，再按「核對封存並比較」。</div>')+
    (report?'<p class="r-watch-history-verified">兩份JSON快照已通過原始位元SHA256校驗。首次封存 UTC：'+
     esc(report.firstId)+' → '+esc(report.secondId)+'</p>':'')+
-   '<p class="r-watch-foot">封存只保留籌碼排行、技術三確認及大戶結構分類，並未保存逐股外資／投信買賣超與兩個大戶級距原始數值；因此**不會**虛構法人轉買或大戶增減的歷史變化。不同日期若集保來源日相同，只能標註「尚未更新」。這不是交易回測或獲利率。</p></section>';
+   '<p class="r-watch-foot">3.0O 只對照簡化後的訊號摘要；當次外資／投信及大戶兩級距原始數字實際保存於2.4A的gzip壓縮檔，已由3.0Q恢復並驗證，請到上方3.0P時間軸或資料品質頁查看。集保兩期若使用相同來源週日期，不可解讀為新增加碼。這不是交易回測或獲利率。</p></section>';
 }
 async function loadWatchHistoryIndex(){
  const ui=watchHistoryUi;
