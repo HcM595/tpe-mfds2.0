@@ -1,4 +1,4 @@
-name: TPE-MFDS 3.0D 八類研究來源SHA256快照與整站驗收
+name: TPE-MFDS 3.0E 除權息品質、九類來源SHA256與整站驗收
 on:
   pull_request:
     paths:
@@ -8,6 +8,9 @@ on:
       - 'site/research_quality_30b.js'
       - 'site/research_integrity_30c.js'
       - 'site/research_snapshot_30d.js'
+      - 'scripts/audit_corporate_action_readiness_30e.py'
+      - 'tests/test_corporate_action_readiness_30e.py'
+      - 'tests/browser_actions_30e.cjs'
       - 'scripts/build_research_snapshot_30d.py'
       - 'tests/test_research_snapshot_30d.py'
       - 'tests/research_snapshot_30d.test.cjs'
@@ -375,7 +378,22 @@ jobs:
                      r['financial_value_equivalence_verified']=='false' for r in rows)
           print('2.9S archival body audit verified',len(rows),'events; provenance matched',m['original_body_validated'])
           PY
-      - name: 3.0D publish eight-source manifest only after generated research data
+      - name: 3.0E audit official ex-right event references and unadjusted raw close
+        run: |
+          python -m unittest tests/test_corporate_action_readiness_30e.py
+          python scripts/audit_corporate_action_readiness_30e.py
+          python - <<'PY'
+          import csv,json
+          m=json.load(open('site/data/corporate_action_readiness_meta_30e.json',encoding='utf-8'))
+          rows=list(csv.DictReader(open('site/data/corporate_action_readiness_30e.csv',encoding='utf-8')))
+          assert len(rows)==m['stocks']>=1000
+          assert m['historical_completeness_verified'] is False
+          assert m['adjusted_ohlc_verified'] is False
+          assert m['total_return_calculation_allowed'] is False
+          assert all(x['adjusted_ohlc_verified']=='false' and x['total_return_calculation_allowed']=='false' for x in rows)
+          print('PASS 3.0E historical corporate action readiness audit',len(rows))
+          PY
+      - name: 3.0E publish nine-source manifest only after generated research data
         run: |
           python -m unittest tests/test_research_snapshot_30d.py
           python scripts/build_research_snapshot_30d.py
@@ -423,3 +441,4 @@ jobs:
           node tests/browser_quality_30b.cjs
           node tests/browser_integrity_30c.cjs
           node tests/browser_snapshot_30d.cjs
+          node tests/browser_actions_30e.cjs
