@@ -60,6 +60,25 @@ class PredictionReadinessTests(unittest.TestCase):
             path.write_text(json.dumps(m), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "legacy performance gate"):
                 audit(data)
+    def test_rejects_claimed_performance_without_verified_outcomes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            data = self._fixture(tmp)
+            path = data/"forward_observation.csv"
+            raw = path.read_text(encoding="utf-8-sig")
+            self.assertIn("不計算_未核實還原OHLC及交易執行價格", raw)
+            path.write_text(raw.replace("不計算_未核實還原OHLC及交易執行價格",
+                                        "已預測勝率", 1), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "unverified performance label"):
+                audit(data)
+        with tempfile.TemporaryDirectory() as tmp:
+            data = self._fixture(tmp)
+            path = data/"research_readiness_meta.json"
+            meta = json.loads(path.read_text(encoding="utf-8"))
+            meta["strict_performance_samples_eligible"] = 1
+            path.write_text(json.dumps(meta), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "legacy eligible counter"):
+                audit(data)
+
     def test_report_contains_no_numeric_win_probability(self):
         with tempfile.TemporaryDirectory() as tmp:
             data = self._fixture(tmp)
