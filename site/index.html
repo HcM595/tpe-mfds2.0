@@ -378,9 +378,18 @@ function rOverview(){
   // 3.0L: source-date aligned descriptive intersections, not 12-factor predictions.
   const crossModule=window.MFDSChipTechCrossfilter;
   const priceDate=(rGet('official')||{}).display_date||'';
-  const crossResults=crossModule&&rGet('rank')?
-    crossModule.screen(rank,rArray('tech'),{mode:research.cross||'all',query:research.query,
-      market:research.market,asofLimit:priceDate}):[];
+  let crossResults=[],crossBase=[],crossError='';
+  if(crossModule&&rGet('rank')){
+    try {
+      const opts={query:research.query,market:research.market,asofLimit:priceDate};
+      crossBase=crossModule.screen(rank,rArray('tech'),{...opts,mode:'all'});
+      crossResults=crossModule.screen(rank,rArray('tech'),{...opts,mode:research.cross||'all'});
+    }catch(e){crossError=String(e.message||e);crossResults=[];crossBase=[]}
+  }else crossError='交叉資料尚未載入';
+  const crossCounts={flow:crossBase.filter(x=>x.check.flow).length,
+    holders:crossBase.filter(x=>x.check.holders).length,
+    technical:crossBase.filter(x=>x.check.technical).length,
+    confluence:crossBase.filter(x=>x.check.confluence).length};
   const rows=crossResults.map(item=>item.row);
   const crossIndex=new Map(crossResults.map(item=>[item.row.stock_id,item]));
   const directMatches=rDirectMatches(q);
@@ -466,7 +475,10 @@ ${rCards([['逐股證據覆蓋',evidenceMeta.stocks??'—','非正式模型資�
       ${rCards([['MOPS淨利年初累計原表核對',mopsIncomeMeta.fresh_success??'—','單季與累計淨利欄位分開辨識'],['淨利與現金流日期及單位同時核對',mopsIncomeMeta.fresh_ytd_unit_period_aligned??'—','仍非F1資格或投資預測']])}
       <p class="hint">2.8I MOPS淨利與現金流：只有官方同一報表期別、相同年初累計區間及雙方單位均核實時才通過描述性對齊；合併口徑、逐公司公告時間與樣本外資料尚未完成，F1比率停用。${rMetaLink('mopsIncome','官方淨利累計觀察')}。2.8H MOPS現金流：本次成功 ${rVal(cfMeta.fresh_observations)}／${rVal(cfMeta.focus_stocks?.length)}，累計封存 ${rVal(cfMeta.observations)} 筆；其中來源金額單位已核對 ${rVal(cfMeta.unit_verified_observations)} 筆。資料逐批擴充，非全市場。淨利報表口徑與逐公司公告時間尚待驗證，現金流／淨利比率繼續停用。${rMetaLink('cashflow','現金流原始觀察')}。上市來源：${rVal(incomeMeta.markets?.['上市']?.status)}；上櫃來源：${rVal(incomeMeta.markets?.['上櫃']?.status)}。金額來源原值的單位、報表期間是否季累計仍待核對；不得使用於歷史回測。${rMetaLink('income','季度淨利觀察檔')}</p>
     </section>
-    <section class="card r-section"><div class="r-section-title"><div><h3>籌碼與技術進階篩選</h3><p>根據已發布的籌碼100分與技術雙軌報告；缺值不當作0。此為四項指標加權排名，個別大戶級距可下降，不等於「外資、投信與大戶同步增持」名單。</p></div>${rMetaLink('rank','檢視原始排行')}</div>
+    <section class="card r-section"><div class="r-section-title"><div><h3>法人 × 大戶 × 技術｜交叉觀察</h3><p>根據已發布的籌碼100分與技術雙軌報告；缺值不當作0。此為四項指標加權排名，個別大戶級距可下降，不等於「外資、投信與大戶同步增持」名單。</p></div>${rMetaLink('rank','檢視原始排行')}</div>
+    <div class="r-cross-strip" role="status" aria-label="研究交叉篩選摘要"><span>外資及投信同買 <b>${crossError?'—':crossCounts.flow}</b></span><span>400–999／1000張以上同增 <b>${crossError?'—':crossCounts.holders}</b></span><span>技術三確認 <b>${crossError?'—':crossCounts.technical}</b></span><span>三面交集 <b>${crossError?'—':crossCounts.confluence}</b></span></div>
+    <p class="hint">各項只計入資料日和來源條件符合者；集合之間有交集，不應相加。週資料最遲14個日曆日前，未確認官方發布時點；「三面交集」不代表預測勝率或買進訊號。</p>
+    ${crossError?`<p class="note-box" role="alert">交叉來源無法驗證：${esc(crossError)}；本次不顯示符合名單。</p>`:''}
     <div class="r-filter"><label>搜尋股票<input id="r-query" class="field" value="${esc(research.query)}" placeholder="代號、名稱、產業，例如8064" /></label><label>市場<select id="r-market" class="field"><option>全部</option>${['上市','上櫃'].map(x=>`<option ${research.market===x?'selected':''}>${x}</option>`).join('')}</select></label><label>交叉訊號<select id="r-cross" class="field" aria-label="法人、大戶、技術交叉篩選">${[['all','全部可排名'],['institution','外資＋投信同買'],['holders','兩級距大戶同增'],['technical','技術三項確認'],['confluence','法人＋大戶＋技術全部符合'],['review','仍有未符合／待核對條件']].map(([value,label])=>`<option value="${value}" ${research.cross===value?'selected':''}>${label}</option>`).join('')}</select></label></div>
     ${q?`<div class="r-panel" style="margin-bottom:13px"><h3>全市場個股快速查詢（不受籌碼排名條件限制）</h3>
       <p class="hint">以下從已載入的上市櫃官方行情中尋找股票；不在籌碼100分排行內，仍可開啟個股研究頁。</p>
@@ -474,7 +486,7 @@ ${rCards([['逐股證據覆蓋',evidenceMeta.stocks??'—','非正式模型資�
         '<p class="hint">目前官方股票清單未找到相符項目。可到「個股分析」輸入代號檢查其他已封存資料。</p>'}
     </div>`:''}
     <p class="hint">此表僅列當次「可排名」股票，不是全市場。日期對齊、外資與投信同買、400–999張及1000張以上兩個不重疊級距同增、技術三項確認分別核對；任一資料缺漏不得算通過。符合本次條件 ${rows.length} 檔；最多顯示前120檔。點選股票進入個股研究。價格基準日：${rVal(priceDate||'來源未取得')}；集保為每週資料，非交易日當下持股或官方公告可得時間。</p>
-    ${!rGet('rank')?`<div class="r-empty">籌碼排行資料尚未取得：${rVal(research.errors.rank||'檔案不存在')}。${rMetaLink('rank','查看預期資料路徑')}</div>`:!rows.length?'<div class="r-empty">沒有符合條件的股票；可放寬篩選或清除搜尋。</div>':`<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>名次</th><th>股票</th><th>市場</th><th>籌碼分</th><th>收盤價</th><th>外資5日淨買超</th><th>投信5日淨買超</th><th>大戶千張級距4週</th><th>技術確認</th><th>交叉檢查</th><th>價格／集保日期</th></tr></thead><tbody>${rows.slice(0,120).map(x=>{const item=crossIndex.get(x.stock_id)||{},t=item.tech||{},c=item.check||{};const label=c.confluence?'三面同時符合':!c.ready?'日期或資格待核對':c.issues?.slice(0,2).join('；')||'待核對';return `<tr data-r-stock="${esc(x.stock_id)}" tabindex="0"><td>${rVal(x.chip_strength_rank)}</td><td><b>${esc(x.stock_id)}</b><div class="hint">${esc(x.stock_name)}</div></td><td>${rVal(x.market)}</td><td><b>${rNum(x.chip_strength_score,2)}</b></td><td>${rNum(x.close,2)}</td><td>${rNum(x.foreign_5d_shares,0)}股</td><td>${rNum(x.trust_5d_shares,0)}股</td><td>${rNum(x.large1000_4w_pp,2)}pp</td><td>${c.technical?'3/3':(t.technical_confirmed_count?'未對齊或不足':'—')}</td><td><span class="chip ${c.confluence?'real': 'weak'}">${esc(label)}</span></td><td>${rVal(x.price_asof)}／${rVal(x.holder_asof)}<div class="hint">法人：${rVal(x.flow_asof)}</div></td></tr>`}).join('')}</tbody></table></div>`}
+    ${crossError?`<div class="r-empty">交叉來源無法核對，因此不顯示名單：${esc(crossError)}</div>`:!rGet('rank')?`<div class="r-empty">籌碼排行資料尚未取得：${rVal(research.errors.rank||'檔案不存在')}。${rMetaLink('rank','查看預期資料路徑')}</div>`:!rows.length?'<div class="r-empty">沒有符合條件的股票；可放寬篩選或清除搜尋。</div>':`<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>名次</th><th>股票</th><th>市場</th><th>籌碼分</th><th>收盤價</th><th>外資5日淨買超</th><th>投信5日淨買超</th><th>大戶千張級距4週</th><th>技術確認</th><th>交叉檢查</th><th>價格／集保日期</th></tr></thead><tbody>${rows.slice(0,120).map(x=>{const item=crossIndex.get(x.stock_id)||{},t=item.tech||{},c=item.check||{};const label=c.confluence?'三面同時符合':!c.ready?'日期或資格待核對':c.issues?.slice(0,2).join('；')||'待核對';return `<tr data-r-stock="${esc(x.stock_id)}" tabindex="0"><td>${rVal(x.chip_strength_rank)}</td><td><b>${esc(x.stock_id)}</b><div class="hint">${esc(x.stock_name)}</div></td><td>${rVal(x.market)}</td><td><b>${rNum(x.chip_strength_score,2)}</b></td><td>${rNum(x.close,2)}</td><td>${rNum(x.foreign_5d_shares,0)}股</td><td>${rNum(x.trust_5d_shares,0)}股</td><td>${rNum(x.large1000_4w_pp,2)}pp</td><td>${c.technical?'3/3':(t.technical_confirmed_count?'未對齊或不足':'—')}</td><td><span class="chip ${c.confluence?'real': 'weak'}">${esc(label)}</span></td><td>${rVal(x.price_asof)}／${rVal(x.holder_asof)}<div class="hint">法人：${rVal(x.flow_asof)}</div></td></tr>`}).join('')}</tbody></table></div>`}
     </section>`;
 }
 function rStock(){
