@@ -409,7 +409,7 @@ function rOverview(){
   const rawChip=rArray('chip');
   const confirmedTech=[...tech.values()].filter(t=>t.data_status==='可驗證'&&t.technical_confirmed_count==='3').length;
   const holderSeen=rawChip.filter(c=>c.holder_asof).length;
-  const cards=[['研究母體',rArray('master').length||state.stocks.length,'官方名錄候選，非普通股最終認證'],['法人與大戶同步觀察',ranked.length,'當次可排名的籌碼訊號，非投資建議'],['大戶週資料',holderSeen,'集保來源日期各異，非當日買賣'],['技術三確認',confirmedTech,'僅限已取得且可驗證的技術資料']];
+  const cards=[['研究母體',rGet('master')?rArray('master').length:'—','官方名錄候選，非普通股最終認證'],['法人與大戶同步觀察',rGet('rank')?ranked.length:'—','當次可排名的籌碼訊號，非投資建議'],['大戶週資料',rGet('chip')?holderSeen:'—','集保來源日期各異，非當日買賣'],['技術三確認',rGet('tech')?confirmedTech:'—','僅限已取得且可驗證的技術資料']];
   return `${rCards(cards)}
     <section class="card r-section"><div class="r-section-title"><h3>原始設計資格檢查（與籌碼排行分開）</h3></div>
       <p class="hint">要求同股至少120個有效歷史收盤交易日、最近20筆皆具成交額，20日平均成交額至少新台幣3,000萬元，且價格歷史最新日必須與當次快照相同。本區同時檢查基本資料與官方公司名錄候選身分，身分來源為獨立發布的上市櫃公司名錄；缺少名錄或來源異常者顯示待確認，不推斷為非普通股。不代表12因子覆蓋率≥60%或已具預測資格。</p>
