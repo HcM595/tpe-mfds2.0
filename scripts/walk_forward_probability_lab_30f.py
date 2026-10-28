@@ -78,12 +78,13 @@ def evaluate(samples, horizon, min_train=200, min_test=60,
         keys.add(ident)
         publish, capture = instant(s.get("source_publication_at_utc")), instant(s.get("signal_first_seen_at_utc"))
         entry, exit_time = instant(s.get("entry_at_utc")), instant(s.get("exit_at_utc"))
-        if publish > capture or capture >= entry or exit_time <= entry:
-            raise ValueError("Future publication, capture or outcome leakage")
+        available = instant(s.get("label_available_at_utc"))
+        if publish > capture or capture >= entry or exit_time <= entry or available <= exit_time:
+            raise ValueError("Future publication, capture or outcome leakage; label availability must follow exit")
         value = s.get("net_total_return")
         if isinstance(value, bool) or not isinstance(value, (float, int)) or not math.isfinite(value) or value < -1:
             raise ValueError("Missing or invalid verified net return")
-        row = (entry, exit_time, int(value > 0), stock)
+        row = (entry, exit_time, int(value > 0), stock, capture, available)
         cohorts[cohort].append(row)
         per_stock[stock].append(row)
     for rows in per_stock.values():
@@ -91,7 +92,12 @@ def evaluate(samples, horizon, min_train=200, min_test=60,
         for left, right in zip(ordered, ordered[1:]):
             if right[0] <= left[1]:
                 raise ValueError("Same-stock observation holding windows overlap")
-    ordered_cohorts = sorted(cohorts, key=lambda c: (min(r[0] for r in cohorts[c]), c))
+    # One frozen research cohort must have one first-observation clock.
+    # Splitting cohorts at trade entry rather than at decision time leaks labels.
+    for cohort, rows in cohorts.items():
+        if len({row[4] for row in rows}) != 1:
+            raise ValueError("Conflicting signal capture times within a cohort: " + cohort)
+    ordered_cohorts = sorted(cohorts, key=lambda c: (cohorts[c][0][4], c))
     if len(ordered_cohorts) < min_train_cohorts + min_test_cohorts:
         return {"status": "insufficient_independent_cohorts", "cohorts": len(ordered_cohorts)}
     split = max(min_train_cohorts, int(len(ordered_cohorts)*0.75))
@@ -99,9 +105,13 @@ def evaluate(samples, horizon, min_train=200, min_test=60,
         split = len(ordered_cohorts)-min_test_cohorts
     train_ids, test_ids = ordered_cohorts[:split], ordered_cohorts[split:]
     test = [row for c in test_ids for row in cohorts[c]]
-    start = min(row[0] for row in test)
-    # Label availability is strictly before out-of-sample prediction.
-    train = [row for c in train_ids for row in cohorts[c] if row[1] < start]
+    start = min(row[4] for row in test)  # FIRST SIGNAL decision, not first fill
+    if max(cohorts[c][0][4] for c in train_ids) >= start:
+        return {"status": "non_separable_cohort_times"}
+    # A prior trade can enter early yet its VERIFIED result become available
+    # after the first holdout signal. Purge by result publication, NOT exit.
+    train = [row for c in train_ids for row in cohorts[c]
+             if row[4] < start and row[5] < start]
     if len(train) < min_train or len(test) < min_test:
         return {"status": "insufficient_purged_samples",
                 "train_samples": len(train), "holdout_samples": len(test),
@@ -122,6 +132,14 @@ def evaluate(samples, horizon, min_train=200, min_test=60,
         "holdout_hit_fraction": round(holdout_wins/len(test), 6),
         "holdout_wilson_95": interval(holdout_wins, len(test)),
         "out_of_time_brier": round(brier, 6),
+        "holdout_first_signal_at_utc": start.isoformat(),
+        "latest_training_label_available_at_utc": max(r[5] for r in train).isoformat(),
+        "holdout_calibration_bin": {
+            "predicted_probability": round(p, 6),
+            "observed_fraction": round(holdout_wins / len(test), 6),
+            "samples": len(test),
+        },
+        "calibration_bins_count": 1,  # constant baseline is NOT a stock-level model
         "calibration_gap_abs": round(abs(p-holdout_wins/len(test)), 6),
         "stock_specific_probability_allowed": False,
         "note": "A historical conditional base rate is not a proven live stock win probability."
