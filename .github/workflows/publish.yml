@@ -179,6 +179,11 @@ jobs:
           python scripts/build_research_snapshot_30d.py --verify-only
           node --check site/research_snapshot_30d.js
           node tests/research_snapshot_30d.test.cjs
+      - name: 3.0P 歷史連續觀察時間軸、集保週更新與資料來源防誤判測試
+        run: |
+          node --check site/watch_timeline_30p.js
+          node --check tests/watch_timeline_30p.test.cjs
+          node tests/watch_timeline_30p.test.cjs
       - name: 3.0O 歷史首次封存逐位元SHA256、去重及無前視偏差對照測試
         run: |
           node --check site/watch_history_30o.js
