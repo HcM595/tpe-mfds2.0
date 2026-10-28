@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>TPE-MFDS 3.0C｜跨來源一致性研究工作台</title><style>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>TPE-MFDS 3.0D｜可核對資料快照研究工作台</title><style>
 :root{--nav:#193750;--teal:#146b62;--border:#dce6ed;--muted:#627889;--bg:#f3f7fa}
 *{box-sizing:border-box}body{font:14px/1.65 system-ui,"Microsoft JhengHei",sans-serif;background:var(--bg);color:#213c50;margin:0}
 main{max-width:1450px;margin:auto;padding:24px}h1{font-size:26px;margin:8px 0}h2{font-size:19px;margin:0 0 13px}h3{font-size:16px;margin:0 0 10px}a{color:#176c9e}label{display:flex;flex-direction:column;gap:4px;color:#405970;font-size:12px;font-weight:600}
@@ -14,10 +14,11 @@ button,input,select{font:inherit;border:1px solid #b8cbd7;border-radius:8px;padd
 .linkrow{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}.linkrow a{font-weight:600}#pager{display:flex;gap:10px;align-items:center;justify-content:flex-end;margin-top:12px}
 @media(max-width:820px){main{padding:13px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.layout{grid-template-columns:1fr}.card{padding:13px}.stats b{font-size:19px}header nav a{margin-left:0;margin-right:10px}}
 </style></head><body><main>
-<header><div><div class="tiny">TPE-MFDS · FACTUAL RESEARCH · 3.0C</div><h1>台股統一研究工作台</h1><p class="muted">全市場資料觀察、個股分析、跨股比較與來源可用性——整合在同一畫面</p></div><nav><a href="./index.html">研究中心首頁</a><a href="./factor_gaps_29h.html">12 因子缺口</a><a href="./publication_review_29p.html">來源核查</a></nav></header>
+<header><div><div class="tiny">TPE-MFDS · FACTUAL RESEARCH · 3.0D</div><h1>台股統一研究工作台</h1><p class="muted">全市場資料觀察、個股分析、跨股比較與來源可用性——整合在同一畫面</p></div><nav><a href="./index.html">研究中心首頁</a><a href="./factor_gaps_29h.html">12 因子缺口</a><a href="./publication_review_29p.html">來源核查</a></nav></header>
 <p class="note"><b>研究用途，非買賣評級。</b> 法人、集保大戶與技術面僅為不同日期的原始觀察。集保持股為週資料，公告可得時點尚未獨立驗證；原始價格未完整除權息還原。符合篩選條件不代表歷史可回測、成功機率或預測報酬。正式模型及機率功能保持停用。</p>
 <div class="stats" aria-label="研究資料摘要"><div><small>普通股逐股研究資料</small><b id="universe">—</b></div><div><small>初步行情／流動性覆蓋</small><b id="basics">—</b></div><div><small>法人5日資料對齊</small><b id="flows">—</b></div><div><small>集保持股原始觀察</small><b id="holders">—</b></div><div><small>正式模型資格</small><b id="approved">—</b></div></div>
 <p id="loading" class="muted" role="status">讀取上市櫃研究資料中…</p>
+<p id="snapshot-status" class="muted" role="status">正在比對八類研究來源與本次發布快照…</p>
 <div class="card"><div class="tabs" role="group" aria-label="研究工作區"><button id="tab-market" class="active" type="button">全市場篩選</button><button id="tab-detail" class="secondary" type="button">個股深入研究</button><button id="tab-compare" class="secondary" type="button">跨股比較</button><button id="tab-quality" class="secondary" type="button">資料品質與缺口</button></div></div>
 <section id="screen-market" class="card">
 <h2>全市場：篩選原始觀察</h2>
@@ -36,11 +37,15 @@ button,input,select{font:inherit;border:1px solid #b8cbd7;border-radius:8px;padd
 <p class="muted">股號、市場、公司名稱與資料日跨表比對；保守截止日是臺灣時間00:00，不等於官方公告已驗證。</p>
 <div id="integrity-detail"></div></div><div id="detail-links" class="linkrow"></div></section>
 <section id="screen-compare" class="card" hidden><h2>跨股比較：同一欄位、不同資料日期</h2><div class="toolbar"><label class="comparebox">輸入2～5個股票代號，使用逗號分隔<input id="stock-list" value="8064,3533,2345,2330"></label><button id="compare">開始比較</button><button class="secondary" id="export-compare">匯出比較股票 CSV</button></div><p id="compare-status" class="muted"></p><div id="compare-view" class="wrap"></div><p class="foot">這不是相對優劣排名；比較欄位必須參考各資料的所屬日期，缺漏不代表看空。估值只展示原始來源，不代表已驗證價值因子。</p></section>
-<section id="screen-quality" class="card" hidden><h2>資料品質、跨來源一致性與研究限制｜3.0C</h2>
+<section id="screen-quality" class="card" hidden><h2>資料品質、來源版本與跨表一致性｜3.0D</h2>
 <p class="muted">本區區分來源載入、股票覆蓋、日期對齊、官方公布證據與12因子正式資格；資料不足時顯示原因，不補造訊號。</p>
 <div class="stats quality-stats"><div><small>逐股研究母體</small><b id="quality-universe">—</b></div><div><small>外資／投信來源日期對齊</small><b id="quality-flows">—</b></div><div><small>集保原始週資料</small><b id="quality-holders">—</b></div><div><small>原始未還原股價</small><b id="quality-unadjusted">—</b></div><div><small>正式模型可用</small><b id="quality-model">—</b></div></div>
 <p id="quality-status" class="muted"></p>
 <div class="wrap"><table><thead><tr><th>資料來源</th><th>載入筆數</th><th>讀取狀態</th><th>資料限制</th></tr></thead><tbody id="quality-rows"></tbody></table></div>
+<h3>3.0D｜發布快照與八份資料檔完整性</h3>
+<p id="manifest-summary" class="muted">目前尚未完成本批網站資料的完整性驗證。</p>
+<div class="wrap"><table><thead><tr><th>來源</th><th>SHA256比對</th><th>封裝列數</th><th>檔案日期範圍</th><th>版本校驗值（前16碼）</th></tr></thead><tbody id="manifest-rows"></tbody></table></div>
+<p class="foot">SHA256比對只確認這一批網站檔案的位元組一致，不證明官方發布時間、真實總報酬或回測有效性。任一來源驗證失敗時，該來源不納入篩選和比較。</p>
 <h3>3.0C｜跨資料表身分、日期及首次取得時間</h3>
 <div class="toolbar"><label class="search">查詢問題股票代號／原因<input id="integrity-q" placeholder="例如8064、日期、股票名稱"></label>
 <label class="select">問題種類<select id="integrity-filter"><option value="issues">資料身分與日期不一致</option><option value="captures">首次取得／歷史可得性</option><option value="all">全部</option></select></label></div>
@@ -49,11 +54,11 @@ button,input,select{font:inherit;border:1px solid #b8cbd7;border-radius:8px;padd
 <p class="foot">最多顯示前100筆；不代表顯示以外不存在問題。來源缺少某檔股票時會反映在覆蓋率，不直接視為資料錯誤。首次取得早於截止點，也不代表公司當時已正式公告。</p>
 <p class="note">日期對齊僅代表來源所屬日和股價日一致，不代表官方資訊曾在當日研究截止前公開。集保持股為週資料，除權息未完整還原的價格不能當總報酬。正式回測與勝率功能維持停用。</p>
 </section>
-</main><script src="./research_core_30a.js"></script><script src="./research_quality_30b.js"></script><script src="./research_integrity_30c.js"></script><script>
+</main><script src="./research_core_30a.js"></script><script src="./research_quality_30b.js"></script><script src="./research_integrity_30c.js"></script><script src="./research_snapshot_30d.js"></script><script>
 'use strict';
-const C=window.MFDSWorkbench,Q=window.MFDSResearchQuality,I=window.MFDSIntegrity,$=id=>document.getElementById(id),E=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
+const C=window.MFDSWorkbench,Q=window.MFDSResearchQuality,I=window.MFDSIntegrity,S=window.MFDSSnapshot,$=id=>document.getElementById(id),E=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
 const files={factor:'factor_evidence_29a.csv',chip:'chip_signals.csv',tech:'tech_crosscheck.csv',industry:'industry_relative_28c.csv',risk:'risk_observations_28d.csv',valuation:'f2_valuation_29e.csv',revenue:'revenue_snapshot_28c.csv',publication:'publication_gate_29o.csv'};
-let all=[],byId=new Map(),pageIndex=0,view='market',failures={},qualityReport=null,sourceTables={},integrity=null;
+let all=[],byId=new Map(),pageIndex=0,view='market',failures={},qualityReport=null,sourceTables={},integrity=null,snapshotManifest=null,snapshotVerified={};
 const filters=()=>({q:$('q').value,market:$('market').value,basic:$('basic').value,institution:$('institution').value,holders:$('holders-filter').value,technical:$('technical').value});
 const pretty=x=>x===null||x===undefined?'—':C.fmt(x);
 function colorNumber(v,unit=''){if(v===null)return '—';const sign=v>0?'positive':v<0?'negative':'';return '<span class="'+sign+'">'+E(C.sign(v,unit))+'</span>';}
@@ -92,6 +97,14 @@ function renderIntegrity(){
  $('integrity-summary').textContent='研究母體 '+integrity.masterStocks.toLocaleString()+' 檔；身分／日期需核對 '+integrity.issues.length.toLocaleString()+' 項；首次取得／公告資格提醒 '+integrity.captures.length.toLocaleString()+' 項。當前符合 '+rows.length.toLocaleString()+' 項。此數量是資料查核工作量，不是選股分數。';
  $('integrity-rows').innerHTML=rows.slice(0,100).map(r=>'<tr><td>'+E(r.id||'—')+'</td><td>'+E(I.DETAILS[r.source]?.label||r.source)+'</td><td>'+E(issueNames[r.type]||r.type)+'</td><td>'+E(r.detail)+'</td><td>'+(byId.has(r.id)?'<button class="secondary" data-integrity-stock="'+E(r.id)+'">個股核對</button>':'主檔無此代號')+'</td></tr>').join('')||'<tr><td colspan="5">此篩選沒有對應的待查項目。</td></tr>';
 }
+function renderSnapshot(){
+ if(!snapshotManifest)return;
+ const entries=Object.entries(snapshotManifest.sources);
+ const pass=entries.filter(([key])=>snapshotVerified[key]?.ok).length;
+ $('snapshot-status').textContent='3.0D 發布資料完整性：'+pass+'/8 份來源校驗一致；封裝UTC '+snapshotManifest.assembled_at_utc+(pass===8?'。':'；部分資料異常，已停用。');
+ $('manifest-summary').textContent='本次發布快照建立UTC：'+snapshotManifest.assembled_at_utc+'；來源總數 '+entries.length+'；SHA256比對通過 '+pass+' 份。這是站點資料版本校驗，非逐股公告時鐘。';
+ $('manifest-rows').innerHTML=entries.map(([key,r])=>'<tr><td>'+E(Q.SOURCE_NAMES[key]||key)+'</td><td>'+E(snapshotVerified[key]?.ok?'一致':'異常：'+(snapshotVerified[key]?.reason||'未驗證'))+'</td><td>'+E(r.row_count.toLocaleString())+'</td><td>'+E((r.asof_min||'缺漏')+' ～ '+(r.asof_max||'缺漏'))+'</td><td>'+E(r.sha256.slice(0,16))+'…</td></tr>').join('');
+}
 function renderQuality(){
  if(!qualityReport)return;
  const report=qualityReport;
@@ -106,6 +119,7 @@ function renderQuality(){
   '每個來源皆需依原始資料與官方時鐘分別驗證。';
  $('quality-rows').innerHTML=report.sources.map(r=>'<tr><td>'+E(r.name)+'</td><td>'+E(r.count.toLocaleString())+'</td><td>'+E(r.status==='loaded'?'已載入':r.status==='load_failed'?'讀取失敗':'來源空白')+'</td><td>'+E(r.error||r.note)+'</td></tr>').join('');
  renderIntegrity();
+ renderSnapshot();
 }
 function renderMarket(){if(!all.length)return;const filtered=C.filterRows(all,filters()),size=Number($('size').value),max=Math.max(1,Math.ceil(filtered.length/size));pageIndex=Math.min(pageIndex,max-1);const result=filtered.slice(pageIndex*size,(pageIndex+1)*size);
 $('filter-status').textContent='篩選符合 '+filtered.length.toLocaleString()+' 檔；已顯示 '+result.length+' 檔。這是原始觀察條件，不是模型選股名單。';
@@ -202,7 +216,30 @@ const params=new URLSearchParams(location.search);
 if(/^\d{4,6}$/.test(params.get('stock')||''))$('stock-id').value=params.get('stock');
 if(params.get('stocks'))$('stock-list').value=params.get('stocks');
 const pendingView=['market','detail','compare','quality'].includes(params.get('view'))?params.get('view'):(params.has('stock')?'detail':params.has('stocks')?'compare':'market');
-(async()=>{try{const inputs={};await Promise.all(Object.entries(files).map(async([key,path])=>{try{const response=await fetch('./data/'+path,{cache:'no-store'});if(!response.ok)throw Error('HTTP '+response.status);inputs[key]=C.parseCSV(await response.text())}catch(err){inputs[key]=[];failures[key]=err.message}}));if(failures.factor)throw Error('研究主資料無法取得：'+failures.factor);
+(async()=>{try{
+ const manifestResponse=await fetch('./data/research_snapshot_30d.json',{cache:'no-store'});
+ if(!manifestResponse.ok)throw Error('發布快照清單無法讀取 HTTP '+manifestResponse.status);
+ snapshotManifest=await manifestResponse.json();
+ const issue=S.manifestIssue(snapshotManifest);
+ if(issue)throw Error('發布快照清單不可信：'+issue);
+ const inputs={};
+ await Promise.all(Object.entries(files).map(async([key,path])=>{
+  try{
+   const response=await fetch('./data/'+path,{cache:'no-store'});
+   if(!response.ok)throw Error('HTTP '+response.status);
+   const bytes=await response.arrayBuffer();
+   const verified=await S.verify(key,bytes,snapshotManifest,window.crypto?.subtle);
+   snapshotVerified[key]=verified;
+   if(!verified.ok)throw Error(verified.reason);
+   const rows=C.parseCSV(new TextDecoder('utf-8').decode(bytes));
+   if(rows.length!==snapshotManifest.sources[key].row_count)
+       throw Error('來源列數與發布快照不一致');
+   inputs[key]=rows;
+  }catch(err){inputs[key]=[];failures[key]=String(err.message||err).slice(0,180);
+     snapshotVerified[key]={ok:false,reason:failures[key]};}
+ }));
+ renderSnapshot();
+ if(failures.factor)throw Error('研究主資料版本無法驗證：'+failures.factor);
 all=C.merge(inputs);sourceTables=inputs;qualityReport=Q.summarize(all,inputs,failures);integrity=I.inspect(inputs);byId=new Map(all.map(x=>[x.id,x]));$('universe').textContent=all.length.toLocaleString();$('basics').textContent=all.filter(x=>x.basicEligible).length.toLocaleString();$('flows').textContent=all.filter(x=>x.flowDateOK).length.toLocaleString();$('holders').textContent=all.filter(x=>x.holderDateOK).length.toLocaleString();$('approved').textContent=all.filter(x=>x.modelEligible&&x.predictionEnabled).length.toLocaleString();
-$('loading').textContent='已載入 '+all.length.toLocaleString()+' 檔逐股資料。'+(Object.keys(failures).length?'部分來源無法取得：'+Object.entries(failures).map(([k,v])=>k+' '+v).join('；'):'所有所需研究來源已載入。')+'來源載入成功不等於歷史回測資格。';display(pendingView);}catch(err){$('loading').textContent='無法啟動研究工作台：'+err.message}})();
+$('loading').textContent='已載入 '+all.length.toLocaleString()+' 檔逐股資料。'+(Object.keys(failures).length?'部分來源無法取得：'+Object.entries(failures).map(([k,v])=>k+' '+v).join('；'):'所有所需研究來源已載入。')+'來源載入成功不等於歷史回測資格。';display(pendingView);}catch(err){$('loading').textContent='無法啟動研究工作台：'+err.message;$('snapshot-status').textContent='來源快照校驗失敗：'+err.message}})();
 </script></body></html>
