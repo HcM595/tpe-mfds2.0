@@ -1,7 +1,7 @@
 {
   "version": "2.5A",
-  "status": "data_gap_fail_closed",
-  "generated_at_taipei": "2026-10-28T18:42:04+08:00",
+  "status": "ok_guardrails_active",
+  "generated_at_taipei": "2026-10-28T18:54:33+08:00",
   "purpose": "稽核資料可追溯性與缺口；不是驗證報酬、不是完整公司行動回補",
   "cohorts_in_index": 8,
   "cohorts_verified": 8,
@@ -19,9 +19,7 @@
   "sample_independence_verified": false,
   "performance_metrics_enabled": false,
   "strict_performance_samples_eligible": 0,
-  "blocking_issues": [
-    "2.4E official rolling source status is not fully ok"
-  ],
+  "blocking_issues": [],
   "notes": [
     "沒有近期滾動除權息公告，不代表歷史上沒有公司行動",
     "2026/10/23颱風休市為可靠新聞轉述，尚未在此版封存官方原始臨時休市公告",

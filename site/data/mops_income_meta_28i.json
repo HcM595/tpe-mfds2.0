@@ -1,10 +1,10 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-10-28T18:43:27+08:00",
-  "observations": 346,
+  "generated_at_taipei": "2026-10-28T18:55:27+08:00",
+  "observations": 355,
   "checked": 15,
-  "fresh_success": 13,
-  "fresh_ytd_unit_period_aligned": 13,
+  "fresh_success": 14,
+  "fresh_ytd_unit_period_aligned": 14,
   "income_report_ytd": "從MOPS第6欄提取當年年初累計本期淨利；第2欄為單季，不混用",
   "amount_unit": "只有逐股MOPS原始表有唯一明確新台幣仟元標頭時才核實",
   "per_stock": {
@@ -33,53 +33,54 @@
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2349": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2351": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2354": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
     "2356": {
-      "status": "unavailable",
-      "reason": "<urlopen error timed out>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
     "2364": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2373": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2374": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2375": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2376": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2377": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2379": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2380": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2382": {
       "status": "unavailable",
       "reason": "<urlopen error timed out>"
-    },
-    "2365": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2367": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2368": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2369": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2371": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
     },
     "1101": {
       "status": "not_checked_this_run"
@@ -933,10 +934,19 @@
     "2348": {
       "status": "not_checked_this_run"
     },
+    "2349": {
+      "status": "not_checked_this_run"
+    },
+    "2351": {
+      "status": "not_checked_this_run"
+    },
     "2352": {
       "status": "not_checked_this_run"
     },
     "2353": {
+      "status": "not_checked_this_run"
+    },
+    "2354": {
       "status": "not_checked_this_run"
     },
     "2355": {
@@ -955,6 +965,21 @@
       "status": "not_checked_this_run"
     },
     "2363": {
+      "status": "not_checked_this_run"
+    },
+    "2365": {
+      "status": "not_checked_this_run"
+    },
+    "2367": {
+      "status": "not_checked_this_run"
+    },
+    "2368": {
+      "status": "not_checked_this_run"
+    },
+    "2369": {
+      "status": "not_checked_this_run"
+    },
+    "2371": {
       "status": "not_checked_this_run"
     },
     "1240": {

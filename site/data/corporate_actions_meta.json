@@ -1,16 +1,16 @@
 {
   "version": "2.4E",
-  "status": "partial_fail_closed",
-  "generated_at_taipei": "2026-10-28T18:42:02+08:00",
+  "status": "ok",
+  "generated_at_taipei": "2026-10-28T18:54:32+08:00",
   "sources": {
     "TWSE": {
-      "status": "unavailable_or_invalid_fail_closed",
-      "rows_this_run": 0,
+      "status": "ok",
+      "rows_this_run": 22,
       "new_source_version_saved": false,
-      "latest_sha256": null,
-      "source_first_seen_at_utc": null,
+      "latest_sha256": "ec013be1a9a01ddeedd7391d28453f39e2f46f50dbc374c5242f81387d94ad1b",
+      "source_first_seen_at_utc": "2026-10-24T11:24:12.457127Z",
       "source_url": "https://openapi.twse.com.tw/v1/exchangeReport/TWT48U_ALL",
-      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "error": null
     },
     "TPEx": {
       "status": "ok",
