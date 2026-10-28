@@ -1,0 +1,33 @@
+name: 3.0F 勝率研究資格與防洩漏測試
+on:
+  pull_request:
+    paths:
+      - 'scripts/prediction_readiness_30f.py'
+      - 'scripts/walk_forward_probability_lab_30f.py'
+      - 'tests/test_prediction_readiness_30f.py'
+      - 'tests/test_walk_forward_probability_lab_30f.py'
+      - 'site/research_hub_30a.html'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/prediction-readiness-30f.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evidence-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 檢查兩份Python研究元件語法
+        run: |
+          python -m py_compile scripts/prediction_readiness_30f.py scripts/walk_forward_probability_lab_30f.py
+      - name: 測試實際研究資料資格及未來資料洩漏反例
+        run: |
+          python -m unittest -v tests/test_prediction_readiness_30f.py tests/test_walk_forward_probability_lab_30f.py
+      - name: 僅輸出禁用預測的研究資格報告並雙重驗證
+        run: |
+          python scripts/prediction_readiness_30f.py
+          python scripts/prediction_readiness_30f.py --verify-only
