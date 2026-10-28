@@ -68,9 +68,10 @@ const assert=require('node:assert/strict');
    const current=await page.locator('#r-cross').inputValue();
    await page.locator('#r-cross').selectOption('confluence');
    assert.equal(await page.locator('#r-cross').inputValue(),'confluence');
-   const rows=page.locator('tr[data-r-stock]');
+   const rows=page.locator('section.r-section:has(#r-cross) tr[data-r-stock]');
    for(const r of await rows.all()){
-    assert((await r.innerText()).includes('三面同時符合'),'row not consistent with intersection');
+    const rowText=await r.innerText();
+    assert(rowText.includes('三面同時符合'),'intersection row not matching: '+rowText.slice(0,220));
    }
    await page.locator('#r-cross').selectOption(current);
    assert.equal(await page.locator('.r-cross-strip span').count(),4);
