@@ -19,6 +19,10 @@ const fs=require('node:fs');
    assert.equal(await section.locator('.r-evidence-mini').count(),4);
    assert.equal(await section.locator('.r-evidence-details').count(),2);
    assert.equal(await section.locator('.r-evidence-risk').count(),1);
+   const deep=section.locator('#r-stock-deep-link');
+   assert.equal(await deep.count(),1);
+   assert((await deep.getAttribute('href')).includes('view=detail&stock='+id),
+     'deep evidence hub should open this exact stock without a duplicate nav');
    assert((await section.locator('.r-evidence-caution').innerText()).includes('不顯示勝率'));
    assert((await section.innerText()).includes('來源'));
    assert.equal(await page.locator('#nav > button.nav-btn').count(),7);
