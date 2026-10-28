@@ -161,3 +161,6 @@ body.workbench-editorial #snapshot-status{font-size:12px;color:#315e4a}
 @media(max-width:1200px){.r-evidence-mini-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:660px){.r-evidence-brief{padding:15px}.r-evidence-context{grid-template-columns:1fr}.r-evidence-mini{padding:12px}.r-evidence-mini strong{font-size:13px}}
 @media(max-width:380px){.r-evidence-mini-grid{grid-template-columns:1fr}}
+
+.r-evidence-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.r-evidence-tools a.btn{display:inline-flex;text-decoration:none;align-items:center}
