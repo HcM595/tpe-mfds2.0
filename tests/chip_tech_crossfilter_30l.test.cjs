@@ -42,6 +42,8 @@ assert.equal(X.evaluate(rank,{...tech,technical_status:'部分確認'},cutoff).t
 assert.equal(X.evaluate(rank,{...tech,data_status:'缺漏'},cutoff).technical,false);
 assert.equal(X.evaluate(rank,{},cutoff).confluence,false);
 assert.equal(X.evaluate(rank,tech,'2026-10-26').confluence,false);
+assert.equal(X.evaluate({...rank,price_asof:'2026-10-26',flow_asof:'2026-10-26'}, {...tech,price_asof:'2026-10-26',flow_asof:'2026-10-26'}, cutoff).confluence,false,
+  'stale but internally coherent candidate must not claim to be current');
 assert.equal(X.evaluate(rank,tech,undefined).confluence,false);
 assert.equal(X.evaluate({...rank,holder_asof:'2026-10-01'},{...tech,holder_asof:'2026-10-01'},cutoff).confluence,false);
 assert.equal(X.day('2026-02-30'),null);
@@ -72,6 +74,16 @@ for(const {row,tech,check} of actual){
  assert(Number(row.mid400_999_4w_pp)>0&&Number(row.large1000_4w_pp)>0);
  assert.equal(tech.technical_confirmed_count,'3');
 }
+
+const csv=X.toCSV(X.screen([rank],[tech],{mode:'all',asofLimit:cutoff}));
+assert(csv.includes('股票代號')&&csv.includes('集保資料日'));
+assert(csv.includes('三面交集')&&csv.includes('法人同買'));
+assert(csv.includes('2026-10-27')&&csv.includes('2026-10-22'));
+assert.equal(csv.split('\r\n').length,2);
+const evil=X.toCSV([{row:{...rank,stock_name:' =2+3',market:'@ERROR'},check:X.evaluate(rank,tech,cutoff)}]);
+assert(evil.includes('"\' =2+3"'),'spreadsheet injection with leading blanks must be neutralized');
+assert(evil.includes('"\'@ERROR"'),'formula-looking cell must be neutralized');
+assert(!csv.includes('預測勝率'));
 assert(!JSON.stringify(actual).includes('predicted_win_rate'));
 console.log('PASS 3.0L: actual '+rankRows.length+' rank rows, '+actual.length+
  ' eligible descriptive 3-axis intersections, no date leakage, partial holder tiers never double-counted');
