@@ -1,0 +1,25 @@
+name: 3.0J 網站功能與初衷契約驗收
+on:
+  pull_request:
+    paths:
+      - 'site/index.html'
+      - 'site/research_hub_30a.html'
+      - 'tests/test_original_goal_site_30j.py'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/site-original-goals-30j.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  site-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Main and hub navigation and exact-byte sources
+        run: python -m unittest -v tests/test_original_goal_site_30j.py
+      - name: Existing full research pages' regression contracts
+        run: python -m unittest -v tests/test_research_pages_29l.py
