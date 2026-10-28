@@ -34,6 +34,12 @@ def utc(value, label):
     return ts.astimezone(timezone.utc)
 
 
+def decimal_text(v):
+    """Plain decimal form for stable receipts, without meaningless trailing zeros."""
+    result = format(v, "f")
+    return result.rstrip("0").rstrip(".") if "." in result else result
+
+
 def candidate_trade_ledger(trade):
     """Calculate one hypothetical *executed* round trip from explicit inputs.
 
@@ -99,12 +105,12 @@ def candidate_trade_ledger(trade):
     return {
         "status": "synthetic_or_unauthenticated_candidate_only",
         "horizon_sessions": horizon,
-        "entry_debit_twd": str(cost),
-        "exit_credit_including_distributions_twd": str(proceeds),
-        "cash_distributions_twd": str(cash),
+        "entry_debit_twd": decimal_text(cost),
+        "exit_credit_including_distributions_twd": decimal_text(proceeds),
+        "cash_distributions_twd": decimal_text(cash),
         "final_shares": int(held),
-        "net_profit_twd": str(net),
-        "candidate_net_total_return": str(net/cost),
+        "net_profit_twd": decimal_text(net),
+        "candidate_net_total_return": decimal_text(net/cost),
         "candidate_positive_return": net > 0,
         "production_usable": False,
         "warning": "No official source receipts are authenticated by this calculator. Never treat candidate outcomes as real returns.",
