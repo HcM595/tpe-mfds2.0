@@ -72,6 +72,7 @@ async function loadSnapshot(entry,load){
   found.set(id,signal);
  }
  return {entry,signals:found,date:dayOf(entry),captured:doc.captured_at_utc,
+   sourceSha256:doc.source_sha256,
    publicationVerified:false,byteVerified:true};
 }
 function state(signal){
