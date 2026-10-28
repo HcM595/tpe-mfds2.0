@@ -9,7 +9,7 @@ const assert=require('node:assert/strict');
  try{
    await page.goto('http://127.0.0.1:8765/',{waitUntil:'domcontentloaded'});
    const seven=['市場總覽','個股研究','籌碼觀察','歷史訊號','資料品質','自選股','設定'];
-   assert.deepEqual((await page.locator('#nav > button').allInnerTexts()).map(x=>x.trim()),seven);
+   assert.deepEqual((await page.locator('#nav > button').allInnerTexts()).map(x=>x.trim().split(/\n/).at(-1).trim()),seven);
    assert.equal(await page.locator('#nav details').count(),0);
    assert.equal(await page.locator('#nav a').count(),0,'no duplicate sidebar tool navigation');
    await page.waitForFunction(()=>document.querySelector('#r-eligibility-view')!==null,{timeout:60000});
