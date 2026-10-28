@@ -92,11 +92,11 @@ class MultiFoldTests(unittest.TestCase):
 
     def test_tied_decision_clocks_do_not_enter_different_folds(self):
         rows=fixture(cohorts=85)
+        reference=next(x for x in rows if x["cohort_id"]=="cohort-040")
         for sample in rows:
             if sample["cohort_id"]=="cohort-041":
-                sample["signal_first_seen_at_utc"]=next(
-                    x["signal_first_seen_at_utc"] for x in rows
-                    if x["cohort_id"]=="cohort-040")
+                sample["signal_first_seen_at_utc"]=reference["signal_first_seen_at_utc"]
+                sample["source_publication_at_utc"]=reference["source_publication_at_utc"]
         report=study(rows)
         self.assertEqual(report["status"],"blocked_tied_cohort_decision_clocks")
 
