@@ -19,7 +19,7 @@ const tables={
             {stock_id:'3533',market:'上市',asof:'2026-10-27',
              first_seen_utc:'2026-10-27T05:00:00Z'}],
  revenue:[{stock_id:'8064',market:'上櫃',table_date:'2026-10-17',
-             first_seen_utc:'2026-10-26T09:00:00Z'}],
+             first_seen_utc:'2026-10-27T09:00:00Z'}],
  publication:[{stock_id:'8064',market:'上櫃',price_asof:'2026-10-27'}]
 };
 const r=I.inspect(tables);
