@@ -57,6 +57,10 @@ button,input,select{font:inherit;border:1px solid #b8cbd7;border-radius:8px;padd
 <p id="winrate-readiness-summary" class="muted" role="status">尚未取得經本次資料驗證的勝率資格報告；不得顯示推估勝率。</p>
 <div id="winrate-readiness-blockers" class="note">須先通過官方公布時點、交易執行與公司行動完整性核對，並有足夠的非重疊樣本外結果。</div>
 <p class="foot">「可前瞻觀察」只表示持續追蹤，不代表實際成交、報酬或命中率。研究實驗中的統計數字不會直接顯示為個股機率。</p>
+<h3>3.0G｜10／20／60日交易結果認證進度</h3>
+<p id="outcome-30g-summary" class="muted" role="status">尚未核對 3.0G 交易結果資格報告。已到期的觀察也不可當成交績效。</p>
+<div class="wrap"><table><thead><tr><th>觀察期限</th><th>前瞻觀察中</th><th>已成熟但未驗證報酬</th><th>符合認證的交易樣本</th></tr></thead><tbody id="outcome-30g-horizons"><tr><td colspan="4">讀取中；正式勝率停用</td></tr></tbody></table></div>
+<p class="foot">這是資料稽核，不是策略成效。實盤成交、除權息與可得時間必須獨立認證；本站不以原始收盤價反推不存在的買賣成交。</p>
 <h3>3.0C｜跨資料表身分、日期及首次取得時間</h3>
 <div class="toolbar"><label class="search">查詢問題股票代號／原因<input id="integrity-q" placeholder="例如8064、日期、股票名稱"></label>
 <label class="select">問題種類<select id="integrity-filter"><option value="issues">資料身分與日期不一致</option><option value="captures">首次取得／歷史可得性</option><option value="all">全部</option></select></label></div>
@@ -311,6 +315,47 @@ $('loading').textContent='已載入 '+all.length.toLocaleString()+' 檔逐股資
  }catch(error){
   summary.textContent='3.0F 勝率資格報告無法驗證；正式勝率預測停用。';
   blockers.textContent='資料缺漏或發布尚未更新：'+String(error.message||error).slice(0,90);
+ }
+})();
+</script>
+<script>
+/* 3.0G: fail-closed progress disclosure; never infer or display predicted wins. */
+(async function(){
+ const summary=document.getElementById('outcome-30g-summary');
+ const body=document.getElementById('outcome-30g-horizons');
+ try {
+  const res=await fetch('./data/outcome_readiness_30g.json',{cache:'no-store'});
+  if(!res.ok)throw Error('HTTP '+res.status);
+  const info=await res.json();
+  if(info.version!=='3.0G'||info.status!=='verified_trade_outcomes_unavailable'||
+     info.production_prediction_allowed!==false||
+     info.outcome_calculation_allowed!==false||
+     !Number.isSafeInteger(info.observations)||info.observations<0||
+     !info.per_horizon)throw Error('研究資格標記不可信');
+  const prepared=[];
+  for(const n of [10,20,60]){
+   const item=info.per_horizon[String(n)];
+   if(!item||item.registered!==info.observations||
+      !Number.isSafeInteger(item.tracking)||item.tracking<0||
+      !Number.isSafeInteger(item.matured_but_unverified)||item.matured_but_unverified<0||
+      item.valid_label_samples!==0||item.verified_total_returns!==0||
+      item.verified_executions!==0)throw Error('觀察期限的結果資格資料異常');
+   prepared.push({n,tracking:item.tracking,mature:item.matured_but_unverified});
+  }
+  body.replaceChildren(...prepared.map(x=>{
+   const row=document.createElement('tr');
+   for(const val of [x.n+'日',String(x.tracking),String(x.mature),'0（禁用勝率）']){
+    const td=document.createElement('td');td.textContent=val;row.append(td);
+   }
+   return row;
+  }));
+  summary.textContent='目前 '+info.observations.toLocaleString()+
+    ' 筆前瞻紀錄、'+info.stocks_ever_observed.toLocaleString()+
+    ' 檔曾出現股票；真實可認證交易結果 0 筆。正式預測繼續停用。';
+ }catch(error){
+  summary.textContent='3.0G 結果認證報告缺漏或異常，拒絕顯示勝率：'+
+    String(error.message||error).slice(0,90);
+  body.replaceChildren();
  }
 })();
 </script></body></html>
