@@ -7,26 +7,24 @@ const assert = require('node:assert/strict');
  page.on('pageerror',e=>errors.push(e.message));
  try{
    await page.goto('http://127.0.0.1:8765/',{waitUntil:'domcontentloaded'});
-   // 2.8E: one sidebar navigation; no duplicated research tab bar.
-   assert.equal(await page.locator('#nav > button.nav-btn').count(),7,'main navigation contains duplicate legacy pages');
-   assert.equal(await page.locator('#nav > a[href]').count(),0,'standalone research links should be collapsed');
-   assert.equal(await page.locator('#nav .nav-primary-hub a[href="./research_hub_30a.html"]').count(),1,'integrated research workbench entry missing');
-   assert.equal(await page.locator('#nav-research-tools').count(),1,'research tools folder missing');
-   assert.equal(await page.locator('#nav-research-tools').evaluate(el=>el.open),false,'tools should start collapsed');
-   await page.locator('#nav-research-tools summary').click();
-   assert.equal(await page.locator('#nav-research-tools a.nav-tool-link').count(),7,'seven standalone research tools not grouped');
-   assert.equal(await page.locator('#nav-research-tools a[href="./factor_gaps_29h.html"]').count(),1,'factor gaps tool missing');
-   assert.equal(await page.locator('#nav-research-tools a[href="./publication_review_29p.html"]').count(),1,'official publication proof review link missing');
-   assert.equal(await page.locator('#nav-research-tools a[href="./material_events_29q.html"]').count(),1,'material event observation link missing');
-   assert.equal(await page.locator('#nav-research-tools a[href="./event_body_audit_29s.html"]').count(),1,'original material body review link missing');
-   await page.locator('#nav-research-tools summary').click();
-
-   assert.equal(await page.locator('#nav > button[data-page="stock"]').count(),0,'legacy stock screen must be collapsed');
-   assert.equal(await page.locator('#nav-advanced').count(),1,'preserved advanced tools missing');
+   // 3.0K: exactly seven UNIQUE main sections; no nested duplicate menus.
+   const mainEntries=page.locator('#nav > button.nav-btn');
+   assert.equal(await mainEntries.count(),7,'main navigation must have precisely 7 functions');
+   const names=(await mainEntries.allInnerTexts()).map(x=>x.trim());
+   assert.deepEqual(names,['市場總覽','個股研究','籌碼觀察','歷史訊號','資料品質','自選股','設定'],
+     'navigation contains duplicate or outdated entries');
+   assert.equal(await page.locator('#nav details').count(),0,
+      'nested old navigation menu should not reappear');
+   assert.equal(await page.locator('#nav a[href]').count(),0,
+      'standalone duplicate workbench entry should not appear in main navigation');
+   assert.equal(await page.locator('link[href="./editorial_30k.css"]').count(),1,
+      'editorial theme stylesheet missing');
+   assert.equal(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor),
+      'rgb(246, 244, 239)','editorial warm paper background not applied');
    await page.locator('#nav > button[data-page="research"][data-research-tab="stock"]').click();
    await page.locator('#r-stock-form').waitFor({timeout:60000});
    assert.equal(await page.locator('#nav > button.nav-btn.active').count(),1,'multiple primary entries marked active');
-   assert((await page.locator('.logo small').innerText()).includes('3.0E'),'sidebar version misleading');
+   assert((await page.locator('.logo small').innerText()).includes('3.0K'),'editorial design version missing');
    assert.equal(await page.locator('.r-tabs').count(),0,'duplicated top research tabs not removed');
    for(const id of ['8064','3533','2345']){
      await page.locator('[data-r-stock="'+id+'"]').first().click();
@@ -115,10 +113,15 @@ const assert = require('node:assert/strict');
    // Main chip rule is distinct from weighted ranking and must remain reachable.
    await page.locator('#nav > button[data-page="chip"]').click();
    assert((await page.locator('#content').innerText()).includes('法人與大戶同步增持候選名單'),'strict synchronized inflow rule missing');
-   // Legacy pages are still available, but clearly labelled as nonproduction comparison.
-   await page.locator('#nav-advanced summary').click();
-   await page.locator('#nav-advanced button[data-page="screener"]').click();
-   assert((await page.locator('#content').innerText()).includes('舊版比較／CSV 功能'),'legacy screener missing caveat');
+   // Specialized evidence pages are housed under Data Quality, not repeated
+   // as side-navigation entries.
+   await page.locator('#nav > button[data-page="research"][data-research-tab="quality"]').click();
+   const library=page.locator('.r-resource-links');
+   assert.equal(await library.count(),1,'single research data library missing');
+   assert.equal(await library.locator('a[href="./research_hub_30a.html"]').count(),1,
+      'full nine-source integrity and comparison hub must stay reachable');
+   assert.equal(await library.locator('a').count(),8,
+      'distinct research evidence pages should remain available in one library');
    await page.locator('#nav > button[data-page="research"][data-research-tab="stock"]').click();
    await page.locator('#r-stock-code').fill('2345');
    await page.locator('#r-stock-form button[type="submit"]').click();
