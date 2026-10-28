@@ -62,6 +62,24 @@ const assert=require('node:assert/strict');
    assert(loaded,'one or more research modules absent in live client');
    return out.length+' deployed assets and source files available';
   });
+  await check('官方行情日及上市櫃來源日核對',async()=>{
+   const response=await page.request.get(new URL('./data/official_meta.json',LIVE).href,{timeout:20000});
+   assert.equal(response.status(),200);
+   const meta=await response.json();
+   assert(/^\d{4}-\d{2}-\d{2}$/.test(meta.display_date),'source display date absent');
+   assert(meta.status==='ok','official source status is '+String(meta.status));
+   const pairs=Object.entries(meta.market_dates||{});
+   assert(pairs.length>=2,'TWSE/TPEx source dates not individually declared');
+   const observed=await page.locator('#banner').innerText();
+   assert(observed.includes(meta.display_date),'public price banner disagrees with official_meta.json');
+   if(meta.aligned===true)
+    assert(pairs.every(([k,d])=>d===meta.display_date),'a source market date differs from declared aligned price');
+   const local=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+   const diff=Math.round((Date.parse(local+'T00:00:00Z')-Date.parse(meta.display_date+'T00:00:00Z'))/86400000);
+   if(diff>5)notes.push('正式網站行情資料日期距台灣當日'+diff+'日，應檢查市場休市與工作流程');
+   return '行情 '+meta.display_date+'；'+pairs.map(([market,d])=>market+':'+d).join('，')+
+    '；來源 '+meta.status;
+  });
   await check('市場總覽：資料載入、交叉篩選',async()=>{
    await page.locator('#nav > button[data-research-tab="overview"]').click();
    await page.locator('#r-cross').waitFor({timeout:45000});
