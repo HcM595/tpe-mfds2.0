@@ -75,7 +75,8 @@ class OutcomeGateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             data=fixture_dir(folder)
             path=data/"forward_observation.csv"
-            rows=list(csv.DictReader(path.open(encoding="utf-8-sig",newline="")))
+            with path.open(encoding="utf-8-sig",newline="") as fp:
+                rows=list(csv.DictReader(fp))
             rows[0]["h10_observed_sessions"]="11"
             with path.open("w",encoding="utf-8-sig",newline="") as fp:
                 w=csv.DictWriter(fp,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
