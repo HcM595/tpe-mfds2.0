@@ -1,0 +1,32 @@
+name: 3.0G 可驗證交易結果與防虛構勝率測試
+on:
+  pull_request:
+    paths:
+      - 'scripts/audit_trade_outcomes_30g.py'
+      - 'scripts/candidate_execution_ledger_30g.py'
+      - 'tests/test_trade_outcomes_30g.py'
+      - 'site/research_hub_30a.html'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/trade-outcomes-30g.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  outcome-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python source compile
+        run: |
+          python -m py_compile scripts/audit_trade_outcomes_30g.py scripts/candidate_execution_ledger_30g.py
+      - name: Full evidence gate plus real and synthetic trade outcome checks
+        run: |
+          python -m unittest -v tests/test_prediction_readiness_30f.py tests/test_walk_forward_probability_lab_30f.py tests/test_trade_outcomes_30g.py
+      - name: Reconcile actual 10/20/60 observation statuses without fabricating returns
+        run: |
+          python -m scripts.audit_trade_outcomes_30g
+          python -m scripts.audit_trade_outcomes_30g --verify-only
