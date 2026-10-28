@@ -30,6 +30,10 @@ async function run(){
   {asof_missing:undefined},
   {asof_field:undefined},
   {asof_min:'2026/10/27'},
+  {asof_min:'2026-02-30'},
+  {asof_max:'2026-13-27'},
+  {asof_missing:0,asof_min:'',asof_max:''},
+  {asof_missing:1,asof_min:'2026-10-27',asof_max:'2026-10-27'},
   {asof_min:'2026-10-28',asof_max:'2026-10-27'},
  ];
  for(const changes of malformed){
