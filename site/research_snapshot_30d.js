@@ -24,8 +24,17 @@ function manifestIssue(manifest){
   const x=manifest.sources[key];
   if(!x||x.path!=='data/'+name||!HEX.test(x.sha256||'')||
      !Number.isSafeInteger(x.byte_length)||x.byte_length<1||
-     !Number.isSafeInteger(x.row_count)||x.row_count<0||
-     x.unique_stock_count>x.row_count)return '資料清單有缺漏或欄位異常：'+key;
+     !Number.isSafeInteger(x.row_count)||x.row_count<1||
+     !Number.isSafeInteger(x.unique_stock_count)||x.unique_stock_count<1||
+     x.unique_stock_count>x.row_count||
+     !Number.isSafeInteger(x.asof_missing)||x.asof_missing<0||
+     x.asof_missing>x.row_count||
+     typeof x.asof_field!=='string'||!x.asof_field||
+     typeof x.asof_min!=='string'||typeof x.asof_max!=='string'||
+     (x.asof_min&&!/^\\d{4}-\\d{2}-\\d{2}$/.test(x.asof_min))||
+     (x.asof_max&&!/^\\d{4}-\\d{2}-\\d{2}$/.test(x.asof_max))||
+     (x.asof_min&&x.asof_max&&x.asof_min>x.asof_max))
+     return '資料清單有缺漏或欄位異常：'+key;
  }
  return '';
 }
@@ -35,6 +44,8 @@ async function sha256(data,subtle){
 }
 async function verify(key,buffer,manifest,subtle){
  const declared=manifest?.sources?.[key],name=PATHS[key];
+ const issue=manifestIssue(manifest);
+ if(issue)return {ok:false,reason:issue};
  if(!name||!declared||declared.path!=='data/'+name)return {ok:false,reason:'找不到對應來源清單'};
  if(!(buffer instanceof ArrayBuffer))return {ok:false,reason:'來源資料不是完整位元組'};
  if(buffer.byteLength!==declared.byte_length)return {ok:false,reason:'檔案大小與發布快照不符'};
