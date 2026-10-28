@@ -275,7 +275,10 @@ jobs:
           for factor in ('F2','F3'):
               blockers=meta['factors'][factor]
               assert blockers and all(type(v)==int and v>=0 for v in blockers.values())
-              assert sum(blockers.values())==len(rows), (factor,blockers)
+              # Multiple blockers may apply to the SAME stock: this is a
+              # multi-label count, not an exclusive partition.
+              assert all(v<=len(rows) for v in blockers.values()), (factor,blockers)
+              assert sum(blockers.values())>=len(rows), (factor,blockers)
           # A particular missing-source/time category may disappear as as-of
           # dates move. Never force a stale blocker to stay above 100.
           assert all(row['F2_usable_for_backtest']=='false' and row['F3_usable_for_backtest']=='false' for row in rows)
