@@ -53,6 +53,10 @@ button,input,select{font:inherit;border:1px solid #b8cbd7;border-radius:8px;padd
 <p id="manifest-summary" class="muted">目前尚未完成本批網站資料的完整性驗證。</p>
 <div class="wrap"><table><thead><tr><th>來源</th><th>SHA256比對</th><th>封裝列數</th><th>檔案日期範圍</th><th>版本校驗值（前16碼）</th></tr></thead><tbody id="manifest-rows"></tbody></table></div>
 <p class="foot">SHA256比對只確認這一批網站檔案的位元組一致，不證明官方發布時間、真實總報酬或回測有效性。任一來源驗證失敗時，該來源不納入篩選和比較。</p>
+<h3>3.0F｜勝率模型資料資格（正式預測維持停用）</h3>
+<p id="winrate-readiness-summary" class="muted" role="status">尚未取得經本次資料驗證的勝率資格報告；不得顯示推估勝率。</p>
+<div id="winrate-readiness-blockers" class="note">須先通過官方公布時點、交易執行與公司行動完整性核對，並有足夠的非重疊樣本外結果。</div>
+<p class="foot">「可前瞻觀察」只表示持續追蹤，不代表實際成交、報酬或命中率。研究實驗中的統計數字不會直接顯示為個股機率。</p>
 <h3>3.0C｜跨資料表身分、日期及首次取得時間</h3>
 <div class="toolbar"><label class="search">查詢問題股票代號／原因<input id="integrity-q" placeholder="例如8064、日期、股票名稱"></label>
 <label class="select">問題種類<select id="integrity-filter"><option value="issues">資料身分與日期不一致</option><option value="captures">首次取得／歷史可得性</option><option value="all">全部</option></select></label></div>
@@ -277,4 +281,36 @@ all=C.merge(inputs);sourceTables=inputs;
 actionById=new Map((inputs.actions||[]).map(x=>[x.stock_id,x]));
 qualityReport=Q.summarize(all,inputs,failures);integrity=I.inspect(inputs);byId=new Map(all.map(x=>[x.id,x]));$('universe').textContent=all.length.toLocaleString();$('basics').textContent=all.filter(x=>x.basicEligible).length.toLocaleString();$('flows').textContent=all.filter(x=>x.flowDateOK).length.toLocaleString();$('holders').textContent=all.filter(x=>x.holderDateOK).length.toLocaleString();$('approved').textContent=all.filter(x=>x.modelEligible&&x.predictionEnabled).length.toLocaleString();
 $('loading').textContent='已載入 '+all.length.toLocaleString()+' 檔逐股資料。'+(Object.keys(failures).length?'部分來源無法取得：'+Object.entries(failures).map(([k,v])=>k+' '+v).join('；'):'所有所需研究來源已載入。')+'來源載入成功不等於歷史回測資格。';display(pendingView);}catch(err){$('loading').textContent='無法啟動研究工作台：'+err.message;$('snapshot-status').textContent='來源快照校驗失敗：'+err.message}})();
+</script>
+<script>
+/* 3.0F is intentionally read-only. A failed/absent report never unlocks probabilities. */
+(async function(){
+ const summary=document.getElementById('winrate-readiness-summary');
+ const blockers=document.getElementById('winrate-readiness-blockers');
+ try{
+  const response=await fetch('./data/prediction_readiness_30f.json',{cache:'no-store'});
+  if(!response.ok)throw Error('HTTP '+response.status);
+  const data=await response.json();
+  if(data.version!=='3.0F'||data.status!=='blocked_evidence_not_ready'||
+     data.production_win_rate_enabled!==false||
+     data.production_stock_probability_enabled!==false||
+     data.verified_outcome_samples_for_model!==0||
+     !Array.isArray(data.blockers))throw Error('資格報告結構或安全旗標異常');
+  summary.textContent='已登錄 '+Number(data.observed_cohorts).toLocaleString()+
+    ' 組訊號、'+Number(data.observation_rows).toLocaleString()+
+    ' 筆前瞻追蹤；初步觀察合格 '+Number(data.conditionally_observable_rows).toLocaleString()+
+    ' 筆，但可認證實際交易結果樣本仍為 0 筆。正式勝率與個股機率：停用。';
+  const list=document.createElement('ul');
+  for(const item of data.blockers){
+   if(typeof item!=='string')continue;
+   const li=document.createElement('li');
+   li.textContent=item;
+   list.append(li);
+  }
+  blockers.replaceChildren(list);
+ }catch(error){
+  summary.textContent='3.0F 勝率資格報告無法驗證；正式勝率預測停用。';
+  blockers.textContent='資料缺漏或發布尚未更新：'+String(error.message||error).slice(0,90);
+ }
+})();
 </script></body></html>
