@@ -40,39 +40,19 @@
 @media(max-width:740px){.nav-caption{display:none}.nav-advanced{flex:none;border:0;margin:0;padding:0;min-width:160px}.nav-advanced summary{font-size:12px;white-space:nowrap;padding:9px 12px}.nav-advanced[open]{position:relative}.nav-advanced-list{background:#16314a;border-radius:9px;padding:5px}.nav-advanced-list .nav-btn{white-space:nowrap}.nav-legacy-hint{width:230px}}
 @media print{.nav-advanced{display:none!important}}
 </style>
+<link rel="stylesheet" href="./editorial_30k.css">
 </head><body>
-<div class="app"><aside class="sidebar"><div class="logo"><div class="logo-mark">M</div><div><strong>TPE-MFDS</strong><small>3.0E · 除權息事件及原始價格核對</small></div></div><nav class="nav" id="nav" aria-label="TPE-MFDS 主要功能">
-<div class="nav-caption">研究快速瀏覽與正式工作台</div>
-<div class="nav-primary-hub"><a href="./research_hub_30a.html" class="nav-btn nav-tool-link" style="display:block;background:#176d76;color:#fff;text-decoration:none;border:1px solid #398f92;border-radius:9px;margin:6px 0;padding:11px;font-weight:700">3.0E｜九源校驗研究工作台（完整版） ↗</a></div>
-<button class="nav-btn active" data-page="research" data-research-tab="overview"><span class="nav-ico">▦</span>全市場選股與總覽</button>
-<button class="nav-btn" data-page="research" data-research-tab="stock"><span class="nav-ico">⌕</span>個股完整研究</button>
-<button class="nav-btn" data-page="chip"><span class="nav-ico">◎</span>法人與大戶同步增持</button>
-<button class="nav-btn" data-page="research" data-research-tab="history"><span class="nav-ico">◷</span>歷史訊號與追蹤</button>
-<button class="nav-btn" data-page="research" data-research-tab="quality"><span class="nav-ico">✓</span>資料來源與品質</button>
-<button class="nav-btn" data-page="watch"><span class="nav-ico">☆</span>我的自選股</button>
-<button class="nav-btn" data-page="settings"><span class="nav-ico">⚙</span>資料匯入與設定</button>
-<details class="nav-advanced nav-research" id="nav-research-tools">
-<summary>延伸研究工具（7項）</summary>
-<p class="nav-legacy-hint">雙引擎條件、跨股比較與逐股原始證據；不同於已驗證12因子預測模型。</p>
-<div class="nav-advanced-list">
-<a class="nav-btn nav-tool-link" href="./dual_engine_29j.html">雙引擎條件選股</a>
-<a class="nav-btn nav-tool-link" href="./compare_29k.html">雙引擎跨股比較</a>
-<a class="nav-btn nav-tool-link" href="./stock_research_29i.html">個股整合研究報表</a>
-<a class="nav-btn nav-tool-link" href="./factor_gaps_29h.html">12因子缺口與來源時點</a>
-<a class="nav-btn nav-tool-link" href="./publication_review_29p.html">官方公告證據待核查</a>
-<a class="nav-btn nav-tool-link" href="./material_events_29q.html">官方重大訊息時間觀察</a>
-<a class="nav-btn nav-tool-link" href="./event_body_audit_29s.html">重大訊息正文與來源版本</a>
-</div></details>
-<details class="nav-advanced" id="nav-advanced"><summary>進階／舊版比較工具</summary>
- <p class="nav-legacy-hint">保留舊版 CSV 與示範頁。其當日成交額及規則分數，不等於新版120日／20日平均成交額或已驗證12因子。</p>
- <div class="nav-advanced-list">
- <button class="nav-btn" data-page="overview">舊版總覽（CSV／示範）</button>
- <button class="nav-btn" data-page="screener">舊版篩選（當日成交額）</button>
- <button class="nav-btn" data-page="stock">舊版個股因子試算</button>
- <button class="nav-btn" data-page="rank">舊版籌碼／技術排行</button>
- </div>
-</details></nav><div class="side-help"><strong>使用者模式：免安裝</strong>請使用 GitHub Pages 網址開啟完整研究功能；直接使用 file:// 開啟 HTML 可能無法讀取資料。示範模式不是實際行情。<button id="sideHelp">查看三步驟教學 →</button></div></aside>
-<main class="main"><header class="topline"><div><div class="kicker">TAIWAN EQUITY RESEARCH · FACTOR LAB</div><h1 id="pageTitle">台股量化研究總覽</h1><p class="lead" id="pageLead">從全市場篩選到個股分析，一個介面完成。</p></div><div class="top-actions"><button class="btn" id="officialTop">↻ 官方最新收盤行情</button><button class="btn" id="demoReset">示範資料</button><button class="btn btn-primary" id="importTop">⇧ 匯入 CSV 資料</button></div></header>
+<div class="app"><aside class="sidebar"><div class="logo"><div class="logo-mark">山</div><div><strong>TPE-MFDS</strong><small>台股整合研究中心 · 3.0K 設計預覽</small></div></div><nav class="nav" id="nav" aria-label="TPE-MFDS 主要功能">
+<div class="nav-caption">RESEARCH WORKSPACE · 7 個主要功能</div>
+<button class="nav-btn active" data-page="research" data-research-tab="overview"><span class="nav-ico" aria-hidden="true">▤</span>市場總覽</button>
+<button class="nav-btn" data-page="research" data-research-tab="stock"><span class="nav-ico" aria-hidden="true">⌕</span>個股研究</button>
+<button class="nav-btn" data-page="chip"><span class="nav-ico" aria-hidden="true">◎</span>籌碼觀察</button>
+<button class="nav-btn" data-page="research" data-research-tab="history"><span class="nav-ico" aria-hidden="true">↗</span>歷史訊號</button>
+<button class="nav-btn" data-page="research" data-research-tab="quality"><span class="nav-ico" aria-hidden="true">◇</span>資料品質</button>
+<button class="nav-btn" data-page="watch"><span class="nav-ico" aria-hidden="true">☆</span>自選股</button>
+<button class="nav-btn" data-page="settings"><span class="nav-ico" aria-hidden="true">⚙</span>設定</button>
+</nav><div class="side-help"><strong>使用者模式：免安裝</strong>請使用 GitHub Pages 網址開啟完整研究功能；直接使用 file:// 開啟 HTML 可能無法讀取資料。示範模式不是實際行情。<button id="sideHelp">查看三步驟教學 →</button></div></aside>
+<main class="main"><header class="topline"><div><div class="kicker">TAIWAN EQUITY RESEARCH · FACTOR LAB</div><h1 id="pageTitle">台股整合研究中心</h1><p class="lead" id="pageLead">以數據閱讀市場，讓每一次觀察都有來源可循。</p></div><div class="top-actions"><button class="btn" id="officialTop">↻ 官方最新收盤行情</button><button class="btn" id="demoReset">示範資料</button><button class="btn btn-primary" id="importTop">⇧ 匯入 CSV 資料</button></div></header>
 <div id="banner" class="notice warn"><span class="dot"></span><div><b>目前顯示：虛構示範資料</b><div>並非台股即時或歷史實際行情，綜合分數不是預測勝率，也不構成買賣建議。請先操作體驗，再匯入有來源的真實資料。</div></div></div>
 <div id="content"></div><div class="footer">TPE-MFDS 3.0E · 法人與大戶歷史分析 · 保留2.3.3舊版查詢｜本機瀏覽器運算｜無下單功能｜不提供未經回測的上漲機率。</div></main></div>
 <input id="snapshotFile" type="file" accept=".csv,text/csv" class="hidden"><input id="pricesFile" type="file" accept=".csv,text/csv" class="hidden"><div id="toast" class="toast hidden" role="status"></div>
@@ -350,14 +330,14 @@ function rStatusKey(key,label){return `<span class="r-datastate ${rGet(key)?'r-o
 function rPitLabel(key){return ({no_source:'尚無來源',stale_or_unverified_snapshot:'僅有舊版備援，無法使用',bad_source_report_date:'報表日期無法核對',missing_price_reference_date:'價格基準日期缺漏',source_report_after_price:'報表日期晚於股價基準日',missing_or_invalid_first_seen:'首次封存時間無法核對',capture_time_in_future:'封存時刻異常（晚於目前）',first_observed_after_price_cutoff:'本站第一次取得晚於股價日保守截止點',official_publication_time_unverified:'雖已提前封存，但正式發布時分尚未核實'})[key]||'尚無可核實狀態'}
 function rMetaLink(key,caption){const f=RESEARCH_FILES[key]?.[0];return f?`<a href="./data/${encodeURIComponent(f)}" target="_blank" rel="noopener noreferrer">${esc(caption||f)} ↗</a>`:''}
 function rCards(items){return `<div class="r-metrics">${items.map(x=>`<div class="r-metric"><small>${esc(x[0])}</small><strong>${esc(x[1])}</strong><span>${esc(x[2]||'')}</span></div>`).join('')}</div>`}
-function rTabTitle(){return {overview:'全市場選股與總覽',stock:'個股完整研究',history:'歷史訊號與追蹤',quality:'資料來源與品質'}[research.tab]||'全市場選股與總覽'}
+function rTabTitle(){return {overview:'市場總覽',stock:'個股研究',history:'歷史訊號',quality:'資料品質'}[research.tab]||'市場總覽'}
 function researchView(){
   const ready=rGet('readiness')||{},fm=rGet('forwardMeta')||{},om=rGet('official')||{},ct=rGet('chipTrendMeta')||{};
   return `<div class="r-shell">
-    <div class="r-intro"><div><div class="r-eyebrow">TPE-MFDS 3.0E · 研究資料總覽</div><h2>${esc(rTabTitle())}</h2><p>首頁提供選股、歷史與資料品質快速瀏覽；九份研究來源的 SHA256 完整性校驗與完整跨股比較，請使用左側綠色「九源校驗研究工作台（完整版）」。資料日期各自標示，非即時行情。</p></div><button type="button" class="btn" data-r-action="refresh">↻ 更新整合資料</button></div>
+    <div class="r-intro"><div><div class="r-eyebrow">TPE-MFDS 3.0E · 研究資料總覽</div><h2>${esc(rTabTitle())}</h2><p>統一選單呈現市場、個股、籌碼、歷史與品質；進階來源校驗、跨股比較及研究證據放在「資料品質」的研究資料館。資料日期各自標示，非即時行情。</p></div><button type="button" class="btn" data-r-action="refresh">↻ 更新整合資料</button></div>
     <div class="r-data-strip"><span>行情：<b>${rVal(om.display_date||'尚未取得')}</b></span><span>研究快照：<b>${rVal(ready.generated_at_taipei||'尚未取得')}</b></span><span>法人歷史：<b>${rVal(ct.flow_date_latest)}</b></span><span>大戶歷史：<b>${rVal(ct.holder_date_latest)}</b></span><span>瀏覽器最後讀取：<b>${rVal(research.loadedAt||'讀取中')}</b></span></div>
     <div class="r-warnings"><strong>研究資料狀態：</strong>${research.status==='loading'?'資料讀取中。':research.status==='error'?'無法取得後端資料，請檢查網站部署。':'已載入部分或全部公開報告。'} ${rStatusKey('rank','籌碼排行')} ${rStatusKey('tech','技術驗證')} ${rStatusKey('forward','歷史訊號')} ${rStatusKey('actions','除權息事件')} ${rStatusKey('readiness','品質稽核')} ${rStatusKey('institutionalTrend','法人歷史')} ${rStatusKey('holderTrend','大戶歷史')}</div>
-    <p class="hint" style="margin:14px 0">左側選單已統一入口：全市場、個股、歷史與資料品質各有專頁。舊版 CSV／示範功能可從「進階／舊版比較工具」開啟，不會與正式篩選條件混用。</p>
+    <p class="hint" style="margin:14px 0">左側只保留七個主要功能。進階資料核對位於「資料品質」；舊版規則分數不作正式選股或勝率使用。</p>
     <section aria-label="${esc(rTabTitle())}">${({overview:rOverview,stock:rStock,history:rHistory,quality:rQuality})[research.tab]()}</section>
     <div class="r-bottom">籌碼100分不等於12因子綜合模型；現階段不提供已校準的10／20／60日預測。所有排名屬資料描述與研究觀察，不是預測勝率；前瞻觀察不代表成交績效。未驗證的股利配發條件、還原OHLC、資料公布時點及樣本獨立性，均不得用來計算正式報酬。</div>
   </div>`;
@@ -426,7 +406,10 @@ function rOverview(){
   const fr=rGet('factorReadiness')||{}, factorRows=Array.isArray(fr.factors)?fr.factors:[],evidenceMeta=rGet('factorEvidenceMeta')||{};
   const factObsMeta=rGet('factorObsMeta')||{};
   const indMeta=rGet('industryMeta')||{}, revMeta=rGet('revenueMeta')||{}, riskMeta=rGet('riskMeta')||{}, incomeMeta=rGet('incomeMeta')||{}, cfMeta=rGet('cashflowMeta')||{}, mopsIncomeMeta=rGet('mopsIncomeMeta')||{};
-  const cards=[['籌碼可排名',ranked.length?' '+ranked.length:'—','當次已驗證排行'],['前瞻觀察紀錄',read.forward_observation_rows??rCount('forward'),'跨版本紀錄，非獨立樣本'],['歷史事件',meta.observed_historical_event_rows??rCount('actions'),'事件≠股利條件已驗證'],['獨立績效樣本',read.strict_performance_samples_eligible??0,'尚未通過，禁止勝率']];
+  const rawChip=rArray('chip');
+  const confirmedTech=[...tech.values()].filter(t=>t.data_status==='可驗證'&&t.technical_confirmed_count==='3').length;
+  const holderSeen=rawChip.filter(c=>c.holder_asof).length;
+  const cards=[['研究母體',rArray('master').length||state.stocks.length,'官方名錄候選，非普通股最終認證'],['法人與大戶同步觀察',ranked.length,'當次可排名的籌碼訊號，非投資建議'],['大戶週資料',holderSeen,'集保來源日期各異，非當日買賣'],['技術三確認',confirmedTech,'僅限已取得且可驗證的技術資料']];
   return `${rCards(cards)}
     <section class="card r-section"><div class="r-section-title"><h3>原始設計資格檢查（與籌碼排行分開）</h3></div>
       <p class="hint">要求同股至少120個有效歷史收盤交易日、最近20筆皆具成交額，20日平均成交額至少新台幣3,000萬元，且價格歷史最新日必須與當次快照相同。本區同時檢查基本資料與官方公司名錄候選身分，身分來源為獨立發布的上市櫃公司名錄；缺少名錄或來源異常者顯示待確認，不推斷為非普通股。不代表12因子覆蓋率≥60%或已具預測資格。</p>
@@ -624,7 +607,17 @@ function rQuality(){
   const ready=rGet('readiness')||{},am=rGet('actionsMeta')||{},om=rGet('official')||{},ex=rArray('exceptions');
   const checks=[['封存觀察組完整性',`${rVal(ready.cohorts_verified)} / ${rVal(ready.cohorts_in_index)}`,ready.cohorts_verified===ready.cohorts_in_index&&ready.cohorts_verified!==undefined?'已通過':'待核實'],['歷史公司行動完整',rVal(am.historical_corporate_actions_complete),'尚未放行'],['還原OHLC驗證',rVal(am.adjusted_ohlc_verified),'尚未放行'],['股利配發條件',rVal(am.cash_or_stock_distribution_terms_verified),'尚未放行'],['資料公布時點',rVal(am.source_publication_times_verified),'尚未放行'],['獨立樣本驗證',rVal(am.sample_independence_verified),'尚未放行'],['績效指標開啟',rVal(am.performance_metrics_enabled),'禁止計算']];
   const datasets=Object.entries(RESEARCH_FILES).map(([key,[fn]])=>`<tr><td>${rStatusKey(key,fn)}</td><td>${Array.isArray(rGet(key))?rGet(key).length+'筆':rGet(key)?'已取得':'未取得'}</td><td>${research.errors[key]?esc(research.errors[key]):'—'}</td><td>${rMetaLink(key,'原始檔')}</td></tr>`).join('');
-  return `${rCards([['上市/上櫃行情日',om.display_date||'—','各市場實際日期以來源為準'],['已處理市場／月份',am.attempted_market_month_pairs??'—','歷史回補查詢進度'],['已觀察公司行動',am.observed_historical_event_rows??'—','不代表歷史完整'],['官方臨時休市封存',ready.official_temporary_closures_archived??'—','不得以新聞取代原公告']])}
+  const evidenceHall='<section class="card r-section"><div class="r-section-title"><div><h3>研究資料館 · 深入核查</h3><p>唯一進階入口；下列為不同來源證據，不重複主要功能選單。跨股比較及完整九源校驗也在此開啟。</p></div></div><div class="r-resource-links">'
+    +'<a href="./research_hub_30a.html">九源 SHA256 校驗與跨股比較</a>'
+    +'<a href="./factor_gaps_29h.html">12 因子來源缺口</a>'
+    +'<a href="./dual_engine_29j.html">雙引擎條件研究</a>'
+    +'<a href="./compare_29k.html">雙引擎詳細比較</a>'
+    +'<a href="./stock_research_29i.html">個股完整來源報表</a>'
+    +'<a href="./publication_review_29p.html">官方公布證據清單</a>'
+    +'<a href="./material_events_29q.html">重大訊息時間觀察</a>'
+    +'<a href="./event_body_audit_29s.html">重大訊息原文版本</a>'
+    +'</div><p class="hint">原始觀察不代表12因子已認證，未驗證績效及勝率繼續停用。</p></section>';
+  return `${evidenceHall}${rCards([['上市/上櫃行情日',om.display_date||'—','各市場實際日期以來源為準'],['已處理市場／月份',am.attempted_market_month_pairs??'—','歷史回補查詢進度'],['已觀察公司行動',am.observed_historical_event_rows??'—','不代表歷史完整'],['官方臨時休市封存',ready.official_temporary_closures_archived??'—','不得以新聞取代原公告']])}
     <section class="card r-section"><div class="r-section-title"><div><h3>研究可靠性核對</h3><p>完整呈現後端的稽核結果，避免把資料蒐集成功誤認為模型已驗證。</p></div>${rMetaLink('readiness','原始研究品質報告')}</div><div class="table-wrap"><table class="data-table r-table"><thead><tr><th>稽核內容</th><th>記錄值</th><th>解讀</th></tr></thead><tbody>${checks.map(([name,value,status])=>`<tr><td>${esc(name)}</td><td>${esc(value)}</td><td>${esc(status)}</td></tr>`).join('')}</tbody></table></div></section>
     <section class="card r-section"><h3>資料來源清單與讀取狀態</h3><p class="hint">個別檔案404、格式異常或逾時會顯示原因，不會轉成虛構資料。</p><div class="table-wrap"><table class="data-table r-table"><thead><tr><th>來源檔案</th><th>內容</th><th>讀取問題</th><th>查看</th></tr></thead><tbody>${datasets}</tbody></table></div></section>
     <section class="card r-section"><h3>臨時休市與例外</h3><p class="hint">官方原始公告未封存者，只列為待核實線索；不自動修改歷史市場日曆。</p>${!ex.length?'<div class="r-empty">尚無可讀取的市場例外紀錄。</div>':`<div class="table-wrap"><table class="data-table r-table"><thead><tr>${Object.keys(ex[0]).slice(0,5).map(k=>`<th>${esc(k)}</th>`).join('')}</tr></thead><tbody>${ex.slice(0,15).map(x=>`<tr>${Object.keys(ex[0]).slice(0,5).map(k=>`<td>${rVal(x[k])}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}</section>`;
@@ -650,7 +643,7 @@ function bindResearch(){
 }
 
 function nav(p,tab){if(p==='research'&&tab&&['overview','stock','history','quality'].includes(tab))research.tab=tab;state.page=p;render()}
-function render(){dataNotice();$('pageTitle').textContent=state.page==='research'?rTabTitle():titles[state.page][0];$('pageLead').textContent=state.page==='research'?'原始設計資料條件與來源獨立核對；未驗證12因子及預測功能仍停用。':titles[state.page][1];document.querySelectorAll('.nav-btn').forEach(x=>{const active=x.dataset.page===state.page&&(state.page!=='research'||x.dataset.researchTab===research.tab);x.classList.toggle('active',active);x.setAttribute('aria-current',active?'page':'false')});const legacy=['overview','screener','stock','rank'].includes(state.page);const adv=$('nav-advanced');if(legacy&&adv)adv.open=true;const f={research:researchView,overview:overviewView,screener:screenerView,stock:stockView,chip:chipView,rank:rankView,watch:watchView,settings:settingsView};const legacyWarning=legacy?'<div class="note-box"><strong>舊版比較／CSV 功能</strong>：本頁沿用示範或匯入快照的舊規則，可能使用當日成交額與手動因子分數。正式全市場120日、20日平均成交額及未驗證分數限制，請使用左側「全市場選股與總覽」；勿將兩套結果直接互相比較。</div>':'';$('content').innerHTML=legacyWarning+f[state.page]();bind();bindResearch();}
+function render(){dataNotice();$('pageTitle').textContent=state.page==='research'?rTabTitle():titles[state.page][0];$('pageLead').textContent=state.page==='research'?'原始設計資料條件與來源獨立核對；未驗證12因子及預測功能仍停用。':titles[state.page][1];document.querySelectorAll('.nav-btn').forEach(x=>{const active=x.dataset.page===state.page&&(state.page!=='research'||x.dataset.researchTab===research.tab);x.classList.toggle('active',active);x.setAttribute('aria-current',active?'page':'false')});const legacy=['overview','screener','stock','rank'].includes(state.page);const f={research:researchView,overview:overviewView,screener:screenerView,stock:stockView,chip:chipView,rank:rankView,watch:watchView,settings:settingsView};const legacyWarning=legacy?'<div class="note-box"><strong>舊版比較／CSV 功能</strong>：本頁沿用示範或匯入快照的舊規則，可能使用當日成交額與手動因子分數。正式全市場120日、20日平均成交額及未驗證分數限制，請使用左側「全市場選股與總覽」；勿將兩套結果直接互相比較。</div>':'';$('content').innerHTML=legacyWarning+f[state.page]();bind();bindResearch();}
 function actionLinks(){return `<div class="row"><button class="btn mini" data-action="nav" data-target="screener">打開完整名單 →</button><button class="btn mini" data-action="export">↓ 匯出目前排名</button></div>`}
 function scoreMarkup(s){let a=s.calc;if(a.total===null)return'<span class="chip weak">資料不足</span>';return `<span class="score">${fmt(a.total,1)}</span><div class="score-bar"><i style="width:${a.total.toFixed(1)}%"></i></div>`}
 function rankTable(rows,n){if(!rows.length)return'<div class="empty">沒有符合條件的股票。可調低成交金額門檻或清除搜尋條件。</div>';let list=rows.slice(0,n);return `<div class="table-wrap"><table class="data-table"><thead><tr><th>股票代碼／名稱</th><th>產業</th><th>價格</th><th>${state.mode==='official'?'當日成交額':'20日均成交額'}</th><th>大戶4週變化</th><th>籌碼狀態</th><th>因子得分</th><th class="col-action">自選</th></tr></thead><tbody>${list.map(s=>`<tr data-stock="${esc(s.stock_id)}"><td><span class="ticker">${esc(s.stock_id)}</span><span class="nm">${esc(s.stock_name)}</span></td><td>${esc(s.sector)}</td><td class="num">${fmt(s.close,2)}</td><td class="num">${(state.mode==='official'?s.trade_value_twd:s.avg_trade_value_twd)===null?'—':fmt((state.mode==='official'?s.trade_value_twd:s.avg_trade_value_twd)/100000000,2)+' 億'}</td><td class="num ${s.large_holder_change_pp===null?'neutral':s.large_holder_change_pp>0?'up':'down'}">${s.large_holder_change_pp===null?'—':(s.large_holder_change_pp>0?'+':'')+fmt(s.large_holder_change_pp,2)+' pp'}</td><td>${chipBadge(s.stock_id)}</td><td>${scoreMarkup(s)}</td><td><button class="btn mini" data-action="watch" data-id="${esc(s.stock_id)}" title="加入或移除自選">${state.watch.includes(s.stock_id)?'★':'☆'}</button></td></tr>`).join('')}</tbody></table></div>`}
