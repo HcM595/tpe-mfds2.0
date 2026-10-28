@@ -1,10 +1,10 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-10-28T18:36:31+08:00",
-  "observations": 338,
+  "generated_at_taipei": "2026-10-28T18:43:27+08:00",
+  "observations": 346,
   "checked": 15,
-  "fresh_success": 11,
-  "fresh_ytd_unit_period_aligned": 11,
+  "fresh_success": 13,
+  "fresh_ytd_unit_period_aligned": 13,
   "income_report_ytd": "從MOPS第6欄提取當年年初累計本期淨利；第2欄為單季，不混用",
   "amount_unit": "只有逐股MOPS原始表有唯一明確新台幣仟元標頭時才核實",
   "per_stock": {
@@ -34,18 +34,16 @@
       "period_aligned": true
     },
     "2349": {
-      "status": "unavailable",
-      "reason": "<urlopen error timed out>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
     "2351": {
-      "status": "unavailable",
-      "reason": "<urlopen error timed out>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
     "2354": {
-      "status": "unavailable",
-      "reason": "<urlopen error timed out>"
-    },
-    "2355": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -54,27 +52,31 @@
       "status": "unavailable",
       "reason": "<urlopen error timed out>"
     },
-    "2357": {
+    "2364": {
+      "status": "unavailable",
+      "reason": "<urlopen error timed out>"
+    },
+    "2365": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2359": {
+    "2367": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2360": {
+    "2368": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2362": {
+    "2369": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2363": {
+    "2371": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -935,6 +937,24 @@
       "status": "not_checked_this_run"
     },
     "2353": {
+      "status": "not_checked_this_run"
+    },
+    "2355": {
+      "status": "not_checked_this_run"
+    },
+    "2357": {
+      "status": "not_checked_this_run"
+    },
+    "2359": {
+      "status": "not_checked_this_run"
+    },
+    "2360": {
+      "status": "not_checked_this_run"
+    },
+    "2362": {
+      "status": "not_checked_this_run"
+    },
+    "2363": {
       "status": "not_checked_this_run"
     },
     "1240": {

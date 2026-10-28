@@ -1,0 +1,64 @@
+{
+  "status": "ok",
+  "generated_at_taipei": "2026-10-28T18:40:33+08:00",
+  "markets": {
+    "上市": {
+      "status": "ok",
+      "rows": 1088,
+      "date": "2026-10-28",
+      "source": "MI_INDEX_RWD"
+    },
+    "上櫃": {
+      "status": "ok",
+      "rows": 872,
+      "date": "2026-10-28",
+      "source": "openapi"
+    }
+  },
+  "sources": {
+    "上市": "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL",
+    "上櫃": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes",
+    "上市盤後備援": "https://www.twse.com.tw/rwd/zh/afterTrading/STOCK_DAY_ALL",
+    "上市MI_INDEX備援": "https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX",
+    "上市MI_INDEX舊路徑": "https://www.twse.com.tw/exchangeReport/MI_INDEX"
+  },
+  "notes": "各市場顯示各自已驗證的收盤日期。日期不同不當作同步行情；籌碼強度排名只在法人與股價日期一致時給分。非即時報價。",
+  "twse_alternative": {
+    "attempted": true,
+    "requested_date": "2026-10-28",
+    "result": "selected",
+    "attempts": [
+      {
+        "name": "STOCK_DAY_ALL_RWD",
+        "url": "https://www.twse.com.tw/rwd/zh/afterTrading/STOCK_DAY_ALL?date=20261028&response=json",
+        "result": "failed",
+        "error": "RuntimeError: HTTP 200; Content-Type=text/csv;charset=utf-8; 137348 bytes; non-JSON preview='日期,證券代號,證券名稱,成交股數,成交金額,開盤價,最高價,最低價,收盤價,漲跌價差,成交筆數 \"1151028\",\"00400A\",\"主動國泰動能高息\",\"2464036'"
+      },
+      {
+        "name": "MI_INDEX_RWD",
+        "url": "https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX?date=20261028&response=json&type=ALLBUT0999",
+        "response_date": "2026-10-28",
+        "rows": 1088,
+        "result": "selected"
+      }
+    ],
+    "selected_source": "MI_INDEX_RWD",
+    "response_date": "2026-10-28"
+  },
+  "market_dates": {
+    "上市": "2026-10-28",
+    "上櫃": "2026-10-28"
+  },
+  "markets_included": [
+    "上市",
+    "上櫃"
+  ],
+  "display_date": "2026-10-28",
+  "aligned": true,
+  "tracked_symbols_found": {
+    "8064": true,
+    "3533": true,
+    "2345": true,
+    "2330": true
+  }
+}
