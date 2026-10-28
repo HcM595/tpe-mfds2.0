@@ -28,7 +28,7 @@ const {chromium}=require('playwright');
   assert.deepEqual(await nodes.evaluateAll(items=>items.map(x=>x.getAttribute('data-timeline-day'))),days);
   assert((await page.locator('.r-timeline-info').innerText()).includes('不重複計算'));
   assert((await page.locator('.r-watch-timeline').innerText()).includes('SHA256'));
-  assert((await page.locator('.r-watch-timeline').innerText()).includes('不是交易'));
+  assert((await page.locator('.r-watch-timeline').innerText()).includes('不代表所有交易日'));
   await page.locator('#r-timeline-filter').selectOption('new_holder');
   for(const n of await nodes.all())assert((await n.innerText()).includes('集保週資料日'));
   await page.locator('#r-timeline-filter').selectOption('changes');
