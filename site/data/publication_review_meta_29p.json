@@ -9,16 +9,16 @@
       "verified_company_release_time": 0,
       "historically_usable": 0,
       "blockers": {
-        "first_seen_after_cutoff": 1955,
         "source_authorization_missing": 1961,
-        "individual_company_publication_time_unverified": 1961,
+        "first_seen_after_cutoff": 1955,
         "official_publication_unverified": 1961,
-        "capture_timestamp_unverified": 6,
-        "source_missing": 6,
+        "individual_company_publication_time_unverified": 1961,
+        "unverified_official_endpoint": 6,
         "source_hash_missing_or_invalid": 6,
-        "first_seen_unverified": 6,
         "missing_report_day": 6,
-        "unverified_official_endpoint": 6
+        "capture_timestamp_unverified": 6,
+        "first_seen_unverified": 6,
+        "source_missing": 6
       }
     },
     "F3": {
@@ -27,16 +27,16 @@
       "verified_company_release_time": 0,
       "historically_usable": 0,
       "blockers": {
-        "first_seen_after_cutoff": 1960,
         "source_authorization_missing": 1961,
-        "individual_company_publication_time_unverified": 1961,
+        "first_seen_after_cutoff": 1960,
         "official_publication_unverified": 1961,
-        "capture_timestamp_unverified": 1,
-        "source_missing": 1,
+        "individual_company_publication_time_unverified": 1961,
+        "unverified_official_endpoint": 1,
         "source_hash_missing_or_invalid": 1,
-        "first_seen_unverified": 1,
         "missing_report_day": 1,
-        "unverified_official_endpoint": 1
+        "capture_timestamp_unverified": 1,
+        "first_seen_unverified": 1,
+        "source_missing": 1
       }
     },
     "REVENUE": {
@@ -49,12 +49,12 @@
         "source_authorization_missing": 1961,
         "official_publication_unverified": 1961,
         "bulk_snapshot_not_individual_filing": 1952,
-        "capture_timestamp_unverified": 9,
-        "source_missing": 9,
+        "unverified_official_endpoint": 9,
         "source_hash_missing_or_invalid": 9,
-        "first_seen_unverified": 9,
         "missing_report_day": 9,
-        "unverified_official_endpoint": 9
+        "capture_timestamp_unverified": 9,
+        "first_seen_unverified": 9,
+        "source_missing": 9
       }
     }
   },

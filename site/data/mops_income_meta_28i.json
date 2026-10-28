@@ -1,10 +1,10 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-10-28T06:44:45+08:00",
-  "observations": 272,
+  "generated_at_taipei": "2026-10-28T08:08:49+08:00",
+  "observations": 280,
   "checked": 15,
-  "fresh_success": 15,
-  "fresh_ytd_unit_period_aligned": 15,
+  "fresh_success": 13,
+  "fresh_ytd_unit_period_aligned": 13,
   "income_report_ytd": "從MOPS第6欄提取當年年初累計本期淨利；第2欄為單季，不混用",
   "amount_unit": "只有逐股MOPS原始表有唯一明確新台幣仟元標頭時才核實",
   "per_stock": {
@@ -33,52 +33,50 @@
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2061": {
+    "2101": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2063": {
+    "2102": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2064": {
+    "2103": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2065": {
+    "2104": {
+      "status": "unavailable",
+      "reason": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "2105": {
+      "status": "unavailable",
+      "reason": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "2106": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2066": {
+    "2107": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2067": {
+    "2108": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2069": {
+    "2109": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2070": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2072": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2073": {
+    "2114": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -767,6 +765,12 @@
     "2062": {
       "status": "not_checked_this_run"
     },
+    "2069": {
+      "status": "not_checked_this_run"
+    },
+    "2072": {
+      "status": "not_checked_this_run"
+    },
     "1240": {
       "status": "not_checked_this_run"
     },
@@ -852,6 +856,30 @@
       "status": "not_checked_this_run"
     },
     "2035": {
+      "status": "not_checked_this_run"
+    },
+    "2061": {
+      "status": "not_checked_this_run"
+    },
+    "2063": {
+      "status": "not_checked_this_run"
+    },
+    "2064": {
+      "status": "not_checked_this_run"
+    },
+    "2065": {
+      "status": "not_checked_this_run"
+    },
+    "2066": {
+      "status": "not_checked_this_run"
+    },
+    "2067": {
+      "status": "not_checked_this_run"
+    },
+    "2070": {
+      "status": "not_checked_this_run"
+    },
+    "2073": {
       "status": "not_checked_this_run"
     }
   },
