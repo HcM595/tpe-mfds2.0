@@ -105,6 +105,30 @@ class WalkForwardLabTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"Conflicting signal capture"):
             evaluate(rows,10)
 
+    def test_naive_rowwise_interval_is_not_cluster_calibration(self):
+        rows=fixture()
+        for row in rows:
+            cohort_i=int(row["cohort_id"].split("-")[-1])
+            row["net_total_return"]=0.04 if cohort_i%2 else -0.03
+        report=evaluate(rows,10)
+        self.assertEqual(report["cluster_count"],20)
+        lower, upper=report["holdout_cluster_bootstrap_95_exploratory"]
+        naive_lo, naive_hi=report["holdout_wilson_95_naive_rows"]
+        self.assertLess(lower,upper)
+        self.assertGreater(upper-lower,naive_hi-naive_lo)
+        self.assertEqual(evaluate(rows,10)["holdout_cluster_bootstrap_95_exploratory"],
+                         report["holdout_cluster_bootstrap_95_exploratory"])
+
+    def test_tied_cohort_signal_times_do_not_cross_split(self):
+        rows=fixture()
+        capture=next(r["signal_first_seen_at_utc"] for r in rows if r["cohort_id"]=="cohort-059")
+        publish=(dt.datetime.fromisoformat(capture)-dt.timedelta(days=1)).isoformat()
+        for row in rows:
+            if row["cohort_id"]=="cohort-060":
+                row["signal_first_seen_at_utc"]=capture
+                row["source_publication_at_utc"]=publish
+        self.assertEqual(evaluate(rows,10)["status"],"non_separable_cohort_times")
+
     def test_deduplicates_and_rejects_overlapping_same_stock(self):
         rows=fixture()
         rows.append(copy.deepcopy(rows[0]))
