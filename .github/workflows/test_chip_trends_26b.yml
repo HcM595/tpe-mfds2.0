@@ -1,4 +1,4 @@
-name: TPE-MFDS 3.0C 跨來源證據一致性與整站品質驗收
+name: TPE-MFDS 3.0D 八類研究來源SHA256快照與整站驗收
 on:
   pull_request:
     paths:
@@ -7,6 +7,11 @@ on:
       - 'site/research_core_30a.js'
       - 'site/research_quality_30b.js'
       - 'site/research_integrity_30c.js'
+      - 'site/research_snapshot_30d.js'
+      - 'scripts/build_research_snapshot_30d.py'
+      - 'tests/test_research_snapshot_30d.py'
+      - 'tests/research_snapshot_30d.test.cjs'
+      - 'tests/browser_snapshot_30d.cjs'
       - 'tests/research_integrity_30c.test.cjs'
       - 'tests/browser_integrity_30c.cjs'
       - 'tests/research_quality_30b.test.cjs'
@@ -370,6 +375,15 @@ jobs:
                      r['financial_value_equivalence_verified']=='false' for r in rows)
           print('2.9S archival body audit verified',len(rows),'events; provenance matched',m['original_body_validated'])
           PY
+      - name: 3.0D publish eight-source manifest only after generated research data
+        run: |
+          python -m unittest tests/test_research_snapshot_30d.py
+          python scripts/build_research_snapshot_30d.py
+          python scripts/build_research_snapshot_30d.py --verify-only
+          node --check site/research_snapshot_30d.js
+          node --check tests/research_snapshot_30d.test.cjs
+          node --check tests/browser_snapshot_30d.cjs
+          node tests/research_snapshot_30d.test.cjs
       - name: Install browser test runtime (bounded download, no unnecessary apt refresh)
         timeout-minutes: 8
         run: |
@@ -408,3 +422,4 @@ jobs:
           node tests/browser_workbench_30a.cjs
           node tests/browser_quality_30b.cjs
           node tests/browser_integrity_30c.cjs
+          node tests/browser_snapshot_30d.cjs
