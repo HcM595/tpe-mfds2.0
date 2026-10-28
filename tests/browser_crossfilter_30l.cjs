@@ -28,6 +28,13 @@ const assert=require('node:assert/strict');
    const row=await items.nth(i).innerText();
    assert(!row.includes('三面同時符合'),'review mode contains an eligible confluence');
   }
+  const [exported]=await Promise.all([
+   page.waitForEvent('download'),page.locator('#r-cross-export').click()
+  ]);
+  assert(exported.suggestedFilename().includes('交叉觀察'));
+  assert(exported.suggestedFilename().endsWith('.csv'));
+  const csv=require('node:fs').readFileSync(await exported.path(),'utf8');
+  assert(csv.includes('集保資料日')&&csv.includes('三面交集')&&csv.includes('未通過'));
   await page.locator('#r-cross').selectOption('all');
   await page.locator('#r-query').fill('8064');
   const direct=await page.locator('#content').innerText();
