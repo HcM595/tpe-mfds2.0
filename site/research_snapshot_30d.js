@@ -15,9 +15,14 @@ const PATHS={
  actions:'corporate_action_readiness_30e.csv'
 };
 const HEX=/^[a-f0-9]{64}$/;
+function validDay(value){
+ if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
+ const date=new Date(value+'T00:00:00Z');
+ return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===value;
+}
 function manifestIssue(manifest){
  if(!manifest||manifest.schema_version!=='3.0E'||manifest.snapshot_source_count!==9||
-    !manifest.sources||typeof manifest.sources!=='object')return '快照版本或清單結構不符合3.0D';
+    !manifest.sources||typeof manifest.sources!=='object')return '快照版本或清單結構不符合3.0E';
  if(manifest.formal_model_scoring_enabled!==false||manifest.performance_probabilities_enabled!==false)
     return '來源快照不應宣稱已啟用模型分數或預測';
  for(const [key,name] of Object.entries(PATHS)){
@@ -31,8 +36,10 @@ function manifestIssue(manifest){
      x.asof_missing>x.row_count||
      typeof x.asof_field!=='string'||!x.asof_field||
      typeof x.asof_min!=='string'||typeof x.asof_max!=='string'||
-     (x.asof_min&&!/^\d{4}-\d{2}-\d{2}$/.test(x.asof_min))||
-     (x.asof_max&&!/^\d{4}-\d{2}-\d{2}$/.test(x.asof_max))||
+     (x.asof_min&&!validDay(x.asof_min))||
+     (x.asof_max&&!validDay(x.asof_max))||
+     (x.asof_missing<x.row_count&&(!x.asof_min||!x.asof_max))||
+     (x.asof_missing===x.row_count&&(x.asof_min||x.asof_max))||
      (x.asof_min&&x.asof_max&&x.asof_min>x.asof_max))
      return '資料清單有缺漏或欄位異常：'+key;
  }
