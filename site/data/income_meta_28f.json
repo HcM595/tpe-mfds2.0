@@ -1,6 +1,6 @@
 {
   "version": "2.8F",
-  "generated_at_taipei": "2026-10-28T10:14:08+08:00",
+  "generated_at_taipei": "2026-10-28T16:20:40+08:00",
   "rows": 1939,
   "markets": {
     "上市": {
@@ -16,7 +16,7 @@
       "rows": 887,
       "latest_period": "2026Q2",
       "source": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap06_O_ci",
-      "sha256": "33dc7e460b6259a74ee8ea36f20ee99ae2962decb566c7faa198ad8bec8ea1d9",
+      "sha256": "854f1ede834c3a4123022656caf3062593329045ca92e649076ab8537bb39f51",
       "excluded": {
         "outside_company_master_or_market": 1
       }

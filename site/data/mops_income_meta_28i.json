@@ -1,10 +1,10 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-10-28T10:14:55+08:00",
-  "observations": 297,
+  "generated_at_taipei": "2026-10-28T16:21:48+08:00",
+  "observations": 305,
   "checked": 15,
-  "fresh_success": 10,
-  "fresh_ytd_unit_period_aligned": 10,
+  "fresh_success": 12,
+  "fresh_ytd_unit_period_aligned": 12,
   "income_report_ytd": "從MOPS第6欄提取當年年初累計本期淨利；第2欄為單季，不混用",
   "amount_unit": "只有逐股MOPS原始表有唯一明確新台幣仟元標頭時才核實",
   "per_stock": {
@@ -14,8 +14,9 @@
       "period_aligned": true
     },
     "3533": {
-      "status": "stale_backup",
-      "reason": "<urlopen error [Errno 111] Connection refused>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
     "2345": {
       "status": "ok",
@@ -23,57 +24,58 @@
       "period_aligned": true
     },
     "2330": {
-      "status": "stale_backup",
-      "reason": "<urlopen error [Errno 111] Connection refused>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
     "2308": {
       "status": "stale_backup",
       "reason": "<urlopen error timed out>"
     },
-    "2115": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2228": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2230": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
     "2231": {
       "status": "unavailable",
-      "reason": "<urlopen error [Errno 111] Connection refused>"
-    },
-    "2233": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2235": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2236": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2237": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
+      "reason": "<urlopen error timed out>"
     },
     "2239": {
-      "status": "unavailable",
-      "reason": "<urlopen error [Errno 111] Connection refused>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
-    "2241": {
+    "2243": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2247": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2248": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2249": {
+      "status": "unavailable",
+      "reason": "<urlopen error timed out>"
+    },
+    "2250": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2254": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2258": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2301": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -798,6 +800,9 @@
     "2114": {
       "status": "not_checked_this_run"
     },
+    "2115": {
+      "status": "not_checked_this_run"
+    },
     "2201": {
       "status": "not_checked_this_run"
     },
@@ -814,6 +819,21 @@
       "status": "not_checked_this_run"
     },
     "2227": {
+      "status": "not_checked_this_run"
+    },
+    "2228": {
+      "status": "not_checked_this_run"
+    },
+    "2233": {
+      "status": "not_checked_this_run"
+    },
+    "2236": {
+      "status": "not_checked_this_run"
+    },
+    "2237": {
+      "status": "not_checked_this_run"
+    },
+    "2241": {
       "status": "not_checked_this_run"
     },
     "1240": {
@@ -928,6 +948,12 @@
       "status": "not_checked_this_run"
     },
     "2221": {
+      "status": "not_checked_this_run"
+    },
+    "2230": {
+      "status": "not_checked_this_run"
+    },
+    "2235": {
       "status": "not_checked_this_run"
     }
   },
