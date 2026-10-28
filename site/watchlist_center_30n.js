@@ -108,7 +108,74 @@ function toCSV(records){
  }
  return rows.map(row=>row.map(cell).join(',')).join('\r\n');
 }
-const api=Object.freeze({MAX,ids,add,index,build,view,toCSV});
+
+function escapeHtml(v){
+ return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function render(report,opts={}){
+ const selected=ids(opts.codes||[]);
+ const mode=opts.mode||'all',sort=opts.sort||'manual',query=opts.query||'';
+ const pending=!!opts.loading,failed=String(opts.error||'');
+ const count=selected.length;
+ const visible=report&&!failed?view(report,{mode,sort,query}):[];
+ const status=(c)=>'<small>'+escapeHtml(c.observed_at)+' · '+escapeHtml(c.status)+'</small>';
+ const field=(c)=>(c.usable?escapeHtml(c.value):'<span class="r-watch-dim">—</span>')+status(c);
+ const tableRows=visible.map(r=>'<tr data-watch-stock="'+escapeHtml(r.id)+'">'+
+   '<td><strong>'+escapeHtml(r.id)+'</strong><div class="hint">'+escapeHtml(r.name)+'</div></td>'+
+   '<td>'+(r.price===null?'—':r.price.toLocaleString('zh-TW',{maximumFractionDigits:2}))+
+     '<small>'+escapeHtml(r.price_asof)+'</small></td>'+
+   '<td>'+field(r.flow)+'</td><td>'+field(r.holder)+'</td>'+
+   '<td>'+field(r.technical)+'</td><td>'+field(r.revenue)+'</td>'+
+   '<td><span class="chip '+(r.three_axes?'real':'weak')+'">'+escapeHtml(r.three_label)+'</span>'+
+   '<small>'+(r.unverified_dimensions?'關鍵資料未核對 '+r.unverified_dimensions+' 項':'來源日期已對齊；並非正式公告時分認證')+'</small></td>'+
+   '<td><div class="r-watch-actions"><button type="button" class="btn mini" data-action="watchResearch" data-id="'+escapeHtml(r.id)+'">研究</button>'+
+   '<button type="button" class="btn mini" data-action="watch" data-id="'+escapeHtml(r.id)+'">移除</button></div></td></tr>').join('');
+ const summary=report&&count?'<div class="r-watch-metrics">'+
+  '<div><small>追蹤股票</small><b>'+report.stock_count+'</b><span>僅儲存代號；不保存持股與成本</span></div>'+
+  '<div><small>三面交集</small><b>'+(report.source_loaded>=3?report.three_axes_count:'—')+'</b><span>描述性資料，並非勝率</span></div>'+
+  '<div><small>關鍵資料待核對</small><b>'+(report.source_loaded>=3?report.data_review_count:'—')+'</b><span>法人、大戶、技術缺口</span></div>'+
+  '<div><small>當次官方收盤價</small><b>'+(opts.quoteMode==='official'?report.official_price_count:'—')+'</b><span>示範行情絕不混用</span></div>'+
+  '</div>':'';
+ const optionHtml=(options,current)=>options.map(x=>'<option value="'+x[0]+'"'+(x[0]===current?' selected':'')+'>'+x[1]+'</option>').join('');
+ return '<div class="r-watch-intro"><div class="r-eyebrow">WATCHLIST STUDIO · 3.0N</div>'+
+   '<h2>自選股 · 研究追蹤中心</h2>'+
+   '<p>法人、集保、技術與基本面一次比較；僅為封存資料的來源觀察，不提供即時買賣訊號與預測勝率。</p></div>'+
+  '<section class="card r-watch-main" aria-label="3.0N自選股追蹤中心">'+
+  '<div class="r-section-title"><div><h3>我的研究名單</h3>'+
+  '<p>自選代號只保存在本機瀏覽器；不記錄持股與買賣成本，無跨裝置同步。</p></div>'+
+  '<span class="chip">'+count+'／'+MAX+' 檔</span></div>'+
+  '<form id="r-watch-add-form" class="r-watch-add"><label for="r-watch-add-code">加入股票代號</label>'+
+  '<input id="r-watch-add-code" class="field" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="例如 8064" aria-label="加入自選股票">'+
+  '<button class="btn btn-primary" type="submit">＋ 加入追蹤</button></form>'+
+  (pending?'<p class="r-watch-notice" role="status">研究來源正在讀取；尚未取得資料不能視為零檔符合。</p>':'')+
+  (failed?'<p class="r-watch-notice" role="alert">自選股來源核對失敗：'+escapeHtml(failed)+'</p>':'')+
+  (report&&count&&report.source_loaded<report.source_expected?
+   '<p class="r-watch-notice" role="status">已取得 '+report.source_loaded+'／'+report.source_expected+
+   ' 類研究來源；缺漏不會被當成符合條件。</p>':'')+
+  '<div class="r-watch-asof"><span>價格基準日：'+escapeHtml(report?.source_price_asof||'—')+'</span>'+
+  '<span>法人與集保持股日期各自顯示</span>'+
+  '<button type="button" class="btn mini" data-action="watchRefresh">↻ 更新研究資料</button></div>'+
+  summary+
+  '<div class="r-watch-tools"><label for="r-watch-query">搜尋'+
+  '<input id="r-watch-query" class="field" value="'+escapeHtml(query)+'" placeholder="代號或名稱"></label>'+
+  '<label for="r-watch-mode">狀態<select id="r-watch-mode" class="field">'+
+  optionHtml([['all','全部自選'],['confluence','三面交集'],['review','關鍵資料待核對']],mode)+'</select></label>'+
+  '<label for="r-watch-sort">排序<select id="r-watch-sort" class="field">'+
+  optionHtml([['manual','加入順序'],['code','股票代號'],['review','缺口優先']],sort)+'</select></label>'+
+  '<button type="button" class="btn mini" id="r-watch-export"'+(!report||!count?' disabled':'')+'>↓ 匯出比較 CSV</button></div>'+
+  (!count?'<div class="r-empty">尚無自選股。輸入股票代號，即可開始建立研究清單。</div>':
+   failed?'<div class="r-empty">來源內容異常，已停止本次比較；請先更新資料或查看資料品質。</div>':
+   pending?'<div class="r-empty">資料讀取中，暫不列出未核實研究結果。</div>':
+   !visible.length?'<div class="r-empty">沒有符合目前條件的股票；可切回「全部自選」。</div>':
+   '<div class="table-wrap"><table class="data-table r-table r-watch-table"><thead>'+
+   '<tr><th>股票</th><th>官方收盤價</th><th>法人近5日</th><th>大戶4週</th>'+
+   '<th>技術</th><th>月營收</th><th>研究狀態</th><th>操作</th></tr></thead>'+
+   '<tbody>'+tableRows+'</tbody></table></div>')+
+  '<p class="r-watch-foot">'+escapeHtml(report?.warning||'尚無可核實研究來源。')+
+  ' 股價、法人、集保、技術及財務日期不一定一致；未驗證績效不能顯示勝率。</p></section>';
+}
+
+const api=Object.freeze({MAX,ids,add,index,build,view,toCSV,render});
 if(typeof module==='object'&&module.exports)module.exports=api;
 if(root)root.MFDSWatchlist30N=api;
 })(typeof window!=='undefined'?window:null);
