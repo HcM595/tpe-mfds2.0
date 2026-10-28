@@ -11,7 +11,7 @@ async function main(){
   assert(await page.locator('#screen-quality').isVisible());
   assert((await page.locator('#snapshot-status').innerText()).includes('8/8'),'8-byte source manifest verification failed');
   assert.equal(await page.locator('#manifest-rows tr').count(),8);
-  assert((await page.locator('#manifest-summary').innerText()).includes('封裝'),'manifest generation clock should be explicit');
+  assert((await page.locator('#manifest-summary').innerText()).includes('建立UTC：'),'manifest generation UTC clock should be explicit');
   assert.equal((await page.locator('#quality-model').innerText()).trim(),'0');
   await page.route('**/data/chip_signals.csv',async route=>{
    const result=await route.fetch();
