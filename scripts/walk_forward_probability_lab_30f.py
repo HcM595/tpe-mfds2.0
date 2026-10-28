@@ -66,13 +66,8 @@ def cohort_bootstrap_interval(test_ids, cohorts, seed=30, draws=600):
     return [round(low, 6), round(high, 6)]
 
 
-def evaluate(samples, horizon, min_train=200, min_test=60,
-             min_train_cohorts=20, min_test_cohorts=10):
-    """Out-of-time conditional base-rate diagnostic; NEVER per-stock forecast.
-
-    Production must independently authenticate underlying archived sources,
-    execution prices, corporate actions and official publication timestamps.
-    """
+def validated_cohorts(samples, horizon):
+    """Validate every row before ANY fold; references are not authenticated."""
     if horizon not in HORIZONS:
         raise ValueError("Only predeclared 10/20/60 horizons allowed")
     if not isinstance(samples, (list, tuple)):
@@ -122,6 +117,17 @@ def evaluate(samples, horizon, min_train=200, min_test=60,
         if len({row[4] for row in rows}) != 1:
             raise ValueError("Conflicting signal capture times within a cohort: " + cohort)
     ordered_cohorts = sorted(cohorts, key=lambda c: (cohorts[c][0][4], c))
+    return cohorts, ordered_cohorts
+
+
+def evaluate(samples, horizon, min_train=200, min_test=60,
+             min_train_cohorts=20, min_test_cohorts=10):
+    """Out-of-time conditional base-rate diagnostic; NEVER per-stock forecast.
+
+    Production must independently authenticate underlying archived sources,
+    execution prices, corporate actions and official publication timestamps.
+    """
+    cohorts, ordered_cohorts = validated_cohorts(samples, horizon)
     if len(ordered_cohorts) < min_train_cohorts + min_test_cohorts:
         return {"status": "insufficient_independent_cohorts", "cohorts": len(ordered_cohorts)}
     split = max(min_train_cohorts, int(len(ordered_cohorts)*0.75))

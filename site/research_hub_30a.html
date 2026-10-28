@@ -61,6 +61,9 @@ button,input,select{font:inherit;border:1px solid #b8cbd7;border-radius:8px;padd
 <p id="outcome-30g-summary" class="muted" role="status">尚未核對 3.0G 交易結果資格報告。已到期的觀察也不可當成交績效。</p>
 <div class="wrap"><table><thead><tr><th>觀察期限</th><th>前瞻觀察中</th><th>已成熟但未驗證報酬</th><th>符合認證的交易樣本</th></tr></thead><tbody id="outcome-30g-horizons"><tr><td colspan="4">讀取中；正式勝率停用</td></tr></tbody></table></div>
 <p class="foot">這是資料稽核，不是策略成效。實盤成交、除權息與可得時間必須獨立認證；本站不以原始收盤價反推不存在的買賣成交。</p>
+<h3>3.0I｜多期樣本外校準資格</h3>
+<p id="model-validation-30i-summary" class="muted" role="status">尚未核實模型發布資格；不得顯示個股勝率。</p>
+<p class="foot">固定歷史基準機率的多折實驗，不是法人、大戶或技術面訓練完成的個股模型。必須取得各期經認證的真實交易結果，才可能進入正式機率校準與壓力測試。</p>
 <h3>3.0C｜跨資料表身分、日期及首次取得時間</h3>
 <div class="toolbar"><label class="search">查詢問題股票代號／原因<input id="integrity-q" placeholder="例如8064、日期、股票名稱"></label>
 <label class="select">問題種類<select id="integrity-filter"><option value="issues">資料身分與日期不一致</option><option value="captures">首次取得／歷史可得性</option><option value="all">全部</option></select></label></div>
@@ -356,6 +359,34 @@ $('loading').textContent='已載入 '+all.length.toLocaleString()+' 檔逐股資
   summary.textContent='3.0G 結果認證報告缺漏或異常，拒絕顯示勝率：'+
     String(error.message||error).slice(0,90);
   body.replaceChildren();
+ }
+})();
+</script>
+<script>
+/* 3.0I fail-closed source-readiness disclosure, not predictions. */
+(async function(){
+ const node=document.getElementById('model-validation-30i-summary');
+ try{
+  const res=await fetch('./data/model_validation_readiness_30i.json',{cache:'no-store'});
+  if(!res.ok)throw Error('HTTP '+res.status);
+  const m=await res.json();
+  if(m.version!=='3.0I'||m.status!=='unverified_outcomes_block_production_model'||
+     m.formal_win_rate_model_enabled!==false||
+     m.stock_specific_probability_enabled!==false||
+     m.laboratory_results_are_not_production_evidence!==true||
+     !Number.isSafeInteger(m.source_observation_rows)||m.source_observation_rows<0)
+       throw Error('模型來源或安全門檻未通過');
+  for(const h of ['10','20','60']){
+   const row=m.per_horizon?.[h];
+   if(!row||row.officially_authenticated_model_labels!==0||
+      row.completed_out_of_time_folds!==0||
+      row.published_calibration_metrics!==false)throw Error('觀察期限資格不一致');
+  }
+  node.textContent='已核對 '+m.source_observation_rows.toLocaleString()+
+      ' 筆觀察，10／20／60日均缺乏經認證的訓練標籤；多折實驗程式已建立，'+
+      '但正式樣本外校準與個股預測維持停用。';
+ }catch(error){
+  node.textContent='3.0I 資格檔無法驗證，勝率功能停用：'+String(error.message||error).slice(0,90);
  }
 })();
 </script></body></html>

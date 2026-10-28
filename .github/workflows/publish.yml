@@ -189,6 +189,11 @@ jobs:
           python -m unittest tests/test_trade_outcomes_30g.py
           python -m scripts.audit_trade_outcomes_30g
           python -m scripts.audit_trade_outcomes_30g --verify-only
+      - name: 3.0I 多折驗證反例、真實來源模型資格稽核（勝率一律不發布）
+        run: |
+          python -m unittest tests/test_walk_forward_multifold_30i.py tests/test_model_validation_30i.py
+          python -m scripts.audit_model_validation_30i
+          python -m scripts.audit_model_validation_30i --verify-only
       - name: 2.9L 驗證四個研究頁面、資料欄位與模型安全門檻
         run: python -m unittest tests/test_research_pages_29l.py
       - name: 保存真實價格與籌碼資料及更新進度

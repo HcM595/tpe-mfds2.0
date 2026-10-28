@@ -1,0 +1,34 @@
+name: 3.0I 多折時序檢驗與真實模型資格
+on:
+  pull_request:
+    paths:
+      - 'scripts/walk_forward_probability_lab_30f.py'
+      - 'scripts/walk_forward_multifold_30i.py'
+      - 'scripts/audit_model_validation_30i.py'
+      - 'tests/test_walk_forward_multifold_30i.py'
+      - 'tests/test_model_validation_30i.py'
+      - 'site/research_hub_30a.html'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/multifold-validation-30i.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  multifold-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile unchanged and new safety modules
+        run: |
+          python -m compileall -q scripts
+      - name: Regression across all 3.0F-3.0I statistical and evidence gates
+        run: |
+          python -m unittest -v tests/test_prediction_readiness_30f.py tests/test_walk_forward_probability_lab_30f.py tests/test_trade_outcomes_30g.py tests/test_walk_forward_multifold_30i.py tests/test_model_validation_30i.py
+      - name: Real data release gate stays OFF
+        run: |
+          python -m scripts.audit_model_validation_30i
+          python -m scripts.audit_model_validation_30i --verify-only
