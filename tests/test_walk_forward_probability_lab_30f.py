@@ -32,6 +32,7 @@ def fixture(cohorts=80, per_cohort=5, horizon=10):
                 "signal_first_seen_at_utc": (entry-dt.timedelta(days=1)).isoformat(),
                 "entry_at_utc": entry.isoformat(),
                 "exit_at_utc": (entry+dt.timedelta(days=12)).isoformat(),
+                "label_available_at_utc": (entry+dt.timedelta(days=13)).isoformat(),
                 "net_total_return": 0.04 if (i+j)%3 else -0.03,
             })
     return out
@@ -46,6 +47,9 @@ class WalkForwardLabTests(unittest.TestCase):
         self.assertGreaterEqual(report["train_conditional_estimate"], 0)
         self.assertLessEqual(report["train_conditional_estimate"], 1)
         self.assertFalse(report["stock_specific_probability_allowed"])
+        self.assertLess(report["latest_training_label_available_at_utc"],
+                        report["holdout_first_signal_at_utc"])
+        self.assertEqual(report["calibration_bins_count"],1)
     def test_other_predeclared_horizons(self):
         for horizon in (20, 60):
             self.assertEqual(evaluate(fixture(horizon=horizon),horizon)["horizon_sessions"],horizon)
@@ -67,6 +71,40 @@ class WalkForwardLabTests(unittest.TestCase):
             rows[0][field]=value
             with self.subTest(field=field,value=value),self.assertRaises(ValueError):
                 evaluate(rows,10)
+    def test_result_available_after_holdout_signal_is_purged(self):
+        rows=fixture()
+        base=evaluate(rows,10)
+        holdout=dt.datetime.fromisoformat(base["holdout_first_signal_at_utc"])
+        # This older trade has already exited; however its label arrives
+        # AFTER the first new signal, so it must not influence training.
+        for sample in rows:
+            if sample["cohort_id"]=="cohort-055":
+                sample["label_available_at_utc"]=(holdout+dt.timedelta(hours=1)).isoformat()
+        corrected=evaluate(rows,10)
+        self.assertEqual(corrected["status"],"laboratory_only_not_production_certified")
+        self.assertEqual(corrected["train_n"],base["train_n"]-5)
+        self.assertEqual(corrected["purged_train_n"],base["purged_train_n"]+5)
+
+    def test_verified_label_timestamp_is_mandatory(self):
+        cases=[
+            ("label_available_at_utc",None),
+            ("label_available_at_utc","2025-01-01T00:00:00Z"),
+            ("label_available_at_utc","2028-01-01T00:00:00"),
+        ]
+        for field,value in cases:
+            rows=fixture()
+            rows[0][field]=value
+            with self.subTest(value=value),self.assertRaises(ValueError):
+                evaluate(rows,10)
+
+    def test_cohort_cannot_contain_mixed_signal_clocks(self):
+        rows=fixture()
+        rows[1]["signal_first_seen_at_utc"] = (
+            dt.datetime.fromisoformat(rows[1]["signal_first_seen_at_utc"])+
+            dt.timedelta(hours=1)).isoformat()
+        with self.assertRaisesRegex(ValueError,"Conflicting signal capture"):
+            evaluate(rows,10)
+
     def test_deduplicates_and_rejects_overlapping_same_stock(self):
         rows=fixture()
         rows.append(copy.deepcopy(rows[0]))
