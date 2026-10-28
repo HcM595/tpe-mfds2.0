@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""3.0D exact-byte manifests of the eight published research data tables.
+"""3.0E exact-byte manifests of the nine published research data tables.
 
 This is a deployment-integrity receipt, NOT historical release-time proof.
 The manifest is generated after daily CSV updates and before Pages upload.
@@ -23,6 +23,7 @@ SOURCES={
     "valuation":("f2_valuation_29e.csv","asof"),
     "revenue":("revenue_snapshot_28c.csv","table_date"),
     "publication":("publication_gate_29o.csv","price_asof"),
+    "actions":("corporate_action_readiness_30e.csv","price_asof"),
 }
 STOCK_RE=re.compile(r"^[0-9]{4,6}$")
 DAY_RE=re.compile(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
@@ -72,9 +73,9 @@ def build(root=ROOT,clock=None):
         tables[key]=describe(path.read_bytes(),filename,date_col)
     if tables["factor"]["row_count"]<1000:raise ValueError("research universe unexpectedly small")
     manifest={
-        "schema_version":"3.0D",
+        "schema_version":"3.0E",
         "assembled_at_utc":now.isoformat(timespec="seconds"),
-        "verification_scope":"Exact bytes of eight CSV tables included in this GitHub Pages deployment",
+        "verification_scope":"Exact bytes of nine CSV tables included in this GitHub Pages deployment",
         "data_is_not_historical_publication_proof":True,
         "formal_model_scoring_enabled":False,
         "performance_probabilities_enabled":False,
@@ -98,7 +99,7 @@ if __name__=="__main__":
             assert actual==stored["sources"][key],f"snapshot file modified after manifest: {key}"
         assert not stored["formal_model_scoring_enabled"]
         assert not stored["performance_probabilities_enabled"]
-        print("PASS 3.0D: 8 published research sources match exact-byte manifest")
+        print("PASS 3.0E: 9 published research sources match exact-byte manifest")
     else:
         m=build()
         print("3.0D exact-byte research manifest generated",m["assembled_at_utc"],

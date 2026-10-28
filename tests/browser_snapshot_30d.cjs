@@ -9,8 +9,8 @@ async function main(){
   await page.goto(url,{waitUntil:'domcontentloaded',timeout:45000});
   await page.waitForFunction(()=>document.querySelector('#loading')?.textContent.includes('已載入'),{timeout:60000});
   assert(await page.locator('#screen-quality').isVisible());
-  assert((await page.locator('#snapshot-status').innerText()).includes('8/8'),'8-byte source manifest verification failed');
-  assert.equal(await page.locator('#manifest-rows tr').count(),8);
+  assert((await page.locator('#snapshot-status').innerText()).includes('9/9'),'8-byte source manifest verification failed');
+  assert.equal(await page.locator('#manifest-rows tr').count(),9);
   assert((await page.locator('#manifest-summary').innerText()).includes('建立UTC：'),'manifest generation UTC clock should be explicit');
   assert.equal((await page.locator('#quality-model').innerText()).trim(),'0');
   await page.route('**/data/chip_signals.csv',async route=>{
@@ -21,7 +21,7 @@ async function main(){
   await page.reload({waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>document.querySelector('#loading')?.textContent.includes('已載入'),{timeout:60000});
   const receipt=await page.locator('#snapshot-status').innerText();
-  assert(receipt.includes('7/8')&&receipt.includes('部分資料異常'),'modified source should be quarantined');
+  assert(receipt.includes('8/9')&&receipt.includes('部分資料異常'),'modified source should be quarantined');
   assert((await page.locator('#manifest-rows').innerText()).includes('SHA256')||
          (await page.locator('#manifest-rows').innerText()).includes('檔案大小'),'manifest cause missing');
   assert((await page.locator('#quality-rows').innerText()).includes('讀取失敗'),'quality panel must show quarantine');
@@ -35,7 +35,7 @@ async function main(){
   await page.waitForFunction(()=>document.querySelector('#loading')?.textContent.includes('無法啟動'),{timeout:60000});
   assert((await page.locator('#snapshot-status').innerText()).includes('來源快照校驗失敗'));
   assert.deepEqual(errors,[],'JavaScript page errors '+errors.join('; '));
-  console.log('PASS 3.0D: 8 source hashes verified, tampered optional source quarantined, tampered research master blocks page');
+  console.log('PASS 3.0E: 9 source hashes verified, tampered optional source quarantined, tampered research master blocks page');
  }finally{await browser.close()}
 }
 main().catch(err=>{console.error(err);process.exitCode=1});

@@ -159,7 +159,20 @@ jobs:
         run: |
           node --check site/research_integrity_30c.js
           node tests/research_integrity_30c.test.cjs
-      - name: 3.0D 產製本站八類資料SHA256快照並驗證資料版本
+      - name: 3.0E 核對官方除權息歷史事件與未還原前收（不得算報酬）
+        run: |
+          python -m unittest tests/test_corporate_action_readiness_30e.py
+          python scripts/audit_corporate_action_readiness_30e.py
+          python - <<'PY'
+          import csv,json
+          rows=list(csv.DictReader(open('site/data/corporate_action_readiness_30e.csv',encoding='utf-8')))
+          m=json.load(open('site/data/corporate_action_readiness_meta_30e.json',encoding='utf-8'))
+          assert len(rows)==m['stocks']>=1000
+          assert all(x['adjusted_ohlc_verified']=='false' and x['total_return_calculation_allowed']=='false' for x in rows)
+          assert not m['historical_completeness_verified'] and not m['probability_enabled']
+          print('3.0E corporate action consistency',m['stocks'],'stocks, official observed event stocks',m['stocks_with_observed_official_historical_events'])
+          PY
+      - name: 3.0E 產製本站九類資料SHA256快照並驗證資料版本
         run: |
           python -m unittest tests/test_research_snapshot_30d.py
           python scripts/build_research_snapshot_30d.py

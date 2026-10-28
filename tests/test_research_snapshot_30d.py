@@ -23,7 +23,7 @@ class SnapshotReceiptTests(unittest.TestCase):
             folder=self.setup_sources(tmp)
             clock=dt.datetime(2026,10,28,1,2,tzinfo=dt.timezone.utc)
             m=build(Path(tmp),clock)
-            self.assertEqual(m["snapshot_source_count"],8)
+            self.assertEqual(m["snapshot_source_count"],9)
             self.assertEqual(m["sources"]["factor"]["row_count"],1001)
             self.assertFalse(m["formal_model_scoring_enabled"])
             self.assertFalse(m["performance_probabilities_enabled"])
