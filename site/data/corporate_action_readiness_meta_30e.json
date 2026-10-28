@@ -1,0 +1,18 @@
+{
+  "version": "3.0E",
+  "stocks": 1961,
+  "source_price_asof": "2026-10-27",
+  "stocks_with_observed_official_historical_events": 1464,
+  "official_events_in_latest60_observed_sessions": 480,
+  "prior_raw_close_pairs_checked": 1561,
+  "prior_raw_close_mismatches": 1,
+  "stocks_with_prior_close_mismatch": 1,
+  "failed_or_unverified_history_source_attempts": 4,
+  "historical_completeness_verified": false,
+  "adjusted_ohlc_verified": false,
+  "cash_stock_distribution_terms_verified": false,
+  "total_return_calculation_allowed": false,
+  "formal_model_scores_enabled": false,
+  "probability_enabled": false,
+  "warning": "已觀察除權息事件及前收比對屬資料品質稽核，不構成股利或配股完整認證；沒有事件不代表確定沒有。參考價不可取代現金分配或總報酬還原；價格、回測與勝率繼續停用。"
+}
