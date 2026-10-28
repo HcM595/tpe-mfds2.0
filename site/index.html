@@ -57,6 +57,7 @@
 <div id="banner" class="notice warn"><span class="dot"></span><div><b>目前顯示：虛構示範資料</b><div>並非台股即時或歷史實際行情，綜合分數不是預測勝率，也不構成買賣建議。請先操作體驗，再匯入有來源的真實資料。</div></div></div>
 <div id="content"></div><div class="footer">TPE-MFDS 3.0E · 法人與大戶歷史分析 · 保留2.3.3舊版查詢｜本機瀏覽器運算｜無下單功能｜不提供未經回測的上漲機率。</div></main></div>
 <input id="snapshotFile" type="file" accept=".csv,text/csv" class="hidden"><input id="pricesFile" type="file" accept=".csv,text/csv" class="hidden"><div id="toast" class="toast hidden" role="status"></div>
+<script src="./stock_evidence_30m.js"></script>
 <script src="./chip_trends_26b.js"></script>
 <script src="./research_eligibility_27a.js"></script>
 <script>
@@ -490,6 +491,40 @@ ${rCards([['逐股證據覆蓋',evidenceMeta.stocks??'—','非正式模型資�
     ${crossError?`<div class="r-empty">交叉來源無法核對，因此不顯示名單：${esc(crossError)}</div>`:!rGet('rank')?`<div class="r-empty">籌碼排行資料尚未取得：${rVal(research.errors.rank||'檔案不存在')}。${rMetaLink('rank','查看預期資料路徑')}</div>`:!rows.length?'<div class="r-empty">沒有符合條件的股票；可放寬篩選或清除搜尋。</div>':`<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>名次</th><th>股票</th><th>市場</th><th>籌碼分</th><th>收盤價</th><th>外資5日淨買超</th><th>投信5日淨買超</th><th>大戶千張級距4週</th><th>技術確認</th><th>交叉檢查</th><th>價格／集保日期</th></tr></thead><tbody>${rows.slice(0,120).map(x=>{const item=crossIndex.get(x.stock_id)||{},t=item.tech||{},c=item.check||{};const label=c.confluence?'三面同時符合':!c.ready?'日期或資格待核對':c.issues?.slice(0,2).join('；')||'待核對';return `<tr data-r-stock="${esc(x.stock_id)}" tabindex="0"><td>${rVal(x.chip_strength_rank)}</td><td><b>${esc(x.stock_id)}</b><div class="hint">${esc(x.stock_name)}</div></td><td>${rVal(x.market)}</td><td><b>${rNum(x.chip_strength_score,2)}</b></td><td>${rNum(x.close,2)}</td><td>${rNum(x.foreign_5d_shares,0)}股</td><td>${rNum(x.trust_5d_shares,0)}股</td><td>${rNum(x.large1000_4w_pp,2)}pp</td><td>${c.technical?'3/3':(t.technical_confirmed_count?'未對齊或不足':'—')}</td><td><span class="chip ${c.confluence?'real': 'weak'}">${esc(label)}</span></td><td>${rVal(x.price_asof)}／${rVal(x.holder_asof)}<div class="hint">法人：${rVal(x.flow_asof)}</div></td></tr>`}).join('')}</tbody></table></div>`}
     </section>`;
 }
+function rStockBrief(report){
+ if(!report)return '<div class="r-empty">個股資料摘要尚未取得；原始資料與正式機率維持待核對。</div>';
+ const quote=x=>esc(String(x??'—'));
+ const card=report.cards.map(item=>'<article class="r-evidence-mini '+(item.usable?'r-evidence-observed':'r-evidence-missing')+'">'+
+    '<div class="r-evidence-mini-title">'+quote(item.title)+'</div>'+
+    '<strong>'+quote(item.value)+'</strong>'+
+    '<small>資料日：'+quote(item.observed_at)+' · '+quote(item.status)+'</small>'+
+    '<p>'+quote(item.note)+'</p></article>').join('');
+ const clocks=report.sources.map(row=>'<tr><td>'+quote(row.source)+'</td><td>'+quote(row.date)+'</td>'+
+    '<td>'+quote(row.observation)+'</td><td>'+quote(row.published)+'</td><td>'+quote(row.state)+'</td></tr>').join('');
+ const blockers=report.blockers.map(reason=>'<li>'+quote(reason)+'</li>').join('');
+ const risk=report.risk?
+  '<div class="r-evidence-risk"><b>收盤風險參考</b><span>前20日收盤高 '+quote(report.risk.high20)+
+  ' · 前20日收盤低 '+quote(report.risk.low20)+' · 20日年化波動 '+quote(report.risk.vol20)+
+  '</span><small>'+quote(report.risk.note)+'</small></div>':
+  '<div class="r-evidence-risk"><b>收盤風險參考</b><span>資料日尚未對齊，拒絕推估高低價或目標價。</span></div>';
+ return '<section class="r-evidence-brief" aria-label="3.0M個股研究證據摘要">'+
+   '<div class="r-evidence-head"><div><div class="r-eyebrow">RESEARCH BRIEF · 3.0M</div>'+
+   '<h3>個股研究摘要 · '+quote(report.stock_id)+' '+quote(report.stock_name)+'</h3>'+
+   '<p>每項觀察單獨核對日期與來源；本頁只整理描述性資料，不構成正式選股評級。</p></div>'+
+   '<button type="button" class="btn mini" id="r-stock-evidence-export">匯出本股證據 CSV</button></div>'+
+   '<div class="r-evidence-mini-grid">'+card+'</div>'+
+   '<div class="r-evidence-context"><div><b>三面交集核對</b><p>'+quote(report.cross)+'</p></div>'+
+   '<div><b>12因子正式資料資格</b><p>'+(report.model.verified_factors===null?'尚未取得':quote(report.model.verified_factors)+'／12項已核實')+
+   '；模型'+(report.model.eligible?'來源標記需複核':'尚不合格')+'</p></div></div>'+
+   risk+
+   '<details class="r-evidence-details"><summary>展開逐項資料日期與公告時間核對（'+report.sources.length+'項）</summary>'+
+   '<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>來源</th><th>記錄日期</th><th>本次觀察</th><th>官方公布時分</th><th>狀態</th></tr></thead>'+
+   '<tbody>'+clocks+'</tbody></table></div></details>'+
+   '<details class="r-evidence-details"><summary>展開資料限制與未通過原因（'+report.blockers.length+'項）</summary>'+
+   '<ul>'+blockers+'</ul></details>'+
+   '<p class="r-evidence-caution">'+quote(report.caution)+'</p></section>';
+}
+
 function rStock(){
   const id=research.stockId,rank=rIndex('rank').get(id)||{},chip=rIndex('chip').get(id)||{},tech=rIndex('tech').get(id)||{},univ=rIndex('universe').get(id)||{};
   const ss=state.stocks.find(x=>x.stock_id===id)||{};
@@ -507,11 +542,31 @@ function rStock(){
   const rev=rIndex('revenue').get(id)||{}, ir=rIndex('industry').get(id)||{}, risk=rIndex('risk').get(id)||{}, income=rIndex('income').get(id)||{}, cashflow=rIndex('cashflow').get(id)||{}, mopsIncome=rIndex('mopsIncome').get(id)||{},factorEvidence=rIndex('factorEvidence').get(id)||{},macro=rGet('macroSnapshot')||{},credit=rIndex('s2Credit').get(id)||{},breadth=rIndex('industryBreadth').get(id)||{},f2=rIndex('f2Valuation').get(id)||{},f3=rIndex('f3Governance').get(id)||{},pit=rIndex('pitStock').get(id)||{};
   const originalFactors=(rGet('factorReadiness')||{}).factors||[];
   const revMeta=rGet('revenueMeta')||{}, marketRevenueStatus=revMeta.markets?.[ss.market]?.status||'未取得';
+  const briefModule=window.MFDSStockEvidence30M;
+  let brief=null;
+  try {
+    if(briefModule){
+      brief=briefModule.build({
+        stockId:id,stockName:name,priceDate:(rGet('official')||{}).display_date||'',
+        sources:{rank:rank.stock_id?rank:null,chip:chip.stock_id?chip:null,
+          tech:tech.stock_id?tech:null,factor:factorEvidence.stock_id?factorEvidence:null,
+          revenue:rev.stock_id?rev:null,risk:risk.stock_id?risk:null,
+          valuation:f2.stock_id?f2:null,income:income.stock_id?income:null},
+        loaded:{rank:!!rGet('rank'),chip:!!rGet('chip'),tech:!!rGet('tech'),
+          factor:!!rGet('factorEvidence'),revenue:!!rGet('revenue'),
+          risk:!!rGet('risk'),valuation:!!rGet('f2Valuation'),income:!!rGet('income')},
+        crossCheck:window.MFDSChipTechCrossfilter?.evaluate
+      });
+    }
+  }catch(e){console.warn('個股證據摘要核對失敗',String(e));}
+  research.stockEvidenceBrief=brief;
+
   return `<section class="card r-section"><div class="r-section-title"><div><h3>查詢個股完整研究資料</h3><p>輸入4至6碼股票代號，查詢已發布的市場／技術／籌碼／事件資料。</p></div><span class="chip">資料缺漏不推測</span></div>
     <div class="hint" style="margin:8px 0">快速查詢：<button type="button" class="btn mini" data-r-stock="8064">8064 東捷</button> <button type="button" class="btn mini" data-r-stock="3533">3533 嘉澤</button> <button type="button" class="btn mini" data-r-stock="2345">2345 智邦</button></div>
     <form id="r-stock-form" class="r-lookup"><input id="r-stock-code" inputmode="numeric" autocomplete="off" class="field" maxlength="6" value="${esc(research.stockQuery)}" placeholder="例如8064、3533、2345" aria-label="股票代號" /><button type="submit" class="btn btn-primary">查詢</button></form>
     ${!known?`<div class="r-empty">${esc(id)} 尚未出現在目前已載入的資料；無法提供推測分數或價格。請核對資料日期與來源。</div>`:
     `<div class="r-stock-title"><h2>${esc(id)} ${esc(name)}</h2><span class="chip">${rVal(rank.market||tech.market||univ.market||ss.market||'市場未確認')}</span><span class="chip">收盤行情：${rVal(rank.price_asof||tech.price_asof||ss.asof)}</span><button type="button" class="btn mini" data-action="watch" data-id="${esc(id)}">${state.watch.includes(id)?"★ 已加入自選":"☆ 加入自選"}</button></div>
+    ${rStockBrief(brief)}
     <section class="r-panel r-subpanel"><h3>2.9F 本股 F2／F3 三時鐘歷史資料稽核</h3>
 <p class="hint">所有因子需區分來源所屬日、當時能否取得、與官方發佈時分。本表若顯示首次封存較晚，不能用目前新下載的報表回測過去的交易日。</p>
 ${!pit.stock_id?'<p class="hint">此股尚未建立完整的歷史時間稽核紀錄；不會推定來源已於股價基準日公開。</p>':`
@@ -669,6 +724,19 @@ function bindResearch(){
     research.query=e.target.value;research.eligibilityPage=0;const caret=q.selectionStart;render();const next=$('r-query');if(next){next.focus();next.setSelectionRange(caret,caret)}
   });
   for(const [id,key] of [['r-market','market'],['r-cross','cross']]){const el=$(id);if(el)el.addEventListener('change',e=>{research[key]=e.target.value;render()})}
+  const evidenceExport=$('r-stock-evidence-export');
+  if(evidenceExport)evidenceExport.addEventListener('click',()=>{
+    try{
+      if(!research.stockEvidenceBrief||!window.MFDSStockEvidence30M)throw Error('尚未取得可核對的個股來源');
+      const csv=window.MFDSStockEvidence30M.toCSV(research.stockEvidenceBrief);
+      const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+      const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+      a.download='TPE_MFDS_30M_本股來源_'+research.stockEvidenceBrief.stock_id+'.csv';
+      document.body.append(a);a.click();a.remove();
+      setTimeout(()=>URL.revokeObjectURL(a.href),1200);
+      notif('已匯出本股來源摘要與資料日期；非投資訊號或預測勝率。');
+    }catch(e){notif('個股證據無法匯出：'+String(e.message||e))}
+  });
   const form=$('r-stock-form');if(form)form.addEventListener('submit',e=>{
     e.preventDefault();const code=($('r-stock-code')?.value||'').trim();if(!/^\d{4,6}$/.test(code)){notif('請輸入4至6碼數字股票代號');return}
     research.stockQuery=code;research.stockId=code;render();
