@@ -511,7 +511,8 @@ function rStockBrief(report){
    '<div class="r-evidence-head"><div><div class="r-eyebrow">RESEARCH BRIEF · 3.0M</div>'+
    '<h3>個股研究摘要 · '+quote(report.stock_id)+' '+quote(report.stock_name)+'</h3>'+
    '<p>每項觀察單獨核對日期與來源；本頁只整理描述性資料，不構成正式選股評級。</p></div>'+
-   '<button type="button" class="btn mini" id="r-stock-evidence-export">匯出本股證據 CSV</button></div>'+
+   '<div class="r-evidence-tools"><a class="btn mini" id="r-stock-deep-link" href="./research_hub_30a.html?view=detail&amp;stock='+encodeURIComponent(report.stock_id)+'">九源完整來源核查 ↗</a>'+
+   '<button type="button" class="btn mini" id="r-stock-evidence-export">匯出本股證據 CSV</button></div></div>'+
    '<div class="r-evidence-mini-grid">'+card+'</div>'+
    '<div class="r-evidence-context"><div><b>三面交集核對</b><p>'+quote(report.cross)+'</p></div>'+
    '<div><b>12因子正式資料資格</b><p>'+(report.model.verified_factors===null?'尚未取得':quote(report.model.verified_factors)+'／12項已核實')+
