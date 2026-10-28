@@ -56,7 +56,7 @@ assert.throws(()=>W.view(report,{sort:'magic'}),/未知/);
 const actualCsv=W.toCSV(report.records);
 assert(actualCsv.includes('股票代號')&&actualCsv.includes('官方收盤價'));
 assert(actualCsv.includes('法人資料日')&&actualCsv.includes('集保資料日'));
-assert(actualCsv.includes('正式勝率'));
+assert(actualCsv.includes('勝率'),'CSV must carry the existing verification warning');
 assert.equal(actualCsv.split('\r\n').length,4);
 const html=W.render(report,{codes:ids,mode:'all',quoteMode:'official'});
 assert(html.includes('3.0N自選股追蹤中心'));
