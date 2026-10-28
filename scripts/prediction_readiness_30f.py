@@ -81,6 +81,8 @@ def audit(data=DATA, now=None):
                    for r in observations)
     if eligible != forward.get("observation_eligible_rows_all_cohorts"):
         raise ValueError("Eligible observation count mismatch")
+    if any(not str(r.get("performance_status", "")).startswith("不計算_") for r in observations):
+        raise ValueError("An unverified performance label was introduced")
     matured = {}
     for horizon in HORIZONS:
         col = f"h{horizon}_status"
@@ -91,6 +93,8 @@ def audit(data=DATA, now=None):
     strict = readiness.get("strict_performance_samples_eligible")
     if not isinstance(strict, int) or isinstance(strict, bool) or strict < 0:
         raise ValueError("Invalid strict sample eligibility")
+    if strict:
+        raise ValueError("A legacy eligible counter cannot certify verified outcomes")
     blockers = [
         "尚未逐筆核實可使用的歷史交易成交時間與買賣價（包含滑價及交易成本）",
         "股價未完成官方公司行動及現金股利還原，不能將原始價差當總報酬",
