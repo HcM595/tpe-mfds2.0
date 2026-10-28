@@ -69,7 +69,7 @@ class OriginalGoalSiteAcceptance(unittest.TestCase):
         self.assertIn("示範資料",home)
         self.assertIn("RESEARCH WORKSPACE",home)
         self.assertIn("3.0E · 研究資料總覽",home)
-        self.assertIn("TPE-MFDS 3.0E ·",home)
+        self.assertIn("TPE-MFDS 3.0N ·",home)
         self.assertIn("3.0E｜發布快照與九份資料檔完整性",hub)
         self.assertNotIn("正在比對八類研究來源",hub)
 
