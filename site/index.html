@@ -770,6 +770,7 @@ function watchTimelinePanel(){
  const ui=watchTimelineUi,mod=window.MFDSWatchTimeline30P,days=watchHistoryUi.days;
  if(!mod)return '<section class="card r-section" role="alert">3.0P時間軸模組尚未載入。</section>';
  const known=state.watch.includes(ui.stock)?ui.stock:(state.watch[0]||'');
+ if(ui.stock!==known)ui.stock=known;
  const start=ui.from&&days.some(x=>x.date===ui.from)?ui.from:days[0]?.date||'';
  const end=ui.to&&days.some(x=>x.date===ui.to)?ui.to:days.at(-1)?.date||'';
  const dateOptions=(selected)=>days.map(d=>'<option value="'+esc(d.date)+'"'+(d.date===selected?' selected':'')+'>'+
