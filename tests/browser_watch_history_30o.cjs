@@ -8,7 +8,7 @@ const fs=require('node:fs');
  try{
   await page.goto('http://127.0.0.1:8765/',{waitUntil:'domcontentloaded'});
   await page.locator('#nav > button[data-page="watch"]').click();
-  await page.locator('#r-history-first option').first().waitFor({timeout:60000});
+  await page.locator('#r-history-first option').first().waitFor({state:'attached',timeout:60000});
   await page.waitForFunction(()=>document.querySelectorAll('#r-history-first option').length>=2,{timeout:60000});
   const count=await page.locator('#r-history-first option').count();
   assert(count>=2);
@@ -51,7 +51,7 @@ const fs=require('node:fs');
   await page.locator('.r-watch-history-verified').waitFor({timeout:60000});
   await page.reload({waitUntil:'domcontentloaded'});
   await page.locator('#nav > button[data-page="watch"]').click();
-  await page.locator('#r-history-first option').first().waitFor({timeout:60000});
+  await page.locator('#r-history-first option').first().waitFor({state:'attached',timeout:60000});
   assert.equal(await page.locator('#r-watch-add-form').count(),1);
   assert.equal(await page.locator('[data-watch-stock]').count(),3);
   await page.setViewportSize({width:390,height:844});
