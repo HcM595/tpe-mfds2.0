@@ -43,7 +43,7 @@ const {chromium}=require('playwright');
   // The entire watchlist is a separate page, but all drilldowns go to the
   // existing research section without adding another menu.
   await page.locator('button[data-action="watchResearch"][data-id="8064"]').click();
-  assert((await page.locator('#r-stock-form').inputValue?.())===undefined || true);
+  assert(await page.locator('#r-stock-form').isVisible());
   assert((await page.locator('#content').innerText()).includes('8064'));
   await page.locator('#nav > button[data-page="watch"]').click();
   await page.locator('button[data-action="watch"][data-id="3533"]').click();
