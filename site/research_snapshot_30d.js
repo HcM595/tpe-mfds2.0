@@ -15,17 +15,33 @@ const PATHS={
  actions:'corporate_action_readiness_30e.csv'
 };
 const HEX=/^[a-f0-9]{64}$/;
+function validDay(value){
+ if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
+ const date=new Date(value+'T00:00:00Z');
+ return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===value;
+}
 function manifestIssue(manifest){
  if(!manifest||manifest.schema_version!=='3.0E'||manifest.snapshot_source_count!==9||
-    !manifest.sources||typeof manifest.sources!=='object')return '快照版本或清單結構不符合3.0D';
+    !manifest.sources||typeof manifest.sources!=='object')return '快照版本或清單結構不符合3.0E';
  if(manifest.formal_model_scoring_enabled!==false||manifest.performance_probabilities_enabled!==false)
     return '來源快照不應宣稱已啟用模型分數或預測';
  for(const [key,name] of Object.entries(PATHS)){
   const x=manifest.sources[key];
   if(!x||x.path!=='data/'+name||!HEX.test(x.sha256||'')||
      !Number.isSafeInteger(x.byte_length)||x.byte_length<1||
-     !Number.isSafeInteger(x.row_count)||x.row_count<0||
-     x.unique_stock_count>x.row_count)return '資料清單有缺漏或欄位異常：'+key;
+     !Number.isSafeInteger(x.row_count)||x.row_count<1||
+     !Number.isSafeInteger(x.unique_stock_count)||x.unique_stock_count<1||
+     x.unique_stock_count>x.row_count||
+     !Number.isSafeInteger(x.asof_missing)||x.asof_missing<0||
+     x.asof_missing>x.row_count||
+     typeof x.asof_field!=='string'||!x.asof_field||
+     typeof x.asof_min!=='string'||typeof x.asof_max!=='string'||
+     (x.asof_min&&!validDay(x.asof_min))||
+     (x.asof_max&&!validDay(x.asof_max))||
+     (x.asof_missing<x.row_count&&(!x.asof_min||!x.asof_max))||
+     (x.asof_missing===x.row_count&&(x.asof_min||x.asof_max))||
+     (x.asof_min&&x.asof_max&&x.asof_min>x.asof_max))
+     return '資料清單有缺漏或欄位異常：'+key;
  }
  return '';
 }
@@ -35,6 +51,8 @@ async function sha256(data,subtle){
 }
 async function verify(key,buffer,manifest,subtle){
  const declared=manifest?.sources?.[key],name=PATHS[key];
+ const issue=manifestIssue(manifest);
+ if(issue)return {ok:false,reason:issue};
  if(!name||!declared||declared.path!=='data/'+name)return {ok:false,reason:'找不到對應來源清單'};
  if(!(buffer instanceof ArrayBuffer))return {ok:false,reason:'來源資料不是完整位元組'};
  if(buffer.byteLength!==declared.byte_length)return {ok:false,reason:'檔案大小與發布快照不符'};
