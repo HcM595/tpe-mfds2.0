@@ -184,6 +184,11 @@ jobs:
           python -m unittest tests/test_prediction_readiness_30f.py tests/test_walk_forward_probability_lab_30f.py
           python scripts/prediction_readiness_30f.py
           python scripts/prediction_readiness_30f.py --verify-only
+      - name: 3.0G 核對10／20／60日前瞻成熟度及成交成本試算的假資料反例
+        run: |
+          python -m unittest tests/test_trade_outcomes_30g.py
+          python -m scripts.audit_trade_outcomes_30g
+          python -m scripts.audit_trade_outcomes_30g --verify-only
       - name: 2.9L 驗證四個研究頁面、資料欄位與模型安全門檻
         run: python -m unittest tests/test_research_pages_29l.py
       - name: 保存真實價格與籌碼資料及更新進度
