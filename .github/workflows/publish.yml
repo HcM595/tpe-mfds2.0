@@ -179,6 +179,11 @@ jobs:
           python scripts/build_research_snapshot_30d.py --verify-only
           node --check site/research_snapshot_30d.js
           node tests/research_snapshot_30d.test.cjs
+      - name: 3.0F 勝率研究資格稽核與分期樣本外實驗測試（不發布勝率）
+        run: |
+          python -m unittest tests/test_prediction_readiness_30f.py tests/test_walk_forward_probability_lab_30f.py
+          python scripts/prediction_readiness_30f.py
+          python scripts/prediction_readiness_30f.py --verify-only
       - name: 2.9L 驗證四個研究頁面、資料欄位與模型安全門檻
         run: python -m unittest tests/test_research_pages_29l.py
       - name: 保存真實價格與籌碼資料及更新進度
