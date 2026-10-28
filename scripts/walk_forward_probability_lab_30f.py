@@ -8,6 +8,7 @@ from __future__ import annotations
 import datetime as dt
 import math
 import re
+import random
 from collections import defaultdict
 
 HORIZONS = (10, 20, 60)
@@ -40,6 +41,29 @@ def interval(success, total, z=1.96):
     center = (p + z*z/(2*total)) / d
     width = z*math.sqrt(p*(1-p)/total + z*z/(4*total*total))/d
     return [round(max(0., center-width), 6), round(min(1., center+width), 6)]
+
+
+def cohort_bootstrap_interval(test_ids, cohorts, seed=30, draws=600):
+    """Exploratory 95% cluster bootstrap over signal cohorts, not stock rows.
+
+    Preserves within-cohort market correlation, but cannot remove cross-cohort
+    market regime dependence. Only laboratory diagnostics, not live coverage.
+    """
+    if len(test_ids) < 2:
+        raise ValueError("At least two distinct cohorts required")
+    rng = random.Random(seed)
+    cluster = [(sum(row[2] for row in cohorts[c]), len(cohorts[c])) for c in test_ids]
+    n = len(cluster)
+    draws_hit = []
+    for _ in range(draws):
+        drawn = [cluster[rng.randrange(n)] for _ in range(n)]
+        wins = sum(x[0] for x in drawn)
+        total = sum(x[1] for x in drawn)
+        draws_hit.append(wins / total)
+    draws_hit.sort()
+    low = draws_hit[int((draws - 1) * .025)]
+    high = draws_hit[int((draws - 1) * .975)]
+    return [round(low, 6), round(high, 6)]
 
 
 def evaluate(samples, horizon, min_train=200, min_test=60,
@@ -130,7 +154,9 @@ def evaluate(samples, horizon, min_train=200, min_test=60,
         "purged_train_n": sum(len(cohorts[c]) for c in train_ids)-len(train),
         "train_conditional_estimate": round(p, 6),
         "holdout_hit_fraction": round(holdout_wins/len(test), 6),
-        "holdout_wilson_95": interval(holdout_wins, len(test)),
+        "holdout_wilson_95_naive_rows": interval(holdout_wins, len(test)),
+        "holdout_cluster_bootstrap_95_exploratory": cohort_bootstrap_interval(test_ids, cohorts),
+        "cluster_count": len(test_ids),
         "out_of_time_brier": round(brier, 6),
         "holdout_first_signal_at_utc": start.isoformat(),
         "latest_training_label_available_at_utc": max(r[5] for r in train).isoformat(),
@@ -142,5 +168,8 @@ def evaluate(samples, horizon, min_train=200, min_test=60,
         "calibration_bins_count": 1,  # constant baseline is NOT a stock-level model
         "calibration_gap_abs": round(abs(p-holdout_wins/len(test)), 6),
         "stock_specific_probability_allowed": False,
-        "note": "A historical conditional base rate is not a proven live stock win probability."
+        "note": ("This is a single chronological holdout, NOT verified live calibration. "
+                 "Row-wise Wilson incorrectly assumes independent stocks. "
+                 "Cluster bootstrap captures within-signal dependence only, "
+                 "not correlation across market regimes or release-time authenticity."),
     }
