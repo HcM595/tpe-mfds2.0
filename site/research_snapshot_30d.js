@@ -1,4 +1,4 @@
-/* 3.0D: verify deployed CSV bytes against the manifest generated in the
+/* 3.0E: verify deployed CSV bytes against the manifest generated in the
  * SAME site/data build. Protects against partial or mixed-version publishing.
  * Does not prove first official publication, investment returns, or history. */
 (function(root){
@@ -11,11 +11,12 @@ const PATHS={
  risk:'risk_observations_28d.csv',
  valuation:'f2_valuation_29e.csv',
  revenue:'revenue_snapshot_28c.csv',
- publication:'publication_gate_29o.csv'
+ publication:'publication_gate_29o.csv',
+ actions:'corporate_action_readiness_30e.csv'
 };
 const HEX=/^[a-f0-9]{64}$/;
 function manifestIssue(manifest){
- if(!manifest||manifest.schema_version!=='3.0D'||manifest.snapshot_source_count!==8||
+ if(!manifest||manifest.schema_version!=='3.0E'||manifest.snapshot_source_count!==9||
     !manifest.sources||typeof manifest.sources!=='object')return '快照版本或清單結構不符合3.0D';
  if(manifest.formal_model_scoring_enabled!==false||manifest.performance_probabilities_enabled!==false)
     return '來源快照不應宣稱已啟用模型分數或預測';
