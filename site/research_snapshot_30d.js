@@ -31,8 +31,8 @@ function manifestIssue(manifest){
      x.asof_missing>x.row_count||
      typeof x.asof_field!=='string'||!x.asof_field||
      typeof x.asof_min!=='string'||typeof x.asof_max!=='string'||
-     (x.asof_min&&!/^\\d{4}-\\d{2}-\\d{2}$/.test(x.asof_min))||
-     (x.asof_max&&!/^\\d{4}-\\d{2}-\\d{2}$/.test(x.asof_max))||
+     (x.asof_min&&!/^\d{4}-\d{2}-\d{2}$/.test(x.asof_min))||
+     (x.asof_max&&!/^\d{4}-\d{2}-\d{2}$/.test(x.asof_max))||
      (x.asof_min&&x.asof_max&&x.asof_min>x.asof_max))
      return '資料清單有缺漏或欄位異常：'+key;
  }
