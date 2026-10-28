@@ -211,3 +211,31 @@ body.workbench-editorial #snapshot-status{font-size:12px;color:#315e4a}
 .r-watch-history-verified{font-size:11px;background:#eef5e9;padding:10px;border:1px solid #dcead7;border-radius:8px;color:#426f52;overflow-wrap:anywhere}
 @media(max-width:710px){.r-watch-history{padding:14px}.r-watch-history-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.r-watch-history-controls label,.r-watch-history-controls .field{min-width:0;width:100%}.r-watch-history-controls button{width:100%}}
 @media(max-width:390px){.r-watch-history-controls{grid-template-columns:1fr}}
+
+
+/* 3.0P — one genuine observation timeline inside the existing watchlist. */
+.r-watch-timeline{padding:24px;background:linear-gradient(145deg,#fffdf7,#f8fbf4);border:1px solid #e0e7da}
+.r-timeline-controls{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px;margin:17px 0}
+.r-timeline-controls label,.r-timeline-subtools label{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:600;color:#4b7157}
+.r-timeline-controls .field{min-width:152px;max-width:100%}
+.r-timeline-info{font-size:11px;color:#677f69;background:#f2f6ef;padding:10px 13px;border:1px solid #e1e9df;border-radius:9px;line-height:1.8}
+.r-timeline-subtools{display:flex;gap:12px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;margin:15px 0}
+.r-timeline-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin:19px 0}
+.r-timeline-summary>div{padding:13px 15px;background:#f5f7ef;border:1px solid #e1e8db;border-radius:10px}
+.r-timeline-summary small{display:block;color:#687b66;font-size:11px;line-height:1.6}
+.r-timeline-summary b{display:block;font-family:Georgia,"Noto Serif TC",serif;font-size:24px;font-weight:500;color:#2a614a}
+.r-timeline-list{list-style:none;margin:17px 0 12px 8px;padding:0 0 0 22px;border-left:2px solid #d9e4da}
+.r-timeline-node{position:relative;padding:0 0 20px 19px}
+.r-timeline-dot{position:absolute;left:-30px;top:5px;height:14px;width:14px;border:3px solid #e9f0e6;border-radius:50%;background:#779982}
+.r-timeline-node.change .r-timeline-dot{background:#2d7459;border-color:#cae0d1}
+.r-timeline-node.warning .r-timeline-dot{background:#a7895d;border-color:#eae3d3}
+.r-timeline-content{border:1px solid #e4e8dd;background:#fffefa;border-radius:11px;padding:15px 18px;box-shadow:0 3px 12px rgba(52,79,56,.028)}
+.r-timeline-date{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:11px}
+.r-timeline-date time{font-family:Georgia,"Noto Serif TC",serif;color:#295b43;font-weight:600;font-size:15px}
+.r-timeline-date span{font-size:12px;color:#4c7659;font-weight:600}
+.r-timeline-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px;font-size:12px;color:#556b5b}
+.r-timeline-content>small{display:block;color:#8b978d;font-size:10px;overflow-wrap:anywhere;line-height:1.65}
+.r-timeline-annotation{font-size:11px;color:#778472;line-height:1.75;margin:11px 0 5px}
+.r-timeline-annotation.review{color:#946d4c;background:#fcf5e9;border-radius:6px;padding:7px}
+@media(max-width:900px){.r-timeline-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.r-watch-timeline{padding:14px}.r-timeline-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.r-timeline-controls label,.r-timeline-controls select{min-width:0;width:100%}.r-timeline-controls button{grid-column:1/-1}.r-timeline-details{grid-template-columns:1fr}.r-timeline-summary>div{padding:10px}.r-timeline-date{display:block}}
