@@ -19,7 +19,7 @@ const fs=require('node:fs');
    assert.equal(await section.locator('.r-evidence-mini').count(),4);
    assert.equal(await section.locator('.r-evidence-details').count(),2);
    assert.equal(await section.locator('.r-evidence-risk').count(),1);
-   assert((await section.innerText()).includes('正式勝率'));
+   assert((await section.locator('.r-evidence-caution').innerText()).includes('不顯示勝率'));
    assert((await section.innerText()).includes('來源'));
    assert.equal(await page.locator('#nav > button.nav-btn').count(),7);
    await section.locator('.r-evidence-details').first().locator('summary').click();
