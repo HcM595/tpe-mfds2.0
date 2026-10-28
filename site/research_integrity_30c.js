@@ -26,7 +26,7 @@ function instant(s){
 }
 function tidy(s){return String(s??'').replace(/\s+/g,'').toLowerCase()}
 function inspect(tables){
- const issues=[],captures=[],coverage={},ref=new Map(),indexed={};
+ const issues=[],captures=[],coverage={},indexed={}; let ref=new Map();
  const add=(scope,source,id,type,detail)=>scope.push({source,id,type,detail});
  for(const [source,spec] of Object.entries(DETAILS)){
   const rows=tables?.[source]||[],map=new Map(),duplicate=new Set(),stockIds=new Set();
