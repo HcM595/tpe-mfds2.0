@@ -1,0 +1,34 @@
+name: 3.0P 正式公開網站逐項功能驗收
+on:
+  pull_request:
+    paths:
+      - 'tests/browser_live_audit_30p.cjs'
+      - '.github/workflows/live-site-audit-30p.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  live-site-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install chromium
+      - name: Exercise real public GitHub Pages URL, not local preview
+        env:
+          LIVE_SITE_URL: https://hcm595.github.io/tpe-mfds2.0/
+        run: |
+          node tests/browser_live_audit_30p.cjs
+      - name: Preserve published-site checklist including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-site-audit-30p
+          path: live-site-audit.json
+          if-no-files-found: warn
