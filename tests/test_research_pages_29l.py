@@ -96,7 +96,7 @@ class ResearchPageHealth(unittest.TestCase):
         self.assertIn("research_snapshot_30d.js",workbench)
         self.assertIn('id="snapshot-status"',workbench)
         snapshot=json.loads((DATA/"research_snapshot_30d.json").read_text(encoding="utf-8"))
-        self.assertEqual(snapshot["snapshot_source_count"],8)
+        self.assertEqual(snapshot["snapshot_source_count"],9)
         self.assertFalse(snapshot["formal_model_scoring_enabled"])
         self.assertIn('id="integrity-rows"',workbench)
         self.assertIn('id="integrity-detail"',workbench)
