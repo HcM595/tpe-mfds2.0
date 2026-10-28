@@ -1,0 +1,46 @@
+name: 3.0K 文青統一介面與七項主選單驗收
+on:
+  pull_request:
+    paths:
+      - 'site/index.html'
+      - 'site/research_hub_30a.html'
+      - 'site/editorial_30k.css'
+      - 'tests/test_original_goal_site_30j.py'
+      - 'tests/test_editorial_30k.py'
+      - 'tests/browser_26b.cjs'
+      - 'tests/browser_editorial_30k.cjs'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/editorial-ui-30k.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  editorial-acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Research site original-goal and editorial contracts
+        run: |
+          python -m unittest -v tests/test_original_goal_site_30j.py tests/test_editorial_30k.py tests/test_research_pages_29l.py
+          node --check tests/browser_26b.cjs
+          node --check tests/browser_editorial_30k.cjs
+      - name: Install Chromium smoke runtime
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install chromium
+      - name: Browser test existing functions and new editorial design
+        run: |
+          python -m http.server 8765 --directory site >/tmp/mfds-editorial-http.log 2>&1 &
+          sleep 2
+          node tests/browser_26b.cjs
+          node tests/browser_editorial_30k.cjs
+          node tests/browser_workbench_30a.cjs
+          node tests/browser_quality_30b.cjs
+          node tests/browser_snapshot_30d.cjs
