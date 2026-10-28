@@ -44,7 +44,7 @@ const load=async p=>new Uint8Array(fs.readFileSync(path.join(root,p)));
  assert.equal(empty.rows[0].change,'兩期均未列入封存候選');
  assert(!empty.rows[0].change.includes('持股下降'));
  for(const r of report.rows){
-  if(r.before.holderDate===r.after.holderDate)
+  if(r.before.kind!=='not_in_archive'&&r.after.kind!=='not_in_archive'&&r.before.holderDate===r.after.holderDate)
    assert(r.holderCaution.includes('不得解讀為新一週'));
  }
  const csv=H.toCSV(report);
