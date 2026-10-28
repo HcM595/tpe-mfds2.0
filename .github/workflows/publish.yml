@@ -179,6 +179,11 @@ jobs:
           python scripts/build_research_snapshot_30d.py --verify-only
           node --check site/research_snapshot_30d.js
           node tests/research_snapshot_30d.test.cjs
+      - name: 3.0M 個股研究摘要、來源時鐘與安全匯出驗收
+        run: |
+          node --check site/stock_evidence_30m.js
+          node --check tests/stock_evidence_30m.test.cjs
+          node tests/stock_evidence_30m.test.cjs
       - name: 3.0L 法人、大戶、技術交叉篩選來源日期與非重疊級距驗證
         run: |
           node --check site/chip_tech_crossfilter_30l.js

@@ -1,0 +1,46 @@
+name: 3.0M 個股摘要與逐股來源時鐘驗收
+on:
+  pull_request:
+    paths:
+      - 'site/index.html'
+      - 'site/stock_evidence_30m.js'
+      - 'site/editorial_30k.css'
+      - 'tests/stock_evidence_30m.test.cjs'
+      - 'tests/browser_stock_evidence_30m.cjs'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/stock-evidence-30m.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  stock-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Real stock source timestamp and export regression
+        run: |
+          node --check site/stock_evidence_30m.js
+          node --check tests/stock_evidence_30m.test.cjs
+          node --check tests/browser_stock_evidence_30m.cjs
+          node tests/stock_evidence_30m.test.cjs
+          node tests/chip_tech_crossfilter_30l.test.cjs
+          python -m unittest -v tests/test_editorial_30k.py tests/test_original_goal_site_30j.py
+      - name: Install Chromium for full UI
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install chromium
+      - name: Browser verification of individual evidence and preserved journeys
+        run: |
+          python -m http.server 8765 --directory site > /tmp/mfds-stock-30m.log 2>&1 &
+          sleep 2
+          node tests/browser_stock_evidence_30m.cjs
+          node tests/browser_crossfilter_30l.cjs
+          node tests/browser_editorial_30k.cjs
+          node tests/browser_workbench_30a.cjs
