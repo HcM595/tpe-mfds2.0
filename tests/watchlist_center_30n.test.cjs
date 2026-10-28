@@ -32,6 +32,7 @@ const report=W.build(ids,options);
 assert.equal(report.stock_count,3);
 assert.equal(report.records.length,3);
 assert.equal(report.source_loaded,report.source_expected);
+assert.equal(report.core_source_ready,true);
 assert.equal(report.source_expected,8);
 assert.equal(report.source_price_asof,official.display_date);
 assert.equal(report.probability_enabled,false);
@@ -70,9 +71,17 @@ const fakeReport=W.build(ids,{...options,quoteMode:'demo',quotes});
 assert.equal(fakeReport.official_price_count,0,'demo and real price must not be mixed');
 const missing=W.build(ids,{...options,sources:{},quotes:[]});
 assert.equal(missing.source_loaded,0);
+assert.equal(missing.core_source_ready,false);
 assert.equal(missing.three_axes_count,0);
 assert.equal(missing.official_price_count,0);
 assert(missing.records.every(r=>!r.flow.usable&&!r.holder.usable&&!r.technical.usable));
+const partial=W.build(ids,{...options,sources:{
+    factor:sources.factor,risk:sources.risk,revenue:sources.revenue}});
+assert.equal(partial.source_loaded,3);
+assert.equal(partial.core_source_ready,false);
+const noFalseZero=W.render(partial,{codes:ids,quoteMode:'demo'});
+assert(noFalseZero.includes('三面交集</small><b>—</b>'),
+  'random 3 successfully loaded noncore sources cannot display 0 eligible');
 const failedHTML=W.render(missing,{codes:ids,loading:true,quoteMode:'demo'});
 assert(failedHTML.includes('正在讀取')&&failedHTML.includes('—'));
 const contaminated={...options,sources:{...sources,rank:[...sources.rank,...sources.rank.slice(0,1)]}};
