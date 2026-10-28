@@ -25,7 +25,7 @@ function evaluate(rank,tech,asofLimit){
        holderDate=day(rank.holder_asof),cutoff=asofLimit?day(asofLimit):null;
  const ready=rank.rank_status==='可排名'&&rank.chip_status==='matched'&&
    (rank.market==='上市'||rank.market==='上櫃')&&price!==null &&
-   cutoff!==null && price<=cutoff;
+   cutoff!==null && price===cutoff;
  if(!ready)issues.push('普通股候選排行或行情日期不合格');
  const flowAligned=ready&&flowDate===price;
  if(!flowAligned)issues.push('法人日與收盤日未對齊');
@@ -42,7 +42,7 @@ function evaluate(rank,tech,asofLimit){
  const sameTech=!!tech&&tech.stock_id===id&&tech.data_status==='可驗證'&&
    day(tech.price_asof)===price&&day(tech.flow_asof)===price&&
    day(tech.holder_asof)===holderDate&&price!==null;
- const technical=sameTech&&numeric(tech.technical_confirmed_count)===3&&
+ const technical=ready&&sameTech&&numeric(tech.technical_confirmed_count)===3&&
    tech.technical_status==='三項確認';
  if(!technical)issues.push('技術三確認來源不完整或日期不一致');
  return {
@@ -86,7 +86,34 @@ function screen(rankRows,techRows,opts={}){
  });
  return results;
 }
-const api=Object.freeze({evaluate,screen,MODES,day});
+const CSV_KEYS=Object.freeze([
+ ['stock_id','股票代號'],['stock_name','股票名稱'],['market','市場'],
+ ['price_asof','行情資料日'],['flow_asof','法人資料日'],['holder_asof','集保資料日'],
+ ['foreign_5d_shares','外資5日股數'],['trust_5d_shares','投信5日股數'],
+ ['mid400_999_4w_pp','400-999張4週變動pp'],['large1000_4w_pp','1000張以上4週變動pp'],
+ ['chip_strength_rank','籌碼觀察名次']
+]);
+function csvCell(x){
+ const raw=String(x??'');
+ // Spreadsheet formula injection can be hidden behind whitespace/control bytes.
+ const guarded=/^[\s]*[=+\-@]/.test(raw)||/^[\t\r\n]/.test(raw)?"'"+raw:raw;
+ return '"'+guarded.replace(/"/g,'""')+'"';
+}
+function toCSV(items){
+ if(!Array.isArray(items))throw Error('交叉匯出結果格式不正確');
+ const head=[...CSV_KEYS.map(x=>x[1]),'法人同買','兩級距大戶同增','技術三確認','三面交集','資料問題'];
+ const lines=[head.map(csvCell).join(',')];
+ for(const entry of items){
+  const r=entry?.row,c=entry?.check;
+  if(!r||!c)throw Error('來源尚未通過交叉核對');
+  const fields=[...CSV_KEYS.map(([name])=>r[name]??''),c.flow?'符合':'未通過',
+    c.holders?'符合':'未通過',c.technical?'符合':'未通過',
+    c.confluence?'符合':'未通過',c.issues.join('；')];
+  lines.push(fields.map(csvCell).join(','));
+ }
+ return lines.join('\r\n');
+}
+const api=Object.freeze({evaluate,screen,MODES,day,toCSV});
 if(typeof module==='object'&&module.exports)module.exports=api;
 if(root)root.MFDSChipTechCrossfilter=api;
 })(typeof window!=='undefined'?window:null);
