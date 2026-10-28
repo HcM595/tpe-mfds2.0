@@ -42,8 +42,8 @@
 </style>
 </head><body>
 <div class="app"><aside class="sidebar"><div class="logo"><div class="logo-mark">M</div><div><strong>TPE-MFDS</strong><small>3.0E · 除權息事件及原始價格核對</small></div></div><nav class="nav" id="nav" aria-label="TPE-MFDS 主要功能">
-<div class="nav-caption">正式研究功能</div>
-<div class="nav-primary-hub"><a href="./research_hub_30a.html" class="nav-btn nav-tool-link" style="display:block;background:#176d76;color:#fff;text-decoration:none;border:1px solid #398f92;border-radius:9px;margin:6px 0;padding:11px;font-weight:700">3.0E｜統一研究工作台 ↗</a></div>
+<div class="nav-caption">研究快速瀏覽與正式工作台</div>
+<div class="nav-primary-hub"><a href="./research_hub_30a.html" class="nav-btn nav-tool-link" style="display:block;background:#176d76;color:#fff;text-decoration:none;border:1px solid #398f92;border-radius:9px;margin:6px 0;padding:11px;font-weight:700">3.0E｜九源校驗研究工作台（完整版） ↗</a></div>
 <button class="nav-btn active" data-page="research" data-research-tab="overview"><span class="nav-ico">▦</span>全市場選股與總覽</button>
 <button class="nav-btn" data-page="research" data-research-tab="stock"><span class="nav-ico">⌕</span>個股完整研究</button>
 <button class="nav-btn" data-page="chip"><span class="nav-ico">◎</span>法人與大戶同步增持</button>
@@ -74,7 +74,7 @@
 </details></nav><div class="side-help"><strong>使用者模式：免安裝</strong>請使用 GitHub Pages 網址開啟完整研究功能；直接使用 file:// 開啟 HTML 可能無法讀取資料。示範模式不是實際行情。<button id="sideHelp">查看三步驟教學 →</button></div></aside>
 <main class="main"><header class="topline"><div><div class="kicker">TAIWAN EQUITY RESEARCH · FACTOR LAB</div><h1 id="pageTitle">台股量化研究總覽</h1><p class="lead" id="pageLead">從全市場篩選到個股分析，一個介面完成。</p></div><div class="top-actions"><button class="btn" id="officialTop">↻ 官方最新收盤行情</button><button class="btn" id="demoReset">示範資料</button><button class="btn btn-primary" id="importTop">⇧ 匯入 CSV 資料</button></div></header>
 <div id="banner" class="notice warn"><span class="dot"></span><div><b>目前顯示：虛構示範資料</b><div>並非台股即時或歷史實際行情，綜合分數不是預測勝率，也不構成買賣建議。請先操作體驗，再匯入有來源的真實資料。</div></div></div>
-<div id="content"></div><div class="footer">TPE-MFDS 2.9N · 法人與大戶歷史分析 · 保留2.3.3舊版查詢｜本機瀏覽器運算｜無下單功能｜不提供未經回測的上漲機率。</div></main></div>
+<div id="content"></div><div class="footer">TPE-MFDS 3.0E · 法人與大戶歷史分析 · 保留2.3.3舊版查詢｜本機瀏覽器運算｜無下單功能｜不提供未經回測的上漲機率。</div></main></div>
 <input id="snapshotFile" type="file" accept=".csv,text/csv" class="hidden"><input id="pricesFile" type="file" accept=".csv,text/csv" class="hidden"><div id="toast" class="toast hidden" role="status"></div>
 <script src="./chip_trends_26b.js"></script>
 <script src="./research_eligibility_27a.js"></script>
@@ -354,7 +354,7 @@ function rTabTitle(){return {overview:'全市場選股與總覽',stock:'個股�
 function researchView(){
   const ready=rGet('readiness')||{},fm=rGet('forwardMeta')||{},om=rGet('official')||{},ct=rGet('chipTrendMeta')||{};
   return `<div class="r-shell">
-    <div class="r-intro"><div><div class="r-eyebrow">TPE-MFDS 2.8G · 正式研究工作台</div><h2>${esc(rTabTitle())}</h2><p>輸入股票代號或使用選股條件，整合籌碼、技術、歷史訊號與除權息事件。資料日期各自標示，非即時行情。</p></div><button type="button" class="btn" data-r-action="refresh">↻ 更新整合資料</button></div>
+    <div class="r-intro"><div><div class="r-eyebrow">TPE-MFDS 3.0E · 研究資料總覽</div><h2>${esc(rTabTitle())}</h2><p>首頁提供選股、歷史與資料品質快速瀏覽；九份研究來源的 SHA256 完整性校驗與完整跨股比較，請使用左側綠色「九源校驗研究工作台（完整版）」。資料日期各自標示，非即時行情。</p></div><button type="button" class="btn" data-r-action="refresh">↻ 更新整合資料</button></div>
     <div class="r-data-strip"><span>行情：<b>${rVal(om.display_date||'尚未取得')}</b></span><span>研究快照：<b>${rVal(ready.generated_at_taipei||'尚未取得')}</b></span><span>法人歷史：<b>${rVal(ct.flow_date_latest)}</b></span><span>大戶歷史：<b>${rVal(ct.holder_date_latest)}</b></span><span>瀏覽器最後讀取：<b>${rVal(research.loadedAt||'讀取中')}</b></span></div>
     <div class="r-warnings"><strong>研究資料狀態：</strong>${research.status==='loading'?'資料讀取中。':research.status==='error'?'無法取得後端資料，請檢查網站部署。':'已載入部分或全部公開報告。'} ${rStatusKey('rank','籌碼排行')} ${rStatusKey('tech','技術驗證')} ${rStatusKey('forward','歷史訊號')} ${rStatusKey('actions','除權息事件')} ${rStatusKey('readiness','品質稽核')} ${rStatusKey('institutionalTrend','法人歷史')} ${rStatusKey('holderTrend','大戶歷史')}</div>
     <p class="hint" style="margin:14px 0">左側選單已統一入口：全市場、個股、歷史與資料品質各有專頁。舊版 CSV／示範功能可從「進階／舊版比較工具」開啟，不會與正式篩選條件混用。</p>
