@@ -10,7 +10,7 @@ const assert = require('node:assert/strict');
    // 3.0K: exactly seven UNIQUE main sections; no nested duplicate menus.
    const mainEntries=page.locator('#nav > button.nav-btn');
    assert.equal(await mainEntries.count(),7,'main navigation must have precisely 7 functions');
-   const names=(await mainEntries.allInnerTexts()).map(x=>x.trim());
+   const names=(await mainEntries.allInnerTexts()).map(x=>x.trim().split(/\n/).at(-1).trim());
    assert.deepEqual(names,['市場總覽','個股研究','籌碼觀察','歷史訊號','資料品質','自選股','設定'],
      'navigation contains duplicate or outdated entries');
    assert.equal(await page.locator('#nav details').count(),0,
