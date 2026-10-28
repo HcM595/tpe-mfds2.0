@@ -33,7 +33,7 @@ const read=async p=>new Uint8Array(fs.readFileSync(path.join(root,p)));
   const subset=P.subset(result,mode);
   assert(subset.every(r=>result.rows.includes(r)));
   const html=P.render(result,mode);
-  assert(html.includes('首次封存UTC')||html.includes('沒有封存觀察')===false);
+  assert(P.subset(result,mode).length?html.includes('首次封存UTC'):html.includes('所選分類沒有封存觀察'));
   assert(html.includes('封存價格日'));
   const csv=P.toCSV(result,mode);
   assert(csv.includes('集保更新分類')&&csv.includes('官方首次公布時間'));
