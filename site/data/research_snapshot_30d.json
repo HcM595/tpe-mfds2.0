@@ -1,6 +1,6 @@
 {
   "schema_version": "3.0E",
-  "assembled_at_utc": "2026-10-28T09:10:22+00:00",
+  "assembled_at_utc": "2026-10-28T10:40:01+00:00",
   "verification_scope": "Exact bytes of nine CSV tables included in this GitHub Pages deployment",
   "data_is_not_historical_publication_proof": true,
   "formal_model_scoring_enabled": false,
@@ -9,8 +9,8 @@
   "sources": {
     "factor": {
       "path": "data/factor_evidence_29a.csv",
-      "sha256": "f67029968298cc652b6098c113320ad0669eb3587934d871ef5346d0f1d8046a",
-      "byte_length": 712039,
+      "sha256": "8921d3b9317dc0b8bfa96eddf453daf1f7669d4f3726d51999c7c04757cd9856",
+      "byte_length": 712060,
       "row_count": 1960,
       "unique_stock_count": 1960,
       "asof_field": "price_asof",
@@ -20,7 +20,7 @@
     },
     "chip": {
       "path": "data/chip_signals.csv",
-      "sha256": "d490d526118979fe60a459bc9653c13863e1a49643815e5b10dd6c7ceff1c2f3",
+      "sha256": "453e512ee6f4a2828e7b64c07a56c909c1cf732c403bd94baaf410c4800878cf",
       "byte_length": 344188,
       "row_count": 2978,
       "unique_stock_count": 2978,
@@ -42,10 +42,10 @@
     },
     "industry": {
       "path": "data/industry_relative_28c.csv",
-      "sha256": "5cbd99d81d3dafb3db27d8a6dabd9b17ac6ec77e9e4a439b36d5180aac98acb4",
-      "byte_length": 284078,
-      "row_count": 1959,
-      "unique_stock_count": 1959,
+      "sha256": "d51a64fee10eab188329d76bbd50a9abfdd17dbbf6b5610e472df56662cfd6cf",
+      "byte_length": 284210,
+      "row_count": 1960,
+      "unique_stock_count": 1960,
       "asof_field": "asof",
       "asof_min": "2026-10-28",
       "asof_max": "2026-10-28",
@@ -53,10 +53,10 @@
     },
     "risk": {
       "path": "data/risk_observations_28d.csv",
-      "sha256": "f94ff707ae98ac7cdcc9ab9c97ddfd5a36fdf81382865545600a9257762beea6",
-      "byte_length": 504416,
-      "row_count": 1959,
-      "unique_stock_count": 1959,
+      "sha256": "a1ed74b8059a3e475694791e0c961924c559c95e8d72bf28b5756892a5e7f5d4",
+      "byte_length": 504636,
+      "row_count": 1960,
+      "unique_stock_count": 1960,
       "asof_field": "price_asof",
       "asof_min": "2026-10-28",
       "asof_max": "2026-10-28",
@@ -64,13 +64,13 @@
     },
     "valuation": {
       "path": "data/f2_valuation_29e.csv",
-      "sha256": "ac4504abf43f8f2468d053243dca1ac8abe89ef0a8d285e2f1060baada3ae26f",
-      "byte_length": 485215,
-      "row_count": 1980,
-      "unique_stock_count": 1980,
+      "sha256": "0dc1f3684beec554204c99d7aa7f68ef036f9c4c1fbb6dacc3b08e7030c89383",
+      "byte_length": 485274,
+      "row_count": 1981,
+      "unique_stock_count": 1981,
       "asof_field": "asof",
       "asof_min": "2026-10-27",
-      "asof_max": "2026-10-27",
+      "asof_max": "2026-10-28",
       "asof_missing": 0
     },
     "revenue": {
@@ -86,8 +86,8 @@
     },
     "publication": {
       "path": "data/publication_gate_29o.csv",
-      "sha256": "01c71e4a9a1133087c15a9dd5d8ff0ad597f8968bfacbc7578e4bb31a5e5bdbe",
-      "byte_length": 752693,
+      "sha256": "7dec0360810e933752c64a912bf88b6959b14c1c4a3cb29b289ca823c2e99b88",
+      "byte_length": 773609,
       "row_count": 1960,
       "unique_stock_count": 1960,
       "asof_field": "price_asof",

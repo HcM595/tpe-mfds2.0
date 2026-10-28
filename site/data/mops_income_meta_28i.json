@@ -1,7 +1,7 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-10-28T17:05:33+08:00",
-  "observations": 332,
+  "generated_at_taipei": "2026-10-28T18:36:31+08:00",
+  "observations": 338,
   "checked": 15,
   "fresh_success": 11,
   "fresh_ytd_unit_period_aligned": 11,
@@ -14,12 +14,14 @@
       "period_aligned": true
     },
     "3533": {
-      "status": "stale_backup",
-      "reason": "<urlopen error timed out>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
     "2345": {
-      "status": "stale_backup",
-      "reason": "<urlopen error timed out>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
     "2330": {
       "status": "ok",
@@ -27,36 +29,6 @@
       "period_aligned": true
     },
     "2308": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2338": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2340": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2342": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2344": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2347": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2348": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -69,12 +41,40 @@
       "status": "unavailable",
       "reason": "<urlopen error timed out>"
     },
-    "2352": {
+    "2354": {
+      "status": "unavailable",
+      "reason": "<urlopen error timed out>"
+    },
+    "2355": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2353": {
+    "2356": {
+      "status": "unavailable",
+      "reason": "<urlopen error timed out>"
+    },
+    "2357": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2359": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2360": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2362": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "2363": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -911,6 +911,30 @@
       "status": "not_checked_this_run"
     },
     "2337": {
+      "status": "not_checked_this_run"
+    },
+    "2338": {
+      "status": "not_checked_this_run"
+    },
+    "2340": {
+      "status": "not_checked_this_run"
+    },
+    "2342": {
+      "status": "not_checked_this_run"
+    },
+    "2344": {
+      "status": "not_checked_this_run"
+    },
+    "2347": {
+      "status": "not_checked_this_run"
+    },
+    "2348": {
+      "status": "not_checked_this_run"
+    },
+    "2352": {
+      "status": "not_checked_this_run"
+    },
+    "2353": {
       "status": "not_checked_this_run"
     },
     "1240": {

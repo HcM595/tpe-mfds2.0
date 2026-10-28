@@ -9,18 +9,16 @@
   },
   "blocker_counts": {
     "F2": {
-      "first_seen_after_cutoff": 1085,
+      "first_seen_after_cutoff": 1956,
       "official_publication_unverified": 1960,
       "source_authorization_missing": 1960,
-      "missing_report_day": 5,
-      "first_seen_unverified": 5
+      "missing_report_day": 4,
+      "first_seen_unverified": 4
     },
     "F3": {
-      "first_seen_after_cutoff": 1959,
+      "first_seen_after_cutoff": 1960,
       "official_publication_unverified": 1960,
-      "source_authorization_missing": 1960,
-      "missing_report_day": 1,
-      "first_seen_unverified": 1
+      "source_authorization_missing": 1960
     },
     "REVENUE": {
       "official_publication_unverified": 1960,

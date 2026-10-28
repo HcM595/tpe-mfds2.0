@@ -1816,6 +1816,7 @@ stock_id,stock_name,market,sector,source_asof,chairman_is_general_manager,chairm
 6922,宸曜,上櫃,25,2026-10-27,true,兼任,ok,https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap33_O,a8b31396e8324451780a7660aabd051be39b95546b974d2a51d30763ac7cc678,2026-10-27T22:45:23+00:00,false,false,false
 6925,意藍,上櫃,36,2026-10-27,false,未兼任,ok,https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap33_O,a8b31396e8324451780a7660aabd051be39b95546b974d2a51d30763ac7cc678,2026-10-27T22:45:23+00:00,false,false,false
 6929,佑全,上櫃,22,2026-10-27,false,未兼任,ok,https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap33_O,a8b31396e8324451780a7660aabd051be39b95546b974d2a51d30763ac7cc678,2026-10-27T22:45:23+00:00,false,false,false
+6938,藍新資訊,上櫃,30,2026-10-27,false,未兼任,ok,https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap33_O,a8b31396e8324451780a7660aabd051be39b95546b974d2a51d30763ac7cc678,2026-10-27T22:45:23+00:00,false,false,false
 6945,圓祥生技,上櫃,22,2026-10-27,false,未兼任,ok,https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap33_O,a8b31396e8324451780a7660aabd051be39b95546b974d2a51d30763ac7cc678,2026-10-27T22:45:23+00:00,false,false,false
 6953,家碩,上櫃,24,2026-10-27,false,未兼任,ok,https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap33_O,a8b31396e8324451780a7660aabd051be39b95546b974d2a51d30763ac7cc678,2026-10-27T22:45:23+00:00,false,false,false
 6961,旅天下,上櫃,16,2026-10-27,false,未兼任,ok,https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap33_O,a8b31396e8324451780a7660aabd051be39b95546b974d2a51d30763ac7cc678,2026-10-27T22:45:23+00:00,false,false,false

@@ -1,8 +1,8 @@
 {
   "version": "2.9C",
-  "generated_at_taipei": "2026-10-28T17:09:39+08:00",
+  "generated_at_taipei": "2026-10-28T18:39:38+08:00",
   "stocks_observed": 1863,
-  "fresh_records": 0,
+  "fresh_records": 802,
   "sources": {
     "上市": {
       "status": "stale_backup",
@@ -10,8 +10,13 @@
       "url": "https://www.twse.com.tw/rwd/zh/marginTrading/MI_MARGN?date=20261028&selectType=ALL&response=json"
     },
     "上櫃": {
-      "status": "stale_backup",
-      "reason": "Unterminated string starting at: line 574 column 553 (char 340177)",
+      "status": "ok",
+      "rows": 802,
+      "excluded_or_missing": 0,
+      "report_dates": [
+        "2026-10-27"
+      ],
+      "sha256": "c033f586102efa508fd01b440313d70d40eb987d1b0077c3e518c117f6bec050",
       "url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_margin_balance"
     }
   },
