@@ -39,6 +39,8 @@ function build(codes,context){
   lookups[key]=index(context.sources?.[key]);
   loaded[key]=Array.isArray(context.sources?.[key]);
  }
+ const coreReady=loaded.rank&&loaded.chip&&loaded.tech&&
+   /^\d{4}-\d{2}-\d{2}$/.test(priceDate)&&!Number.isNaN(Date.parse(priceDate+'T00:00:00Z'));
  const quotes=index(context.quoteMode==='official'?context.quotes:[]);
  const records=[];
  for(const id of stockIds){
@@ -72,6 +74,7 @@ function build(codes,context){
   source_price_asof:priceDate||'—',
   source_loaded:sourceKeys.filter(k=>loaded[k]).length,
   source_expected:sourceKeys.length,
+  core_source_ready:!!coreReady,
   probability_enabled:false,
   warning:'本機自選代號不等於持股；結果為封存資料的描述性觀察，並非即時訊號、獲利預測或已校準勝率。',
  };
@@ -132,8 +135,8 @@ function render(report,opts={}){
    '<button type="button" class="btn mini" data-action="watch" data-id="'+escapeHtml(r.id)+'">移除</button></div></td></tr>').join('');
  const summary=report&&count?'<div class="r-watch-metrics">'+
   '<div><small>追蹤股票</small><b>'+report.stock_count+'</b><span>僅儲存代號；不保存持股與成本</span></div>'+
-  '<div><small>三面交集</small><b>'+(report.source_loaded>=3?report.three_axes_count:'—')+'</b><span>描述性資料，並非勝率</span></div>'+
-  '<div><small>關鍵資料待核對</small><b>'+(report.source_loaded>=3?report.data_review_count:'—')+'</b><span>法人、大戶、技術缺口</span></div>'+
+  '<div><small>三面交集</small><b>'+(report.core_source_ready?report.three_axes_count:'—')+'</b><span>描述性資料，並非勝率</span></div>'+
+  '<div><small>關鍵資料待核對</small><b>'+(report.core_source_ready?report.data_review_count:'—')+'</b><span>法人、大戶、技術缺口</span></div>'+
   '<div><small>當次官方收盤價</small><b>'+(opts.quoteMode==='official'?report.official_price_count:'—')+'</b><span>示範行情絕不混用</span></div>'+
   '</div>':'';
  const optionHtml=(options,current)=>options.map(x=>'<option value="'+x[0]+'"'+(x[0]===current?' selected':'')+'>'+x[1]+'</option>').join('');
