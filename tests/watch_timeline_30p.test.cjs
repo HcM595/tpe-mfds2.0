@@ -37,7 +37,7 @@ const read=async p=>new Uint8Array(fs.readFileSync(path.join(root,p)));
   assert(html.includes('封存價格日'));
   const csv=P.toCSV(result,mode);
   assert(csv.includes('集保更新分類')&&csv.includes('官方首次公布時間'));
-  assert(csv.includes('未核實'));
+  assert(P.subset(result,mode).length?csv.includes('未核實'):csv.split('\r\n').length===1);
   assert(!csv.includes('預測勝率80%'));
  }
  assert.throws(()=>P.subset(result,'trading_signals'),/篩選方式/);
