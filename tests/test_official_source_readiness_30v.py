@@ -10,6 +10,7 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
+sys.path.insert(0,str(ROOT/'tests'))
 import archive_tpex_calendar_30s as TP
 import archive_official_closure_30u as TW
 import audit_official_source_readiness_30v as V
