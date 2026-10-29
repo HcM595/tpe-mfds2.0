@@ -1,6 +1,6 @@
 {
   "schema_version": "3.0E",
-  "assembled_at_utc": "2026-10-28T12:14:39+00:00",
+  "assembled_at_utc": "2026-10-29T00:06:01+00:00",
   "verification_scope": "Exact bytes of nine CSV tables included in this GitHub Pages deployment",
   "data_is_not_historical_publication_proof": true,
   "formal_model_scoring_enabled": false,
@@ -9,8 +9,8 @@
   "sources": {
     "factor": {
       "path": "data/factor_evidence_29a.csv",
-      "sha256": "9ded07858a064421fcf21cf0ed6c94ae09c7a8f91a1ce53415ccbb3d4457f483",
-      "byte_length": 712312,
+      "sha256": "8c279b0c1bab39983efd5a77bd53e43f92538667ce9fc62026b7ced9f4ae8496",
+      "byte_length": 710392,
       "row_count": 1960,
       "unique_stock_count": 1960,
       "asof_field": "price_asof",
@@ -20,8 +20,8 @@
     },
     "chip": {
       "path": "data/chip_signals.csv",
-      "sha256": "3b35b63427a272d3b9d01ea7a3ced71162648f864894362947d9c2d3999a226c",
-      "byte_length": 344220,
+      "sha256": "f37d4fecbed8a6a67a1f71c749beee896d3e65998f5c2a01d4716f7f0e0629ef",
+      "byte_length": 344383,
       "row_count": 2978,
       "unique_stock_count": 2978,
       "asof_field": "flow_asof",
@@ -64,12 +64,12 @@
     },
     "valuation": {
       "path": "data/f2_valuation_29e.csv",
-      "sha256": "0dc1f3684beec554204c99d7aa7f68ef036f9c4c1fbb6dacc3b08e7030c89383",
-      "byte_length": 485274,
+      "sha256": "ce35f4b088791f534b2b6e0c70d490e9a821119b485ae30561e9e01bbf62f8a4",
+      "byte_length": 485283,
       "row_count": 1981,
       "unique_stock_count": 1981,
       "asof_field": "asof",
-      "asof_min": "2026-10-27",
+      "asof_min": "2026-10-28",
       "asof_max": "2026-10-28",
       "asof_missing": 0
     },
@@ -86,7 +86,7 @@
     },
     "publication": {
       "path": "data/publication_gate_29o.csv",
-      "sha256": "7dec0360810e933752c64a912bf88b6959b14c1c4a3cb29b289ca823c2e99b88",
+      "sha256": "606c60176e20b08c1ac1866c77da24b69c321160e000f0f9fe16d1bf0f3d7f09",
       "byte_length": 773609,
       "row_count": 1960,
       "unique_stock_count": 1960,

@@ -1,8 +1,8 @@
 {
   "version": "2.4C",
   "status": "ok",
-  "generated_at_taipei": "2026-10-28T20:11:24+08:00",
-  "latest_audited_snapshot_id": "20261028T121121239960Z-run40685286333-attempt1",
+  "generated_at_taipei": "2026-10-29T08:04:09+08:00",
+  "latest_audited_snapshot_id": "20261029T000406780658Z-run40791408528-attempt1",
   "latest_signal_first_observed_at_utc": "2026-10-28T12:05:30.751652Z",
   "latest_cohort_id": "cohort-1d7d7f7ed40206bcd6f62b70",
   "new_cohort_created": false,
@@ -14,7 +14,7 @@
   "data_quality_isolated_rows": 89,
   "market_classification_conflicts": 0,
   "unique_signal_fingerprints_in_archive": 9,
-  "repeat_signal_snapshots": 70,
+  "repeat_signal_snapshots": 71,
   "horizon_status_counts": {
     "10": {
       "觀察中_無績效": 360,

@@ -1,0 +1,119 @@
+{
+  "version": "3.0Q",
+  "generated_at_utc": "2026-10-29T00:04:12.057919Z",
+  "status": "verified_raw_archives_model_blocked",
+  "source_index": "signal_archive_index.json",
+  "snapshots_in_index": 80,
+  "unique_first_captured_price_sessions": 4,
+  "first_price_session": "2026-10-21",
+  "last_price_session": "2026-10-28",
+  "stock_session_observations": 297,
+  "eligible_technical_observations": 282,
+  "eligible_institutional_5d_observations": 297,
+  "eligible_holder_4w_observations": 297,
+  "daily_stock_coverage": [
+    {
+      "price_session": "2026-10-21",
+      "rows": 92
+    },
+    {
+      "price_session": "2026-10-22",
+      "rows": 74
+    },
+    {
+      "price_session": "2026-10-27",
+      "rows": 69
+    },
+    {
+      "price_session": "2026-10-28",
+      "rows": 62
+    }
+  ],
+  "snapshot_reference": [
+    {
+      "price_session": "2026-10-21",
+      "snapshot_id": "20261022T001421563144Z-run39698086651-attempt1",
+      "captured_at_utc": "2026-10-22T00:14:21.563144Z",
+      "snapshot_sha256": "ddc24eeefe82caef53e7e9d914a7c71e47be808871804911d797b7c37838e1e3"
+    },
+    {
+      "price_session": "2026-10-22",
+      "snapshot_id": "20261022T104220233047Z-run39764925813-attempt1",
+      "captured_at_utc": "2026-10-22T10:42:20.233047Z",
+      "snapshot_sha256": "78b9732f85bd1358112343776207cda98607019967c8e5d3b3a429cb8a5baadd"
+    },
+    {
+      "price_session": "2026-10-27",
+      "snapshot_id": "20261027T102601654826Z-run40488222911-attempt1",
+      "captured_at_utc": "2026-10-27T10:26:01.654826Z",
+      "snapshot_sha256": "532b9459c2d7cb9af50968555cd2ace5d068b48b8f8c6ccb821d36033e587a1b"
+    },
+    {
+      "price_session": "2026-10-28",
+      "snapshot_id": "20261028T082021797443Z-run40655845669-attempt1",
+      "captured_at_utc": "2026-10-28T08:20:21.797443Z",
+      "snapshot_sha256": "682333b773e5da646e46a5ef6cf473848113a8430b386952b2d0e0c815cc39e1"
+    }
+  ],
+  "strict_validation": {
+    "gate_version": "3.0Q",
+    "model_enabled": false,
+    "verified_trade_samples": 0,
+    "certified_win_rate": null,
+    "required_checks": {
+      "historical_actions": {
+        "passed": false,
+        "reason": "official_validation_required"
+      },
+      "adjusted_ohlc": {
+        "passed": false,
+        "reason": "official_validation_required"
+      },
+      "publication_clock": {
+        "passed": false,
+        "reason": "official_validation_required"
+      },
+      "independent_outcomes": {
+        "passed": false,
+        "reason": "official_validation_required"
+      },
+      "trade_execution": {
+        "passed": false,
+        "reason": "trade_fills_and_commission_slippage_unverified"
+      },
+      "future_labels": {
+        "passed": false,
+        "reason": "no_independently_verified_adjusted_future_trade_returns"
+      },
+      "historical_availability": {
+        "passed": false,
+        "reason": "first_capture_is_not_official_publication_time"
+      },
+      "minimum_out_of_sample": {
+        "passed": false,
+        "reason": "min_3_disjoint_folds_and_adequate_cohort_count_unproven"
+      },
+      "matured_10_20_60": {
+        "passed": false,
+        "reason": "all_10_20_60_outcomes_not_matured_and_verified"
+      }
+    },
+    "pass_count": 0,
+    "required_count": 9,
+    "unique_price_sessions": 4,
+    "recorded_observations": 297,
+    "note": "這是正式驗證資格稽核，不是回測結果；資料可讀不代表可據以交易。"
+  },
+  "first_seen_timing_certified": false,
+  "backfill_retrospective_allowed": false,
+  "notes": [
+    "本站首次封存時間不等於官方首次公布；過去CSV有資料日期但不能證明當時可取得",
+    "已從2.4A的原始gzip輸入重新取回法人5日與集保4週數值；只採首次封存當時存在的原始檔，不使用後來最新數據。",
+    "價量資料未調整公司行動；本檔不含可驗證實際成交、獨立樣本外勝率。",
+    "本次重建觀察表並不創造新的歷史封存或宣稱每日都有資料。"
+  ],
+  "outputs": [
+    "historical_evidence_30q.csv",
+    "historical_evidence_meta_30q.json"
+  ]
+}
