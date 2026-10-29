@@ -1,0 +1,55 @@
+name: 3.0V 官方PDF原始來源可靠性與發布環境修復驗收
+on:
+  pull_request:
+    paths:
+      - 'scripts/audit_official_source_readiness_30v.py'
+      - 'tests/test_official_source_readiness_30v.py'
+      - 'tests/browser_source_readiness_30v.cjs'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/official-source-readiness-30v.yml'
+      - 'site/index.html'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pdf-source-readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Ensure real PDF parser, as required in production
+        run: |
+          if ! command -v pdftotext >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y poppler-utils
+          fi
+          command -v pdftotext
+          pdftotext -v
+      - name: Test source-gate invariants on malicious and absent PDF fixtures
+        run: |
+          python -m unittest -v tests/test_official_source_readiness_30v.py
+          python -m unittest -v tests/test_tpex_calendar_30s.py tests/test_official_closure_30u.py
+          python scripts/archive_tpex_calendar_30s.py
+          python scripts/archive_official_closure_30u.py
+          python scripts/audit_official_source_readiness_30v.py
+          python -m unittest -v tests/test_archive_coverage_30r.py
+          python scripts/audit_archive_coverage_30r.py
+          node --check tests/browser_source_readiness_30v.cjs
+      - name: Browser setup
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install chromium
+      - name: Browser quality-source proof and old research flows
+        run: |
+          python -m http.server 8765 --directory site >/tmp/mfds-30v-http.log 2>&1 &
+          sleep 2
+          node tests/browser_source_readiness_30v.cjs
+          node tests/browser_tpex_calendar_30s.cjs
+          node tests/browser_official_closure_30u.cjs
+          node tests/browser_archive_coverage_30r.cjs
