@@ -76,6 +76,10 @@ jobs:
         run: python scripts/audit_point_in_time.py
       - name: 2.4D 下載核對官方交易日曆並標記除權息資料缺口（不產生報酬）
         run: python scripts/prepare_market_calendar.py
+      - name: 3.0S 上櫃官方年曆原始PDF來源稽核（無法下載則待查，禁止錯誤認證）
+        run: |
+          python -m unittest -v tests/test_tpex_calendar_30s.py
+          python scripts/archive_tpex_calendar_30s.py
       - name: 2.4C 登錄不可覆寫的前瞻觀察組與10／20／60日進度（不產生報酬）
         run: python scripts/track_forward.py
       - name: 2.4E 封存官方除權息滾動公告與逐檔品質缺口（不計算報酬）
