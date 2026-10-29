@@ -10,15 +10,15 @@
       "historically_usable": 0,
       "blockers": {
         "individual_company_publication_time_unverified": 1960,
-        "official_publication_unverified": 1960,
         "first_seen_after_cutoff": 1956,
+        "official_publication_unverified": 1960,
         "source_authorization_missing": 1960,
-        "capture_timestamp_unverified": 4,
-        "source_hash_missing_or_invalid": 4,
         "missing_report_day": 4,
+        "first_seen_unverified": 4,
         "source_missing": 4,
         "unverified_official_endpoint": 4,
-        "first_seen_unverified": 4
+        "source_hash_missing_or_invalid": 4,
+        "capture_timestamp_unverified": 4
       }
     },
     "F3": {
@@ -28,8 +28,8 @@
       "historically_usable": 0,
       "blockers": {
         "individual_company_publication_time_unverified": 1960,
-        "official_publication_unverified": 1960,
         "first_seen_after_cutoff": 1960,
+        "official_publication_unverified": 1960,
         "source_authorization_missing": 1960
       }
     },
@@ -40,15 +40,15 @@
       "historically_usable": 0,
       "blockers": {
         "individual_company_publication_time_unverified": 1960,
-        "bulk_snapshot_not_individual_filing": 1952,
         "official_publication_unverified": 1960,
         "source_authorization_missing": 1960,
-        "capture_timestamp_unverified": 8,
-        "source_hash_missing_or_invalid": 8,
+        "bulk_snapshot_not_individual_filing": 1952,
         "missing_report_day": 8,
+        "first_seen_unverified": 8,
         "source_missing": 8,
         "unverified_official_endpoint": 8,
-        "first_seen_unverified": 8
+        "source_hash_missing_or_invalid": 8,
+        "capture_timestamp_unverified": 8
       }
     }
   },

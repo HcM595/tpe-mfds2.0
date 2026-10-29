@@ -1,0 +1,58 @@
+{
+  "version": "3.0T",
+  "generated_at_utc": "2026-10-29T03:08:05.297765Z",
+  "date": "2026-10-23",
+  "status": "source_listing_research_pending_original_notices",
+  "sources": {
+    "TWSE": {
+      "market": "上市",
+      "official_source_url": "https://investoredu.twse.com.tw/pages/TWSE_HotNews.aspx",
+      "last_fetch_url": "https://investoredu.twse.com.tw/pages/TWSE_HotNews.aspx",
+      "status": "official_index_only_no_event",
+      "source_file": "cash_market_closure_sources_30t/twse_78691195dbd8cdc599a7a3a2b7d597899e10453c9e0b9985a558ce05c7b84545.html",
+      "source_sha256": "78691195dbd8cdc599a7a3a2b7d597899e10453c9e0b9985a558ce05c7b84545",
+      "source_validation": {
+        "authority_tokens_present": true,
+        "date_token_present": false,
+        "closure_token_present": false,
+        "dated_notice_listing_mention": false,
+        "full_first_party_closure_notice_verified": false,
+        "date_covered": "2026-10-23",
+        "source_kind": "official_headline_listing"
+      },
+      "last_fetch_error": null,
+      "source_bytes_verified": true,
+      "full_first_party_closure_notice_verified": false,
+      "official_publication_timestamp_verified": false,
+      "cash_market_session_closed_certified": false
+    },
+    "TPEX": {
+      "market": "上櫃",
+      "official_source_url": "https://www.tpex.org.tw/zh-tw/announce/market/announce.html",
+      "last_fetch_url": "https://www.tpex.org.tw/zh-tw/announce/market/announce.html",
+      "status": "official_index_only_no_event",
+      "source_file": "cash_market_closure_sources_30t/tpex_5419a3af3c72e82bcf27466003a2c0e9ddcad29c98655509ddeb53caf5c45865.html",
+      "source_sha256": "5419a3af3c72e82bcf27466003a2c0e9ddcad29c98655509ddeb53caf5c45865",
+      "source_validation": {
+        "authority_tokens_present": true,
+        "date_token_present": false,
+        "closure_token_present": true,
+        "dated_notice_listing_mention": false,
+        "full_first_party_closure_notice_verified": false,
+        "date_covered": "2026-10-23",
+        "source_kind": "official_announcement_search_index"
+      },
+      "last_fetch_error": null,
+      "source_bytes_verified": true,
+      "full_first_party_closure_notice_verified": false,
+      "official_publication_timestamp_verified": false,
+      "cash_market_session_closed_certified": false
+    }
+  },
+  "independent_cash_market_originals_verified": false,
+  "official_closure_date_certified_for_both_markets": false,
+  "trade_performance_enabled": false,
+  "verified_trade_samples": 0,
+  "certified_win_rate": null,
+  "why": "上市與上櫃須各自具備當日完整官方原始公告，不能只用官網新聞標題、行事曆、期交所公告或轉述。首度取得本站頁面不等於官網當時首次公開。"
+}
