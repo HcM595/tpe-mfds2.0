@@ -32,11 +32,7 @@ const {chromium}=require('playwright');
    if(source.source_file){
     const raw=await page.request.get(new URL('./data/'+source.source_file,page.url()).href);
     assert.equal(raw.status(),200);
-    const hash=await page.evaluate(async b=>{
-     const bytes=new Uint8Array(b);
-     return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)))
-       .map(v=>v.toString(16).padStart(2,'0')).join('');
-    },[...await raw.body()]);
+    const hash=require('node:crypto').createHash('sha256').update(await raw.body()).digest('hex');
     assert.equal(hash,source.source_sha256);
    }
   }
