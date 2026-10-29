@@ -76,6 +76,14 @@ jobs:
         run: python scripts/audit_point_in_time.py
       - name: 2.4D 下載核對官方交易日曆並標記除權息資料缺口（不產生報酬）
         run: python scripts/prepare_market_calendar.py
+      - name: 3.0V 安裝並確認官方 PDF 原文解析工具（缺少時不得誤報來源不可用）
+        run: |
+          if ! command -v pdftotext >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y poppler-utils
+          fi
+          command -v pdftotext
+          pdftotext -v
       - name: 3.0S 上櫃官方年曆原始PDF來源稽核（無法下載則待查，禁止錯誤認證）
         run: |
           python -m unittest -v tests/test_tpex_calendar_30s.py
@@ -100,6 +108,10 @@ jobs:
         run: |
           python -m unittest -v tests/test_historical_evidence_30q.py
           python scripts/build_historical_evidence_30q.py
+      - name: 3.0V 上市／上櫃官方 PDF 實際封存狀態及原始SHA256獨立稽核
+        run: |
+          python -m unittest -v tests/test_official_source_readiness_30v.py
+          python scripts/audit_official_source_readiness_30v.py
       - name: 3.0R 覆蓋日曆與逐股原始封存一致性稽核（區分臨時休市）
         run: |
           python -m unittest -v tests/test_archive_coverage_30r.py
