@@ -3,7 +3,7 @@
 2026-10-21,上櫃,verified_first_capture,15,false,false,本站確有該價位日首次不可改寫的源檔；不代表整個市場有全體股票訊號
 2026-10-22,上市,verified_first_capture,64,false,false,本站確有該價位日首次不可改寫的源檔；不代表整個市場有全體股票訊號
 2026-10-22,上櫃,verified_first_capture,10,false,false,本站確有該價位日首次不可改寫的源檔；不代表整個市場有全體股票訊號
-2026-10-23,上市,extraordinary_closure_requires_official_source,,false,true,臨時停市有線索但未核對官方原始公告；不可把此日算成市場缺漏或已核實交易日
+2026-10-23,上市,verified_original_market_closure,,true,false,已核實該現貨市場完整官方原始休市PDF；來源公文發布日不等於本站先知的時間
 2026-10-23,上櫃,extraordinary_closure_requires_official_source,,false,true,臨時停市有線索但未核對官方原始公告；不可把此日算成市場缺漏或已核實交易日
 2026-10-27,上市,verified_first_capture,61,false,false,本站確有該價位日首次不可改寫的源檔；不代表整個市場有全體股票訊號
 2026-10-27,上櫃,verified_first_capture,8,false,false,本站確有該價位日首次不可改寫的源檔；不代表整個市場有全體股票訊號

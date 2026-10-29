@@ -1,0 +1,46 @@
+{
+  "version": "3.0V",
+  "generated_at_utc": "2026-10-29T07:14:41.784940Z",
+  "status": "verified_source_readiness_performance_blocked",
+  "pdf_extractor": "pdftotext",
+  "pdf_extractor_present": true,
+  "source_manifest_sha256": {
+    "tpex_30s": "e17c70d23a9070f4b47f183077fe761b1afc488afed0acb3dd494ab5e3d3a777",
+    "twse_30u": "610b1f424356678e9fca49ac897cc92e1e8c5c69da14ea5bbd0487dcd0c05400"
+  },
+  "markets": {
+    "TWSE_listed_cash_closure_2026_10_23": {
+      "status": "verified_original_market_event",
+      "pdf_sha256": "07cdb8663b36ad6a89f4568fd653f6bdb8c2699af60781187c1d8e77279cbd5f",
+      "reason": null,
+      "event_date_certified": true,
+      "official_publication_clock_verified": false
+    },
+    "TPEX_otc_annual_calendar_2026": {
+      "status": "verified_original_annual_document",
+      "pdf_sha256": "b864f5e572197c54828301391e80fd6b7bae399abd19a60cf601ed460ccd8e2f",
+      "reason": null,
+      "verified_document_dates": 28,
+      "official_full_2026_10_23_notice": false
+    },
+    "TPEX_otc_full_closure_notice_2026_10_23": {
+      "status": "pending_independent_full_original",
+      "event_date_certified": false
+    }
+  },
+  "official_closure_proven_for_both_markets": false,
+  "annual_tpex_session_classification_verified": false,
+  "official_first_publication_timestamp_verified": false,
+  "certified_trade_outcomes": 0,
+  "certified_win_rate": null,
+  "trade_model_enabled": false,
+  "verification_notes": [
+    "現有上櫃官方年曆PDF不是2026/10/23單次臨時休市完整事件公告。",
+    "官方PDF文本日期與本站首次取得日不同，也不能認定官方首次對外公開時分。",
+    "來源拒絕存取時維持待核實；不採上市公告替代上櫃原文。",
+    "交易績效仍需完整交易日、PIT、除權息還原、成本與樣本外檢驗。"
+  ],
+  "outputs": [
+    "official_source_readiness_30v.json"
+  ]
+}
