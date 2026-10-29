@@ -88,6 +88,10 @@ jobs:
         run: |
           python -m unittest -v tests/test_historical_evidence_30q.py
           python scripts/build_historical_evidence_30q.py
+      - name: 3.0R 覆蓋日曆與逐股原始封存一致性稽核（區分臨時休市）
+        run: |
+          python -m unittest -v tests/test_archive_coverage_30r.py
+          python scripts/audit_archive_coverage_30r.py
       - name: 2.5B 分批封存上市櫃官方歷史除權息計算結果（不宣稱完整、不計算報酬）
         run: python scripts/backfill_corporate_action_history.py --start-date 2026-01-01 --months-per-run 2
       - name: 2.6B 匯出法人每日與集保每週實際歷史趨勢（不計算勝率）
