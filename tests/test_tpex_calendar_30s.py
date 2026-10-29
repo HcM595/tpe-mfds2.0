@@ -67,7 +67,7 @@ class TPExAudit(unittest.TestCase):
   with tempfile.TemporaryDirectory() as folder:
    d=Path(folder)/'tpex_calendar_sources'
    d.mkdir(parents=True)
-   (d/'year_2026_'+'0'*64+'.pdf').write_bytes(fake_pdf())
+   (d/('year_2026_'+'0'*64+'.pdf')).write_bytes(fake_pdf())
    with self.assertRaisesRegex(ValueError,'existing TPEx original archive'):
     T.run(Path(folder),fetch=lambda: (_ for _ in ()).throw(OSError('403')),
           extractor=lambda _:FIXTURE)
