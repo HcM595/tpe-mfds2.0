@@ -1,17 +1,16 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-10-29T11:08:59+08:00",
-  "observations": 441,
+  "generated_at_taipei": "2026-10-29T11:19:22+08:00",
+  "observations": 450,
   "checked": 15,
-  "fresh_success": 15,
-  "fresh_ytd_unit_period_aligned": 15,
+  "fresh_success": 13,
+  "fresh_ytd_unit_period_aligned": 13,
   "income_report_ytd": "從MOPS第6欄提取當年年初累計本期淨利；第2欄為單季，不混用",
   "amount_unit": "只有逐股MOPS原始表有唯一明確新台幣仟元標頭時才核實",
   "per_stock": {
     "8064": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
+      "status": "stale_backup",
+      "reason": "<urlopen error timed out>"
     },
     "3533": {
       "status": "ok",
@@ -33,52 +32,51 @@
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2489": {
+    "2505": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2491": {
+    "2506": {
+      "status": "unavailable",
+      "reason": "<urlopen error timed out>"
+    },
+    "2509": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2492": {
+    "2511": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2493": {
+    "2514": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2495": {
+    "2515": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2496": {
+    "2516": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2497": {
+    "2520": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2498": {
+    "2524": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2501": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2504": {
+    "2527": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -1236,6 +1234,36 @@
       "status": "not_checked_this_run"
     },
     "2488": {
+      "status": "not_checked_this_run"
+    },
+    "2489": {
+      "status": "not_checked_this_run"
+    },
+    "2491": {
+      "status": "not_checked_this_run"
+    },
+    "2492": {
+      "status": "not_checked_this_run"
+    },
+    "2493": {
+      "status": "not_checked_this_run"
+    },
+    "2495": {
+      "status": "not_checked_this_run"
+    },
+    "2496": {
+      "status": "not_checked_this_run"
+    },
+    "2497": {
+      "status": "not_checked_this_run"
+    },
+    "2498": {
+      "status": "not_checked_this_run"
+    },
+    "2501": {
+      "status": "not_checked_this_run"
+    },
+    "2504": {
       "status": "not_checked_this_run"
     },
     "1240": {
