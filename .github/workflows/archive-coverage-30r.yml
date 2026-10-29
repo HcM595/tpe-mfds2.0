@@ -1,0 +1,44 @@
+name: 3.0R 歷史封存涵蓋、例外日與正式驗證門檻
+on:
+  pull_request:
+    paths:
+      - 'scripts/audit_archive_coverage_30r.py'
+      - 'scripts/check_live_coverage_30r.py'
+      - 'tests/test_archive_coverage_30r.py'
+      - 'tests/browser_archive_coverage_30r.cjs'
+      - 'site/index.html'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/archive-coverage-30r.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integrity-and-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify real original rows, archive index and conservative market-day gaps
+        run: |
+          python -m unittest -v tests/test_archive_coverage_30r.py
+          python -m unittest -v tests/test_historical_evidence_30q.py
+          python scripts/audit_archive_coverage_30r.py
+          python -m unittest -v tests/test_original_goal_site_30j.py
+          node --check tests/browser_archive_coverage_30r.cjs
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install chromium
+      - name: Browser verify actual archived gaps, corrected research screens and mobile
+        run: |
+          python -m http.server 8765 --directory site > /tmp/30r-http.log 2>&1 &
+          sleep 2
+          node tests/browser_archive_coverage_30r.cjs
+          node tests/browser_historical_evidence_30q.cjs
+          node tests/browser_watch_timeline_30p.cjs
