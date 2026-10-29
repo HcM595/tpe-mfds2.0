@@ -1,0 +1,40 @@
+{
+  "version": "3.0U",
+  "date": "2026-10-23",
+  "generated_at_utc": "2026-10-29T05:20:33.642170Z",
+  "status": "one_market_document_possible_other_pending",
+  "sources": {
+    "TWSE": {
+      "market": "上市",
+      "status": "official_original_pending",
+      "full_original_document_verified": false,
+      "source_url": "https://investoredu.twse.com.tw/FileSystem/FileUpload/c91c7dff-afb0-42cc-9949-9f072bece31d.pdf",
+      "source_file": null,
+      "source_sha256": null,
+      "document_released_on": null,
+      "event_date": "2026-10-23",
+      "document_proof": null,
+      "retrieved_this_run_at_utc": null,
+      "first_publication_timestamp_verified": false,
+      "fetch_error": "ValueError: pdftotext not installed; original cannot be independently checked"
+    },
+    "TPEX": {
+      "market": "上櫃",
+      "status": "independent_complete_original_pending",
+      "full_original_document_verified": false,
+      "source_url": null,
+      "source_file": null,
+      "source_sha256": null,
+      "event_date": "2026-10-23",
+      "first_publication_timestamp_verified": false,
+      "explanation": "3.0T只有櫃買中心公告索引，非2026/10/23完整原始官方事件公告"
+    }
+  },
+  "both_cash_markets_official_originals_verified": false,
+  "all_trading_sessions_independently_verified": false,
+  "official_first_publication_timestamp_verified": false,
+  "verified_trade_samples": 0,
+  "certified_win_rate": null,
+  "trade_performance_enabled": false,
+  "explanation": "僅在PDF原始SHA256、issuer、發布日期、事件日期及市場範圍全數核實後，得標示上市單一事件官方原文已證實。上櫃現貨需另行核對櫃買中心原公告。PDF文件內的日期不是本站可在當時使用資料的PIT時間，也不能推導勝率。"
+}
