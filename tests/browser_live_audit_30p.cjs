@@ -5,6 +5,7 @@
 const {chromium}=require('playwright');
 const fs=require('node:fs');
 const LIVE=process.env.LIVE_SITE_URL||'https://hcm595.github.io/tpe-mfds2.0/';
+const EXPECTED_RELEASES=(process.env.EXPECTED_LIVE_RELEASE||'3.0T').split(',').map(x=>x.trim()).filter(Boolean);
 const results=[],notes=[];
 function brief(e){return String(e?.message||e).slice(0,460);}
 async function check(name,task){
@@ -27,7 +28,7 @@ const assert=require('node:assert/strict');
   if(!navigationLoaded){console.log('LIVE_AUDIT_JSON '+JSON.stringify({live:LIVE,results,notes,pageErrors:errors}));process.exitCode=1;return;}
   await check('主頁3.0T正式版本及七項唯一選單',async()=>{
    const brand=await page.locator('.logo small').innerText();
-   assert(brand.includes('3.0T'),'live site still old: '+brand);
+   assert(EXPECTED_RELEASES.some(v=>brand.includes(v)),'live version not in '+EXPECTED_RELEASES.join('/')+': '+brand);
    const nav=page.locator('#nav > button.nav-btn');
    assert.equal(await nav.count(),7,'main menu count differs from 7');
    const names=(await nav.allInnerTexts()).map(x=>x.trim());
@@ -200,7 +201,7 @@ const assert=require('node:assert/strict');
    assert.deepEqual(errors,[]);return '0 pageerror events';
   });
   const label=await page.title();
-  if(!label.includes('3.0T'))notes.push('公開網站 HTML <title> 仍是 '+label+'，與頁面3.0T主標示不一致');
+  if(!EXPECTED_RELEASES.some(v=>label.includes(v)))notes.push('公開網站 HTML <title> 仍是 '+label+'，與目前可接受的發布版本不一致');
   const report={live:LIVE,tested_at:new Date().toISOString(),
     pass:results.filter(x=>x.status==='pass').length,fail:results.filter(x=>x.status==='fail').length,
     items:results,notes,pageErrors:errors};
