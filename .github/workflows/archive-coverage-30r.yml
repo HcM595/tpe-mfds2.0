@@ -29,6 +29,7 @@ jobs:
           python -m unittest -v tests/test_archive_coverage_30r.py
           python -m unittest -v tests/test_historical_evidence_30q.py
           python scripts/audit_archive_coverage_30r.py
+          python -m unittest -v tests/test_live_coverage_30r.py
           python -m unittest -v tests/test_original_goal_site_30j.py
           node --check tests/browser_archive_coverage_30r.cjs
       - name: Install Chromium
