@@ -1,0 +1,41 @@
+{
+  "version": "3.0R",
+  "generated_at_utc": "2026-10-29T02:42:53.139242Z",
+  "status": "original_sources_verified_no_performance",
+  "source_csv_sha256": "ea68a27c4b0e428b97c4f5008a666db401a8e74626ca5d40f41cbfa5da766ad1",
+  "source_historical_meta_sha256": "a1e8eafb1be4b46047f6cf89b2a785953f511799c3d4b7cef18317dbc06621cd",
+  "source_archive_index_sha256": "117e264b56fa2e3b15ddad99d2aa4aaa752009097dc2828704d8f951a98f5fa4",
+  "source_calendar_sha256": "4688a28bc1c24b65c2ec6d89ccf10631d6a730a20e6d8844227428612409205a",
+  "source_market_exceptions_sha256": "75be8f2fd53e419f5e616266536fe36f9d2f71e4156b256ada6ef4b2f2f8cb89",
+  "first_archived_price_date": "2026-10-21",
+  "last_archived_price_date": "2026-10-28",
+  "verified_price_days": 4,
+  "archived_stock_day_records": 297,
+  "stocks_appearing_in_any_archive": 128,
+  "verified_raw_source_rows": {
+    "flow": 297,
+    "holder": 297,
+    "tech": 282
+  },
+  "day_market_status_counts": {
+    "verified_first_capture": 8,
+    "extraordinary_closure_requires_official_source": 2
+  },
+  "coverage_label": "此為首次封存候選資料的價格日覆蓋盤點，非官方確認的逐日交易日曆",
+  "candidate_stock_warning": "未列入封存候選不代表該股票沒有行情或法人沒有買賣",
+  "coverage_blockers": [
+    "上櫃市場行事曆未經獨立官方機器驗證",
+    "臨時停市原始官方公告未能全部歸檔",
+    "來源價格日不等於官方公布時點",
+    "未調整公司行動的價格不可計算績效"
+  ],
+  "official_publication_time_verified": false,
+  "trade_performance_enabled": false,
+  "verified_trade_samples": 0,
+  "certified_win_rate": null,
+  "outputs": [
+    "archive_day_coverage_30r.csv",
+    "stock_candidate_coverage_30r.csv",
+    "archive_coverage_meta_30r.json"
+  ]
+}
