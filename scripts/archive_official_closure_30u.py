@@ -71,8 +71,8 @@ def verify_original_text(content):
  if '交易部' not in text:raise ValueError('TWSE issuer department missing')
  if '115年10月22日' not in text:raise ValueError('TWSE release day absent')
  if '115年10月23日' not in text:raise ValueError('specific closure date absent')
- if '全日休市' not in text and '休市一天' not in text and '休市一日' not in text:
-  raise ValueError('PDF does not state market-wide closure')
+ if '全日休市' not in text:
+  raise ValueError('PDF body does not explicitly state full-day closure')
  if '交割' not in text:raise ValueError('official settlement handling absent')
  # A date string and market words appearing in an unrelated news index do not pass.
  if len(text)<75 or len(text)>15_000:raise ValueError('official document text implausible')
