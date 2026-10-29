@@ -1,4 +1,4 @@
-name: 3.0T 正式公開網站逐項功能驗收
+name: 3.0U 正式公開網站逐項功能驗收
 on:
   pull_request:
     paths:
@@ -27,7 +27,7 @@ jobs:
       - name: Exercise real public GitHub Pages URL, not local preview
         env:
           LIVE_SITE_URL: https://hcm595.github.io/tpe-mfds2.0/
-          EXPECTED_LIVE_RELEASE: ${{ github.event_name == 'pull_request' && '3.0P,3.0T' || '3.0T' }}
+          EXPECTED_LIVE_RELEASE: ${{ github.event_name == 'pull_request' && '3.0T,3.0U' || '3.0U' }}
         run: |
           node tests/browser_live_audit_30p.cjs
       - name: Preserve published-site checklist including failures
