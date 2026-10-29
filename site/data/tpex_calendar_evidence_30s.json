@@ -1,0 +1,22 @@
+{
+  "version": "3.0S",
+  "status": "official_original_unavailable_pending",
+  "generated_at_utc": "2026-10-29T02:56:49.445349Z",
+  "market": "上櫃",
+  "year": 2026,
+  "roc_year": 115,
+  "official_announcement_url": "https://www.tpex.org.tw/storage/eb_data/11411/11400754581.html",
+  "official_pdf_url": "https://www.tpex.org.tw/storage/eb_data/11411/114007545811-1.pdf",
+  "official_raw_pdf_archived": false,
+  "raw_original_sha256": null,
+  "raw_source_file": null,
+  "document_token_validation": null,
+  "official_document_download_error": "ValueError: pdftotext PDF text extractor is not installed",
+  "annual_market_closure_dates_independently_verified": false,
+  "tpex_market_trading_sessions_independently_verified": false,
+  "2026_10_23_extraordinary_closure_official_original_verified": false,
+  "official_first_publication_timestamp_verified": false,
+  "twse_calendar_substitution_permitted": false,
+  "certified_backtest_eligible": false,
+  "explanation": "只核對原始PDF身分、原始位元SHA256及年曆日期字詞；首次取得並非首次官方公布。PDF內同時有最後交易日、恢復交易日、休市日，不得僅憑日期出現就歸類為休市。上櫃與上市不能混用未驗證的行事曆，也尚未封存2026-10-23臨時停市官方原公告。"
+}
