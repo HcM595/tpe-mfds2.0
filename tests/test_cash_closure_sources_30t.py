@@ -17,10 +17,10 @@ TWSE_PAGE=('<html lang="zh"><head><title>臺灣證券交易所 新聞公告</tit
 TPEX_INDEX=('<!doctype html><html><head><title>證券櫃檯買賣中心</title></head>'
 '<body><h1>櫃買中心市場公告</h1>'
 '<p>上櫃公告查詢：請輸入發文日期、文件類別、公告類別與主旨</p>'
-'<div>公開公告資料每日上午查詢，並非完整的某日休市原始公告。</div>'
+'<div>公開公告資料每日上午查詢，並非完整的某日休市原始公告。來源分類包含市場休市制度與有價證券之公告作業，請於市場資料頁面輸入日期並查閱各類公告來源全文，不能將本查詢頁當成特定事件完整公告。</div>'
 '</body></html>').encode()
 FUTURES=('<html><body>臺灣期貨交易所 115年10月23日休市一天 '
-         '期貨市場之一般及盤後交易停止，相關期貨結算業務暫停。</body></html>').encode()
+         '期貨市場之一般及盤後交易停止，相關期貨結算業務暫停。期貨契約與臺指選擇權最後交易日及最後結算日順延，這不涉及現貨證券交易市場的獨立公告，不能直接認證上市或上櫃現貨市場交易日資格。</body></html>').encode()
 
 class AuditTests(unittest.TestCase):
  def test_official_origin_and_listing_disambiguation(self):
