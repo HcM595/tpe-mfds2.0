@@ -1,0 +1,31 @@
+name: 3.0R 正式網站資料逐位元驗收（發布完成後）
+on:
+  workflow_run:
+    workflows:
+      - 台股收盤行情更新與網頁發布
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-published-evidence:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Re-fetch public Pages and match immutable source digests
+        run: |
+          python scripts/check_live_coverage_30r.py --attempts 5 --output live_archive_audit_30r.json
+      - name: Upload deploy verification result, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-research-integrity-30r
+          path: live_archive_audit_30r.json
+          if-no-files-found: warn
