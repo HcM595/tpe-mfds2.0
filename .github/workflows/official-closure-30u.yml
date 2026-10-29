@@ -1,0 +1,51 @@
+name: 3.0U 證交所官方原始休市新聞稿與交易日資格驗收
+on:
+  pull_request:
+    paths:
+      - 'scripts/archive_official_closure_30u.py'
+      - 'scripts/audit_archive_coverage_30r.py'
+      - 'tests/test_official_closure_30u.py'
+      - 'tests/browser_official_closure_30u.cjs'
+      - 'site/index.html'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/official-closure-30u.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-notice-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Ensure original PDF extractor
+        run: |
+          if ! command -v pdftotext >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y poppler-utils
+          fi
+      - name: Verify issuer, date, scope, SHA locks and blocked cross-market claims
+        run: |
+          python -m unittest -v tests/test_official_closure_30u.py
+          python scripts/archive_official_closure_30u.py
+          python -m unittest -v tests/test_archive_coverage_30r.py
+          python scripts/audit_archive_coverage_30r.py
+          python -m unittest -v tests/test_live_coverage_30r.py
+          node --check tests/browser_official_closure_30u.cjs
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install chromium
+      - name: Verify document/date provenance and existing quality screens
+        run: |
+          python -m http.server 8765 --directory site >/tmp/mfds-30u-http.log 2>&1 &
+          sleep 2
+          node tests/browser_official_closure_30u.cjs
+          node tests/browser_cash_closure_30t.cjs
+          node tests/browser_archive_coverage_30r.cjs
