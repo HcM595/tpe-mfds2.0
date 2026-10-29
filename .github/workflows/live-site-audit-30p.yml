@@ -1,14 +1,18 @@
-name: 3.0P 正式公開網站逐項功能驗收
+name: 3.0T 正式公開網站逐項功能驗收
 on:
   pull_request:
     paths:
       - 'tests/browser_live_audit_30p.cjs'
       - '.github/workflows/live-site-audit-30p.yml'
   workflow_dispatch:
+  workflow_run:
+    workflows: ['台股收盤行情更新與網頁發布']
+    types: [completed]
 permissions:
   contents: read
 jobs:
   live-site-audit:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -23,6 +27,7 @@ jobs:
       - name: Exercise real public GitHub Pages URL, not local preview
         env:
           LIVE_SITE_URL: https://hcm595.github.io/tpe-mfds2.0/
+          EXPECTED_LIVE_RELEASE: ${{ github.event_name == 'pull_request' && '3.0P,3.0T' || '3.0T' }}
         run: |
           node tests/browser_live_audit_30p.cjs
       - name: Preserve published-site checklist including failures
