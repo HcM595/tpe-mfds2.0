@@ -1,0 +1,42 @@
+name: 3.0T 現貨市場臨時休市雙官方來源驗收
+on:
+  pull_request:
+    paths:
+      - 'scripts/archive_cash_closure_sources_30t.py'
+      - 'tests/test_cash_closure_sources_30t.py'
+      - 'tests/browser_cash_closure_30t.cjs'
+      - 'site/index.html'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/cash-closure-30t.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  cash-market-provenance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test first-party domain, immutable bytes, source listing vs full notice and futures exclusion
+        run: |
+          python -m unittest -v tests/test_cash_closure_sources_30t.py
+          python scripts/archive_cash_closure_sources_30t.py
+          python -m unittest -v tests/test_tpex_calendar_30s.py tests/test_archive_coverage_30r.py
+          node --check tests/browser_cash_closure_30t.cjs
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install chromium
+      - name: Browser test cash closure sources, older research and mobile view
+        run: |
+          python -m http.server 8765 --directory site >/tmp/mfds-30t-http.log 2>&1 &
+          sleep 2
+          node tests/browser_cash_closure_30t.cjs
+          node tests/browser_tpex_calendar_30s.cjs
+          node tests/browser_archive_coverage_30r.cjs
