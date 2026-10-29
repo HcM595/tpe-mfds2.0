@@ -1,0 +1,42 @@
+name: 3.0S 上櫃年度官方來源與臨時休市驗證
+on:
+  pull_request:
+    paths:
+      - 'scripts/archive_tpex_calendar_30s.py'
+      - 'tests/test_tpex_calendar_30s.py'
+      - 'tests/browser_tpex_calendar_30s.cjs'
+      - 'site/index.html'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/tpex-calendar-30s.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  official-tpex-source-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test original-PDF SHA provenance and absent-source fail-closed logic
+        run: |
+          python -m unittest -v tests/test_tpex_calendar_30s.py
+          python scripts/archive_tpex_calendar_30s.py
+          python -m unittest -v tests/test_archive_coverage_30r.py tests/test_live_coverage_30r.py
+          node --check tests/browser_tpex_calendar_30s.cjs
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install chromium
+      - name: Browser validate TPEx source audit and prior archive quality
+        run: |
+          python -m http.server 8765 --directory site > /tmp/mfds-30s-http.log 2>&1 &
+          sleep 2
+          node tests/browser_tpex_calendar_30s.cjs
+          node tests/browser_archive_coverage_30r.cjs
+          node tests/browser_historical_evidence_30q.cjs
