@@ -25,9 +25,9 @@ const assert=require('node:assert/strict');
    return page.url();
   });
   if(!navigationLoaded){console.log('LIVE_AUDIT_JSON '+JSON.stringify({live:LIVE,results,notes,pageErrors:errors}));process.exitCode=1;return;}
-  await check('主頁3.0P正式版本及七項唯一選單',async()=>{
+  await check('主頁3.0T正式版本及七項唯一選單',async()=>{
    const brand=await page.locator('.logo small').innerText();
-   assert(brand.includes('3.0P'),'live site still old: '+brand);
+   assert(brand.includes('3.0T'),'live site still old: '+brand);
    const nav=page.locator('#nav > button.nav-btn');
    assert.equal(await nav.count(),7,'main menu count differs from 7');
    const names=(await nav.allInnerTexts()).map(x=>x.trim());
@@ -200,7 +200,7 @@ const assert=require('node:assert/strict');
    assert.deepEqual(errors,[]);return '0 pageerror events';
   });
   const label=await page.title();
-  if(!label.includes('3.0P'))notes.push('公開網站 HTML <title> 仍是 '+label+'，與頁面3.0P主標示不一致');
+  if(!label.includes('3.0T'))notes.push('公開網站 HTML <title> 仍是 '+label+'，與頁面3.0T主標示不一致');
   const report={live:LIVE,tested_at:new Date().toISOString(),
     pass:results.filter(x=>x.status==='pass').length,fail:results.filter(x=>x.status==='fail').length,
     items:results,notes,pageErrors:errors};
