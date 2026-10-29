@@ -26,7 +26,31 @@ const read=async p=>new Uint8Array(fs.readFileSync(path.join(root,p)));
  assert.equal(result.rows[0].kind,'baseline');
  assert(result.rows[0].holderNote.includes('首次封存'));
  assert(result.limit.includes('不代表所有交易日'));
- assert(result.limit.includes('沒有逐股外資'));
+ assert(result.limit.includes('原始gzip曾封存'));
+ // 3.0Q recovered row can be shown only if it resolves to the very same
+ // SHA256-verified 2.4A manifest and its original input digests.
+ const first=docs[0],code='8064';
+ const archivedRaw={
+   stock_id:code,price_session:first.date,first_snapshot_id:first.entry.snapshot_id,
+   first_snapshot_sha256:first.entry.snapshot_sha256,
+   first_captured_at_utc:first.captured,raw_input_verified:'true',
+   rank_source_sha256:first.sourceSha256['chip_rank.csv'],
+   chip_source_sha256:first.sourceSha256['chip_signals.csv'],
+   tech_source_sha256:first.sourceSha256['tech_crosscheck.csv'],
+   flow_asof:first.date,holder_asof:'2026-10-16',
+   flow_5d_observation_usable:'true',holder_4w_observation_usable:'true',
+   foreign_5d_shares:'12000',trust_5d_shares:'-4300',
+   large400_4w_pp:'0.25',large1000_4w_pp:'0.15'
+ };
+ const restored=P.build(docs,code,[archivedRaw]);
+ assert.equal(restored.rows[0].rawEvidence.foreign,'12000');
+ assert.equal(restored.rows[0].rawEvidence.trust,'-4300');
+ assert.equal(restored.rows[0].rawEvidence.holder400,'0.25');
+ assert(P.render(restored).includes('3.0Q原始數值'));
+ assert(P.toCSV(restored).includes('12000'));
+ assert.throws(()=>P.build(docs,code,[{...archivedRaw,chip_source_sha256:'bad'}]),/SHA256/);
+ assert.throws(()=>P.build(docs,code,[archivedRaw,archivedRaw]),/重複/);
+ assert.equal(P.build(docs,code,[]).rows[0].rawEvidence,null);
  assert(result.changed_days<=days.length-1);
  assert(result.new_holder_week_days<=days.length-1);
  for(const mode of P.MODES){

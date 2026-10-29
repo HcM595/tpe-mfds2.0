@@ -28,8 +28,8 @@ const fs=require('node:fs');
   const stock=(await rows.allInnerTexts()).join('\n');
   assert(stock.includes('8064')&&stock.includes('3533')&&stock.includes('2345'));
   const caption=await page.locator('.r-watch-history .r-watch-foot').innerText();
-  assert(caption.includes('法人')&&caption.includes('沒有')===false || caption.includes('法人'));
-  assert(caption.includes('不會')&&caption.includes('原始'));
+  assert(caption.includes('外資／投信')&&caption.includes('原始'));
+  assert(caption.includes('gzip')&&caption.includes('這不是交易回測'));
   const [download]=await Promise.all([
    page.waitForEvent('download'),page.locator('#r-history-export').click()
   ]);

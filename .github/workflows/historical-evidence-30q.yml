@@ -1,0 +1,41 @@
+name: 3.0Q 歷史逐股原始證據與正式驗證門檻
+on:
+  pull_request:
+    paths:
+      - 'scripts/build_historical_evidence_30q.py'
+      - 'tests/test_historical_evidence_30q.py'
+      - 'tests/browser_historical_evidence_30q.cjs'
+      - 'site/index.html'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/historical-evidence-30q.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  historical-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify real archived inputs and hostile provenance cases
+        run: |
+          python -m unittest -v tests/test_historical_evidence_30q.py
+          python scripts/build_historical_evidence_30q.py
+          python -m unittest -v tests/test_original_goal_site_30j.py
+      - name: Chromium runtime
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install chromium
+      - name: Browser verify linked historical raw evidence and disabled winrate
+        run: |
+          python -m http.server 8765 --directory site > /tmp/30q-http.log 2>&1 &
+          sleep 2
+          node tests/browser_historical_evidence_30q.cjs
+          node tests/browser_watch_timeline_30p.cjs
+          node tests/browser_editorial_30k.cjs

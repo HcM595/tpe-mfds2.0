@@ -84,6 +84,10 @@ jobs:
         run: python scripts/audit_cohort_independence.py
       - name: 2.5A 跨來源資料健康、除權息歷史缺口及臨時休市稽核（不計算報酬）
         run: python scripts/audit_research_readiness.py
+      - name: 3.0Q 重建已真實封存逐股法人與大戶歷史證據、正式績效放行閘門
+        run: |
+          python -m unittest -v tests/test_historical_evidence_30q.py
+          python scripts/build_historical_evidence_30q.py
       - name: 2.5B 分批封存上市櫃官方歷史除權息計算結果（不宣稱完整、不計算報酬）
         run: python scripts/backfill_corporate_action_history.py --start-date 2026-01-01 --months-per-run 2
       - name: 2.6B 匯出法人每日與集保每週實際歷史趨勢（不計算勝率）
