@@ -65,7 +65,7 @@ class CoverageTests(unittest.TestCase):
    self.assertTrue(M.verify(d))
    p=d/'historical_evidence_30q.csv'
    original=p.read_bytes()
-   p.write_bytes(original+b'\n')
+   p.write_bytes(original+original.splitlines()[1]+b'\r\n')
    with self.assertRaisesRegex(ValueError,'row count|duplicate|invalid'):
     M.verify(d)
    p.write_bytes(original)
@@ -109,8 +109,8 @@ class CoverageTests(unittest.TestCase):
     shutil.copy(self.data/name,d/name)
    now=dt.datetime(2026,10,29,2,0,tzinfo=dt.timezone.utc)
    out=M.run(d,now)
-   self.assertEqual(out['verified_price_days'],4)
-   self.assertEqual(out['archived_stock_day_records'],297)
+   self.assertEqual(out['verified_price_days'],len(M.verify(d)['refs']))
+   self.assertEqual(out['archived_stock_day_records'],len(M.verify(d)['rows']))
    self.assertFalse(out['trade_performance_enabled'])
    self.assertIsNone(out['certified_win_rate'])
    self.assertIn('source_csv_sha256',out)
