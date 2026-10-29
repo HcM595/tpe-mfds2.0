@@ -84,6 +84,10 @@ jobs:
         run: |
           python -m unittest -v tests/test_cash_closure_sources_30t.py
           python scripts/archive_cash_closure_sources_30t.py
+      - name: 3.0U 證交所10月23日完整官方休市原始PDF（SHA256、公告日、事件日及市場）
+        run: |
+          python -m unittest -v tests/test_official_closure_30u.py
+          python scripts/archive_official_closure_30u.py
       - name: 2.4C 登錄不可覆寫的前瞻觀察組與10／20／60日進度（不產生報酬）
         run: python scripts/track_forward.py
       - name: 2.4E 封存官方除權息滾動公告與逐檔品質缺口（不計算報酬）
