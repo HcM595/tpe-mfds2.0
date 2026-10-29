@@ -32,7 +32,14 @@ const {chromium}=require('playwright');
   await section.locator('summary').click();
   const table=section.locator('table').first();
   assert((await table.innerText()).includes('2026-10-23'));
-  assert((await table.innerText()).includes('臨時休市待補官方公告'));
+  const rowsText=await table.innerText();
+  const eventSource=await page.request.get(new URL('./data/official_closure_notice_evidence_30u.json',page.url()).href);
+  if(eventSource.ok()){
+   const event=await eventSource.json();
+   if(event.sources?.TWSE?.full_original_document_verified===true)
+    assert(rowsText.includes('上市原始公告已核對／上櫃仍待獨立核實'));
+   else assert(rowsText.includes('臨時休市待補官方公告'));
+  }else assert(rowsText.includes('臨時休市待補官方公告'));
   const day=await page.request.get(new URL('./data/archive_day_coverage_30r.csv',page.url()).href);
   assert.equal(day.status(),200);
   assert((await day.text()).includes('extraordinary_closure_requires_official_source'));
