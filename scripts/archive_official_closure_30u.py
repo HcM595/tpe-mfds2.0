@@ -46,11 +46,14 @@ def verify_url(url):
   raise ValueError('original TWSE PDF URL must remain on known first-party host and file path')
  return True
 
-def pdf_text(original):
+def validate_pdf_bytes(original):
  if not isinstance(original,bytes) or not original.startswith(b'%PDF-'):
   raise ValueError('downloaded TWSE notice is not a PDF')
  if not PDF_MIN_BYTES<=len(original)<=PDF_MAX_BYTES:
   raise ValueError('TWSE original PDF length outside bounds')
+
+def pdf_text(original):
+ validate_pdf_bytes(original)
  binary=shutil.which('pdftotext')
  if binary is None:raise ValueError('pdftotext not installed; original cannot be independently checked')
  result=subprocess.run([binary,'-layout','-enc','UTF-8','-','-'],
@@ -130,12 +133,14 @@ def run(data_dir=DATA,now=None,fetch=None,extractor=None):
   raw=existing.read_bytes()
   if existing!=file_path(data,digest(raw)):
    raise ValueError('immutable historical TWSE PDF changed: '+existing.name)
+  validate_pdf_bytes(raw)
   proof=verify_original_text(get_text(raw))
   previous.append((existing,proof))
  error=None;fresh=None
  try:
   raw,url=(fetch or download)()
   verify_url(url)
+  validate_pdf_bytes(raw)
   proof=verify_original_text(get_text(raw))
   d=digest(raw)
   dest=file_path(data,d)
@@ -155,14 +160,14 @@ def run(data_dir=DATA,now=None,fetch=None,extractor=None):
         'source_url':PDF_URL,'source_file':src.relative_to(data).as_posix(),
         'source_sha256':sha,'document_released_on':RELEASE_DAY,
         'event_date':EVENT_DAY,'document_proof':proof,
-        'first_seen_at_this_run_utc':utc(now) if fresh else None,
+        'retrieved_this_run_at_utc':utc(now) if fresh else None,
         'first_publication_timestamp_verified':False,'fetch_error':error}
  else:
   twse={'market':'上市','status':'official_original_pending',
         'full_original_document_verified':False,'source_url':PDF_URL,
         'source_file':None,'source_sha256':None,
         'document_released_on':None,'event_date':EVENT_DAY,
-        'document_proof':None,'first_seen_at_this_run_utc':None,
+        'document_proof':None,'retrieved_this_run_at_utc':None,
         'first_publication_timestamp_verified':False,'fetch_error':error}
  tpex={'market':'上櫃','status':'independent_complete_original_pending',
        'full_original_document_verified':False,'source_url':None,
