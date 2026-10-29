@@ -16,6 +16,7 @@ import json
 import re
 from collections import Counter,defaultdict
 from pathlib import Path
+import archive_official_closure_30u as original_30u
 
 ROOT=Path(__file__).resolve().parents[1]
 DATA=ROOT/'site'/'data'
@@ -160,7 +161,7 @@ def verify(data):
          'refs':expected,'by_day':by_day,'by_market':by_market,'by_stock':by_stock,
          'verified_sources':dict(usable)}
 
-def coverage(verification,calendar,exceptions):
+def coverage(verification,calendar,exceptions,official_doc_events=None):
  if calendar.get('status')!='ok' or calendar.get('years') is None:
   raise ValueError('official calendar missing or invalid')
  start=date(min(verification['refs']))
@@ -178,13 +179,19 @@ def coverage(verification,calendar,exceptions):
   if r.get('market') in MARKETS and r.get('issue'):
    dtday=date(r.get('date'))
    if start<=dtday<=end:leads.add((r['market'],dtday))
+ official_doc_events=official_doc_events or set()
  rows=[]
  cursor=start
  while cursor<=end:
   d=cursor.isoformat()
   for market in MARKETS:
    if cursor.weekday()>=5 or cursor in closed:continue
-   if d in verification['refs']:
+   if (market,d) in official_doc_events:
+    if d in verification['refs']:
+     raise ValueError('full-market closure conflicts with a claimed first-captured trade date')
+    status='verified_original_market_closure'
+    why='已核實該現貨市場完整官方原始休市PDF；來源公文發布日不等於本站先知的時間'
+   elif d in verification['refs']:
     status='verified_first_capture'
     why='本站確有該價位日首次不可改寫的源檔；不代表整個市場有全體股票訊號'
    elif (market,cursor) in leads:
@@ -195,7 +202,8 @@ def coverage(verification,calendar,exceptions):
     why='官方常規休市表未列此日；仍待核對市場行情及個別臨停，不能直接宣稱漏跑'
    rows.append({'date':d,'market':market,'status':status,
        'archived_candidate_rows':verification['by_market'][(d,market)] if d in verification['refs'] else '',
-       'official_closed':'false','unverified_closure_lead':str((market,cursor) in leads).lower(),
+       'official_closed':str(status=='verified_original_market_closure').lower(),
+       'unverified_closure_lead':str((market,cursor) in leads and status!='verified_original_market_closure').lower(),
        'reason':why})
   cursor+=dt.timedelta(days=1)
  return rows
@@ -236,7 +244,25 @@ def run(data_dir=DATA,now=None):
  cal=get_json(data_dir/'official_session_calendar.json')
  with (data_dir/'market_session_exceptions.csv').open('r',encoding='utf-8-sig',newline='') as f:
   ex=list(csv.DictReader(f))
- sessions=coverage(check,cal,ex)
+ official_doc_events=set()
+ source_u=data_dir/'official_closure_notice_evidence_30u.json'
+ source_u_sha=None
+ if source_u.is_file():
+  event=get_json(source_u)
+  if event.get('version')!='3.0U' or event.get('date')!='2026-10-23':
+   raise ValueError('3.0U event manifest version/date is not valid')
+  twse=event.get('sources',{}).get('TWSE',{})
+  if twse.get('full_original_document_verified') is True:
+   if not original_30u.check_local(data_dir,event):
+    raise ValueError('TWSE original closure attestation could not be independently verified')
+   official_doc_events.add(('上市','2026-10-23'))
+  elif twse.get('status')!='official_original_pending':
+   raise ValueError('unrecognized 3.0U TWSE original status')
+  if event.get('both_cash_markets_official_originals_verified') is not False or \
+     event.get('trade_performance_enabled') is not False:
+   raise ValueError('3.0U market or performance gate cannot be elevated')
+  source_u_sha=sha(source_u.read_bytes())
+ sessions=coverage(check,cal,ex,official_doc_events)
  stocks=build_stock_coverage(check)
  status=Counter(x['status'] for x in sessions)
  meta={
@@ -247,6 +273,8 @@ def run(data_dir=DATA,now=None):
    'source_archive_index_sha256':sha((data_dir/'signal_archive_index.json').read_bytes()),
    'source_calendar_sha256':sha((data_dir/'official_session_calendar.json').read_bytes()),
    'source_market_exceptions_sha256':sha((data_dir/'market_session_exceptions.csv').read_bytes()),
+   'source_official_closure_30u_sha256':source_u_sha,
+   'independently_documented_cash_market_closures':sorted([{'market':m,'date':d} for m,d in official_doc_events],key=lambda x:(x['date'],x['market'])),
    'first_archived_price_date':min(check['refs']),
    'last_archived_price_date':max(check['refs']),
    'verified_price_days':len(check['refs']),
