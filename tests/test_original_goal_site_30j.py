@@ -69,7 +69,7 @@ class OriginalGoalSiteAcceptance(unittest.TestCase):
         self.assertIn("示範資料",home)
         self.assertIn("RESEARCH WORKSPACE",home)
         self.assertIn("<title>TPE-MFDS 3.0T｜台股整合研究中心</title>",home)
-        self.assertIn("3.0P · 研究資料總覽",home)
+        self.assertIn("3.0T · 研究資料總覽",home)
         self.assertIn("與「市場總覽」採400–999張、1000張以上兩個不重疊級距",home)
         self.assertIn("TPE-MFDS 3.0T ·",home)
         self.assertIn("3.0E｜發布快照與九份資料檔完整性",hub)
