@@ -294,7 +294,7 @@ const RESEARCH_FILES = {
   official:['official_meta.json','json'],rank:['chip_rank.csv','csv'],tech:['tech_crosscheck.csv','csv'],
   chip:['chip_signals.csv','csv'],forward:['forward_observation.csv','csv'],
   forwardMeta:['forward_observation_meta.json','json'],independence:['cohort_independence.csv','csv'],
-  readiness:['research_readiness_meta.json','json'],historyEvidenceMeta:['historical_evidence_meta_30q.json','json'],historyEvidence:['historical_evidence_30q.csv','csv'],archiveCoverageMeta:['archive_coverage_meta_30r.json','json'],archiveCoverageDay:['archive_day_coverage_30r.csv','csv'],stockCoverage:['stock_candidate_coverage_30r.csv','csv'],tpexCalendar30s:['tpex_calendar_evidence_30s.json','json'],actionsMeta:['corporate_action_history_meta.json','json'],
+  readiness:['research_readiness_meta.json','json'],historyEvidenceMeta:['historical_evidence_meta_30q.json','json'],historyEvidence:['historical_evidence_30q.csv','csv'],archiveCoverageMeta:['archive_coverage_meta_30r.json','json'],archiveCoverageDay:['archive_day_coverage_30r.csv','csv'],stockCoverage:['stock_candidate_coverage_30r.csv','csv'],tpexCalendar30s:['tpex_calendar_evidence_30s.json','json'],cashClosure30t:['cash_market_closure_evidence_30t.json','json'],actionsMeta:['corporate_action_history_meta.json','json'],
   actions:['corporate_action_history_events.csv','csv'],universe:['corporate_action_history_universe.csv','csv'],
   exceptions:['market_session_exceptions.csv','csv'],revisions:['cohort_revision_changes.csv','csv'],
   pitStock:['pit_f2f3_stock_29f.csv','csv'],pitVersions:['pit_f2f3_source_versions_29f.csv','csv'],pitMeta:['pit_f2f3_meta_29f.json','json'],f2Valuation:['f2_valuation_29e.csv','csv'],f3Governance:['f3_governance_29e.csv','csv'],companyF2F3Meta:['company_f2f3_meta_29e.json','json'],industryBreadth:['industry_breadth_29d.csv','csv'],industrySector:['industry_sector_breadth_29d.csv','csv'],industryCycleMeta:['industry_cycle_meta_29d.json','json'],industryPolicy:['industry_policy_events_29d.csv','csv'],industryPolicyMeta:['industry_policy_meta_29d.json','json'],s2Credit:['s2_credit_snapshot_29c.csv','csv'],s2Meta:['s2_credit_meta_29c.json','json'],macroSnapshot:['macro_snapshot_29b.json','json'],macroNdc:['macro_ndc_history_29b.csv','csv'],macroFx:['macro_fx_history_29b.csv','csv'],factorEvidence:['factor_evidence_29a.csv','csv'],factorEvidenceMeta:['factor_evidence_meta_29a.json','json'],mopsIncome:['mops_income_ytd_28i.csv','csv'],mopsIncomeMeta:['mops_income_meta_28i.json','json'],cashflow:['cashflow_focus_28g.csv','csv'],cashflowMeta:['cashflow_meta_28g.json','json'],income:['income_snapshot_28f.csv','csv'],incomeMeta:['income_meta_28f.json','json'],risk:['risk_observations_28d.csv','csv'],riskMeta:['risk_meta_28d.json','json'],revenue:['revenue_snapshot_28c.csv','csv'],revenueMeta:['revenue_meta_28c.json','json'],industry:['industry_relative_28c.csv','csv'],industryMeta:['industry_relative_meta_28c.json','json'],factorReadiness:['factor_readiness_28a.json','json'],factorObs:['factor_observations_28b.csv','csv'],factorObsMeta:['factor_observations_meta_28b.json','json'],master:['ordinary_stock_master.csv','csv'],chipTrendMeta:['chip_trend_meta.json','json'],institutionalTrend:['institutional_trend.csv','csv'],holderTrend:['holder_trend.csv','csv']
@@ -685,6 +685,28 @@ function rQuality(){
   const ready=rGet('readiness')||{},am=rGet('actionsMeta')||{},om=rGet('official')||{},ex=rArray('exceptions');
   const checks=[['封存觀察組完整性',`${rVal(ready.cohorts_verified)} / ${rVal(ready.cohorts_in_index)}`,ready.cohorts_verified===ready.cohorts_in_index&&ready.cohorts_verified!==undefined?'已通過':'待核實'],['歷史公司行動完整',rVal(am.historical_corporate_actions_complete),'尚未放行'],['還原OHLC驗證',rVal(am.adjusted_ohlc_verified),'尚未放行'],['股利配發條件',rVal(am.cash_or_stock_distribution_terms_verified),'尚未放行'],['資料公布時點',rVal(am.source_publication_times_verified),'尚未放行'],['獨立樣本驗證',rVal(am.sample_independence_verified),'尚未放行'],['績效指標開啟',rVal(am.performance_metrics_enabled),'禁止計算']];
   const datasets=Object.entries(RESEARCH_FILES).map(([key,[fn]])=>`<tr><td>${rStatusKey(key,fn)}</td><td>${Array.isArray(rGet(key))?rGet(key).length+'筆':rGet(key)?'已取得':'未取得'}</td><td>${research.errors[key]?esc(research.errors[key]):'—'}</td><td>${rMetaLink(key,'原始檔')}</td></tr>`).join('');
+  const cash=rGet('cashClosure30t')||{},cashRows=cash.sources||{};
+  const closureListings=['TWSE','TPEX'].map(k=>{
+    const r=cashRows[k]||{};
+    const tag=r.status==='dated_listing_mention_not_original'?'官方列表顯示當日休市標題，非完整原公告':
+      r.status==='official_index_only_no_event'?'官方查詢頁已封存，未見可核實當日事件':
+      '官方來源尚無可用的已核對原始網頁';
+    return '<tr><td>'+esc(k==='TWSE'?'上市 TWSE':'上櫃 TPEx')+'</td><td>'+esc(tag)+'</td>'+
+      '<td>'+esc(r.source_sha256?r.source_sha256.slice(0,16)+'…':'—')+'</td>'+
+      '<td>'+esc(r.last_fetch_error?'原始來源取得受阻／使用較早已核對版本':'沒有確認官方首次公布時分')+'</td></tr>';
+  }).join('');
+  const cashPanel='<section class="card r-section" aria-label="3.0T現貨臨時休市來源證據鏈">'+
+   '<div class="r-section-title"><div><h3>3.0T｜現貨市場臨時休市來源證據鏈</h3>'+
+   '<p>分開核對上市與上櫃官方網頁原始位元SHA256；官網標題與原始完整公告不得混同。</p></div>'+
+   rMetaLink('cashClosure30t','查看雙市場原始來源稽核JSON')+'</div>'+
+   '<div class="note-box">2026/10/23 雙市場官方休市原公告獨立核實：'+
+    (cash.official_closure_date_certified_for_both_markets===true?'仍須再次核對獨立公告':'尚未完成；不可認證完整交易日曆')+
+   '。期交所休市公告僅適用期貨，不可代替股票上市及上櫃市場個別公告。</div>'+
+   '<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>現貨市場</th><th>取得證據層級</th><th>原始網頁SHA256</th><th>限制</th></tr></thead><tbody>'+
+   closureListings+'</tbody></table></div>'+
+   '<p class="r-watch-foot">來源為官方原始「公告列表／查詢頁」而非指定事件的完整公告原文。'+
+   '只有新聞標題、日期或期貨公告不會讓網站將2026/10/23自動認定為已核實休市，也不會啟動交易勝率驗證。首次取得本站網頁不等於官網首次公布時間。</p>'+
+   '</section>';
   const tpex=rGet('tpexCalendar30s')||{};
   const tpexStatus=tpex.status==='archived_official_document_tokens_verified'?
     '已封存官方原始PDF並核對SHA256；尚未逐行認證休市日':
@@ -780,7 +802,7 @@ function rQuality(){
     +'<a href="./material_events_29q.html">重大訊息時間觀察</a>'
     +'<a href="./event_body_audit_29s.html">重大訊息原文版本</a>'
     +'</div><p class="hint">原始觀察不代表12因子已認證，未驗證績效及勝率繼續停用。</p></section>';
-  return `${tpexPanel}${coveragePanel}${histPanel}${evidenceHall}${rCards([['上市/上櫃行情日',om.display_date||'—','各市場實際日期以來源為準'],['已處理市場／月份',am.attempted_market_month_pairs??'—','歷史回補查詢進度'],['已觀察公司行動',am.observed_historical_event_rows??'—','不代表歷史完整'],['官方臨時休市封存',ready.official_temporary_closures_archived??'—','不得以新聞取代原公告']])}
+  return `${cashPanel}${tpexPanel}${coveragePanel}${histPanel}${evidenceHall}${rCards([['上市/上櫃行情日',om.display_date||'—','各市場實際日期以來源為準'],['已處理市場／月份',am.attempted_market_month_pairs??'—','歷史回補查詢進度'],['已觀察公司行動',am.observed_historical_event_rows??'—','不代表歷史完整'],['官方臨時休市封存',ready.official_temporary_closures_archived??'—','不得以新聞取代原公告']])}
     <section class="card r-section"><div class="r-section-title"><div><h3>研究可靠性核對</h3><p>完整呈現後端的稽核結果，避免把資料蒐集成功誤認為模型已驗證。</p></div>${rMetaLink('readiness','原始研究品質報告')}</div><div class="table-wrap"><table class="data-table r-table"><thead><tr><th>稽核內容</th><th>記錄值</th><th>解讀</th></tr></thead><tbody>${checks.map(([name,value,status])=>`<tr><td>${esc(name)}</td><td>${esc(value)}</td><td>${esc(status)}</td></tr>`).join('')}</tbody></table></div></section>
     <section class="card r-section"><h3>資料來源清單與讀取狀態</h3><p class="hint">個別檔案404、格式異常或逾時會顯示原因，不會轉成虛構資料。</p><div class="table-wrap"><table class="data-table r-table"><thead><tr><th>來源檔案</th><th>內容</th><th>讀取問題</th><th>查看</th></tr></thead><tbody>${datasets}</tbody></table></div></section>
     <section class="card r-section"><h3>臨時休市與例外</h3><p class="hint">官方原始公告未封存者，只列為待核實線索；不自動修改歷史市場日曆。</p>${!ex.length?'<div class="r-empty">尚無可讀取的市場例外紀錄。</div>':`<div class="table-wrap"><table class="data-table r-table"><thead><tr>${Object.keys(ex[0]).slice(0,5).map(k=>`<th>${esc(k)}</th>`).join('')}</tr></thead><tbody>${ex.slice(0,15).map(x=>`<tr>${Object.keys(ex[0]).slice(0,5).map(k=>`<td>${rVal(x[k])}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}</section>`;
