@@ -24,7 +24,7 @@ const assert = require('node:assert/strict');
    await page.locator('#nav > button[data-page="research"][data-research-tab="stock"]').click();
    await page.locator('#r-stock-form').waitFor({timeout:60000});
    assert.equal(await page.locator('#nav > button.nav-btn.active').count(),1,'multiple primary entries marked active');
-   assert((await page.locator('.logo small').innerText()).includes('3.0P'),'current research release version missing');
+   assert((await page.locator('.logo small').innerText()).includes('3.0T'),'current research release version missing');
    assert.equal(await page.locator('.r-tabs').count(),0,'duplicated top research tabs not removed');
    for(const id of ['8064','3533','2345']){
      await page.locator('[data-r-stock="'+id+'"]').first().click();
