@@ -5,7 +5,7 @@
 const {chromium}=require('playwright');
 const fs=require('node:fs');
 const LIVE=process.env.LIVE_SITE_URL||'https://hcm595.github.io/tpe-mfds2.0/';
-const EXPECTED_RELEASES=(process.env.EXPECTED_LIVE_RELEASE||'3.0V').split(',').map(x=>x.trim()).filter(Boolean);
+const EXPECTED_RELEASES=(process.env.EXPECTED_LIVE_RELEASE||'3.0W').split(',').map(x=>x.trim()).filter(Boolean);
 const results=[],notes=[];
 function brief(e){return String(e?.message||e).slice(0,460);}
 async function check(name,task){
@@ -26,7 +26,7 @@ const assert=require('node:assert/strict');
    return page.url();
   });
   if(!navigationLoaded){console.log('LIVE_AUDIT_JSON '+JSON.stringify({live:LIVE,results,notes,pageErrors:errors}));process.exitCode=1;return;}
-  await check('主頁3.0V正式版本及七項唯一選單',async()=>{
+  await check('主頁3.0W正式版本及七項唯一選單',async()=>{
    const brand=await page.locator('.logo small').innerText();
    assert(EXPECTED_RELEASES.some(v=>brand.includes(v)),'live version not in '+EXPECTED_RELEASES.join('/')+': '+brand);
    const nav=page.locator('#nav > button.nav-btn');
