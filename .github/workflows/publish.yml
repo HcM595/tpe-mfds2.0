@@ -243,6 +243,11 @@ jobs:
         run: python -m unittest -v tests/test_original_goal_site_30j.py
       - name: 2.9L 驗證四個研究頁面、資料欄位與模型安全門檻
         run: python -m unittest tests/test_research_pages_29l.py
+      - name: 3.0W 發布前逐位元來源收據與官方PDF一致性閘門
+        run: |
+          python scripts/release_receipt_30w.py --mode build
+          python -m unittest -v tests/test_release_receipt_30w.py
+          python scripts/release_receipt_30w.py --mode verify
       - name: 保存真實價格與籌碼資料及更新進度
         run: |
           git config user.name "github-actions[bot]"
