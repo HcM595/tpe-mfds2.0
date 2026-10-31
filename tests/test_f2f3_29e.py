@@ -89,4 +89,39 @@ class OfficialF2F329ETests(unittest.TestCase):
             self.assertEqual(nextmeta["sources"]["上櫃_governance"]["status"],"stale_backup")
             self.assertEqual(nextmeta["sources"]["上市_valuation"]["status"],"ok")
             self.assertTrue(all(x["source_status"]=="stale_backup" for x in result["governance"]))
+    def test_truncated_official_snapshot_retains_clearly_stale_archived_evidence(self):
+        # A 110-row response after a 310-stock official source must not silently
+        # overwrite hundreds of original date-stamped observations.
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder)
+            m=master()
+            for i in range(110,310):
+                m[str(3000+i)]={"stock_id":str(3000+i),"market":"上市","sector":"24"}
+                m[str(5000+i)]={"stock_id":str(5000+i),"market":"上櫃","sector":"24"}
+            save(root/"history_data"/"ordinary_stock_master.csv",list(m.values()))
+            def fetch_full(url):
+                market="上市" if "twse.com.tw" in url else "上櫃"
+                kind="governance" if "t187ap33" in url else "valuation"
+                return json.dumps(fixture(market,kind,310),ensure_ascii=False).encode()
+            original,first=collect(root,fetch_full,dt.datetime(2026,10,28,5,tzinfo=dt.timezone.utc))
+            self.assertEqual(first["valuation_stocks"],620)
+            oldest={r["stock_id"]:(r["asof"],r["source_sha256"],r["first_seen_utc"])
+                    for r in original["valuation"]}
+            def fetch_short(url):
+                market="上市" if "twse.com.tw" in url else "上櫃"
+                kind="governance" if "t187ap33" in url else "valuation"
+                return json.dumps(fixture(market,kind,110),ensure_ascii=False).encode()
+            output,meta=collect(root,fetch_short,dt.datetime(2026,10,29,5,tzinfo=dt.timezone.utc))
+            self.assertEqual(meta["valuation_stocks"],620)
+            self.assertEqual(meta["governance_stocks"],620)
+            for market in ("上市","上櫃"):
+                reason=meta["sources"][market+"_valuation"]
+                self.assertEqual(reason["status"],"partial_official_source_stale_backup")
+                self.assertEqual(reason["fresh_parsed_rows"],110)
+            self.assertTrue(all(r["source_status"]=="stale_backup" for r in output["valuation"]))
+            self.assertEqual({r["stock_id"]:(r["asof"],r["source_sha256"],r["first_seen_utc"])
+                 for r in output["valuation"]},oldest)
+            self.assertFalse(meta["F2_expected_earnings_surprise_verified"])
+            self.assertFalse(meta["backtested_probabilities_enabled"])
+
 if __name__=="__main__":unittest.main()
