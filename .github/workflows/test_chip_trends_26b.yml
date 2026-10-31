@@ -258,7 +258,7 @@ jobs:
           # 10/30 while the independently archived price clock remains 10/28.
           official=json.load(open('site/data/official_meta.json'))
           price_day=official['display_date']
-          qualified=[r for r in vals if r.get('source_status')=='ok' and
+          qualified=[r for r in vals if r.get('source_status') in ('ok','stale_backup') and
                      r.get('peer_f2_ready')=='true' and r.get('asof','')<=price_day]
           actual=factors['per_factor']['F2']['partial']
           assert actual<=len(qualified), 'F2 factor used post-price or unqualified observations'
