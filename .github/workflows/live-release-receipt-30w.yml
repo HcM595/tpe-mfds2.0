@@ -1,0 +1,31 @@
+name: 3.0W 正式網站全部來源檔逐位元驗證
+on:
+  workflow_run:
+    workflows:
+      - 台股收盤行情更新與網頁發布
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-pages-original-data:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compare public Pages with receipt committed into GitHub main
+        run: |
+          python scripts/release_receipt_30w.py --mode live --attempts 5 --report-file live_source_receipt_30w.json
+      - name: Keep public verification result, even when failed
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-release-receipt-30w
+          path: live_source_receipt_30w.json
+          if-no-files-found: warn
