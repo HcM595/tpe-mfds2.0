@@ -253,7 +253,19 @@ jobs:
           assert len(vals)==meta['valuation_stocks'] and len(vals)>500
           assert len(gov)==meta['governance_stocks'] and len(gov)>500
           assert meta['valuation_peer_comparable']>100
-          assert factors['per_factor']['F2']['partial']>100
+          # Historical factor evidence must never use valuation records newer
+          # than the actual official price session. A live API can advance to
+          # 10/30 while the independently archived price clock remains 10/28.
+          official=json.load(open('site/data/official_meta.json'))
+          price_day=official['display_date']
+          qualified=[r for r in vals if r.get('source_status')=='ok' and
+                     r.get('peer_f2_ready')=='true' and r.get('asof','')<=price_day]
+          actual=factors['per_factor']['F2']['partial']
+          assert actual<=len(qualified), 'F2 factor used post-price or unqualified observations'
+          if not qualified:
+              assert actual==0, 'F2 look-ahead: future-dated valuation must not count'
+          elif len(qualified)>300:
+              assert actual>100, 'unexpected F2 original-evidence coverage loss'
           assert factors['per_factor']['F2']['verified']==0
           assert factors['per_factor']['F3']['verified']==0
           assert not meta['F2_expected_earnings_surprise_verified']
