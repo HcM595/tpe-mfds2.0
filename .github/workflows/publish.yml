@@ -243,6 +243,10 @@ jobs:
         run: python -m unittest -v tests/test_original_goal_site_30j.py
       - name: 2.9L 驗證四個研究頁面、資料欄位與模型安全門檻
         run: python -m unittest tests/test_research_pages_29l.py
+      - name: 3.0X-R 收盤日期與歷史證據健檢（休市不誤判、疑似過期提醒）
+        run: |
+          python -m unittest -v tests/test_freshness_30xr.py
+          python scripts/audit_freshness_30xr.py --strict
       - name: 3.0W 發布前逐位元來源收據與官方PDF一致性閘門
         run: |
           python -m unittest -v tests/test_release_receipt_30w.py
