@@ -217,6 +217,8 @@ def validate_live(base=LIVE,expected=None,fetch=None):
  files=doc.get('source_files')
  if not isinstance(files,list) or len(files)!=doc.get('source_file_count'):
   raise ValueError('public receipt lacks declared source files')
+ for item in files:
+  clean_rel(item.get('path'))
  if sorted(f['path'] for f in files)!=[f['path'] for f in files] or \
     len({f['path'] for f in files})!=len(files):
   raise ValueError('public receipt has duplicate or disordered source rows')
