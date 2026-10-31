@@ -42,6 +42,7 @@ button,input,select{font:inherit;border:1px solid #b8cbd7;border-radius:8px;padd
 <div id="detail-links" class="linkrow"></div></section>
 <section id="screen-compare" class="card" hidden><h2>跨股比較：同一欄位、不同資料日期</h2><div class="toolbar"><label class="comparebox">輸入2～5個股票代號，使用逗號分隔<input id="stock-list" value="8064,3533,2345,2330"></label><button id="compare">開始比較</button><button class="secondary" id="export-compare">匯出比較股票 CSV</button></div><p id="compare-status" class="muted"></p><div id="compare-view" class="wrap"></div><p class="foot">這不是相對優劣排名；比較欄位必須參考各資料的所屬日期，缺漏不代表看空。估值只展示原始來源，不代表已驗證價值因子。</p></section>
 <section id="screen-quality" class="card" hidden><h2>資料品質、除權息事件與跨表一致性｜3.0E</h2>
+<div id="coverage-30xt" class="card"><h3>3.0X-T｜九來源資料覆蓋摘要</h3><p id="coverage-30xt-status" role="status" aria-live="polite">正在核對九來源摘要；正式勝率維持停用。</p><div class="wrap"><table><thead><tr><th>來源</th><th>資料筆數</th><th>不重複股票數</th><th>缺少日期筆數</th><th>最早所屬日</th><th>最晚所屬日</th></tr></thead><tbody id="coverage-30xt-rows"></tbody></table></div><p class="tiny">來源股票數、資料筆數與歷史首度封存日不可混用；非正式勝率或獲利推估。</p></div>
 <p class="muted">本區區分來源載入、股票覆蓋、日期對齊、官方公布證據與12因子正式資格；資料不足時顯示原因，不補造訊號。</p>
 <div class="stats quality-stats"><div><small>逐股研究母體</small><b id="quality-universe">—</b></div><div><small>外資／投信來源日期對齊</small><b id="quality-flows">—</b></div><div><small>集保原始週資料</small><b id="quality-holders">—</b></div><div><small>原始未還原股價</small><b id="quality-unadjusted">—</b></div><div><small>正式模型可用</small><b id="quality-model">—</b></div></div>
 <p id="quality-status" class="muted"></p>
@@ -277,4 +278,4 @@ all=C.merge(inputs);sourceTables=inputs;
 actionById=new Map((inputs.actions||[]).map(x=>[x.stock_id,x]));
 qualityReport=Q.summarize(all,inputs,failures);integrity=I.inspect(inputs);byId=new Map(all.map(x=>[x.id,x]));$('universe').textContent=all.length.toLocaleString();$('basics').textContent=all.filter(x=>x.basicEligible).length.toLocaleString();$('flows').textContent=all.filter(x=>x.flowDateOK).length.toLocaleString();$('holders').textContent=all.filter(x=>x.holderDateOK).length.toLocaleString();$('approved').textContent=all.filter(x=>x.modelEligible&&x.predictionEnabled).length.toLocaleString();
 $('loading').textContent='已載入 '+all.length.toLocaleString()+' 檔逐股資料。'+(Object.keys(failures).length?'部分來源無法取得：'+Object.entries(failures).map(([k,v])=>k+' '+v).join('；'):'所有所需研究來源已載入。')+'來源載入成功不等於歷史回測資格。';display(pendingView);}catch(err){$('loading').textContent='無法啟動研究工作台：'+err.message;$('snapshot-status').textContent='來源快照校驗失敗：'+err.message}})();
-</script></body></html>
+</script><script src="./source_coverage_30xt.js"></script></body></html>
