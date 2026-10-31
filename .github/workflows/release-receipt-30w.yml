@@ -32,10 +32,10 @@ jobs:
           command -v pdftotext
       - name: Build source receipt; run hostile mixed-file and missing-original checks
         run: |
-          python scripts/release_receipt_30w.py --mode build
-          python -m unittest -v tests/test_release_receipt_30w.py
-          python scripts/release_receipt_30w.py --mode verify
           python -m unittest -v tests/test_official_source_readiness_30v.py
+          python -m unittest -v tests/test_release_receipt_30w.py
+          python scripts/release_receipt_30w.py --mode build
+          python scripts/release_receipt_30w.py --mode verify
           python -m unittest -v tests/test_original_goal_site_30j.py
       - name: Install Chromium
         run: |
