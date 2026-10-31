@@ -32,6 +32,11 @@ GOV_COLUMNS=["stock_id","stock_name","market","sector","source_asof",
  "source_status","source_url","source_sha256","first_seen_utc",
  "per_company_disclosure_time_verified","governance_quality_verified","factor_F3_eligible"]
 MIN_PEERS=5
+# A suddenly truncated official API response is not evidence that previously
+# verified companies disappeared. Keep earlier original observations as STALE,
+# with their original source dates/first-seen SHA, never as fresh data.
+MIN_PRIOR_MARKET=300
+MIN_RETAINED_RATIO=0.65
 def load(path):
     if not path.is_file():return []
     with path.open(encoding="utf-8-sig",newline="") as f:return list(csv.DictReader(f))
@@ -150,11 +155,25 @@ def collect(root=ROOT,fetcher=fetch,clock=None):
                 parsed=parse(raw,market,kind,master,today,digest,first)
                 digest,first=archive(root,market,kind,raw,clock)
                 for row in parsed:row["first_seen_utc"]=first
-                stored[market]=parsed
-                provenance[f"{market}_{kind}"]={
-                    "status":"ok","rows":len(parsed),"source_sha256":digest,
-                    "source_url":url,
-                    "source_dates":sorted(set(row["asof"] if kind=="valuation" else row["source_asof"] for row in parsed))}
+                prior=[r for r in prev.values() if r.get("market")==market and
+                    r.get("source_url")==url and len(r.get("source_sha256",""))==64 and
+                    r.get("first_seen_utc") and
+                    str(r.get("asof" if kind=="valuation" else "source_asof",""))<=today.isoformat()]
+                # Do not treat a short, valid HTTP response as an entire market.
+                # Original prior dates/sha/first-seen remain unchanged and stale.
+                if len(prior)>=MIN_PRIOR_MARKET and len(parsed)<len(prior)*MIN_RETAINED_RATIO:
+                    stored[market]=[dict(r,source_status="stale_backup") for r in prior]
+                    provenance[f"{market}_{kind}"]={
+                        "status":"partial_official_source_stale_backup",
+                        "rows":len(prior),"fresh_parsed_rows":len(parsed),
+                        "fresh_source_sha256":digest,"source_url":url,
+                        "reason":"官方回傳筆數相較歷史可信檔異常縮減；維持前次原始日期與SHA256，不宣稱當期有效"}
+                else:
+                    stored[market]=parsed
+                    provenance[f"{market}_{kind}"]={
+                        "status":"ok","rows":len(parsed),"source_sha256":digest,
+                        "source_url":url,
+                        "source_dates":sorted(set(row["asof"] if kind=="valuation" else row["source_asof"] for row in parsed))}
             except (OSError,ValueError,UnicodeError,KeyError,TypeError,json.JSONDecodeError) as e:
                 stored[market]=[dict(r,source_status="stale_backup") for r in prev.values()
                                 if r.get("market")==market]
