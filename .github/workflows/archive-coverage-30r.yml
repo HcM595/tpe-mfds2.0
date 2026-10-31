@@ -24,6 +24,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Ensure PDF parser for already archived official originals
+        run: |
+          if ! command -v pdftotext >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y poppler-utils
+          fi
+          command -v pdftotext
       - name: Verify real original rows, archive index and conservative market-day gaps
         run: |
           python -m unittest -v tests/test_archive_coverage_30r.py
