@@ -247,6 +247,8 @@ jobs:
         run: |
           python -m unittest -v tests/test_freshness_30xr.py
           python scripts/audit_freshness_30xr.py --strict
+      - name: 3.0X-R 網站版本與核心功能存續驗收
+        run: python -m unittest -v tests/test_feature_continuity_30xr.py
       - name: 3.0W 發布前逐位元來源收據與官方PDF一致性閘門
         run: |
           python -m unittest -v tests/test_release_receipt_30w.py
