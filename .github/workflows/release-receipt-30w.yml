@@ -1,0 +1,50 @@
+name: 3.0W 發布證據收據、官方PDF與網站資料一致性驗收
+on:
+  pull_request:
+    paths:
+      - 'scripts/release_receipt_30w.py'
+      - 'tests/test_release_receipt_30w.py'
+      - 'tests/browser_release_receipt_30w.cjs'
+      - 'site/index.html'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/release-receipt-30w.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  research-release-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install PDF source verification extractor
+        run: |
+          if ! command -v pdftotext >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y poppler-utils
+          fi
+          command -v pdftotext
+      - name: Build source receipt; run hostile mixed-file and missing-original checks
+        run: |
+          python scripts/release_receipt_30w.py --mode build
+          python -m unittest -v tests/test_release_receipt_30w.py
+          python scripts/release_receipt_30w.py --mode verify
+          python -m unittest -v tests/test_official_source_readiness_30v.py
+          python -m unittest -v tests/test_original_goal_site_30j.py
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install chromium
+      - name: Browser-verify full source SHA256 file set on desktop/mobile
+        run: |
+          python -m http.server 8765 --directory site > /tmp/mfds-30w-http.log 2>&1 &
+          sleep 2
+          node tests/browser_release_receipt_30w.cjs
+          node tests/browser_source_readiness_30v.cjs
+          node tests/browser_official_closure_30u.cjs
