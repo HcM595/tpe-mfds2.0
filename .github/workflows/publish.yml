@@ -271,3 +271,14 @@ jobs:
       - name: 發布網頁
         uses: actions/deploy-pages@v4
         id: deployment
+      - name: 3.0X 公開網站逐位元發布驗收（實際GitHub Pages，不以綠勾取代證據）
+        run: |
+          python scripts/release_receipt_30w.py --mode live --attempts 5 --report-file live_source_receipt_30w.json
+      - name: 3.0X 保存公開網站驗收證據（通過與失敗均封存）
+        if: always() && steps.deployment.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mfds-30x-public-deployment-verification
+          path: live_source_receipt_30w.json
+          if-no-files-found: warn
+          retention-days: 30
