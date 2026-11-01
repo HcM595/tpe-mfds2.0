@@ -1,10 +1,10 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-11-01T15:20:31+08:00",
-  "observations": 526,
+  "generated_at_taipei": "2026-11-01T16:21:41+08:00",
+  "observations": 534,
   "checked": 15,
-  "fresh_success": 11,
-  "fresh_ytd_unit_period_aligned": 11,
+  "fresh_success": 9,
+  "fresh_ytd_unit_period_aligned": 9,
   "income_report_ytd": "從MOPS第6欄提取當年年初累計本期淨利；第2欄為單季，不混用",
   "amount_unit": "只有逐股MOPS原始表有唯一明確新台幣仟元標頭時才核實",
   "per_stock": {
@@ -29,52 +29,50 @@
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "5443": {
+    "6486": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "5508": {
+    "6510": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "5902": {
+    "6561": {
+      "status": "unavailable",
+      "reason": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "6640": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "5904": {
+    "6690": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "6126": {
+    "6799": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "6147": {
+    "6907": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "6202": {
+    "7765": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "6266": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
+    "7822": {
+      "status": "unavailable",
+      "reason": "<urlopen error [Errno 111] Connection refused>"
     },
-    "6271": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "6274": {
+    "8039": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -1432,6 +1430,12 @@
     "5434": {
       "status": "not_checked_this_run"
     },
+    "6202": {
+      "status": "not_checked_this_run"
+    },
+    "6271": {
+      "status": "not_checked_this_run"
+    },
     "1240": {
       "status": "not_checked_this_run"
     },
@@ -1610,6 +1614,30 @@
       "status": "not_checked_this_run"
     },
     "5299": {
+      "status": "not_checked_this_run"
+    },
+    "5443": {
+      "status": "not_checked_this_run"
+    },
+    "5508": {
+      "status": "not_checked_this_run"
+    },
+    "5902": {
+      "status": "not_checked_this_run"
+    },
+    "5904": {
+      "status": "not_checked_this_run"
+    },
+    "6126": {
+      "status": "not_checked_this_run"
+    },
+    "6147": {
+      "status": "not_checked_this_run"
+    },
+    "6266": {
+      "status": "not_checked_this_run"
+    },
+    "6274": {
       "status": "not_checked_this_run"
     }
   },
