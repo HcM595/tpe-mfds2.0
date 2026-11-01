@@ -56,6 +56,17 @@ class FeatureContinuity(unittest.TestCase):
         for name in DATA:
             with self.subTest(data=name):
                 self.assertTrue((SITE/"data"/name).is_file())
+    def test_watchlist_changes_invalidate_prior_timeline_evidence(self):
+        index=(SITE/"index.html").read_text(encoding="utf-8")
+        # A stock removed from the watchlist must not inherit the previous
+        # stock's SHA256-verified archive report on the next render.
+        self.assertIn("if(ui.stock!==known){", index)
+        self.assertIn("ui.stock=known;ui.docs=[];ui.status='idle';ui.error='';ui.serial++;", index)
+        self.assertIn("timeline.docs=[];timeline.status='idle';timeline.serial++;", index)
+        # Adding one ticker cannot silently overwrite previously saved codes.
+        self.assertIn("const persisted=window.MFDSWatchlist30N.ids(", index)
+        self.assertIn("[...new Set([...persisted,...state.watch])]", index)
+
     def test_model_not_fake_enabled_by_site_shell(self):
         index=(SITE/"index.html").read_text(encoding="utf-8")
         self.assertNotIn("預測勝率80%",index)
