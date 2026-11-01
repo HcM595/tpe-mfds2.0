@@ -72,7 +72,7 @@ const pretty=x=>x===null||x===undefined?'—':C.fmt(x);
 function colorNumber(v,unit=''){if(v===null)return '—';const sign=v>0?'positive':v<0?'negative':'';return '<span class="'+sign+'">'+E(C.sign(v,unit))+'</span>';}
 function field(name,value){return '<div class="datum"><span>'+E(name)+'</span><span>'+E(value??'—')+'</span></div>'}
 function ensure(){if(!all.length)throw Error('研究資料尚未載入')}
-function display(section){view=section;for(const name of ['market','detail','compare','quality']){$('screen-'+name).hidden=name!==section;const tab=$('tab-'+name);tab.className=name===section?'active':'secondary';}if(section==='market')renderMarket();if(section==='detail')renderDetail();if(section==='compare')renderCompare();if(section==='quality')renderQuality();}
+function display(section){view=section;for(const name of ['market','detail','compare','quality']){$('screen-'+name).hidden=name!==section;const tab=$('tab-'+name);tab.className=name===section?'active':'secondary';}if(section==='market')renderMarket();if(section==='detail'){renderDetail();renderStockCoverage30U();}if(section==='compare')renderCompare();if(section==='quality')renderQuality();}
 function setQuery(params){const u=new URL(location.href);for(const k of ['view','stock','stocks'])u.searchParams.delete(k);Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,v));history.replaceState(null,'',u.pathname+u.search+u.hash)}
 function rowFor(id){return byId.get(String(id||'').trim())}
 function stockButton(r){return '<button class="tap" data-stock="'+E(r.id)+'">'+E(r.id)+' '+E(r.name)+'</button><div class="tiny">'+E(r.market)+'</div>'}
@@ -243,10 +243,8 @@ $('reset').onclick=()=>{for(const id of ['q','market','basic','institution','hol
 $('prev').onclick=()=>{pageIndex--;renderMarket()};$('next').onclick=()=>{pageIndex++;renderMarket()};
 $('market-rows').addEventListener('click',e=>{const btn=e.target.closest('[data-stock],[data-add]');if(!btn)return;if(btn.dataset.stock){$('stock-id').value=btn.dataset.stock;navigateStock(btn.dataset.stock)}
 else if(btn.dataset.add){let ids=[...new Set($('stock-list').value.split(/[,，\s]+/).filter(Boolean))];if(!ids.includes(btn.dataset.add))ids.push(btn.dataset.add);ids=ids.slice(-5);$('stock-list').value=ids.join(',');display('compare');setQuery({view:'compare',stocks:ids.join(',')})}});
-$('lookup').onclick=()=>{renderDetail();setQuery({view:'detail',stock:$('stock-id').value})};
+$('lookup').onclick=()=>{renderDetail();renderStockCoverage30U();setQuery({view:'detail',stock:$('stock-id').value})};
 function renderStockCoverage30U(){const el=$('stock-coverage-30xu-rows'),st=$('stock-coverage-30xu-status');if(!el||!st||!window.MFDSStockCoverage30U)return;const d=window.MFDSStockCoverage30U.diagnose($('stock-id').value,sourceTables||{},failures||{});el.replaceChildren();if(d.error){st.textContent=d.error;return;}st.textContent=d.stock_id+'：九來源狀態如下。正式回測資格尚未通過。';for(const r of d.rows){const tr=document.createElement('tr');for(const v of [r.key,r.present?'有來源':'缺少／不可驗證',r.matchedRows,r.dates.join('、')||'未提供',r.reason]){const td=document.createElement('td');td.textContent=String(v);tr.append(td);}el.append(tr);}}
-$('lookup').addEventListener('click',renderStockCoverage30U);
-$('tab-detail').addEventListener('click',renderStockCoverage30U);
 $('stock-id').addEventListener('keydown',e=>{if(e.key==='Enter')$('lookup').click()});
 $('compare').onclick=()=>{renderCompare();setQuery({view:'compare',stocks:$('stock-list').value})};
 const params=new URLSearchParams(location.search);
