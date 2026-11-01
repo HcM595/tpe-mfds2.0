@@ -33,7 +33,7 @@ button,input,select{font:inherit;border:1px solid #b8cbd7;border-radius:8px;padd
 </div><p id="filter-status" class="muted"></p>
 <div class="wrap"><table><thead><tr><th>股票</th><th>價格資料日</th><th>20日均成交額（NT$）</th><th>外資5日股數</th><th>投信5日股數</th><th>1000張大戶4週變動</th><th>技術狀態</th><th>來源狀態</th><th>操作</th></tr></thead><tbody id="market-rows"></tbody></table></div>
 <div id="pager"><button id="prev" class="secondary">上一頁</button><span id="pages"></span><button id="next" class="secondary">下一頁</button></div><p class="foot">篩選依股票代號排列，非依報酬或勝率排名。集保週變動使用最近有日期的觀察，不將其認定為當日已公布；技術資料只涵蓋能核對的部分股票。</p></section>
-<section id="screen-detail" class="card" hidden><h2>個股深入研究與資料來源時鐘</h2><div class="toolbar"><label class="search">查詢股票代號<input id="stock-id" placeholder="例如8064" value="8064"></label><button id="lookup">查詢</button></div><p id="detail-status" class="muted"></p><div id="detail" class="layout"></div><div class="card" id="evidence-card" style="background:#fbfdff;border-color:#e3edf1"><h3>逐項資料日期與可信度</h3><p class="muted">原始資料可顯示，不代表符合歷史回測或公告時點要求。</p><div id="evidence" class="wrap"></div></div><div class="card" style="background:#fbfdff;border-color:#e3edf1"><h3>跨來源資料核對｜3.0C</h3>
+<section id="screen-detail" class="card" hidden><h2>個股深入研究與資料來源時鐘</h2><div class="toolbar"><label class="search">查詢股票代號<input id="stock-id" placeholder="例如8064" value="8064"></label><button id="lookup">查詢</button></div><p id="detail-status" class="muted"></p><div id="detail" class="layout"></div><div class="card" id="evidence-card" style="background:#fbfdff;border-color:#e3edf1"><h3>逐項資料日期與可信度</h3><p class="muted">原始資料可顯示，不代表符合歷史回測或公告時點要求。</p><div id="evidence" class="wrap"></div><div class="card" id="stock-coverage-30xu"><h3>3.0X-U｜逐股九來源完整性診斷</h3><p class="tiny">來源存在不等於當時可使用，更不代表正式回測通過。</p><p id="stock-coverage-30xu-status" role="status">請先查詢個股。</p><div class="wrap"><table><thead><tr><th>來源</th><th>狀態</th><th>筆數</th><th>所屬日期</th><th>判讀限制</th></tr></thead><tbody id="stock-coverage-30xu-rows"></tbody></table></div></div></div><div class="card" style="background:#fbfdff;border-color:#e3edf1"><h3>跨來源資料核對｜3.0C</h3>
 <p class="muted">股號、市場、公司名稱與資料日跨表比對；保守截止日是臺灣時間00:00，不等於官方公告已驗證。</p>
 <div id="integrity-detail"></div></div>
 <div class="card" style="background:#fbfdff;border-color:#e3edf1"><h3>3.0E｜歷史除權息觀察與原始前收核對</h3>
@@ -244,6 +244,9 @@ $('prev').onclick=()=>{pageIndex--;renderMarket()};$('next').onclick=()=>{pageIn
 $('market-rows').addEventListener('click',e=>{const btn=e.target.closest('[data-stock],[data-add]');if(!btn)return;if(btn.dataset.stock){$('stock-id').value=btn.dataset.stock;navigateStock(btn.dataset.stock)}
 else if(btn.dataset.add){let ids=[...new Set($('stock-list').value.split(/[,，\s]+/).filter(Boolean))];if(!ids.includes(btn.dataset.add))ids.push(btn.dataset.add);ids=ids.slice(-5);$('stock-list').value=ids.join(',');display('compare');setQuery({view:'compare',stocks:ids.join(',')})}});
 $('lookup').onclick=()=>{renderDetail();setQuery({view:'detail',stock:$('stock-id').value})};
+function renderStockCoverage30U(){const el=$('stock-coverage-30xu-rows'),st=$('stock-coverage-30xu-status');if(!el||!st||!window.MFDSStockCoverage30U)return;const d=window.MFDSStockCoverage30U.diagnose($('stock-id').value,sourceTables||{},failures||{});el.replaceChildren();if(d.error){st.textContent=d.error;return;}st.textContent=d.stock_id+'：九來源狀態如下。正式回測資格尚未通過。';for(const r of d.rows){const tr=document.createElement('tr');for(const v of [r.key,r.present?'有來源':'缺少／不可驗證',r.matchedRows,r.dates.join('、')||'未提供',r.reason]){const td=document.createElement('td');td.textContent=String(v);tr.append(td);}el.append(tr);}}
+$('lookup').addEventListener('click',renderStockCoverage30U);
+$('tab-detail').addEventListener('click',renderStockCoverage30U);
 $('stock-id').addEventListener('keydown',e=>{if(e.key==='Enter')$('lookup').click()});
 $('compare').onclick=()=>{renderCompare();setQuery({view:'compare',stocks:$('stock-list').value})};
 const params=new URLSearchParams(location.search);
@@ -275,7 +278,8 @@ const pendingView=['market','detail','compare','quality'].includes(params.get('v
  renderSnapshot();
  if(failures.factor)throw Error('研究主資料版本無法驗證：'+failures.factor);
 all=C.merge(inputs);sourceTables=inputs;
+window.addEventListener('mfds-coverage-ready',()=>{});
 actionById=new Map((inputs.actions||[]).map(x=>[x.stock_id,x]));
 qualityReport=Q.summarize(all,inputs,failures);integrity=I.inspect(inputs);byId=new Map(all.map(x=>[x.id,x]));$('universe').textContent=all.length.toLocaleString();$('basics').textContent=all.filter(x=>x.basicEligible).length.toLocaleString();$('flows').textContent=all.filter(x=>x.flowDateOK).length.toLocaleString();$('holders').textContent=all.filter(x=>x.holderDateOK).length.toLocaleString();$('approved').textContent=all.filter(x=>x.modelEligible&&x.predictionEnabled).length.toLocaleString();
-$('loading').textContent='已載入 '+all.length.toLocaleString()+' 檔逐股資料。'+(Object.keys(failures).length?'部分來源無法取得：'+Object.entries(failures).map(([k,v])=>k+' '+v).join('；'):'所有所需研究來源已載入。')+'來源載入成功不等於歷史回測資格。';display(pendingView);}catch(err){$('loading').textContent='無法啟動研究工作台：'+err.message;$('snapshot-status').textContent='來源快照校驗失敗：'+err.message}})();
-</script><script src="./source_coverage_30xt.js"></script></body></html>
+$('loading').textContent='已載入 '+all.length.toLocaleString()+' 檔逐股資料。'+(Object.keys(failures).length?'部分來源無法取得：'+Object.entries(failures).map(([k,v])=>k+' '+v).join('；'):'所有所需研究來源已載入。')+'來源載入成功不等於歷史回測資格。';display(pendingView);renderStockCoverage30U();}catch(err){$('loading').textContent='無法啟動研究工作台：'+err.message;$('snapshot-status').textContent='來源快照校驗失敗：'+err.message}})();
+</script><script src="./source_coverage_30xt.js"></script><script src="./stock_coverage_30xu.js"></script></body></html>
