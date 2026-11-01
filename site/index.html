@@ -1148,7 +1148,10 @@ function bind(){
  const timeline=watchTimelineUi;
  const selectStock=$('r-timeline-stock');
  if(selectStock)selectStock.addEventListener('change',e=>{
-  timeline.stock=e.target.value;timeline.status=timeline.docs.length?'ready':'idle';
+  timeline.stock=e.target.value;
+  // Switching the investigated stock invalidates the displayed report.
+  // Require an explicit new verification rather than reusing prior results.
+  timeline.docs=[];timeline.status='idle';timeline.serial++;
   timeline.error='';render();
  });
  for(const [id,key] of [['r-timeline-from','from'],['r-timeline-to','to']]){
@@ -1198,7 +1201,10 @@ function bind(){
   e.preventDefault();
   const code=($('r-watch-add-code')?.value||'').trim();
   try{
-   const result=window.MFDSWatchlist30N.add(state.watch,code);
+   // Read the persisted list at the moment of submission to avoid
+   // overwriting stocks saved by another tab or an earlier UI render.
+   const persisted=window.MFDSWatchlist30N.ids(JSON.parse(localStorage.getItem(STORAGE)||'[]'));
+   const result=window.MFDSWatchlist30N.add([...new Set([...persisted,...state.watch])],code);
    localStorage.setItem(STORAGE,JSON.stringify(result));
    state.watch=result;render();notif('自選清單已更新：'+code);
   }catch(error){notif('無法加入自選：'+String(error.message||error))}
