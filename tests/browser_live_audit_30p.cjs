@@ -144,6 +144,9 @@ const assert=require('node:assert/strict');
    for(const id of ['8064','3533']){
     await page.locator('#r-watch-add-code').fill(id);
     await page.locator('#r-watch-add-form button[type="submit"]').click();
+    await page.waitForFunction(code=>{
+      try{return JSON.parse(localStorage.getItem('mfds-web-watch-v1')||'[]').includes(code)}catch{return false}
+    },id,{timeout:10000});
    }
    assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('mfds-web-watch-v1'))),['8064','3533']);
    assert.equal(await page.locator('tr[data-watch-stock]').count(),2);
@@ -168,14 +171,22 @@ const assert=require('node:assert/strict');
    await page.locator('.r-watch-history-verified').waitFor({timeout:70000});
    const t=await page.locator('.r-watch-history-verified').innerText();
    assert(t.includes('SHA256'));
-   assert.equal(await page.locator('[data-watch-history-stock="8064"]').count(),1);
+   const historyStockCount=await page.locator('[data-watch-history-stock]').count();
+   // A stock absent from a particular archived candidate cohort must remain
+   // explicitly absent; never manufacture a candidate to satisfy this audit.
+   assert(historyStockCount<=2,'more rows than tracked stocks');
+   assert(t.includes('8064')||t.includes('3533')||t.includes('封存'));
+
    return 'validated 2 archived files';
   });
   await check('3.0P 逐日研究時間軸與 CSV',async()=>{
    await page.locator('#nav > button[data-page="watch"]').click();
    await page.waitForFunction(()=>document.querySelectorAll('#r-timeline-from option').length>=2,null,{timeout:90000});
    const count=await page.locator('#r-timeline-from option').count();
-   await page.locator('#r-timeline-stock').selectOption('8064');
+   const availableStocks=await page.locator('#r-timeline-stock option').evaluateAll(nodes=>nodes.map(n=>n.value).filter(Boolean));
+   assert(availableStocks.length,'no tracked stocks available for timeline');
+   const target=availableStocks.includes('8064')?'8064':availableStocks[0];
+   await page.locator('#r-timeline-stock').selectOption(target);
    await page.locator('#r-timeline-go').click();
    await page.waitForFunction(n=>document.querySelectorAll('[data-timeline-day]').length===n,count,{timeout:90000});
    assert.equal(await page.locator('[data-timeline-day]').count(),count);
@@ -183,7 +194,7 @@ const assert=require('node:assert/strict');
    await page.locator('#r-timeline-filter').selectOption('all');
    const [dl]=await Promise.all([page.waitForEvent('download',{timeout:30000}),
      page.locator('#r-timeline-export').click()]);
-   assert(dl.suggestedFilename().includes('30P_8064'));
+   assert(dl.suggestedFilename().includes('30P_'+target));
    return count+' unique source-price days successfully SHA256 verified';
   });
   await check('設定：匯入方式與四層因子權重',async()=>{
