@@ -957,6 +957,9 @@ function stockView(){let stock=derive().find(x=>x.stock_id===state.current)||der
 function watchTimelineReport(){
  const ui=watchTimelineUi,mod=window.MFDSWatchTimeline30P;
  if(!mod||ui.status!=='ready'||!ui.docs.length||!state.watch.includes(ui.stock))return null;
+ // Reject historical results when the selected range has changed; only
+ // verified documents for the current bounds may appear on screen or in CSV.
+ if(ui.docs[0]?.date!==ui.from||ui.docs.at(-1)?.date!==ui.to)return null;
  return mod.build(ui.docs,ui.stock,rArray('historyEvidence'));
 }
 function watchTimelinePanel(){
