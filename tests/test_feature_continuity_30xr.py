@@ -36,10 +36,16 @@ class FeatureContinuity(unittest.TestCase):
         for page in PAGES:
             with self.subTest(page=page):
                 self.assertTrue((SITE/page).is_file())
-                if page!="index.html" and page!="event_crosscheck_29r.html":
-                    self.assertIn("./"+page,parser.links)
-                # Crosscheck page is retained as a separate evidence resource;
-                # it is not a required primary navigation item.
+                if page=="research_hub_30a.html":
+                    self.assertIn("./"+page, parser.links)
+                elif page not in ("index.html", "event_crosscheck_29r.html"):
+                    # Main research library links are assembled in JavaScript,
+                    # so they do not exist as static HTMLParser anchor nodes.
+                    # Require the exact relative target to remain in the page
+                    # source AND require the destination file on disk.
+                    self.assertIn('href="./'+page+'"', index)
+                # Crosscheck is retained as an independent resource, not
+                # advertised as a primary navigation item.
     def test_essential_scripts_and_data_cannot_disappear(self):
         index=(SITE/"index.html").read_text(encoding="utf-8")
         for module in MODULES:
