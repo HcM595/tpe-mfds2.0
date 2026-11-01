@@ -1,10 +1,10 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-11-01T14:33:27+08:00",
-  "observations": 480,
+  "generated_at_taipei": "2026-11-01T14:41:45+08:00",
+  "observations": 486,
   "checked": 15,
-  "fresh_success": 10,
-  "fresh_ytd_unit_period_aligned": 10,
+  "fresh_success": 9,
+  "fresh_ytd_unit_period_aligned": 9,
   "income_report_ytd": "從MOPS第6欄提取當年年初累計本期淨利；第2欄為單季，不混用",
   "amount_unit": "只有逐股MOPS原始表有唯一明確新台幣仟元標頭時才核實",
   "per_stock": {
@@ -29,54 +29,53 @@
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2006": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2337": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2383": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2395": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2419": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "2439": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
     "2441": {
-      "status": "stale_backup",
-      "reason": "<urlopen error timed out>"
-    },
-    "2450": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2455": {
+    "2480": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2467": {
+    "2912": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
+    },
+    "3004": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "3006": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "3023": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "3035": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "3037": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "3054": {
+      "status": "unavailable",
+      "reason": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "3081": {
+      "status": "unavailable",
+      "reason": "<urlopen error [Errno 111] Connection refused>"
     },
     "1101": {
       "status": "not_checked_this_run"
@@ -681,6 +680,9 @@
     "2002": {
       "status": "not_checked_this_run"
     },
+    "2006": {
+      "status": "not_checked_this_run"
+    },
     "2007": {
       "status": "not_checked_this_run"
     },
@@ -906,6 +908,9 @@
     "2332": {
       "status": "not_checked_this_run"
     },
+    "2337": {
+      "status": "not_checked_this_run"
+    },
     "2338": {
       "status": "not_checked_this_run"
     },
@@ -1002,6 +1007,9 @@
     "2382": {
       "status": "not_checked_this_run"
     },
+    "2383": {
+      "status": "not_checked_this_run"
+    },
     "2385": {
       "status": "not_checked_this_run"
     },
@@ -1018,6 +1026,9 @@
       "status": "not_checked_this_run"
     },
     "2393": {
+      "status": "not_checked_this_run"
+    },
+    "2395": {
       "status": "not_checked_this_run"
     },
     "2397": {
@@ -1060,6 +1071,9 @@
       "status": "not_checked_this_run"
     },
     "2417": {
+      "status": "not_checked_this_run"
+    },
+    "2419": {
       "status": "not_checked_this_run"
     },
     "2420": {
@@ -1110,6 +1124,9 @@
     "2438": {
       "status": "not_checked_this_run"
     },
+    "2439": {
+      "status": "not_checked_this_run"
+    },
     "2440": {
       "status": "not_checked_this_run"
     },
@@ -1122,6 +1139,9 @@
     "2449": {
       "status": "not_checked_this_run"
     },
+    "2450": {
+      "status": "not_checked_this_run"
+    },
     "2451": {
       "status": "not_checked_this_run"
     },
@@ -1129,6 +1149,9 @@
       "status": "not_checked_this_run"
     },
     "2454": {
+      "status": "not_checked_this_run"
+    },
+    "2455": {
       "status": "not_checked_this_run"
     },
     "2457": {
@@ -1158,6 +1181,9 @@
     "2466": {
       "status": "not_checked_this_run"
     },
+    "2467": {
+      "status": "not_checked_this_run"
+    },
     "2468": {
       "status": "not_checked_this_run"
     },
@@ -1177,9 +1203,6 @@
       "status": "not_checked_this_run"
     },
     "2478": {
-      "status": "not_checked_this_run"
-    },
-    "2480": {
       "status": "not_checked_this_run"
     },
     "2481": {
