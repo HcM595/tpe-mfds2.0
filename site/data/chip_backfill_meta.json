@@ -1,7 +1,7 @@
 {
   "version": "2.2.1",
   "asof": "2026-10-30",
-  "created_at_taipei": "2026-11-01T16:20:02+08:00",
+  "created_at_taipei": "2026-11-01T16:23:54+08:00",
   "notes": "下載空值與市場休市分別紀錄；歷史TDCC來源為非官方鏡像，非集保直接提供歷史API。",
   "market_history": {
     "twse": {
@@ -35,9 +35,7 @@
     "mode": "unofficial_mirror",
     "new_weeks": [],
     "new_rows": 0,
-    "errors": [
-      "2026: HTTPError: HTTP Error 403: rate limit exceeded"
-    ],
+    "errors": [],
     "repository": "https://github.com/wirelessr/tdcc-opendata-archive"
   },
   "focus": {

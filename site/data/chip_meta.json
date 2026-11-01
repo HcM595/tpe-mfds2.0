@@ -1,6 +1,6 @@
 {
   "version": "2.2.1",
-  "generated_at_taipei": "2026-11-01T16:20:26+08:00",
+  "generated_at_taipei": "2026-11-01T16:24:16+08:00",
   "sources": {
     "twse": {
       "status": "ok",
@@ -59,9 +59,7 @@
       "mode": "unofficial_mirror",
       "new_weeks": [],
       "new_rows": 0,
-      "errors": [
-        "2026: HTTPError: HTTP Error 403: rate limit exceeded"
-      ],
+      "errors": [],
       "repository": "https://github.com/wirelessr/tdcc-opendata-archive"
     },
     "market_history": {
