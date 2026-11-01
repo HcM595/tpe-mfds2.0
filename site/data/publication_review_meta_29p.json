@@ -14,11 +14,11 @@
         "individual_company_publication_time_unverified": 1961,
         "official_publication_unverified": 1961,
         "source_missing": 4,
-        "source_hash_missing_or_invalid": 4,
-        "capture_timestamp_unverified": 4,
-        "unverified_official_endpoint": 4,
+        "missing_report_day": 4,
         "first_seen_unverified": 4,
-        "missing_report_day": 4
+        "unverified_official_endpoint": 4,
+        "source_hash_missing_or_invalid": 4,
+        "capture_timestamp_unverified": 4
       }
     },
     "F3": {
@@ -28,10 +28,10 @@
       "historically_usable": 0,
       "blockers": {
         "individual_company_publication_time_unverified": 1961,
-        "official_publication_unverified": 1961,
-        "report_after_price_day": 1961,
         "source_authorization_missing": 1961,
-        "first_seen_after_cutoff": 1961
+        "report_after_price_day": 1961,
+        "first_seen_after_cutoff": 1961,
+        "official_publication_unverified": 1961
       }
     },
     "REVENUE": {
@@ -40,16 +40,16 @@
       "verified_company_release_time": 0,
       "historically_usable": 0,
       "blockers": {
+        "official_publication_unverified": 1961,
         "bulk_snapshot_not_individual_filing": 1951,
         "source_authorization_missing": 1961,
         "individual_company_publication_time_unverified": 1961,
-        "official_publication_unverified": 1961,
         "source_missing": 10,
-        "source_hash_missing_or_invalid": 10,
-        "capture_timestamp_unverified": 10,
-        "unverified_official_endpoint": 10,
+        "missing_report_day": 10,
         "first_seen_unverified": 10,
-        "missing_report_day": 10
+        "unverified_official_endpoint": 10,
+        "source_hash_missing_or_invalid": 10,
+        "capture_timestamp_unverified": 10
       }
     }
   },

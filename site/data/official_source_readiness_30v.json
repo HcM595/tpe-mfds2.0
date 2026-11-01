@@ -1,12 +1,12 @@
 {
   "version": "3.0V",
-  "generated_at_utc": "2026-11-01T06:24:15.309530Z",
+  "generated_at_utc": "2026-11-01T06:32:52.861628Z",
   "status": "verified_source_readiness_performance_blocked",
   "pdf_extractor": "pdftotext",
   "pdf_extractor_present": true,
   "source_manifest_sha256": {
-    "tpex_30s": "3dbec48d9c254e8a1062762236b68ce61cbc54dbfc26415c6029063403aa1b92",
-    "twse_30u": "e75967c8b6d6ec244990b354f774946657d5c6ed3b06f6d251add04bcf885817"
+    "tpex_30s": "f42a9a70e92b6446e66cd414b20f70394047577dbba3ed25c65cc0d671f22152",
+    "twse_30u": "7c5ec7f618dc5adde88d31c4a82bb3fc27e61b276e525cc59b83cf6796e5e804"
   },
   "markets": {
     "TWSE_listed_cash_closure_2026_10_23": {
