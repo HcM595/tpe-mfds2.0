@@ -63,6 +63,7 @@ class FeatureContinuity(unittest.TestCase):
         self.assertIn("if(ui.stock!==known){", index)
         self.assertIn("ui.stock=known;ui.docs=[];ui.status='idle';ui.error='';ui.serial++;", index)
         self.assertIn("timeline.docs=[];timeline.status='idle';timeline.serial++;", index)
+        self.assertIn("if(ui.docs[0]?.date!==ui.from||ui.docs.at(-1)?.date!==ui.to)return null;", index)
         # Adding one ticker cannot silently overwrite previously saved codes.
         self.assertIn("const persisted=window.MFDSWatchlist30N.ids(", index)
         self.assertIn("[...new Set([...persisted,...state.watch])]", index)
