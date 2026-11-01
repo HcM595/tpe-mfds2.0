@@ -1,7 +1,7 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-11-01T15:17:10+08:00",
-  "observations": 516,
+  "generated_at_taipei": "2026-11-01T15:20:31+08:00",
+  "observations": 526,
   "checked": 15,
   "fresh_success": 11,
   "fresh_ytd_unit_period_aligned": 11,
@@ -29,52 +29,52 @@
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "3718": {
+    "5443": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "4153": {
+    "5508": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "4583": {
+    "5902": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "4966": {
+    "5904": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "4968": {
+    "6126": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "4995": {
+    "6147": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "5203": {
+    "6202": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "5272": {
+    "6266": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "5299": {
+    "6271": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "5434": {
+    "6274": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -1420,6 +1420,18 @@
     "3679": {
       "status": "not_checked_this_run"
     },
+    "4583": {
+      "status": "not_checked_this_run"
+    },
+    "4968": {
+      "status": "not_checked_this_run"
+    },
+    "5203": {
+      "status": "not_checked_this_run"
+    },
+    "5434": {
+      "status": "not_checked_this_run"
+    },
     "1240": {
       "status": "not_checked_this_run"
     },
@@ -1580,6 +1592,24 @@
       "status": "not_checked_this_run"
     },
     "3564": {
+      "status": "not_checked_this_run"
+    },
+    "3718": {
+      "status": "not_checked_this_run"
+    },
+    "4153": {
+      "status": "not_checked_this_run"
+    },
+    "4966": {
+      "status": "not_checked_this_run"
+    },
+    "4995": {
+      "status": "not_checked_this_run"
+    },
+    "5272": {
+      "status": "not_checked_this_run"
+    },
+    "5299": {
       "status": "not_checked_this_run"
     }
   },
