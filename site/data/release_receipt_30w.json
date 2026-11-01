@@ -1,12 +1,12 @@
 {
   "version": "3.0W",
   "status": "source_bytes_attested_not_trade_certified",
-  "issued_at_utc": "2026-11-01T08:26:05.399159Z",
+  "issued_at_utc": "2026-11-01T08:34:10.395349Z",
   "site_release": "3.0W",
   "source_files": [
     {
       "path": "data/archive_coverage_meta_30r.json",
-      "sha256": "71f65c29a9c3ab362addf834e1d2bf3a62c5479941c03f70f02e6c38827ca75d",
+      "sha256": "f65b1ca5d63741d03d197ddf1f3e07ff5a9dfae823ef5c1ad51cf5fceff4c482",
       "bytes": 2104
     },
     {
@@ -21,7 +21,7 @@
     },
     {
       "path": "data/historical_evidence_meta_30q.json",
-      "sha256": "4e37ea2134932039a31f36e77b372aeca0b763371921c32558b5886fd131a3f4",
+      "sha256": "7d20675af73ea1837d928c270680cec1916f74dff3035bdfd0759f82b047b234",
       "bytes": 4418
     },
     {
@@ -31,7 +31,7 @@
     },
     {
       "path": "data/official_closure_notice_evidence_30u.json",
-      "sha256": "16771660ce8a271fc5bfbe2cecb17bbf469bf1e05796b0c523c6bc7202f6218e",
+      "sha256": "08f13f85505d0f058a96a1e074e02050f4ae039347e81edd48b05eb0c424c394",
       "bytes": 2316
     },
     {
@@ -41,18 +41,18 @@
     },
     {
       "path": "data/official_session_calendar.json",
-      "sha256": "16bd216a859d65bb8f9ce4a896c270c0c955f071aa01397c31bd8c1d896b5064",
+      "sha256": "fc89fbabee14547ca464621663a71dae52219f3acdaa4727d4ae137da94d139c",
       "bytes": 2238
     },
     {
       "path": "data/official_source_readiness_30v.json",
-      "sha256": "e1fcfc908d230cc903f168ec21bb957c9d96e6bdf99fb614cb8508e98c08c41b",
+      "sha256": "d17051dd4d9dd661f386b996cac57756c46bcd5e70240ad380067a60e5ff811f",
       "bytes": 1895
     },
     {
       "path": "data/signal_archive_index.json",
-      "sha256": "420321d20e0e3038e26034e961d6478f0459172480b722d29d24a3baa9ef83e0",
-      "bytes": 66505
+      "sha256": "0f2ae4fd708a0faf9521df0451fb1934d959b7e4d9320bef45ce019c3aac7ba4",
+      "bytes": 67195
     },
     {
       "path": "data/stock_candidate_coverage_30r.csv",
@@ -61,7 +61,7 @@
     },
     {
       "path": "data/tpex_calendar_evidence_30s.json",
-      "sha256": "ea6190b4d3bd1990962c2a94c149c896384861986f5c70bbc4292981ab0c71b3",
+      "sha256": "78a83d5027adf92baa755bcafb6cc3ba9d17b46a0b484791598dfbaf2ddc6dcf",
       "bytes": 1522
     },
     {

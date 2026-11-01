@@ -1,14 +1,12 @@
 {
   "version": "2.8H.1",
-  "generated_at_taipei": "2026-11-01T16:25:11+08:00",
+  "generated_at_taipei": "2026-11-01T16:33:40+08:00",
   "focus_stocks": [
     "8064",
     "3533",
     "2345",
     "2330",
-    "2308",
-    "8279",
-    "9949"
+    "2308"
   ],
   "priority_stocks": [
     "8064",
@@ -21,8 +19,8 @@
   "general_business_income_universe": 83,
   "observations": 589,
   "unit_verified_observations": 579,
-  "fresh_unit_verified": 3,
-  "fresh_observations": 3,
+  "fresh_unit_verified": 1,
+  "fresh_observations": 1,
   "per_stock": {
     "8064": {
       "status": "unavailable",
@@ -44,16 +42,6 @@
       "status": "ok",
       "report_period": "2026Q3",
       "sha256": "19d3267ea0e5b1cece1ad15e247a17eb5874e5635d5e2ba605e8ed60036f622f"
-    },
-    "8279": {
-      "status": "ok",
-      "report_period": "2026Q3",
-      "sha256": "5e9334f7a4ab1aeaa257872172214f5d40192a03d180e730b32ed10a051145ce"
-    },
-    "9949": {
-      "status": "ok",
-      "report_period": "2026Q3",
-      "sha256": "997f584baad2e1e1ae8e2be614d5065a0941e3866a5b5023323db472f31a1490"
     },
     "1101": {
       "status": "not_checked_this_run",
@@ -2380,6 +2368,14 @@
       "report_period": "2026Q3"
     },
     "8271": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q3"
+    },
+    "8279": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q3"
+    },
+    "9949": {
       "status": "not_checked_this_run",
       "report_period": "2026Q3"
     }
