@@ -41,10 +41,26 @@ class FreshnessAuditTest(unittest.TestCase):
             self.assertEqual(audit.evaluate(folder, now)["status"], "fail")
 
     def test_stale_source_is_review_not_a_fabricated_market_closure(self):
-        result = audit.evaluate(now=dt.datetime(2026, 10, 31, 23, 0, tzinfo=ZoneInfo("Asia/Taipei")))
-        self.assertEqual(result["status"], "review_required")
-        self.assertTrue(result["warnings"])
-        self.assertFalse(result["errors"])
+        # Stable fixture: genuine source data may advance every run; force
+        # only the two market dates to an intentionally stale observation.
+        with tempfile.TemporaryDirectory() as folder:
+            folder = Path(folder)
+            for filename in (
+                "official_meta.json",
+                "historical_evidence_meta_30q.json",
+                "research_readiness_meta.json",
+                "forward_observation_meta.json",
+                "archive_coverage_meta_30r.json",
+            ):
+                (folder / filename).write_bytes((audit.DATA / filename).read_bytes())
+            meta_path = folder / "official_meta.json"
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            meta["market_dates"] = {"上市": "2026-10-26", "上櫃": "2026-10-26"}
+            meta_path.write_text(json.dumps(meta, ensure_ascii=False), encoding="utf-8")
+            result = audit.evaluate(folder, now=dt.datetime(2026, 10, 31, 23, 0, tzinfo=ZoneInfo("Asia/Taipei")))
+            self.assertEqual(result["status"], "review_required")
+            self.assertEqual(len(result["warnings"]), 2)
+            self.assertFalse(result["errors"])
 
 if __name__ == "__main__":
     unittest.main()
