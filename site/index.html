@@ -55,6 +55,18 @@
 </nav><div class="side-help"><strong>使用者模式：免安裝</strong>請使用 GitHub Pages 網址開啟完整研究功能；直接使用 file:// 開啟 HTML 可能無法讀取資料。示範模式不是實際行情。<button id="sideHelp">查看三步驟教學 →</button></div></aside>
 <main class="main"><header class="topline"><div><div class="kicker">TAIWAN EQUITY RESEARCH · FACTOR LAB</div><h1 id="pageTitle">台股整合研究中心</h1><p class="lead" id="pageLead">以數據閱讀市場，讓每一次觀察都有來源可循。</p></div><div class="top-actions"><button class="btn" id="officialTop">↻ 官方最新收盤行情</button><button class="btn" id="demoReset">示範資料</button><button class="btn btn-primary" id="importTop">⇧ 匯入 CSV 資料</button></div></header>
 <div id="banner" class="notice warn"><span class="dot"></span><div><b>目前顯示：虛構示範資料</b><div>並非台股即時或歷史實際行情，綜合分數不是預測勝率，也不構成買賣建議。請先操作體驗，再匯入有來源的真實資料。</div></div></div>
+<section class="card" aria-label="研究深化功能入口" style="margin-top:18px">
+<div class="card-head"><h2>研究進階工作台 · 3.0X</h2><span class="chip">來源驗證優先</span></div>
+<p class="subtle">前往完整的跨股比較、九來源品質摘要、逐股診斷與研究證據。這些為描述性研究，未開啟正式勝率。</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0">
+<a class="btn btn-primary" href="./research_hub_30a.html?view=market">全市場進階篩選</a>
+<a class="btn" href="./research_hub_30a.html?view=detail&amp;stock=8064">東捷逐股診斷</a>
+<a class="btn" href="./research_hub_30a.html?view=detail&amp;stock=3533">嘉澤逐股診斷</a>
+<a class="btn" href="./research_hub_30a.html?view=compare&amp;stocks=8064,3533">跨股比較</a>
+<a class="btn" href="./research_hub_30a.html?view=quality">九來源品質</a>
+</div>
+<p id="mfds-public-freshness" class="panel-caption" role="status">正在讀取官方行情來源日期；尚未核對不表示資料為最新。</p>
+</section>
 <div id="content"></div><div class="footer">TPE-MFDS 3.0W · 統一研究平台 · 封存來源獨立核對｜本機瀏覽器運算｜無下單功能｜不提供未經回測的上漲機率。</div></main></div>
 <input id="snapshotFile" type="file" accept=".csv,text/csv" class="hidden"><input id="pricesFile" type="file" accept=".csv,text/csv" class="hidden"><div id="toast" class="toast hidden" role="status"></div>
 <script src="./stock_evidence_30m.js"></script>
@@ -1270,4 +1282,12 @@ async function loadOfficial(silent=false){
 function qcsv(x){let s=String(x??'');if(/^[=+\-@]/.test(s))s="'"+s;return'"'+s.replaceAll('"','""')+'"'}
 function exportCSV(){let cols=['stock_id','stock_name','sector','market','asof','close','avg_trade_value_twd','large_holder_pct','large_holder_change_pp','factor_coverage','score',...Object.keys(FACTOR_NAME)];let rows=rowsFiltered();let lines=[cols.join(','),...rows.map(s=>cols.map(k=>qcsv(k==='factor_coverage'?s.calc.count:k==='score'?s.calc.total:(k in FACTOR_NAME)?s.f[k]:s[k])).join(','))];let blob=new Blob(['\uFEFF'+lines.join('\r\n')],{type:'text/csv;charset=utf-8;'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='TPE_MFDS_篩選結果_'+(state.mode==='demo'?'DEMO':(state.mode==='official'?'官方收盤資料':'匯入資料'))+'.csv';document.body.append(a);a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1200);a.remove();notif('篩選結果已匯出為CSV；分數不是預測勝率。')}
 $('nav').addEventListener('click',e=>{const b=e.target.closest('[data-page]');if(b)nav(b.dataset.page,b.dataset.researchTab)});$('sideHelp').addEventListener('click',()=>nav('settings'));$('demoReset').addEventListener('click',setDemo);$('officialTop').addEventListener('click',()=>loadOfficial(false));$('importTop').addEventListener('click',()=>{$('snapshotFile').click()});$('snapshotFile').addEventListener('change',async e=>{if(e.target.files[0])await readSnapshot(e.target.files[0]);e.target.value=''});$('pricesFile').addEventListener('change',async e=>{if(e.target.files[0])await readPrices(e.target.files[0]);e.target.value=''});if(location.protocol==='https:'||location.protocol==='http:'){state.mode='loading';state.stocks=[];state.page='research';render();loadResearchData();loadOfficial(true)}else{setDemo();state.page='research';render()}
+</script><script>
+(async()=>{const el=document.getElementById('mfds-public-freshness');if(!el)return;
+try{const r=await fetch('./data/official_meta.json',{cache:'no-store'});
+if(!r.ok)throw Error('HTTP '+r.status);
+const d=await r.json();const markets=d.market_dates||{};
+const list=['上市','上櫃'].map(k=>k+'：'+(markets[k]||'缺少日期')).join(' ／ ');
+el.textContent='官方來源所屬交易日 '+list+'。來源日期不等於今日最新行情；請核對交易日及發布紀錄。';
+}catch(e){el.textContent='無法驗證官方行情更新日期（'+String(e.message||e)+'）。請勿將網站資料視為最新。';}})();
 </script></body></html>
