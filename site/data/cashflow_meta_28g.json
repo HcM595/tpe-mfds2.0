@@ -1,22 +1,22 @@
 {
   "version": "2.8H.1",
-  "generated_at_taipei": "2026-10-29T15:20:49+08:00",
+  "generated_at_taipei": "2026-11-01T14:24:31+08:00",
   "focus_stocks": [
     "8064",
     "3533",
     "2345",
     "2330",
     "2308",
-    "2745",
-    "2748",
-    "2751",
-    "2752",
-    "2753",
-    "2754",
-    "2755",
-    "2756",
-    "2762",
-    "2901"
+    "1232",
+    "1477",
+    "1584",
+    "1773",
+    "2006",
+    "2015",
+    "2035",
+    "2301",
+    "2303",
+    "2329"
   ],
   "priority_stocks": [
     "8064",
@@ -26,86 +26,82 @@
     "2308"
   ],
   "batch_new_stock_cap": 10,
-  "general_business_income_universe": 1940,
+  "general_business_income_universe": 83,
   "observations": 527,
   "unit_verified_observations": 517,
-  "fresh_unit_verified": 15,
-  "fresh_observations": 15,
+  "fresh_unit_verified": 11,
+  "fresh_observations": 11,
   "per_stock": {
     "8064": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "59e99ae10cbfa529f6487a25569f59aa43e1053ad50ab9f67da54fcb9c6ad29d"
+      "status": "unavailable",
+      "reason": "官方一般業淨利或公司名錄缺少"
     },
     "3533": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "2a46678ee61c5eb814deaa8babf833f37f61ca89b3665f105da06c57db6af6de"
+      "status": "unavailable",
+      "reason": "官方一般業淨利或公司名錄缺少"
     },
     "2345": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "def7ce61d068df26ed5462efd615915225b4dde61b99f4aad64e4f6a8958377b"
+      "status": "unavailable",
+      "reason": "官方一般業淨利或公司名錄缺少"
     },
     "2330": {
-      "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "4ab7fef914342dd714a31340fe26d9e991ef733061bce253d690b9c2ddc08677"
+      "status": "unavailable",
+      "reason": "官方一般業淨利或公司名錄缺少"
     },
     "2308": {
       "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "421255c621c2aca2dd3d55df5e690864127873a25951a576a98f3f65ff60ef00"
+      "report_period": "2026Q3",
+      "sha256": "19d3267ea0e5b1cece1ad15e247a17eb5874e5635d5e2ba605e8ed60036f622f"
     },
-    "2745": {
+    "1232": {
       "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "04053be1716a7af67b79b85d731b5b6f3d32a480e0433291a64057914d997cc3"
+      "report_period": "2026Q3",
+      "sha256": "d2f914ff0821cb11bb511936fc8bf0d2c141b0400181b77b1adbca0d06379287"
     },
-    "2748": {
+    "1477": {
       "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "6814c4a1741f6e40bace9a1c7a0a33bb104a51dcaae8705dcdf5090dab604918"
+      "report_period": "2026Q3",
+      "sha256": "ee5b144066e3a80312097b02388ed5a17532d4b28f6fe94c8b1d84c8a9def239"
     },
-    "2751": {
+    "1584": {
       "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "b8cf35be9f347c933174dd5b7f925ac52f90226c1a2a5482cd5b03c101e8d1d5"
+      "report_period": "2026Q3",
+      "sha256": "523085c63f9cc412fc298048bf42317419f779fef5e5b071c50281518f49f2ce"
     },
-    "2752": {
+    "1773": {
       "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "c977a547f75a8d6f6a71dde48c4333dac91b3505be754c1804d98cf06386dc37"
+      "report_period": "2026Q3",
+      "sha256": "c018a60d1e9e7088fdbaeaed91dbe8adec271cc73a9d76ffc5f59630636baa12"
     },
-    "2753": {
+    "2006": {
       "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "6381f243384cc3b9ef409c22e57deb32092f29b56efc9915fde0b75d3c77312c"
+      "report_period": "2026Q3",
+      "sha256": "007a32cc3eb18a9ab3f0f851220fb912ee57781cd0bf91ae8a7db9af6e7a79ea"
     },
-    "2754": {
+    "2015": {
       "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "de9665d2d7bd5691cbb1b5e38799a14d0c1a0dc585cb58e5c7fe9afe3ba0d783"
+      "report_period": "2026Q3",
+      "sha256": "ec9223c6cff077c0743404156d9653b98729b61af2470d241ed671401f72503f"
     },
-    "2755": {
+    "2035": {
       "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "ecb3ae67373133b0d1aef8327aae2ee23195e0535df1a8e875ff945030f7bcf9"
+      "report_period": "2026Q3",
+      "sha256": "ff03a28c688c6d2fd0e8c25593b6ee2e96440941d1a6ea4f71c37b3f5a33ec5e"
     },
-    "2756": {
+    "2301": {
       "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "b4f2926818b591fbaf88c208255401a337b9a08c701915747167204e82a9a379"
+      "report_period": "2026Q3",
+      "sha256": "4531a38b6213f53044bad88127511e92d81fdcfd2806ed3b5276d50d47f4b7b1"
     },
-    "2762": {
+    "2303": {
       "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "09ed9d4f3e16e1146813553702246fc913cdad8908c262b66566c463a9ce5314"
+      "report_period": "2026Q3",
+      "sha256": "6b91550a8430283c5e6dbd9895e0410b198e42db292a97b64352bd37d94161c3"
     },
-    "2901": {
+    "2329": {
       "status": "ok",
-      "report_period": "2026Q2",
-      "sha256": "e5ed72a4578c64dab2c7486931308612fa5d109912092d38fff8eccc9f292e24"
+      "report_period": "2026Q3",
+      "sha256": "e408ef8a2afedb2a47688b901f60be794cc722c843b4aa8f8bf3ea7423631abd"
     },
     "1101": {
       "status": "not_checked_this_run",
@@ -188,10 +184,6 @@
       "report_period": "2026Q2"
     },
     "1231": {
-      "status": "not_checked_this_run",
-      "report_period": "2026Q2"
-    },
-    "1232": {
       "status": "not_checked_this_run",
       "report_period": "2026Q2"
     },
@@ -531,10 +523,6 @@
       "status": "not_checked_this_run",
       "report_period": "2026Q2"
     },
-    "1477": {
-      "status": "not_checked_this_run",
-      "report_period": "2026Q2"
-    },
     "1503": {
       "status": "not_checked_this_run",
       "report_period": "2026Q2"
@@ -688,10 +676,6 @@
       "report_period": "2026Q2"
     },
     "1583": {
-      "status": "not_checked_this_run",
-      "report_period": "2026Q2"
-    },
-    "1584": {
       "status": "not_checked_this_run",
       "report_period": "2026Q2"
     },
@@ -903,10 +887,6 @@
       "status": "not_checked_this_run",
       "report_period": "2026Q2"
     },
-    "1773": {
-      "status": "not_checked_this_run",
-      "report_period": "2026Q2"
-    },
     "1776": {
       "status": "not_checked_this_run",
       "report_period": "2026Q2"
@@ -1023,10 +1003,6 @@
       "status": "not_checked_this_run",
       "report_period": "2026Q2"
     },
-    "2006": {
-      "status": "not_checked_this_run",
-      "report_period": "2026Q2"
-    },
     "2007": {
       "status": "not_checked_this_run",
       "report_period": "2026Q2"
@@ -1052,10 +1028,6 @@
       "report_period": "2026Q2"
     },
     "2014": {
-      "status": "not_checked_this_run",
-      "report_period": "2026Q2"
-    },
-    "2015": {
       "status": "not_checked_this_run",
       "report_period": "2026Q2"
     },
@@ -1112,10 +1084,6 @@
       "report_period": "2026Q2"
     },
     "2034": {
-      "status": "not_checked_this_run",
-      "report_period": "2026Q2"
-    },
-    "2035": {
       "status": "not_checked_this_run",
       "report_period": "2026Q2"
     },
@@ -1311,15 +1279,7 @@
       "status": "not_checked_this_run",
       "report_period": "2026Q2"
     },
-    "2301": {
-      "status": "not_checked_this_run",
-      "report_period": "2026Q2"
-    },
     "2302": {
-      "status": "not_checked_this_run",
-      "report_period": "2026Q2"
-    },
-    "2303": {
       "status": "not_checked_this_run",
       "report_period": "2026Q2"
     },
@@ -1364,10 +1324,6 @@
       "report_period": "2026Q2"
     },
     "2328": {
-      "status": "not_checked_this_run",
-      "report_period": "2026Q2"
-    },
-    "2329": {
       "status": "not_checked_this_run",
       "report_period": "2026Q2"
     },
@@ -2152,6 +2108,46 @@
       "report_period": "2026Q2"
     },
     "2743": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2745": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2748": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2751": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2752": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2753": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2754": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2755": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2756": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2762": {
+      "status": "not_checked_this_run",
+      "report_period": "2026Q2"
+    },
+    "2901": {
       "status": "not_checked_this_run",
       "report_period": "2026Q2"
     }

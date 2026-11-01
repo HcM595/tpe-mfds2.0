@@ -1,0 +1,95 @@
+{
+  "version": "3.0X-S",
+  "built_at_utc": "2026-11-01T06:26:18.498382+00:00",
+  "source_snapshot_schema": "3.0E",
+  "sources": [
+    {
+      "key": "factor",
+      "path": "data/factor_evidence_29a.csv",
+      "rows": 1961,
+      "unique_stocks": 1961,
+      "asof_min": "2026-10-30",
+      "asof_max": "2026-10-30",
+      "missing_asof": 0
+    },
+    {
+      "key": "chip",
+      "path": "data/chip_signals.csv",
+      "rows": 2978,
+      "unique_stocks": 2978,
+      "asof_min": "2026-09-08",
+      "asof_max": "2026-10-30",
+      "missing_asof": 1001
+    },
+    {
+      "key": "tech",
+      "path": "data/tech_crosscheck.csv",
+      "rows": 82,
+      "unique_stocks": 82,
+      "asof_min": "2026-10-30",
+      "asof_max": "2026-10-30",
+      "missing_asof": 0
+    },
+    {
+      "key": "industry",
+      "path": "data/industry_relative_28c.csv",
+      "rows": 1961,
+      "unique_stocks": 1961,
+      "asof_min": "2026-10-30",
+      "asof_max": "2026-10-30",
+      "missing_asof": 0
+    },
+    {
+      "key": "risk",
+      "path": "data/risk_observations_28d.csv",
+      "rows": 1961,
+      "unique_stocks": 1961,
+      "asof_min": "2026-10-30",
+      "asof_max": "2026-10-30",
+      "missing_asof": 0
+    },
+    {
+      "key": "valuation",
+      "path": "data/f2_valuation_29e.csv",
+      "rows": 1980,
+      "unique_stocks": 1980,
+      "asof_min": "2026-10-30",
+      "asof_max": "2026-10-30",
+      "missing_asof": 0
+    },
+    {
+      "key": "revenue",
+      "path": "data/revenue_snapshot_28c.csv",
+      "rows": 1979,
+      "unique_stocks": 1979,
+      "asof_min": "2026-10-17",
+      "asof_max": "2026-10-17",
+      "missing_asof": 0
+    },
+    {
+      "key": "publication",
+      "path": "data/publication_gate_29o.csv",
+      "rows": 1961,
+      "unique_stocks": 1961,
+      "asof_min": "2026-10-30",
+      "asof_max": "2026-10-30",
+      "missing_asof": 0
+    },
+    {
+      "key": "actions",
+      "path": "data/corporate_action_readiness_30e.csv",
+      "rows": 1961,
+      "unique_stocks": 1961,
+      "asof_min": "2026-10-30",
+      "asof_max": "2026-10-30",
+      "missing_asof": 0
+    }
+  ],
+  "historical_first_captured_sessions": 5,
+  "historical_stock_session_observations": 379,
+  "certified_trade_samples": 0,
+  "win_rate": null,
+  "prediction_enabled": false,
+  "interpretation": "Source row totals are not common-stock coverage or independent backtest samples.",
+  "status": "descriptive_only"
+}

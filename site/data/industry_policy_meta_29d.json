@@ -1,11 +1,11 @@
 {
   "version": "2.9D",
-  "generated_at_taipei": "2026-10-29T15:24:35+08:00",
+  "generated_at_taipei": "2026-11-01T14:25:54+08:00",
   "official_listings_checked": 2,
-  "source_verified_this_run": 2,
+  "source_verified_this_run": 1,
   "status_by_event": {
     "IDA-2026-09-01-AIWAN": "ok",
-    "IDA-2026-09-14-MINERALS": "ok"
+    "IDA-2026-09-14-MINERALS": "stale_backup"
   },
   "official_agency": "經濟部產業發展署",
   "mapping_company_sector_impact_verified": false,

@@ -1,45 +1,45 @@
 {
   "version": "2.9E",
-  "generated_at_taipei": "2026-10-29T15:24:39+08:00",
-  "valuation_stocks": 1981,
+  "generated_at_taipei": "2026-11-01T14:25:58+08:00",
+  "valuation_stocks": 1980,
   "valuation_peer_comparable": 1542,
-  "governance_stocks": 1988,
+  "governance_stocks": 1990,
   "chair_ceo_concurrent_count": 442,
   "sources": {
     "上市_valuation": {
       "status": "ok",
-      "rows": 1087,
-      "source_sha256": "be6eca94080d8c92b61f67abe42db523ae40cbfd8d0685ed9f07b3776d6abcfd",
+      "rows": 1088,
+      "source_sha256": "8bbb909adceab6325def5b315d7c006b43e7ecb00dcb6e88667a2c78280ad2a5",
       "source_url": "https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL",
       "source_dates": [
-        "2026-10-28"
+        "2026-10-30"
       ]
     },
     "上櫃_valuation": {
       "status": "ok",
-      "rows": 894,
-      "source_sha256": "d8d71665b3abbda69be21a65916b5078cc9b18b651dbe27498d240c19a20437f",
+      "rows": 892,
+      "source_sha256": "ed8bd97adb7ca3bfc7a7d26442d2f646bce4f3bf1640adb6976dc99079e3a6c4",
       "source_url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_peratio_analysis",
       "source_dates": [
-        "2026-10-28"
+        "2026-10-30"
       ]
     },
     "上市_governance": {
       "status": "ok",
-      "rows": 1092,
-      "source_sha256": "c78095b8d48cf196806845992d6b8267c7d1783aae3f157fa6e97adfe89f0ea5",
+      "rows": 1093,
+      "source_sha256": "5810c7e39e355d0d37a5bba23e8909af9b74e5b378059bb8b6f96618042e01ea",
       "source_url": "https://openapi.twse.com.tw/v1/opendata/t187ap33_L",
       "source_dates": [
-        "2026-10-28"
+        "2026-10-31"
       ]
     },
     "上櫃_governance": {
       "status": "ok",
-      "rows": 896,
-      "source_sha256": "cd5793d8b4f4b801cbefc02e5162e095995983a9c8527c7093cd46d3d893da90",
+      "rows": 897,
+      "source_sha256": "ee9fb20864c233bb451ca7b30a996e0df2331897367f55828e88b0071ee3c23a",
       "source_url": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap33_O",
       "source_dates": [
-        "2026-10-28"
+        "2026-10-31"
       ]
     }
   },

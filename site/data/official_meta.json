@@ -1,17 +1,17 @@
 {
   "status": "ok",
-  "generated_at_taipei": "2026-10-29T15:18:33+08:00",
+  "generated_at_taipei": "2026-11-01T14:22:26+08:00",
   "markets": {
     "上市": {
       "status": "ok",
-      "rows": 1088,
-      "date": "2026-10-28",
+      "rows": 1087,
+      "date": "2026-10-30",
       "source": "openapi"
     },
     "上櫃": {
       "status": "ok",
-      "rows": 872,
-      "date": "2026-10-28",
+      "rows": 874,
+      "date": "2026-10-30",
       "source": "openapi"
     }
   },
@@ -24,14 +24,14 @@
   },
   "notes": "各市場顯示各自已驗證的收盤日期。日期不同不當作同步行情；籌碼強度排名只在法人與股價日期一致時給分。非即時報價。",
   "market_dates": {
-    "上市": "2026-10-28",
-    "上櫃": "2026-10-28"
+    "上市": "2026-10-30",
+    "上櫃": "2026-10-30"
   },
   "markets_included": [
     "上市",
     "上櫃"
   ],
-  "display_date": "2026-10-28",
+  "display_date": "2026-10-30",
   "aligned": true,
   "tracked_symbols_found": {
     "8064": true,

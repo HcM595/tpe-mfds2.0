@@ -1,27 +1,22 @@
 {
   "version": "2.9C",
-  "generated_at_taipei": "2026-10-29T15:24:32+08:00",
+  "generated_at_taipei": "2026-11-01T14:25:51+08:00",
   "stocks_observed": 1863,
-  "fresh_records": 1863,
+  "fresh_records": 1061,
   "sources": {
     "上市": {
       "status": "ok",
       "rows": 1061,
       "excluded_or_missing": 0,
       "report_dates": [
-        "2026-10-28"
+        "2026-10-30"
       ],
-      "sha256": "4e8215adee3943d4ba3e7e2cdae8a4730af935848edff6a97b6e63b480526980",
-      "url": "https://www.twse.com.tw/rwd/zh/marginTrading/MI_MARGN?date=20261028&selectType=ALL&response=json"
+      "sha256": "08f610c151a0a5ba905cc4fa8c60201c3a2ac60da7e7c943e1abc5437bfcb413",
+      "url": "https://www.twse.com.tw/rwd/zh/marginTrading/MI_MARGN?date=20261030&selectType=ALL&response=json"
     },
     "上櫃": {
-      "status": "ok",
-      "rows": 802,
-      "excluded_or_missing": 0,
-      "report_dates": [
-        "2026-10-28"
-      ],
-      "sha256": "0d2d9404552356cc34d513f4fbbb019d9b30fca54a5611c5500599f1b95394be",
+      "status": "stale_backup",
+      "reason": "Unterminated string starting at: line 574 column 447 (char 340164)",
       "url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_margin_balance"
     }
   },

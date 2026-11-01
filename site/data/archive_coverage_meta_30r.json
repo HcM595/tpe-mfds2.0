@@ -1,13 +1,13 @@
 {
   "version": "3.0R",
-  "generated_at_utc": "2026-10-29T07:20:32.409407Z",
+  "generated_at_utc": "2026-11-01T06:24:15.625350Z",
   "status": "original_sources_verified_no_performance",
-  "source_csv_sha256": "ea68a27c4b0e428b97c4f5008a666db401a8e74626ca5d40f41cbfa5da766ad1",
-  "source_historical_meta_sha256": "43f9bb0d2e561e6629ec78d15ddeec96a833a7d10a8e19872da560dd6a8f473d",
-  "source_archive_index_sha256": "6713b4055ab95acc35248e805d1ed5ed7503bffee83f86d14a1dbff65656c530",
-  "source_calendar_sha256": "008b2dda492036acceffaf914e984d5c8ba5af438894323fc609396e449897d1",
+  "source_csv_sha256": "a2545aaf21e607dae06cbccfb2db46e4b89ede0ee179f6d98d19367d451b81dd",
+  "source_historical_meta_sha256": "0da5af7863121ced9cd5ac2a1d2e6394d57ce97757d0f8e3a2ef9d0d6ed79746",
+  "source_archive_index_sha256": "229ba52946538ab1efdd523113516aedb3d66e8a72758a7fcc5e866224c0c9ce",
+  "source_calendar_sha256": "4eff345781cdb46c93cda37615c7dc1c8806b9847d5649b37e1f5ea03627378f",
   "source_market_exceptions_sha256": "75be8f2fd53e419f5e616266536fe36f9d2f71e4156b256ada6ef4b2f2f8cb89",
-  "source_official_closure_30u_sha256": "f33ba45525cdef182174e70b220b2cd7c239d2affe535b6342c19cfa8c60172f",
+  "source_official_closure_30u_sha256": "e75967c8b6d6ec244990b354f774946657d5c6ed3b06f6d251add04bcf885817",
   "independently_documented_cash_market_closures": [
     {
       "market": "上市",
@@ -15,19 +15,20 @@
     }
   ],
   "first_archived_price_date": "2026-10-21",
-  "last_archived_price_date": "2026-10-28",
-  "verified_price_days": 4,
-  "archived_stock_day_records": 297,
-  "stocks_appearing_in_any_archive": 128,
+  "last_archived_price_date": "2026-10-30",
+  "verified_price_days": 5,
+  "archived_stock_day_records": 379,
+  "stocks_appearing_in_any_archive": 162,
   "verified_raw_source_rows": {
-    "flow": 297,
-    "holder": 297,
-    "tech": 282
+    "flow": 379,
+    "holder": 379,
+    "tech": 359
   },
   "day_market_status_counts": {
-    "verified_first_capture": 8,
+    "verified_first_capture": 10,
     "verified_original_market_closure": 1,
-    "extraordinary_closure_requires_official_source": 1
+    "extraordinary_closure_requires_official_source": 1,
+    "unarchived_possible_session": 2
   },
   "coverage_label": "此為首次封存候選資料的價格日覆蓋盤點，非官方確認的逐日交易日曆",
   "candidate_stock_warning": "未列入封存候選不代表該股票沒有行情或法人沒有買賣",

@@ -1,0 +1,99 @@
+{
+  "version": "3.0W",
+  "status": "source_bytes_attested_not_trade_certified",
+  "issued_at_utc": "2026-11-01T06:26:18.945744Z",
+  "site_release": "3.0W",
+  "source_files": [
+    {
+      "path": "data/archive_coverage_meta_30r.json",
+      "sha256": "213443e07f7a46ca679da2d4158860c29fcdd4cf8f22da93f7b51dad5381b46b",
+      "bytes": 2104
+    },
+    {
+      "path": "data/archive_day_coverage_30r.csv",
+      "sha256": "e2236f635c0d91b4a77d0d62196c0a95decf4ac73f3df553ab046e20f86461f4",
+      "bytes": 2314
+    },
+    {
+      "path": "data/historical_evidence_30q.csv",
+      "sha256": "a2545aaf21e607dae06cbccfb2db46e4b89ede0ee179f6d98d19367d451b81dd",
+      "bytes": 258397
+    },
+    {
+      "path": "data/historical_evidence_meta_30q.json",
+      "sha256": "0da5af7863121ced9cd5ac2a1d2e6394d57ce97757d0f8e3a2ef9d0d6ed79746",
+      "bytes": 4418
+    },
+    {
+      "path": "data/market_session_exceptions.csv",
+      "sha256": "75be8f2fd53e419f5e616266536fe36f9d2f71e4156b256ada6ef4b2f2f8cb89",
+      "bytes": 873
+    },
+    {
+      "path": "data/official_closure_notice_evidence_30u.json",
+      "sha256": "e75967c8b6d6ec244990b354f774946657d5c6ed3b06f6d251add04bcf885817",
+      "bytes": 2316
+    },
+    {
+      "path": "data/official_closure_originals_30u/twse_20261023_07cdb8663b36ad6a89f4568fd653f6bdb8c2699af60781187c1d8e77279cbd5f.pdf",
+      "sha256": "07cdb8663b36ad6a89f4568fd653f6bdb8c2699af60781187c1d8e77279cbd5f",
+      "bytes": 113085
+    },
+    {
+      "path": "data/official_session_calendar.json",
+      "sha256": "4eff345781cdb46c93cda37615c7dc1c8806b9847d5649b37e1f5ea03627378f",
+      "bytes": 2238
+    },
+    {
+      "path": "data/official_source_readiness_30v.json",
+      "sha256": "c8c2e6e4fa1bbc43daab06881145056ee140b5137b4df5d9b71a74ef0bbec898",
+      "bytes": 1895
+    },
+    {
+      "path": "data/signal_archive_index.json",
+      "sha256": "229ba52946538ab1efdd523113516aedb3d66e8a72758a7fcc5e866224c0c9ce",
+      "bytes": 60985
+    },
+    {
+      "path": "data/stock_candidate_coverage_30r.csv",
+      "sha256": "042a2cf70784b790dd2a5d92812a244140edfd3dd0d7ca4b70e13839f05869e2",
+      "bytes": 24788
+    },
+    {
+      "path": "data/tpex_calendar_evidence_30s.json",
+      "sha256": "3dbec48d9c254e8a1062762236b68ce61cbc54dbfc26415c6029063403aa1b92",
+      "bytes": 1522
+    },
+    {
+      "path": "data/tpex_calendar_sources/year_2026_b864f5e572197c54828301391e80fd6b7bae399abd19a60cf601ed460ccd8e2f.pdf",
+      "sha256": "b864f5e572197c54828301391e80fd6b7bae399abd19a60cf601ed460ccd8e2f",
+      "bytes": 107689
+    },
+    {
+      "path": "editorial_30k.css",
+      "sha256": "4cb8360979933b7ca3a877d7897d8ae803d28e7ea348e1e8ca1eb27d3e1a23ae",
+      "bytes": 22201
+    },
+    {
+      "path": "index.html",
+      "sha256": "44e05200abae8ab0e6ed8809da7c1535c83e3ce99983d3e77187577e44d23e4f",
+      "bytes": 201110
+    }
+  ],
+  "source_file_count": 15,
+  "official_source_status": {
+    "TWSE_2026_10_23": "verified_original_market_event",
+    "TPEX_annual_2026": "verified_original_annual_document",
+    "TPEX_2026_10_23_full_notice": "pending_independent_full_original"
+  },
+  "official_first_publication_timestamp_verified": false,
+  "cash_market_closure_both_independently_verified": false,
+  "trade_model_enabled": false,
+  "certified_trade_samples": 0,
+  "certified_win_rate": null,
+  "notes": [
+    "對照此收據可檢驗部署位元完整性，但不是GitHub Pages已上線的自我認證。",
+    "不代表每檔股票歷史數據完整，也不構成官方首次公布時分的驗證。",
+    "上市事件原文與上櫃年度年曆已分別核對；上櫃10/23完整事件仍待獨立原公告。"
+  ]
+}

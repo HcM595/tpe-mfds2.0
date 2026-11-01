@@ -2,33 +2,39 @@
   "version": "2.4B",
   "status": "ok",
   "note_status": "ok表示稽核成功產出，不代表通過嚴格回測",
-  "generated_at_taipei": "2026-10-29T15:19:45+08:00",
-  "audited_snapshot_id": "20261029T071943552402Z-run40834374678-attempt1",
-  "first_seen_snapshot_id": "20261028T120530751652Z-run40684813610-attempt1",
-  "signal_first_observed_at_utc": "2026-10-28T12:05:30.751652Z",
+  "generated_at_taipei": "2026-11-01T14:23:57+08:00",
+  "audited_snapshot_id": "20261101T062355316865Z-run41280554553-attempt1",
+  "first_seen_snapshot_id": "20261101T062355316865Z-run41280554553-attempt1",
+  "signal_first_observed_at_utc": "2026-11-01T06:23:55.316865Z",
   "audited_source_dates": [
-    "2026-10-28"
+    "2026-10-30"
   ],
-  "snapshot_index_total": 87,
-  "unique_signal_fingerprints": 9,
+  "snapshot_index_total": 88,
+  "unique_signal_fingerprints": 10,
   "repeated_signal_snapshots": 78,
   "snapshot_integrity": "indexed_sha256_and_archived_source_hashes_verified",
-  "candidate_rows": 63,
-  "eligible_ranked": 60,
+  "candidate_rows": 82,
+  "eligible_ranked": 77,
   "forward_observation_status_counts": {
-    "可前瞻觀察_仍需來源核實": 60,
-    "不列入_非有效排名": 3
+    "可前瞻觀察_仍需來源核實": 76,
+    "不列入_非有效排名": 5,
+    "暫緩_資料須核對": 1
   },
   "strict_historical_backtest_eligible": 0,
-  "manual_holder_anomaly_count": 0,
-  "manual_holder_anomalies": [],
+  "manual_holder_anomaly_count": 1,
+  "manual_holder_anomalies": [
+    {
+      "stock_id": "6278",
+      "stock_name": "台表科"
+    }
+  ],
   "flow_arithmetic_status_counts": {
-    "五日算術核對一致": 60,
-    "未排名_不核對": 3
+    "五日算術核對一致": 77,
+    "未排名_不核對": 5
   },
   "holder_arithmetic_status_counts": {
-    "四週算術核對一致_公布時間未確認": 60,
-    "未排名_不核對": 3
+    "四週算術核對一致_公布時間未確認": 77,
+    "未排名_不核對": 5
   },
   "source_time_metadata": {
     "official_price_day": "日期已知，官方精確發布時間未逐日核對",
