@@ -257,6 +257,10 @@ jobs:
         run: |
           python -m unittest -v tests/test_coverage_ui_30xt.py
           node --check site/source_coverage_30xt.js
+      - name: 3.0X-U 逐股九來源診斷測試
+        run: |
+          node --check site/stock_coverage_30xu.js
+          node tests/stock_coverage_30xu.test.cjs
       - name: 3.0W 發布前逐位元來源收據與官方PDF一致性閘門
         run: |
           python -m unittest -v tests/test_release_receipt_30w.py
