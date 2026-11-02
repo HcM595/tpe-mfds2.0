@@ -1,6 +1,6 @@
 {
   "version": "3.0T",
-  "generated_at_utc": "2026-11-02T12:56:46.841854Z",
+  "generated_at_utc": "2026-11-02T13:03:18.075054Z",
   "date": "2026-10-23",
   "status": "source_listing_research_pending_original_notices",
   "sources": {
@@ -31,8 +31,8 @@
       "official_source_url": "https://www.tpex.org.tw/zh-tw/announce/market/announce.html",
       "last_fetch_url": "https://www.tpex.org.tw/zh-tw/announce/market/announce.html",
       "status": "official_index_only_no_event",
-      "source_file": "cash_market_closure_sources_30t/tpex_b01d380da22edd85b912512b388da0c445a0ec93b1164aba62b3f4c3b588da4b.html",
-      "source_sha256": "b01d380da22edd85b912512b388da0c445a0ec93b1164aba62b3f4c3b588da4b",
+      "source_file": "cash_market_closure_sources_30t/tpex_278831dc12e2c049de5940856b319440682d82e5f629a7bcd21f176cc4c92700.html",
+      "source_sha256": "278831dc12e2c049de5940856b319440682d82e5f629a7bcd21f176cc4c92700",
       "source_validation": {
         "authority_tokens_present": true,
         "date_token_present": false,
