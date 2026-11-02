@@ -99,6 +99,14 @@ class FeatureContinuity(unittest.TestCase):
         self.assertIn("readiness.sample_independence_verified",index)
         self.assertIn("正式績效稽核：",index)
 
+    def test_market_evidence_tier_distribution(self):
+        index=(SITE/"index.html").read_text(encoding="utf-8")
+        self.assertIn("const tierCounts={confluence:0,partial_2:0,partial_1:0,unconfirmed:0,ineligible:0}",index)
+        self.assertIn("tierCounts[item.tier.tier]++",index)
+        self.assertIn("研究證據分級（目前搜尋及市場範圍）",index)
+        self.assertIn("資料不合格：",index)
+        self.assertIn("分級僅描述可核對條件，不代表勝率",index)
+
     def test_model_not_fake_enabled_by_site_shell(self):
         index=(SITE/"index.html").read_text(encoding="utf-8")
         self.assertNotIn("預測勝率80%",index)
