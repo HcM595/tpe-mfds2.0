@@ -299,7 +299,7 @@ async function loadChipData(silent=false){state.chipSignals={};state.chipMeta=nu
 // TPE-MFDS 2.6A - frontend only; no new score or return inference.
 const research = {
   tab:'overview', status:'loading', datasets:{}, errors:{}, loadedAt:null,
-  query:'', market:'全部', tech:'全部', cross:'all', eligibilityView:'eligible', eligibilityPage:0, stockQuery:'8064', stockId:'8064',
+  query:'', market:'全部', tech:'全部', cross:'all', crossSort:'evidence', eligibilityView:'eligible', eligibilityPage:0, stockQuery:'8064', stockId:'8064',
   eventQuery:'', eventMarket:'全部'
 };
 const RESEARCH_FILES = {
@@ -409,6 +409,17 @@ function rOverview(){
     holders:crossBase.filter(x=>x.check.holders).length,
     technical:crossBase.filter(x=>x.check.technical).length,
     confluence:crossBase.filter(x=>x.check.confluence).length};
+  // Rank valid, date-aligned three-axis observations first; legacy chip rank
+  // remains available as an explicit alternative, never a win-rate ranking.
+  if(research.crossSort==='evidence')crossResults.sort((a,b)=>
+    Number(b.check.ready)-Number(a.check.ready)||
+    b.tier.confirmed-a.tier.confirmed||
+    Number(b.check.flow)-Number(a.check.flow)||
+    Number(b.check.holders)-Number(a.check.holders)||
+    Number(b.check.technical)-Number(a.check.technical)||
+    (Number(a.row.chip_strength_rank)||Number.MAX_SAFE_INTEGER)-
+      (Number(b.row.chip_strength_rank)||Number.MAX_SAFE_INTEGER)||
+    a.row.stock_id.localeCompare(b.row.stock_id));
   const rows=crossResults.map(item=>item.row);
   const crossIndex=new Map(crossResults.map(item=>[item.row.stock_id,item]));
   const directMatches=rDirectMatches(q);
@@ -498,7 +509,7 @@ ${rCards([['逐股證據覆蓋',evidenceMeta.stocks??'—','非正式模型資�
     <div class="r-cross-strip" role="status" aria-label="研究交叉篩選摘要"><span>外資及投信同買 <b>${crossError?'—':crossCounts.flow}</b></span><span>400–999／1000張以上同增 <b>${crossError?'—':crossCounts.holders}</b></span><span>技術三確認 <b>${crossError?'—':crossCounts.technical}</b></span><span>三面交集 <b>${crossError?'—':crossCounts.confluence}</b></span></div>
     <p class="hint">各項只計入資料日和來源條件符合者；集合之間有交集，不應相加。週資料最遲14個日曆日前，未確認官方發布時點；「三面交集」不代表預測勝率或買進訊號。</p>
     ${crossError?`<p class="note-box" role="alert">交叉來源無法驗證：${esc(crossError)}；本次不顯示符合名單。</p>`:''}
-    <div class="r-filter"><label>搜尋股票<input id="r-query" class="field" value="${esc(research.query)}" placeholder="代號、名稱、產業，例如8064" /></label><label>市場<select id="r-market" class="field"><option>全部</option>${['上市','上櫃'].map(x=>`<option ${research.market===x?'selected':''}>${x}</option>`).join('')}</select></label><label>交叉訊號<select id="r-cross" class="field" aria-label="法人、大戶、技術交叉篩選">${[['all','全部可排名'],['institution','外資＋投信同買'],['holders','兩級距大戶同增'],['technical','技術三項確認'],['confluence','法人＋大戶＋技術全部符合'],['review','仍有未符合／待核對條件']].map(([value,label])=>`<option value="${value}" ${research.cross===value?'selected':''}>${label}</option>`).join('')}</select></label></div>
+    <div class="r-filter"><label>搜尋股票<input id="r-query" class="field" value="${esc(research.query)}" placeholder="代號、名稱、產業，例如8064" /></label><label>市場<select id="r-market" class="field"><option>全部</option>${['上市','上櫃'].map(x=>`<option ${research.market===x?'selected':''}>${x}</option>`).join('')}</select></label><label>交叉訊號<select id="r-cross" class="field" aria-label="法人、大戶、技術交叉篩選">${[['all','全部可排名'],['institution','外資＋投信同買'],['holders','兩級距大戶同增'],['technical','技術三項確認'],['confluence','法人＋大戶＋技術全部符合'],['review','仍有未符合／待核對條件']].map(([value,label])=>`<option value="${value}" ${research.cross===value?'selected':''}>${label}</option>`).join('')}</select></label><label>結果排序<select id="r-cross-sort" class="field"><option value="evidence" ${research.crossSort==='evidence'?'selected':''}>三面證據優先（合格→符合數）</option><option value="chip" ${research.crossSort==='chip'?'selected':''}>原籌碼觀察名次</option></select></label></div>
     <div class="row" style="margin:8px 0 13px"><button type="button" id="r-cross-export" class="btn mini" ${crossError?'disabled':''}>匯出目前交叉條件 CSV</button><span class="hint">含股價／法人／集保日期、各條件判斷及未通過原因；研究觀察，不是回測績效。</span></div>
     ${q?`<div class="r-panel" style="margin-bottom:13px"><h3>全市場個股快速查詢（不受籌碼排名條件限制）</h3>
       <p class="hint">以下從已載入的上市櫃官方行情中尋找股票；不在籌碼100分排行內，仍可開啟個股研究頁。</p>
@@ -923,7 +934,7 @@ function bindResearch(){
   const q=$('r-query');if(q)q.addEventListener('input',e=>{
     research.query=e.target.value;research.eligibilityPage=0;const caret=q.selectionStart;render();const next=$('r-query');if(next){next.focus();next.setSelectionRange(caret,caret)}
   });
-  for(const [id,key] of [['r-market','market'],['r-cross','cross']]){const el=$(id);if(el)el.addEventListener('change',e=>{research[key]=e.target.value;render()})}
+  for(const [id,key] of [['r-market','market'],['r-cross','cross'],['r-cross-sort','crossSort']]){const el=$(id);if(el)el.addEventListener('change',e=>{research[key]=e.target.value;render()})}
   const evidenceExport=$('r-stock-evidence-export');
   if(evidenceExport)evidenceExport.addEventListener('click',()=>{
     try{
