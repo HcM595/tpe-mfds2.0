@@ -52,6 +52,15 @@ function evaluate(rank,tech,asofLimit){
   issues,
  };
 }
+// Descriptive evidence tier, not a probability, forecast, or trading signal.
+function classify(check){
+ if(!check?.ready)return {tier:'ineligible',label:'資料不合格',confirmed:0};
+ const confirmed=[check.flow,check.holders,check.technical].filter(Boolean).length;
+ if(confirmed===3)return {tier:'confluence',label:'三面條件符合',confirmed};
+ if(confirmed===2)return {tier:'partial_2',label:'兩面符合／尚缺一面',confirmed};
+ if(confirmed===1)return {tier:'partial_1',label:'單面符合／待觀察',confirmed};
+ return {tier:'unconfirmed',label:'尚無三面確認',confirmed:0};
+}
 function screen(rankRows,techRows,opts={}){
  if(!Array.isArray(rankRows)||!Array.isArray(techRows))throw Error('資料來源格式不正確');
  const mode=opts.mode||'all';
@@ -77,7 +86,7 @@ function screen(rankRows,techRows,opts={}){
   if(mode==='institution'&&!check.flow||mode==='holders'&&!check.holders||
      mode==='technical'&&!check.technical||mode==='confluence'&&!check.confluence||
      mode==='review'&&check.confluence)continue;
-  results.push({row,tech:tech.get(row.stock_id)||{},check});
+  results.push({row,tech:tech.get(row.stock_id)||{},check,tier:classify(check)});
  }
  results.sort((a,b)=>{
   const an=numeric(a.row.chip_strength_rank),bn=numeric(b.row.chip_strength_rank);
@@ -113,7 +122,7 @@ function toCSV(items){
  }
  return lines.join('\r\n');
 }
-const api=Object.freeze({evaluate,screen,MODES,day,toCSV});
+const api=Object.freeze({evaluate,classify,screen,MODES,day,toCSV});
 if(typeof module==='object'&&module.exports)module.exports=api;
 if(root)root.MFDSChipTechCrossfilter=api;
 })(typeof window!=='undefined'?window:null);
