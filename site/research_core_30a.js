@@ -46,14 +46,19 @@ function merge(sources) {
       publication=maps.publication.get(id)||{};
    const flowDateOK=oneDay(chip.flow_asof,p);
    const techDateOK=oneDay(tech.price_asof,p)&&tech.data_status==='可驗證';
-   const holderDateOK=!!chip.holder_asof&&!!p&&chip.holder_asof<=p;
+   const sourceDay=d=>typeof d==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(d)?Date.parse(d+'T00:00:00Z'):NaN;
+   const priceDay=sourceDay(p),holderDay=sourceDay(chip.holder_asof);
+   const holderDateOK=Number.isFinite(priceDay)&&Number.isFinite(holderDay)&&
+      holderDay<=priceDay&&priceDay-holderDay<=14*86400000;
    const sectorDateOK=oneDay(industry.asof,p)&&(!industry.market||industry.market===b.market);
    const riskDateOK=oneDay(risk.price_asof,p)&&(!risk.market||risk.market===b.market);
    const f2Matched=!!valuation.stock_id&&(!valuation.market||valuation.market===b.market);
    const revenueMatched=!!revenue.stock_id&&(!revenue.market||revenue.market===b.market);
    const foreign=flowDateOK?amount(chip.foreign_5d_shares):null;
    const trust=flowDateOK?amount(chip.trust_5d_shares):null;
-   const lot400=holderDateOK?amount(chip.large400_4w_pp):null;
+   // 400+ includes 1000+: only distinct 400-999 and 1000+ tiers
+   // qualify as independently increasing holder groups.
+   const lot400=holderDateOK?amount(chip.mid400_999_4w_pp):null;
    const lot1000=holderDateOK?amount(chip.large1000_4w_pp):null;
    const yearMonth=(revenueMatched&&revenue.revenue_period)||'';
    const indicator=x=>techDateOK&&['是','否'].includes(x)?x:null;
@@ -78,6 +83,7 @@ function merge(sources) {
       foreign,trust,flowAsOf:chip.flow_asof||'',flowDateOK,
       holderAsOf:chip.holder_asof||'',holderDateOK,
       lot400Pct:holderDateOK?amount(chip.large400_pct):null,
+      lot400_999Delta:lot400,
       lot1000Pct:holderDateOK?amount(chip.large1000_pct):null,
       lot400Delta:lot400,lot1000Delta:lot1000,
       institutionDirection:foreign===null||trust===null?'缺資料':
