@@ -1,9 +1,9 @@
 {
   "version": "3.0Q",
-  "generated_at_utc": "2026-11-02T12:04:10.721815Z",
+  "generated_at_utc": "2026-11-02T12:11:39.733237Z",
   "status": "verified_raw_archives_model_blocked",
   "source_index": "signal_archive_index.json",
-  "snapshots_in_index": 100,
+  "snapshots_in_index": 101,
   "unique_first_captured_price_sessions": 6,
   "first_price_session": "2026-10-21",
   "last_price_session": "2026-11-02",
