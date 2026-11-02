@@ -1,6 +1,6 @@
 {
   "schema_version": "3.0E",
-  "assembled_at_utc": "2026-11-02T12:39:59+00:00",
+  "assembled_at_utc": "2026-11-02T12:48:02+00:00",
   "verification_scope": "Exact bytes of nine CSV tables included in this GitHub Pages deployment",
   "data_is_not_historical_publication_proof": true,
   "formal_model_scoring_enabled": false,
@@ -9,7 +9,7 @@
   "sources": {
     "factor": {
       "path": "data/factor_evidence_29a.csv",
-      "sha256": "cf6042373165818cada89daae47329f3666ef7481724a1f8e4d8280811566315",
+      "sha256": "60f2ae91a556cdfcd85129da755f586f92e5b03305c9f00de1d4693e2499337d",
       "byte_length": 709882,
       "row_count": 1950,
       "unique_stock_count": 1950,
@@ -97,7 +97,7 @@
     },
     "actions": {
       "path": "data/corporate_action_readiness_30e.csv",
-      "sha256": "50022f966eca267408cd020c9845d1d8558f781a9c02cd9fa4bb7143bb3acb2e",
+      "sha256": "19ddb796441a83b0d8239353456c44c2ee8d184645f3e775bb612bd46f668992",
       "byte_length": 809202,
       "row_count": 1950,
       "unique_stock_count": 1950,
