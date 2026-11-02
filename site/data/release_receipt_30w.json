@@ -1,12 +1,12 @@
 {
   "version": "3.0W",
   "status": "source_bytes_attested_not_trade_certified",
-  "issued_at_utc": "2026-11-02T11:09:09.117471Z",
+  "issued_at_utc": "2026-11-02T12:05:02.871504Z",
   "site_release": "3.0W",
   "source_files": [
     {
       "path": "data/archive_coverage_meta_30r.json",
-      "sha256": "f2b447bfd5b683996a9f945cf228a2915c5bbd0f956ee1b28eb312e69ac7ae80",
+      "sha256": "e30af32b467101137076e0158e94d1de046a47b5b139385902c70a91cbb20c15",
       "bytes": 2104
     },
     {
@@ -21,8 +21,8 @@
     },
     {
       "path": "data/historical_evidence_meta_30q.json",
-      "sha256": "c53270264bba8d04cf9a972477cbb159b676b0bcf3317444f66f418576aa500c",
-      "bytes": 4754
+      "sha256": "adf55c7c9d49a8b4edad9591214989d312bfe4ed23789ce836ac34d9320d3d12",
+      "bytes": 4755
     },
     {
       "path": "data/market_session_exceptions.csv",
@@ -31,7 +31,7 @@
     },
     {
       "path": "data/official_closure_notice_evidence_30u.json",
-      "sha256": "69b24b0435d26e87de3b31411f13f4a400697d06f4c119afb9fde9ea4ffb6c6f",
+      "sha256": "834265a9eb2667d30a3e7cfb8900030f0c7a49e73c2772c59383aa770ac17c43",
       "bytes": 2316
     },
     {
@@ -41,18 +41,18 @@
     },
     {
       "path": "data/official_session_calendar.json",
-      "sha256": "ba8392c8567b4c9e8b79707599dbec6b8535f88e5bb5da4ffbf6056a5a867f1a",
+      "sha256": "b70e31c393650d317b206193dd812ecca121c677d95c6409e4a90497de075fb8",
       "bytes": 2238
     },
     {
       "path": "data/official_source_readiness_30v.json",
-      "sha256": "0f0292ea947b99e1a8ba23bf600e3e4b1fa1ffa05bf71f78148903dbd81cf991",
+      "sha256": "78988bfec9f58b4e9d7dd8952c8ab92825ee932d6677ca4f91ceaf94c0403720",
       "bytes": 1895
     },
     {
       "path": "data/signal_archive_index.json",
-      "sha256": "1bc6e0c79681ba5ca1cce8e28ff7121792dc26baf332f8ea981728f08ccc7161",
-      "bytes": 68576
+      "sha256": "63dadb5ba9b709f96fb64786d626a09aa3bf65129e153e6d860a0e2d56aedfa7",
+      "bytes": 69268
     },
     {
       "path": "data/stock_candidate_coverage_30r.csv",
@@ -61,7 +61,7 @@
     },
     {
       "path": "data/tpex_calendar_evidence_30s.json",
-      "sha256": "4a54fac942282be5a1bf07e20887cbc85d05e4aab65cc6ab2633b5da141f2251",
+      "sha256": "6b9a0445b863e556917f5cf40eaf2a737e5e553112b0d0d7b0b44283c571a933",
       "bytes": 1522
     },
     {

@@ -1,6 +1,6 @@
 {
   "schema_version": "3.0E",
-  "assembled_at_utc": "2026-11-02T11:09:06+00:00",
+  "assembled_at_utc": "2026-11-02T12:05:00+00:00",
   "verification_scope": "Exact bytes of nine CSV tables included in this GitHub Pages deployment",
   "data_is_not_historical_publication_proof": true,
   "formal_model_scoring_enabled": false,
@@ -20,8 +20,8 @@
     },
     "chip": {
       "path": "data/chip_signals.csv",
-      "sha256": "77e3071fdbe9f1ca8269ef92e56ebe89420482172bd58f404e1c6af946e4296a",
-      "byte_length": 344264,
+      "sha256": "7f0768fff16a52ac3db8d42376fc8992c6fb870d5b0103a26cc0ed2cb700fd41",
+      "byte_length": 344269,
       "row_count": 2978,
       "unique_stock_count": 2978,
       "asof_field": "flow_asof",
@@ -31,7 +31,7 @@
     },
     "tech": {
       "path": "data/tech_crosscheck.csv",
-      "sha256": "1d03b3089c8e4b430d9e00943c9798e1a188d1dec328145d476402be336821a0",
+      "sha256": "c8ab46dc0f20c3496b2a23e89cbb900ada5257b05868221bd31b71568903ad66",
       "byte_length": 28752,
       "row_count": 79,
       "unique_stock_count": 79,
@@ -97,7 +97,7 @@
     },
     "actions": {
       "path": "data/corporate_action_readiness_30e.csv",
-      "sha256": "28c726e2db7fef66ef0a4cc67bfe44a7235c5ac4a46ec933697e75dca7874677",
+      "sha256": "8c1348de09add13104b0fc7e85a6e33c55bc67b674f2bea459a20b2ed7f3bd1c",
       "byte_length": 807252,
       "row_count": 1950,
       "unique_stock_count": 1950,
