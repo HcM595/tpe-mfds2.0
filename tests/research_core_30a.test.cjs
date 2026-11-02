@@ -14,7 +14,7 @@ const factors=[
 ];
 const sources={factor:factors,
  chip:[
- {stock_id:'8064',flow_asof:'2026-10-27',holder_asof:'2026-10-22',foreign_5d_shares:'25000',trust_5d_shares:'7000',large400_pct:'63.2',large400_4w_pp:'0.8',large1000_pct:'50.1',large1000_4w_pp:'0.6'},
+ {stock_id:'8064',flow_asof:'2026-10-27',holder_asof:'2026-10-22',foreign_5d_shares:'25000',trust_5d_shares:'7000',large400_pct:'63.2',large400_4w_pp:'0.8',mid400_999_4w_pp:'0.2',large1000_pct:'50.1',large1000_4w_pp:'0.6'},
  {stock_id:'3533',flow_asof:'2026-10-26',holder_asof:'2026-10-29',foreign_5d_shares:'999999',trust_5d_shares:'999999',large1000_4w_pp:'3.6'}
  ],
  tech:[{stock_id:'8064',price_asof:'2026-10-27',data_status:'可驗證',ma20:'120',ma60:'123',rsi14:'55.4',ma20_rising:'是',close_above_ma20:'是',macd_hist_improving:'是',technical_status:'三項確認'}],
@@ -35,6 +35,14 @@ assert.equal(a.institutionDirection,'外資／投信同向買超');
 assert.equal(a.holderAsOf,'2026-10-22');
 assert.equal(a.holderDirection,'雙級距增加');
 assert.equal(a.lot1000Delta,0.6);
+assert.equal(a.lot400Delta,0.2,'distinct 400-999 tier, not overlapping 400+');
+const stale=C.merge({...sources,chip:[{...sources.chip[0],holder_asof:'2026-09-15'},sources.chip[1]]});
+assert.equal(stale.find(x=>x.id==='8064').holderDateOK,false);
+assert.equal(stale.find(x=>x.id==='8064').holderDirection,'缺資料');
+const noMid=C.merge({...sources,chip:[{...sources.chip[0],mid400_999_4w_pp:''},sources.chip[1]]});
+assert.equal(noMid.find(x=>x.id==='8064').holderDirection,'缺資料',
+ 'overlapping 400+ and 1000+ must not manufacture independent ownership confirmation');
+
 assert.equal(a.aboveMa20,'是');
 assert.equal(a.sectorRelative20,2.6);
 assert.equal(a.priceAdjusted,false);
