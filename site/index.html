@@ -409,6 +409,12 @@ function rOverview(){
     holders:crossBase.filter(x=>x.check.holders).length,
     technical:crossBase.filter(x=>x.check.technical).length,
     confluence:crossBase.filter(x=>x.check.confluence).length};
+  const tierCounts={confluence:0,partial_2:0,partial_1:0,unconfirmed:0,ineligible:0};
+  for(const item of crossBase){
+    if(Object.prototype.hasOwnProperty.call(tierCounts,item.tier?.tier))
+      tierCounts[item.tier.tier]++;
+    else tierCounts.ineligible++;
+  }
   // Rank valid, date-aligned three-axis observations first; legacy chip rank
   // remains available as an explicit alternative, never a win-rate ranking.
   if(research.crossSort==='evidence')crossResults.sort((a,b)=>
@@ -507,6 +513,7 @@ ${rCards([['逐股證據覆蓋',evidenceMeta.stocks??'—','非正式模型資�
     </section>
     <section class="card r-section"><div class="r-section-title"><div><h3>法人 × 大戶 × 技術｜交叉觀察</h3><p>根據已發布的籌碼100分與技術雙軌報告；缺值不當作0。此為四項指標加權排名，個別大戶級距可下降，不等於「外資、投信與大戶同步增持」名單。</p></div>${rMetaLink('rank','檢視原始排行')}</div>
     <div class="r-cross-strip" role="status" aria-label="研究交叉篩選摘要"><span>外資及投信同買 <b>${crossError?'—':crossCounts.flow}</b></span><span>400–999／1000張以上同增 <b>${crossError?'—':crossCounts.holders}</b></span><span>技術三確認 <b>${crossError?'—':crossCounts.technical}</b></span><span>三面交集 <b>${crossError?'—':crossCounts.confluence}</b></span></div>
+    <p class="hint" role="status">研究證據分級（目前搜尋及市場範圍）：${crossError?'來源尚未核對':`3/3：${tierCounts.confluence} 檔；2/3：${tierCounts.partial_2} 檔；1/3：${tierCounts.partial_1} 檔；0/3：${tierCounts.unconfirmed} 檔；資料不合格：${tierCounts.ineligible} 檔`}。分級僅描述可核對條件，不代表勝率。</p>
     <p class="hint">各項只計入資料日和來源條件符合者；集合之間有交集，不應相加。週資料最遲14個日曆日前，未確認官方發布時點。法人為近5日累計、集保為近4週差異，<strong>尚未驗證逐日／逐週連續增持</strong>；「三面交集」不代表預測勝率或買進訊號。</p>
     ${crossError?`<p class="note-box" role="alert">交叉來源無法驗證：${esc(crossError)}；本次不顯示符合名單。</p>`:''}
     <div class="r-filter"><label>搜尋股票<input id="r-query" class="field" value="${esc(research.query)}" placeholder="代號、名稱、產業，例如8064" /></label><label>市場<select id="r-market" class="field"><option>全部</option>${['上市','上櫃'].map(x=>`<option ${research.market===x?'selected':''}>${x}</option>`).join('')}</select></label><label>交叉訊號<select id="r-cross" class="field" aria-label="法人、大戶、技術交叉篩選">${[['all','全部可排名'],['institution','外資＋投信同買'],['holders','兩級距大戶同增'],['technical','技術三項確認'],['confluence','法人＋大戶＋技術全部符合'],['review','仍有未符合／待核對條件']].map(([value,label])=>`<option value="${value}" ${research.cross===value?'selected':''}>${label}</option>`).join('')}</select></label><label>結果排序<select id="r-cross-sort" class="field"><option value="evidence" ${research.crossSort==='evidence'?'selected':''}>三面證據優先（合格→符合數）</option><option value="chip" ${research.crossSort==='chip'?'selected':''}>原籌碼觀察名次</option></select></label></div>
