@@ -71,8 +71,10 @@ const assert=require('node:assert/strict');
    assert(meta.status==='ok','official source status is '+String(meta.status));
    const pairs=Object.entries(meta.market_dates||{});
    assert(pairs.length>=2,'TWSE/TPEx source dates not individually declared');
+   await page.waitForFunction(()=>document.querySelector('#banner')?.innerText?.includes('官方收盤行情'),null,{timeout:30000});
    const observed=await page.locator('#banner').innerText();
-   assert(observed.includes(meta.display_date),'public price banner disagrees with official_meta.json');
+   assert(observed.includes('官方收盤行情 · '+meta.display_date),
+     'public price banner disagrees with official_meta.json: '+observed.slice(0,140));
    if(meta.aligned===true)
     assert(pairs.every(([k,d])=>d===meta.display_date),'a source market date differs from declared aligned price');
    const local=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
