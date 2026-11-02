@@ -923,6 +923,15 @@ function bindResearch(){
         query:research.query,market:research.market,mode:research.cross||'all',
         asofLimit:(rGet('official')||{}).display_date||''
       });
+      if(research.crossSort==='evidence')result.sort((a,b)=>
+        Number(b.check.ready)-Number(a.check.ready)||
+        b.tier.confirmed-a.tier.confirmed||
+        Number(b.check.flow)-Number(a.check.flow)||
+        Number(b.check.holders)-Number(a.check.holders)||
+        Number(b.check.technical)-Number(a.check.technical)||
+        (Number(a.row.chip_strength_rank)||Number.MAX_SAFE_INTEGER)-
+          (Number(b.row.chip_strength_rank)||Number.MAX_SAFE_INTEGER)||
+        a.row.stock_id.localeCompare(b.row.stock_id));
       const blob=new Blob(['\uFEFF'+lib.toCSV(result)],{type:'text/csv;charset=utf-8'});
       const link=document.createElement('a');
       link.href=URL.createObjectURL(blob);link.download='TPE_MFDS_30L_交叉觀察_'+(research.cross||'all')+'.csv';
