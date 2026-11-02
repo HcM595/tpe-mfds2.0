@@ -90,7 +90,8 @@ const assert=require('node:assert/strict');
    const rows=page.locator('section.r-section:has(#r-cross) tr[data-r-stock]');
    for(const r of await rows.all()){
     const rowText=await r.innerText();
-    assert(rowText.includes('三面同時符合'),'intersection row not matching: '+rowText.slice(0,220));
+    assert(rowText.includes('三面條件符合')&&rowText.includes('3/3'),
+      'intersection tier not matching: '+rowText.slice(0,220));
    }
    await page.locator('#r-cross').selectOption(current);
    assert.equal(await page.locator('.r-cross-strip span').count(),4);
