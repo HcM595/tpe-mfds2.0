@@ -49,6 +49,10 @@ function evaluate(rank,tech,asofLimit){
   id,ready,flow:institution,holders,technical,confluence:institution&&holders&&technical,
   price_asof:rank.price_asof,flow_asof:rank.flow_asof,holder_asof:rank.holder_asof,
   holder_lag_days:holderAligned?Math.round((price-holderDate)/86400000):null,
+  // Aggregate 5-day institutional flow and 4-week holder change do not prove
+  // uninterrupted accumulation or distinct independent weekly observations.
+  persistence_verified:false,
+  persistence_note:'僅有法人5日累計與大戶4週差異；缺逐日／逐週連續觀察，不可宣稱持續增持',
   issues,
  };
 }
@@ -110,14 +114,14 @@ function csvCell(x){
 }
 function toCSV(items){
  if(!Array.isArray(items))throw Error('交叉匯出結果格式不正確');
- const head=[...CSV_KEYS.map(x=>x[1]),'法人同買','兩級距大戶同增','技術三確認','三面交集','資料問題'];
+ const head=[...CSV_KEYS.map(x=>x[1]),'法人同買','兩級距大戶同增','技術三確認','三面交集','連續增持驗證','資料問題'];
  const lines=[head.map(csvCell).join(',')];
  for(const entry of items){
   const r=entry?.row,c=entry?.check;
   if(!r||!c)throw Error('來源尚未通過交叉核對');
   const fields=[...CSV_KEYS.map(([name])=>r[name]??''),c.flow?'符合':'未通過',
     c.holders?'符合':'未通過',c.technical?'符合':'未通過',
-    c.confluence?'符合':'未通過',c.issues.join('；')];
+    c.confluence?'符合':'未通過',c.persistence_verified?'已驗證':'未驗證',c.issues.join('；')];
   lines.push(fields.map(csvCell).join(','));
  }
  return lines.join('\r\n');
