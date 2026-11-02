@@ -68,6 +68,13 @@ class FeatureContinuity(unittest.TestCase):
         self.assertIn("const persisted=window.MFDSWatchlist30N.ids(", index)
         self.assertIn("[...new Set([...persisted,...state.watch])]", index)
 
+    def test_market_research_tiers_show_all_blockers(self):
+        index=(SITE/"index.html").read_text(encoding="utf-8")
+        self.assertIn("<th>研究條件分級</th><th>缺漏／未通過原因</th>",index)
+        self.assertIn("const tier=item.tier||{tier:'ineligible'",index)
+        self.assertIn("c.issues.join('；')",index)
+        self.assertIn("tier.confirmed}/3",index)
+
     def test_model_not_fake_enabled_by_site_shell(self):
         index=(SITE/"index.html").read_text(encoding="utf-8")
         self.assertNotIn("預測勝率80%",index)
