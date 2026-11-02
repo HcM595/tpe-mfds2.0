@@ -1088,6 +1088,18 @@ function watchHistoryPanel(){
  // Distinct price days, not repeated CI snapshots or actual trading outcomes.
  const observationDays=new Set(ui.days.map(d=>d.date)).size;
  const horizonReadiness=[10,20,60].map(n=>n+'日：'+(observationDays>=n?'日期數初步足夠，仍需報酬與公告時點驗證':'只有'+observationDays+'個獨立價格日，樣本不足')).join('；');
+ const readiness=rGet('readiness');
+ const blockers=readiness?[
+  ['公告可得時間',readiness.source_publication_times_verified],
+  ['還原OHLC',readiness.adjusted_ohlc_verified],
+  ['樣本獨立性',readiness.sample_independence_verified],
+  ['歷史公司行動',readiness.historical_corporate_actions_complete]
+ ].filter(([,ok])=>ok!==true).map(([label])=>label):[];
+ const performanceStatement=readiness?
+  '嚴格績效合格樣本 '+rVal(readiness.strict_performance_samples_eligible)+
+  '；績效指標 '+(readiness.performance_metrics_enabled===true?'來源標示可用，仍須獨立確認':'尚未開放')+
+  '；待驗證：'+(blockers.join('、')||'本次未標記阻擋項目')+'。':
+  '研究準備度稽核尚未取得，不能宣稱已有合格回測樣本。';
  return '<section class="card r-watch-history r-section" aria-label="3.0O 自選股歷史對照">'+
    '<div class="r-section-title"><div><div class="r-eyebrow">ARCHIVE COMPARISON · 3.0O</div>'+
    '<h3>歷史變化對照</h3><p>每個價格日只採用當日首次封存，不把重跑版本當作獨立觀察。</p></div>'+
@@ -1095,6 +1107,7 @@ function watchHistoryPanel(){
    '<div class="r-watch-history-note">已索引 '+samples.length+' 個可比較日期；同日期其他封存版本 '+repetition+
    ' 份僅供稽核，不作為額外歷史樣本。封存時刻不代表官方資料公布時刻。</div>'+
    '<p class="hint" role="status">10／20／60日研究準備度：'+esc(horizonReadiness)+'。即使日數滿足，也不能直接推算交易勝率。</p>'+
+   '<p class="hint">正式績效稽核：'+esc(performanceStatement)+'</p>'+
    '<div class="r-watch-history-controls">'+
    '<label for="r-history-first">較早交易日<select class="field" id="r-history-first"'+(!ui.days.length?' disabled':'')+'>'+opts(ui.first)+'</select></label>'+
    '<label for="r-history-second">較晚交易日<select class="field" id="r-history-second"'+(!ui.days.length?' disabled':'')+'>'+opts(ui.second)+'</select></label>'+
