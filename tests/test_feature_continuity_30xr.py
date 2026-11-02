@@ -90,6 +90,15 @@ class FeatureContinuity(unittest.TestCase):
         self.assertIn("10／20／60日研究準備度",index)
         self.assertIn("不能直接推算交易勝率",index)
 
+    def test_history_displays_audited_performance_blockers(self):
+        index=(SITE/"index.html").read_text(encoding="utf-8")
+        self.assertIn("readiness.strict_performance_samples_eligible",index)
+        self.assertIn("readiness.performance_metrics_enabled===true",index)
+        self.assertIn("readiness.source_publication_times_verified",index)
+        self.assertIn("readiness.adjusted_ohlc_verified",index)
+        self.assertIn("readiness.sample_independence_verified",index)
+        self.assertIn("正式績效稽核：",index)
+
     def test_model_not_fake_enabled_by_site_shell(self):
         index=(SITE/"index.html").read_text(encoding="utf-8")
         self.assertNotIn("預測勝率80%",index)
