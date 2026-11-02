@@ -142,6 +142,11 @@ const assert=require('node:assert/strict');
   await check('自選股：新增、儲存、篩選、移除及 CSV',async()=>{
    await page.locator('#nav > button[data-page="watch"]').click();
    await page.locator('#r-watch-add-form').waitFor({timeout:45000});
+   // Entering watch triggers an asynchronous archival-index load that
+   // re-renders the form. Finish that first to avoid submitting a detached
+   // input during the re-render, rather than weakening save assertions.
+   await page.waitForFunction(()=>document.querySelectorAll('#r-history-first option').length>=2,
+     null,{timeout:90000});
    for(const id of ['8064','3533']){
     await page.locator('#r-watch-add-code').fill(id);
     await page.locator('#r-watch-add-form button[type="submit"]').click();
