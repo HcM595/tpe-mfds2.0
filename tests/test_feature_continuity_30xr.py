@@ -75,6 +75,15 @@ class FeatureContinuity(unittest.TestCase):
         self.assertIn("c.issues.join('；')",index)
         self.assertIn("tier.confirmed}/3",index)
 
+    def test_cross_screen_sorting_and_export_agree(self):
+        index=(SITE/"index.html").read_text(encoding="utf-8")
+        self.assertIn('id="r-cross-sort"',index)
+        self.assertIn("crossSort:'evidence'",index)
+        self.assertIn("['r-cross-sort','crossSort']",index)
+        self.assertEqual(index.count("if(research.crossSort==='evidence')"),2)
+        self.assertIn("b.tier.confirmed-a.tier.confirmed",index)
+        self.assertIn("lib.toCSV(result)",index)
+
     def test_model_not_fake_enabled_by_site_shell(self):
         index=(SITE/"index.html").read_text(encoding="utf-8")
         self.assertNotIn("預測勝率80%",index)
