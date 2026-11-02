@@ -1,13 +1,13 @@
 {
   "version": "3.0R",
-  "generated_at_utc": "2026-11-02T12:22:39.215571Z",
+  "generated_at_utc": "2026-11-02T12:29:13.410349Z",
   "status": "original_sources_verified_no_performance",
   "source_csv_sha256": "3e8b0958ea7d07e26fd904c5191855681ce00168ff4d8156fb505e3ca54f416f",
-  "source_historical_meta_sha256": "d7afd671dffa7e96d53262ef6944b69e0bcb74f0ddf5ce6b6972ec101e09e18b",
-  "source_archive_index_sha256": "8b2aab5dfa531d9cc5e57a893925203c06dcfbd2bf7ad51413f05fcb2a1fdcd9",
-  "source_calendar_sha256": "5d16a30f772b703fd0ccac78a78a2bd38a7d40706703615f14b4a778f79dbb5b",
+  "source_historical_meta_sha256": "5e45da3aed0b7a914a72fc73f47a33c46dedfd6ca1af5ce66847e3f9f786fec9",
+  "source_archive_index_sha256": "b7fb49330d3a7aebea56e602f8aa5603d818530548df23fa041ff44011a928c7",
+  "source_calendar_sha256": "beb48cb02260dcfb6df765fba76828d476d824e321a37067f80edeb38ede6d97",
   "source_market_exceptions_sha256": "75be8f2fd53e419f5e616266536fe36f9d2f71e4156b256ada6ef4b2f2f8cb89",
-  "source_official_closure_30u_sha256": "31695712afd9f7461b9277dc29e3e1b8bf2ca8b2e79c34f67775c5b7ff098eac",
+  "source_official_closure_30u_sha256": "b82f957bdaeffc8486e00672bcb9a37452fe5f4b30bbe8d5a03b5c259e3049ee",
   "independently_documented_cash_market_closures": [
     {
       "market": "上市",
