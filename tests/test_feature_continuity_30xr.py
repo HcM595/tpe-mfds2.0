@@ -107,6 +107,18 @@ class FeatureContinuity(unittest.TestCase):
         self.assertIn("資料不合格：",index)
         self.assertIn("分級僅描述可核對條件，不代表勝率",index)
 
+    def test_watch_chip_trend_is_archived_and_evidence_gated(self):
+        index=(SITE/"index.html").read_text(encoding="utf-8")
+        self.assertIn("function watchChipTrendPanel()",index)
+        self.assertIn("rArray('historyEvidence')",index)
+        self.assertIn("raw_input_verified==='true'",index)
+        self.assertIn("flow_5d_observation_usable==='true'",index)
+        self.assertIn("holder_4w_observation_usable==='true'",index)
+        self.assertIn("new Set(unique.map(r=>r.holder_asof)",index)
+        self.assertIn("首末封存籌碼變化",index)
+        self.assertIn("非持續增持、未來報酬或勝率",index)
+        self.assertIn("+watchChipTrendPanel()+watchTimelinePanel()",index)
+
     def test_model_not_fake_enabled_by_site_shell(self):
         index=(SITE/"index.html").read_text(encoding="utf-8")
         self.assertNotIn("預測勝率80%",index)
