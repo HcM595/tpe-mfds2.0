@@ -23,6 +23,14 @@ const cutoff='2026-10-27';
 const {rank,tech}=base();
 assert.deepEqual(X.evaluate(rank,tech,cutoff).issues,[]);
 assert.equal(X.evaluate(rank,tech,cutoff).confluence,true);
+assert.equal(X.classify(X.evaluate(rank,tech,cutoff)).tier,'confluence');
+assert.equal(X.classify(X.evaluate(rank,{...tech,technical_confirmed_count:'2'},cutoff)).tier,'partial_2');
+assert.equal(X.classify(X.evaluate({...rank,mid400_999_4w_pp:''},tech,cutoff)).tier,'partial_2');
+assert.equal(X.classify(X.evaluate({...rank,foreign_5d_shares:'-1',mid400_999_4w_pp:''},tech,cutoff)).tier,'partial_1');
+assert.equal(X.classify(X.evaluate({...rank,rank_status:'待核對'},tech,cutoff)).tier,'ineligible');
+assert.equal(X.classify(X.evaluate(rank,tech,undefined)).tier,'ineligible');
+assert.equal(X.screen([rank],[tech],{asofLimit:cutoff})[0].tier.confirmed,3);
+
 assert.equal(X.screen([rank],[tech],{mode:'confluence',asofLimit:cutoff}).length,1);
 for(const field of ['flow_asof','holder_asof','price_asof']){
  const row={...rank,[field]:'2026-10-28'};
