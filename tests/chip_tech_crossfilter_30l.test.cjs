@@ -23,6 +23,10 @@ const cutoff='2026-10-27';
 const {rank,tech}=base();
 assert.deepEqual(X.evaluate(rank,tech,cutoff).issues,[]);
 assert.equal(X.evaluate(rank,tech,cutoff).confluence,true);
+assert.equal(X.evaluate(rank,tech,cutoff).persistence_verified,false,
+ '5d net flow and 4w holder delta cannot prove uninterrupted buying');
+assert.match(X.evaluate(rank,tech,cutoff).persistence_note,/缺逐日／逐週/);
+
 assert.equal(X.classify(X.evaluate(rank,tech,cutoff)).tier,'confluence');
 assert.equal(X.classify(X.evaluate(rank,{...tech,technical_confirmed_count:'2'},cutoff)).tier,'partial_2');
 assert.equal(X.classify(X.evaluate({...rank,mid400_999_4w_pp:''},tech,cutoff)).tier,'partial_2');
@@ -86,6 +90,8 @@ for(const {row,tech,check} of actual){
 const csv=X.toCSV(X.screen([rank],[tech],{mode:'all',asofLimit:cutoff}));
 assert(csv.includes('股票代號')&&csv.includes('集保資料日'));
 assert(csv.includes('三面交集')&&csv.includes('法人同買'));
+assert(csv.includes('連續增持驗證')&&csv.includes('未驗證'));
+
 assert(csv.includes('2026-10-27')&&csv.includes('2026-10-22'));
 assert.equal(csv.split('\r\n').length,2);
 const evil=X.toCSV([{row:{...rank,stock_name:' =2+3',market:'@ERROR'},check:X.evaluate(rank,tech,cutoff)}]);
