@@ -1,13 +1,15 @@
 {
   "version": "2.3A+B",
-  "generated_at_taipei": "2026-11-02T20:28:52.599548+08:00",
+  "generated_at_taipei": "2026-11-02T20:35:05.245743+08:00",
   "status": "ok",
   "master": {
     "source_status": {
       "上市": "ok",
-      "上櫃": "ok"
+      "上櫃": "ok_csv_fallback"
     },
-    "errors": [],
+    "errors": [
+      "上櫃: IncompleteRead: IncompleteRead(114296 bytes read, 965083 more expected)"
+    ],
     "count": 1990,
     "conflicting_ids": []
   },
