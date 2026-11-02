@@ -84,6 +84,12 @@ class FeatureContinuity(unittest.TestCase):
         self.assertIn("b.tier.confirmed-a.tier.confirmed",index)
         self.assertIn("lib.toCSV(result)",index)
 
+    def test_archived_history_readiness_uses_distinct_price_dates(self):
+        index=(SITE/"index.html").read_text(encoding="utf-8")
+        self.assertIn("new Set(ui.days.map(d=>d.date)).size",index)
+        self.assertIn("10／20／60日研究準備度",index)
+        self.assertIn("不能直接推算交易勝率",index)
+
     def test_model_not_fake_enabled_by_site_shell(self):
         index=(SITE/"index.html").read_text(encoding="utf-8")
         self.assertNotIn("預測勝率80%",index)
