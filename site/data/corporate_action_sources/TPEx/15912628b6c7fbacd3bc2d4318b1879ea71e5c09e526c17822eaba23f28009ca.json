@@ -1,0 +1,181 @@
+{
+  "version": "2.4E",
+  "market": "TPEx",
+  "source_url": "https://www.tpex.org.tw/openapi/v1/tpex_exright_prepost",
+  "source_sha256": "15912628b6c7fbacd3bc2d4318b1879ea71e5c09e526c17822eaba23f28009ca",
+  "first_seen_at_utc": "2026-11-02T11:08:12.645626Z",
+  "raw_json": "[\n{\"ExRrightsExDividendDate\":\"1151027\",\"SecuritiesCompanyCode\":\"00888\",\"CompanyName\":\"永豐台灣ESG\",\"ExRrightsExDividend\":\"除息\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.00000000\",\"SubscriptionPricePerShare\":\"0.00\",\"CashDividend\":\"1.50000000\",\"AllocatedForPublicUnderwriting\":\"0\",\"SubscribedByEmployees\":\"0\",\"SubscribedByExistingShareholders\":\"0\",\"SubscribedProRataInThousandShares\":\"0.00000000\"},\n{\"ExRrightsExDividendDate\":\"1151027\",\"SecuritiesCompanyCode\":\"00958B\",\"CompanyName\":\"永豐ESG銀行債15+\",\"ExRrightsExDividend\":\"除息\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.00000000\",\"SubscriptionPricePerShare\":\"0.00\",\"CashDividend\":\"0.04100000\",\"AllocatedForPublicUnderwriting\":\"0\",\"SubscribedByEmployees\":\"0\",\"SubscribedByExistingShareholders\":\"0\",\"SubscribedProRataInThousandShares\":\"0.00000000\"},\n{\"ExRrightsExDividendDate\":\"1151027\",\"SecuritiesCompanyCode\":\"3691\",\"CompanyName\":\"碩禾\",\"ExRrightsExDividend\":\"除權\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.10883356\",\"SubscriptionPricePerShare\":\"80.00\",\"CashDividend\":\"0.00000000\",\"AllocatedForPublicUnderwriting\":\"1000000\",\"SubscribedByEmployees\":\"1500000\",\"SubscribedByExistingShareholders\":\"7500000\",\"SubscribedProRataInThousandShares\":\"81.62517242\"},\n{\"ExRrightsExDividendDate\":\"1151028\",\"SecuritiesCompanyCode\":\"00726B\",\"CompanyName\":\"國泰新興投等債\",\"ExRrightsExDividend\":\"除息\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.00000000\",\"SubscriptionPricePerShare\":\"0.00\",\"CashDividend\":\"0.46000000\",\"AllocatedForPublicUnderwriting\":\"0\",\"SubscribedByEmployees\":\"0\",\"SubscribedByExistingShareholders\":\"0\",\"SubscribedProRataInThousandShares\":\"0.00000000\"},\n{\"ExRrightsExDividendDate\":\"1151028\",\"SecuritiesCompanyCode\":\"00990B\",\"CompanyName\":\"國泰收益非投等債\",\"ExRrightsExDividend\":\"除息\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.00000000\",\"SubscriptionPricePerShare\":\"0.00\",\"CashDividend\":\"0.08000000\",\"AllocatedForPublicUnderwriting\":\"0\",\"SubscribedByEmployees\":\"0\",\"SubscribedByExistingShareholders\":\"0\",\"SubscribedProRataInThousandShares\":\"0.00000000\"},\n{\"ExRrightsExDividendDate\":\"1151028\",\"SecuritiesCompanyCode\":\"2063\",\"CompanyName\":\"世鎧\",\"ExRrightsExDividend\":\"除權息\",\"StockDividendRatio\":\"0.09999999\",\"SubscriptionRatioToNewSharesIssued\":\"0.00000000\",\"SubscriptionPricePerShare\":\"0.00\",\"CashDividend\":\"0.50002080\",\"AllocatedForPublicUnderwriting\":\"0\",\"SubscribedByEmployees\":\"0\",\"SubscribedByExistingShareholders\":\"0\",\"SubscribedProRataInThousandShares\":\"0.00000000\"},\n{\"ExRrightsExDividendDate\":\"1151103\",\"SecuritiesCompanyCode\":\"00950B\",\"CompanyName\":\"凱基A級公司債\",\"ExRrightsExDividend\":\"除息\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.00000000\",\"SubscriptionPricePerShare\":\"0.00\",\"CashDividend\":\"0.06300000\",\"AllocatedForPublicUnderwriting\":\"0\",\"SubscribedByEmployees\":\"0\",\"SubscribedByExistingShareholders\":\"0\",\"SubscribedProRataInThousandShares\":\"0.00000000\"},\n{\"ExRrightsExDividendDate\":\"1151103\",\"SecuritiesCompanyCode\":\"00959B\",\"CompanyName\":\"大華投等美債15Y+\",\"ExRrightsExDividend\":\"除息\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.00000000\",\"SubscriptionPricePerShare\":\"0.00\",\"CashDividend\":\"0.04800000\",\"AllocatedForPublicUnderwriting\":\"0\",\"SubscribedByEmployees\":\"0\",\"SubscribedByExistingShareholders\":\"0\",\"SubscribedProRataInThousandShares\":\"0.00000000\"},\n{\"ExRrightsExDividendDate\":\"1151103\",\"SecuritiesCompanyCode\":\"00966B\",\"CompanyName\":\"統一ESG投等債15+\",\"ExRrightsExDividend\":\"除息\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.00000000\",\"SubscriptionPricePerShare\":\"0.00\",\"CashDividend\":\"0.06800000\",\"AllocatedForPublicUnderwriting\":\"0\",\"SubscribedByEmployees\":\"0\",\"SubscribedByExistingShareholders\":\"0\",\"SubscribedProRataInThousandShares\":\"0.00000000\"},\n{\"ExRrightsExDividendDate\":\"1151103\",\"SecuritiesCompanyCode\":\"00983B\",\"CompanyName\":\"大華優利美公債20\",\"ExRrightsExDividend\":\"除息\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.00000000\",\"SubscriptionPricePerShare\":\"0.00\",\"CashDividend\":\"0.06200000\",\"AllocatedForPublicUnderwriting\":\"0\",\"SubscribedByEmployees\":\"0\",\"SubscribedByExistingShareholders\":\"0\",\"SubscribedProRataInThousandShares\":\"0.00000000\"},\n{\"ExRrightsExDividendDate\":\"1151103\",\"SecuritiesCompanyCode\":\"00984B\",\"CompanyName\":\"大華優利美A債15\",\"ExRrightsExDividend\":\"除息\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.00000000\",\"SubscriptionPricePerShare\":\"0.00\",\"CashDividend\":\"0.08000000\",\"AllocatedForPublicUnderwriting\":\"0\",\"SubscribedByEmployees\":\"0\",\"SubscribedByExistingShareholders\":\"0\",\"SubscribedProRataInThousandShares\":\"0.00000000\"},\n{\"ExRrightsExDividendDate\":\"1151103\",\"SecuritiesCompanyCode\":\"00986B\",\"CompanyName\":\"FT金融債10+\",\"ExRrightsExDividend\":\"除息\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.00000000\",\"SubscriptionPricePerShare\":\"0.00\",\"CashDividend\":\"0.02200000\",\"AllocatedForPublicUnderwriting\":\"0\",\"SubscribedByEmployees\":\"0\",\"SubscribedByExistingShareholders\":\"0\",\"SubscribedProRataInThousandShares\":\"0.00000000\"},\n{\"ExRrightsExDividendDate\":\"1151104\",\"SecuritiesCompanyCode\":\"009823\",\"CompanyName\":\"群益S&P500\",\"ExRrightsExDividend\":\"除息\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.00000000\",\"SubscriptionPricePerShare\":\"0.00\",\"CashDividend\":\"尚未公告\",\"AllocatedForPublicUnderwriting\":\"0\",\"SubscribedByEmployees\":\"0\",\"SubscribedByExistingShareholders\":\"0\",\"SubscribedProRataInThousandShares\":\"0.00000000\"},\n{\"ExRrightsExDividendDate\":\"1151105\",\"SecuritiesCompanyCode\":\"3289\",\"CompanyName\":\"宜特\",\"ExRrightsExDividend\":\"除息\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.00000000\",\"SubscriptionPricePerShare\":\"0.00\",\"CashDividend\":\"1.60000000\",\"AllocatedForPublicUnderwriting\":\"0\",\"SubscribedByEmployees\":\"0\",\"SubscribedByExistingShareholders\":\"0\",\"SubscribedProRataInThousandShares\":\"0.00000000\"},\n{\"ExRrightsExDividendDate\":\"1151105\",\"SecuritiesCompanyCode\":\"5523\",\"CompanyName\":\"豐謙\",\"ExRrightsExDividend\":\"除息\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.00000000\",\"SubscriptionPricePerShare\":\"0.00\",\"CashDividend\":\"0.50000000\",\"AllocatedForPublicUnderwriting\":\"0\",\"SubscribedByEmployees\":\"0\",\"SubscribedByExistingShareholders\":\"0\",\"SubscribedProRataInThousandShares\":\"0.00000000\"},\n{\"ExRrightsExDividendDate\":\"1151111\",\"SecuritiesCompanyCode\":\"8390\",\"CompanyName\":\"金益鼎\",\"ExRrightsExDividend\":\"除權\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.08323265\",\"SubscriptionPricePerShare\":\"註4\",\"CashDividend\":\"0.00000000\",\"AllocatedForPublicUnderwriting\":\"800000\",\"SubscribedByEmployees\":\"1200000\",\"SubscribedByExistingShareholders\":\"6000000\",\"SubscribedProRataInThousandShares\":\"62.42448718\"},\n{\"ExRrightsExDividendDate\":\"1151112\",\"SecuritiesCompanyCode\":\"3680\",\"CompanyName\":\"家登\",\"ExRrightsExDividend\":\"除息\",\"StockDividendRatio\":\"0.00000000\",\"SubscriptionRatioToNewSharesIssued\":\"0.00000000\",\"SubscriptionPricePerShare\":\"0.00\",\"CashDividend\":\"9.91474560\",\"AllocatedForPublicUnderwriting\":\"0\",\"SubscribedByEmployees\":\"0\",\"SubscribedByExistingShareholders\":\"0\",\"SubscribedProRataInThousandShares\":\"0.00000000\"}]\n",
+  "normalized": [
+    {
+      "market": "TPEx",
+      "stock_id": "00888",
+      "stock_name": "永豐台灣ESG",
+      "ex_date": "2026-10-27",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 1.5,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "00958B",
+      "stock_name": "永豐ESG銀行債15+",
+      "ex_date": "2026-10-27",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.041,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "3691",
+      "stock_name": "碩禾",
+      "ex_date": "2026-10-27",
+      "event_type": "權",
+      "cash_dividend_twd_per_share": 0.0,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "00726B",
+      "stock_name": "國泰新興投等債",
+      "ex_date": "2026-10-28",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.46,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "00990B",
+      "stock_name": "國泰收益非投等債",
+      "ex_date": "2026-10-28",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.08,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "2063",
+      "stock_name": "世鎧",
+      "ex_date": "2026-10-28",
+      "event_type": "權息",
+      "cash_dividend_twd_per_share": 0.5000208,
+      "stock_dividend_ratio_reported": 0.09999999,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "00950B",
+      "stock_name": "凱基A級公司債",
+      "ex_date": "2026-11-03",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.063,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "00959B",
+      "stock_name": "大華投等美債15Y+",
+      "ex_date": "2026-11-03",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.048,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "00966B",
+      "stock_name": "統一ESG投等債15+",
+      "ex_date": "2026-11-03",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.068,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "00983B",
+      "stock_name": "大華優利美公債20",
+      "ex_date": "2026-11-03",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.062,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "00984B",
+      "stock_name": "大華優利美A債15",
+      "ex_date": "2026-11-03",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.08,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "00986B",
+      "stock_name": "FT金融債10+",
+      "ex_date": "2026-11-03",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.022,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "009823",
+      "stock_name": "群益S&P500",
+      "ex_date": "2026-11-04",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": null,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "未公告金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "3289",
+      "stock_name": "宜特",
+      "ex_date": "2026-11-05",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 1.6,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "5523",
+      "stock_name": "豐謙",
+      "ex_date": "2026-11-05",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.5,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "8390",
+      "stock_name": "金益鼎",
+      "ex_date": "2026-11-11",
+      "event_type": "權",
+      "cash_dividend_twd_per_share": 0.0,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TPEx",
+      "stock_id": "3680",
+      "stock_name": "家登",
+      "ex_date": "2026-11-12",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 9.9147456,
+      "stock_dividend_ratio_reported": 0.0,
+      "cash_status": "已提供金額"
+    }
+  ],
+  "coverage_statement": "僅當次滾動預告表，不代表歷史完整除權息資料"
+}

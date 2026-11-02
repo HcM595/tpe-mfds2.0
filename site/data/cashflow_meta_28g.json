@@ -1,12 +1,13 @@
 {
   "version": "2.8H.1",
-  "generated_at_taipei": "2026-11-01T16:36:30+08:00",
+  "generated_at_taipei": "2026-11-02T19:08:35+08:00",
   "focus_stocks": [
     "8064",
     "3533",
     "2345",
     "2330",
-    "2308"
+    "2308",
+    "4967"
   ],
   "priority_stocks": [
     "8064",
@@ -16,11 +17,11 @@
     "2308"
   ],
   "batch_new_stock_cap": 10,
-  "general_business_income_universe": 83,
-  "observations": 589,
-  "unit_verified_observations": 579,
-  "fresh_unit_verified": 1,
-  "fresh_observations": 1,
+  "general_business_income_universe": 84,
+  "observations": 590,
+  "unit_verified_observations": 580,
+  "fresh_unit_verified": 2,
+  "fresh_observations": 2,
   "per_stock": {
     "8064": {
       "status": "unavailable",
@@ -42,6 +43,11 @@
       "status": "ok",
       "report_period": "2026Q3",
       "sha256": "19d3267ea0e5b1cece1ad15e247a17eb5874e5635d5e2ba605e8ed60036f622f"
+    },
+    "4967": {
+      "status": "ok",
+      "report_period": "2026Q3",
+      "sha256": "fc84956f1056949e4e291de48669ca7acc2928747fd3f4d04a51ed359fd5708b"
     },
     "1101": {
       "status": "not_checked_this_run",
