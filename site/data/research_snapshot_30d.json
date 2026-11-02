@@ -1,6 +1,6 @@
 {
   "schema_version": "3.0E",
-  "assembled_at_utc": "2026-11-02T12:51:43+00:00",
+  "assembled_at_utc": "2026-11-02T12:57:30+00:00",
   "verification_scope": "Exact bytes of nine CSV tables included in this GitHub Pages deployment",
   "data_is_not_historical_publication_proof": true,
   "formal_model_scoring_enabled": false,
@@ -97,7 +97,7 @@
     },
     "actions": {
       "path": "data/corporate_action_readiness_30e.csv",
-      "sha256": "fa17f9f883b41b3addb5ce9f62a5b243736a677eed3476cf23b81101afc162f1",
+      "sha256": "965d3864f07a88ff91293bd2702f7c7c026306db048775801b2da230d71a4466",
       "byte_length": 809202,
       "row_count": 1950,
       "unique_stock_count": 1950,
