@@ -1170,6 +1170,36 @@ async function compareWatchHistory(){
  if(state.page==='watch')render();
 }
 
+function watchChipTrendPanel(){
+ const rows=rArray('historyEvidence');
+ const codes=state.watch;
+ if(!codes.length)return '';
+ if(!rows.length)return '<section class="card r-section"><h3>自選股籌碼變化</h3><p class="hint">歷史逐股原始證據尚未載入，不推算趨勢。</p></section>';
+ const items=codes.map(id=>{
+  const series=rows.filter(r=>r.stock_id===id&&/^\\d{4}-\\d{2}-\\d{2}$/.test(r.price_session||''))
+   .sort((a,b)=>a.price_session.localeCompare(b.price_session));
+  const unique=[...new Map(series.map(r=>[r.price_session,r])).values()];
+  const first=unique[0],last=unique[unique.length-1];
+  const valid=x=>x?.raw_input_verified==='true'&&x.flow_5d_observation_usable==='true'&&
+    x.holder_4w_observation_usable==='true'&&x.tech_observation_usable==='true';
+  const ok=unique.length>=2&&valid(first)&&valid(last)&&
+    first.price_session<last.price_session&&
+    Number.isFinite(Number(first.chip_strength_score))&&
+    Number.isFinite(Number(last.chip_strength_score));
+  const delta=ok?Number(last.chip_strength_score)-Number(first.chip_strength_score):null;
+  const label=!ok?'資料不足／不可比較':delta>0?'首末籌碼分數上升':delta<0?'首末籌碼分數下降':'首末籌碼分數持平';
+  const distinctHolderWeeks=new Set(unique.map(r=>r.holder_asof).filter(Boolean)).size;
+  return {id,first,last,days:unique.length,weeks:distinctHolderWeeks,ok,delta,label};
+ });
+ const cells=items.map(x=>'<tr><td><strong>'+esc(x.id)+'</strong></td><td>'+
+   esc(x.first?.price_session||'—')+' → '+esc(x.last?.price_session||'—')+
+   '</td><td>'+x.days+' 日／'+x.weeks+' 個集保基準週</td><td>'+
+   (x.ok?esc(x.delta.toFixed(2))+' 分':'—')+'</td><td>'+esc(x.label)+'</td></tr>').join('');
+ return '<section class="card r-section" aria-label="自選股首末籌碼變化">'+
+  '<div class="r-section-title"><div><h3>首末封存籌碼變化</h3><p>使用3.0Q原始資料核驗結果，依獨立價格日對照首末兩筆；不把重複封存當作新觀察。</p></div></div>'+
+  '<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>股票</th><th>首末價格日</th><th>資料覆蓋</th><th>籌碼分數差</th><th>判讀</th></tr></thead><tbody>'+
+  cells+'</tbody></table></div><p class="hint">分數差是描述性比較，非持續增持、未來報酬或勝率；集保同一週重複出現僅計為一個基準週。若來源公告時間尚未核實，不可用於歷史交易回測。</p></section>';
+}
 function watchView(){
  const helper=window.MFDSWatchlist30N;
  if(!helper)return '<section class="card">自選股研究元件缺漏，請重新整理。</section>';
@@ -1187,7 +1217,7 @@ function watchView(){
  watchUi.report=error?null:report;
  try{
   return helper.render(report,{codes:state.watch,query:watchUi.query,mode:watchUi.mode,
-    sort:watchUi.sort,loading:research.status==='loading',error,quoteMode:state.mode})+watchTimelinePanel()+watchHistoryPanel();
+    sort:watchUi.sort,loading:research.status==='loading',error,quoteMode:state.mode})+watchChipTrendPanel()+watchTimelinePanel()+watchHistoryPanel();
  }catch(e){
   return '<section class="card" role="alert">自選股內容校驗失敗：'+esc(String(e.message||e))+
     '。請前往「資料品質」確認研究來源。</section>';
