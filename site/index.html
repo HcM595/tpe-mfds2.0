@@ -1085,12 +1085,16 @@ function watchHistoryPanel(){
   '</tbody></table></div>':'';
  const samples=ui.days.map(d=>d.first).filter(Boolean);
  const repetition=ui.days.reduce((n,d)=>n+d.versions-1,0);
+ // Distinct price days, not repeated CI snapshots or actual trading outcomes.
+ const observationDays=new Set(ui.days.map(d=>d.date)).size;
+ const horizonReadiness=[10,20,60].map(n=>n+'日：'+(observationDays>=n?'日期數初步足夠，仍需報酬與公告時點驗證':'只有'+observationDays+'個獨立價格日，樣本不足')).join('；');
  return '<section class="card r-watch-history r-section" aria-label="3.0O 自選股歷史對照">'+
    '<div class="r-section-title"><div><div class="r-eyebrow">ARCHIVE COMPARISON · 3.0O</div>'+
    '<h3>歷史變化對照</h3><p>每個價格日只採用當日首次封存，不把重跑版本當作獨立觀察。</p></div>'+
    '<span class="chip">'+ui.days.length+' 個封存價格日</span></div>'+
    '<div class="r-watch-history-note">已索引 '+samples.length+' 個可比較日期；同日期其他封存版本 '+repetition+
    ' 份僅供稽核，不作為額外歷史樣本。封存時刻不代表官方資料公布時刻。</div>'+
+   '<p class="hint" role="status">10／20／60日研究準備度：'+esc(horizonReadiness)+'。即使日數滿足，也不能直接推算交易勝率。</p>'+
    '<div class="r-watch-history-controls">'+
    '<label for="r-history-first">較早交易日<select class="field" id="r-history-first"'+(!ui.days.length?' disabled':'')+'>'+opts(ui.first)+'</select></label>'+
    '<label for="r-history-second">較晚交易日<select class="field" id="r-history-second"'+(!ui.days.length?' disabled':'')+'>'+opts(ui.second)+'</select></label>'+
