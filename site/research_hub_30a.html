@@ -164,7 +164,7 @@ group('法人交易（截至同日才顯示）',[
 ]),
 group('大戶持股（週資料，僅描述）',[
  ['集保觀察週截至',r.holderAsOf||'未取得'],['相對價格基準日',C.asOfLabel(r.holderAsOf,r.asof)],
- ['400張以上持股占比',C.pct(r.lot400Pct)],['400張以上近4週變動',sign(r.lot400Delta,' pp')],
+ ['400張以上持股占比',C.pct(r.lot400Pct)],['400–999張近4週變動（非重疊級距）',sign(r.lot400Delta,' pp')],
  ['1000張以上持股占比',C.pct(r.lot1000Pct)],['1000張以上近4週變動',sign(r.lot1000Delta,' pp')],
  ['持股級距一致性',r.holderDirection],['公告可得時點','尚未逐日獨立驗證，不可推定歷史當日已知']
 ]),
