@@ -31,7 +31,7 @@ class FeatureContinuity(unittest.TestCase):
         index=(SITE/"index.html").read_text(encoding="utf-8")
         hub=(SITE/"research_hub_30a.html").read_text(encoding="utf-8")
         self.assertIn("<title>TPE-MFDS 3.0W｜台股整合研究中心</title>",index)
-        self.assertIn("<title>TPE-MFDS 3.0W｜研究資料館 · 3.0E 除權息事件核查</title>",hub)
+        self.assertIn("<title>TPE-MFDS 3.0W｜進階研究資料館</title>",hub)
         parser=Elements();parser.feed(index)
         for page in PAGES:
             with self.subTest(page=page):
