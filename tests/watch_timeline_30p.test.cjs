@@ -71,6 +71,37 @@ const read=async p=>new Uint8Array(fs.readFileSync(path.join(root,p)));
  assert(P.toCSV(restored).includes('12000'));
  assert(P.toCSV(restored).includes('400-999張4週窗口變化'));
  assert(P.render(restored).includes('滾動窗口比較'));
+ assert(P.render(restored).includes('波段研究狀態'));
+ assert(P.toCSV(restored).includes('狀態判讀依據'));
+ const step=(date,tech,holderDate,verified=true)=>({
+   date,signal:{stock_id:'8064'},view:{techCount:String(tech)},
+   verified,byteVerified:true,holderUpdate:'new_week',
+   rawEvidence:{holderDate,flowDate:date}
+ });
+ const base=step('2026-10-21',2,'2026-10-16');
+ const latest=step('2026-10-30',3,'2026-10-30');
+ const trend=(f,t,h,l,week=true)=>({
+   foreign:f,trust:t,holderMid:h,holder1000:l,newHolderWeek:week
+ });
+ const UP='累計窗口上升',DOWN='累計窗口下降',FLAT='累計窗口持平';
+ assert.equal(P.researchTransition(base,latest,trend(UP,UP,UP,UP)).kind,'improving');
+ assert.equal(P.researchTransition({...base,view:{techCount:'3'}},
+   {...latest,view:{techCount:'2'}},trend(DOWN,DOWN,DOWN,DOWN)).kind,'weakening');
+ assert.equal(P.researchTransition(base,{...latest,view:{techCount:'1'}},
+   trend(UP,UP,UP,UP)).kind,'divergence');
+ assert.equal(P.researchTransition(base,{...latest,view:{techCount:'2'}},
+   trend(UP,UP,UP,UP)).kind,'partial');
+ assert.equal(P.researchTransition(base,latest,trend(UP,UP,'集保未換週／資料不足',
+   '集保未換週／資料不足',false)).kind,'insufficient',
+   'must not infer synchronized improvement without independent holder week');
+ assert.equal(P.researchTransition(base,{...latest,holderUpdate:'same_week_conflict'},
+   trend(UP,UP,UP,UP)).kind,'source_conflict');
+ assert.equal(P.researchTransition({...base,verified:false},latest,trend(UP,UP,UP,UP)).kind,'insufficient');
+ assert.equal(P.researchTransition(base,{...latest,view:{techCount:'—'}},
+   trend(UP,UP,UP,UP)).kind,'insufficient');
+ assert.equal(P.researchTransition(base,{...latest,view:{techCount:'2'},holderUpdate:'same_week'},
+   trend(FLAT,FLAT,'集保未換週／資料不足','集保未換週／資料不足',false)).kind,'refresh_only');
+
 
  assert.throws(()=>P.build(docs,code,[{...archivedRaw,chip_source_sha256:'bad'}]),/SHA256/);
  assert.throws(()=>P.build(docs,code,[archivedRaw,archivedRaw]),/重複/);
@@ -88,6 +119,7 @@ const read=async p=>new Uint8Array(fs.readFileSync(path.join(root,p)));
   assert(P.subset(result,mode).length?csv.includes('未核實'):csv.split('\r\n').length===1);
   assert(!csv.includes('預測勝率80%'));
  }
+ assert(Array.isArray(P.subset(result,'turns')));
  assert.throws(()=>P.subset(result,'trading_signals'),/篩選方式/);
  assert.throws(()=>P.build([docs[1],docs[0]],'8064'),/重複或非時間遞增/);
  assert.throws(()=>P.build([docs[0],docs[0]],'8064'),/重複或非時間遞增/);
