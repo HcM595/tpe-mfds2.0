@@ -1,8 +1,8 @@
 {
   "version": "2.9Q",
-  "generated_at_taipei": "2026-11-03T15:43:50+08:00",
+  "generated_at_taipei": "2026-11-03T15:47:33+08:00",
   "events_captured": 600,
-  "new_events_this_run": 150,
+  "new_events_this_run": 0,
   "events_by_market": {
     "上市": 404,
     "上櫃": 196
