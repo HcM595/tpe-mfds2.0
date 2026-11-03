@@ -46,8 +46,32 @@ const read=async p=>new Uint8Array(fs.readFileSync(path.join(root,p)));
  assert.equal(restored.rows[0].rawEvidence.foreign,'12000');
  assert.equal(restored.rows[0].rawEvidence.trust,'-4300');
  assert.equal(restored.rows[0].rawEvidence.holder400,'0.25');
+ assert.equal(P.rollingTrend(null,restored.rows[0]).foreign,'資料不足');
+ const oldRow={date:'2026-10-21',rawEvidence:{
+   flowDate:'2026-10-21',holderDate:'2026-10-16',
+   foreign:'100',trust:'20',holderMid:'0.2',holder1000:'0.4'}};
+ const nextRow={date:'2026-10-22',rawEvidence:{
+   flowDate:'2026-10-22',holderDate:'2026-10-16',
+   foreign:'130',trust:'10',holderMid:'0.5',holder1000:'0.6'}};
+ const sameWeek=P.rollingTrend(oldRow,nextRow);
+ assert.equal(sameWeek.foreign,'累計窗口上升');
+ assert.equal(sameWeek.trust,'累計窗口下降');
+ assert.equal(sameWeek.holderMid,'集保未換週／資料不足');
+ assert.equal(sameWeek.newHolderWeek,false);
+ const advanced=P.rollingTrend(oldRow,{...nextRow,rawEvidence:{...nextRow.rawEvidence,holderDate:'2026-10-22'}});
+ assert.equal(advanced.holderMid,'累計窗口上升');
+ assert.equal(advanced.holder1000,'累計窗口上升');
+ assert.equal(advanced.newHolderWeek,true);
+ assert.equal(P.rollingTrend(oldRow,{...nextRow,rawEvidence:{...nextRow.rawEvidence,holderMid:''}}).holderMid,'集保未換週／資料不足');
+ const badSource=P.rollingTrend(oldRow,{...nextRow,rawEvidence:{...nextRow.rawEvidence,flowDate:'2026-10-20'}});
+ assert.equal(badSource.foreign,'資料不足');
+ assert.equal(P.rollingTrend(oldRow,{...nextRow,rawEvidence:{...nextRow.rawEvidence,holderDate:'2026-10-15'}}).holder1000,'集保未換週／資料不足');
+
  assert(P.render(restored).includes('3.0Q原始數值'));
  assert(P.toCSV(restored).includes('12000'));
+ assert(P.toCSV(restored).includes('400-999張4週窗口變化'));
+ assert(P.render(restored).includes('滾動窗口比較'));
+
  assert.throws(()=>P.build(docs,code,[{...archivedRaw,chip_source_sha256:'bad'}]),/SHA256/);
  assert.throws(()=>P.build(docs,code,[archivedRaw,archivedRaw]),/重複/);
  assert.equal(P.build(docs,code,[]).rows[0].rawEvidence,null);
