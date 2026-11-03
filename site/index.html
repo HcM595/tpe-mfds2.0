@@ -1025,7 +1025,7 @@ function watchTimelinePanel(){
   (reason?'<p role="alert" class="r-watch-notice">'+esc(reason)+'</p>':'')+
   (ready?'<div class="r-timeline-result">'+
     '<div class="r-timeline-subtools"><label for="r-timeline-filter">顯示<select class="field" id="r-timeline-filter">'+
-     [['all','全部觀察'],['changes','主要狀態變化'],['new_holder','集保新週資料'],['not_updated','未更新／待核對']].map(([v,n])=>
+     [['all','全部觀察'],['turns','同步改善／轉弱／背離'],['changes','主要狀態變化'],['new_holder','集保新週資料'],['not_updated','未更新／待核對']].map(([v,n])=>
        '<option value="'+v+'"'+(ui.mode===v?' selected':'')+'>'+n+'</option>').join('')+'</select></label>'+
      '<button type="button" id="r-timeline-export" class="btn mini">↓ 匯出時間軸 CSV</button></div>'+
      mod.render(report,ui.mode)+'</div>':
