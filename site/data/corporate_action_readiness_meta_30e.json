@@ -7,7 +7,7 @@
   "prior_raw_close_pairs_checked": 1562,
   "prior_raw_close_mismatches": 1,
   "stocks_with_prior_close_mismatch": 1,
-  "failed_or_unverified_history_source_attempts": 25,
+  "failed_or_unverified_history_source_attempts": 26,
   "historical_completeness_verified": false,
   "adjusted_ohlc_verified": false,
   "cash_stock_distribution_terms_verified": false,

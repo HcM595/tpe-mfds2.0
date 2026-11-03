@@ -1,6 +1,6 @@
 {
   "version": "3.0X-S",
-  "built_at_utc": "2026-11-02T13:41:19.339984+00:00",
+  "built_at_utc": "2026-11-03T07:43:59.786704+00:00",
   "source_snapshot_schema": "3.0E",
   "sources": [
     {
@@ -53,7 +53,7 @@
       "path": "data/f2_valuation_29e.csv",
       "rows": 1980,
       "unique_stocks": 1980,
-      "asof_min": "2026-10-30",
+      "asof_min": "2026-11-02",
       "asof_max": "2026-11-02",
       "missing_asof": 0
     },

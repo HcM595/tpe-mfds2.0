@@ -1,6 +1,6 @@
 {
   "version": "2.9C",
-  "generated_at_taipei": "2026-11-02T21:40:50+08:00",
+  "generated_at_taipei": "2026-11-03T15:43:30+08:00",
   "stocks_observed": 1863,
   "fresh_records": 1863,
   "sources": {
@@ -19,9 +19,9 @@
       "rows": 802,
       "excluded_or_missing": 0,
       "report_dates": [
-        "2026-10-30"
+        "2026-11-02"
       ],
-      "sha256": "e35a05d950f48786b117195850d5f27f1c7be6ee33b4b1073a5f564f67173d81",
+      "sha256": "1fabf92fb8a7197c731d0adf51f1544bcceeb42d11f0a98679420dab4f943e0c",
       "url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_margin_balance"
     }
   },

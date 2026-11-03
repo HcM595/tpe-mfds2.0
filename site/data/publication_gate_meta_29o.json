@@ -9,11 +9,11 @@
   },
   "blocker_counts": {
     "F2": {
+      "first_seen_after_cutoff": 1945,
       "official_publication_unverified": 1950,
       "source_authorization_missing": 1950,
       "missing_report_day": 5,
-      "first_seen_unverified": 5,
-      "first_seen_after_cutoff": 860
+      "first_seen_unverified": 5
     },
     "F3": {
       "first_seen_after_cutoff": 1950,

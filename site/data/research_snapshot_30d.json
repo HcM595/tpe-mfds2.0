@@ -1,6 +1,6 @@
 {
   "schema_version": "3.0E",
-  "assembled_at_utc": "2026-11-02T13:41:16+00:00",
+  "assembled_at_utc": "2026-11-03T07:43:57+00:00",
   "verification_scope": "Exact bytes of nine CSV tables included in this GitHub Pages deployment",
   "data_is_not_historical_publication_proof": true,
   "formal_model_scoring_enabled": false,
@@ -9,8 +9,8 @@
   "sources": {
     "factor": {
       "path": "data/factor_evidence_29a.csv",
-      "sha256": "60f2ae91a556cdfcd85129da755f586f92e5b03305c9f00de1d4693e2499337d",
-      "byte_length": 709882,
+      "sha256": "20d7eded48b529d3006e0602fe9a3f2936cdb228adfee796252d2019d3ced840",
+      "byte_length": 707952,
       "row_count": 1950,
       "unique_stock_count": 1950,
       "asof_field": "price_asof",
@@ -64,12 +64,12 @@
     },
     "valuation": {
       "path": "data/f2_valuation_29e.csv",
-      "sha256": "7226c3fdcf88ce2264d5fd5d7df9f2523e9e0c53b5d9eb241f55122fc87c3ebe",
-      "byte_length": 484736,
+      "sha256": "b24221b252616f67dac54235c5107d92450e7a2977c1c27eb860f3863d46409c",
+      "byte_length": 484902,
       "row_count": 1980,
       "unique_stock_count": 1980,
       "asof_field": "asof",
-      "asof_min": "2026-10-30",
+      "asof_min": "2026-11-02",
       "asof_max": "2026-11-02",
       "asof_missing": 0
     },
@@ -86,8 +86,8 @@
     },
     "publication": {
       "path": "data/publication_gate_29o.csv",
-      "sha256": "50bcf95b3ea1d8357fd38ff9ed2f60964d57c40e1dd06aed1c87f34000e2ce43",
-      "byte_length": 743621,
+      "sha256": "e0e0993b519a082651978490b8323ff36f42d47660f310a21e2d9ceb3791a6d7",
+      "byte_length": 769661,
       "row_count": 1950,
       "unique_stock_count": 1950,
       "asof_field": "price_asof",
@@ -97,7 +97,7 @@
     },
     "actions": {
       "path": "data/corporate_action_readiness_30e.csv",
-      "sha256": "0ae193ae5692f61f7c7d0fc023bed1f60a1ed3a2f3d0b5de1a651b6a46bab4a6",
+      "sha256": "ba22f0ced13672e69ef60a3de58e2460ff33515fb26640d15a9e4d6a1728d9be",
       "byte_length": 809202,
       "row_count": 1950,
       "unique_stock_count": 1950,
