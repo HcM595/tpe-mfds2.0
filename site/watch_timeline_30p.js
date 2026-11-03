@@ -7,7 +7,7 @@
 'use strict';
 const VALID_ID=/^\d{4,6}$/;
 const MAX_DAYS=90;
-const MODES=Object.freeze(['all','changes','new_holder','not_updated']);
+const MODES=Object.freeze(['all','changes','new_holder','not_updated','turns']);
 function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function classify(previous,current){
  if(!previous)return {kind:'baseline',label:'首次封存觀察',changes:[],holderUpdate:'unknown',holderNote:'首次封存，尚無上一期可比較'};
@@ -68,6 +68,43 @@ function rollingTrend(previous,current){
   disclaimer:'5日法人與4週集保持股差異為重疊滾動窗口，窗口上升不等於每天／每週持續增持'
  };
 }
+// Observed evidence alignment only: do not label an unobserved date as a turn.
+function researchTransition(previous,current,trend){
+ const result=(kind,label,reason)=>({kind,label,reason});
+ if(!previous||!current?.signal||!previous.signal||!previous.verified||
+    !current.byteVerified||!previous.byteVerified)
+  return result('insufficient','資料不足／不可判讀','需兩個連續封存點均有候選資料及原始驗證');
+ if(current.holderUpdate==='same_week_conflict'||current.holderUpdate==='regressed')
+  return result('source_conflict','來源異常／禁止判讀','集保同週內容衝突或來源週次倒退');
+ const count=x=>['0','1','2','3'].includes(String(x?.view?.techCount))?
+   Number(x.view.techCount):null;
+ const earlier=count(previous),later=count(current);
+ if(earlier===null||later===null)
+  return result('insufficient','技術資料不足','缺少可核實的技術確認數');
+ const a=[trend?.foreign,trend?.trust],b=[trend?.holderMid,trend?.holder1000];
+ const rising=x=>x.every(v=>v==='累計窗口上升');
+ const falling=x=>x.every(v=>v==='累計窗口下降');
+ const full=trend?.newHolderWeek===true&&
+   [...a,...b].every(v=>['累計窗口上升','累計窗口下降','累計窗口持平'].includes(v));
+ const tech= later>earlier?'提升':later<earlier?'減少':'持平';
+ if(full){
+  if(rising(a)&&rising(b)&&tech==='提升')
+   return result('improving','法人／大戶／技術同步改善','兩個法人滾動窗口、兩個獨立大戶級距均上升，技術確認數增加');
+  if(falling(a)&&falling(b)&&tech==='減少')
+   return result('weakening','法人／大戶／技術同步轉弱','兩個法人滾動窗口、兩個獨立大戶級距均下降，技術確認數減少');
+  if((rising(a)&&rising(b)&&tech==='減少')||
+     (falling(a)&&falling(b)&&tech==='提升'))
+   return result('divergence','籌碼與技術背離','法人及大戶方向一致但技術確認數反向');
+  if(rising(a)&&rising(b)&&tech==='持平')
+   return result('partial','籌碼窗口改善／技術未增加','兩個法人與兩個獨立級距改善，但技術確認數未增加');
+  if(falling(a)&&falling(b)&&tech==='持平')
+   return result('partial','籌碼窗口轉弱／技術未下降','兩個法人與兩個獨立級距下降，但技術確認數未下降');
+  return result('mixed','條件分歧／待觀察','四類窗口方向未一致，不能稱三面轉折');
+ }
+ if(trend?.newHolderWeek!==true&&a.every(v=>v==='累計窗口持平')&&tech==='持平')
+  return result('refresh_only','主要條件未變／集保未換週','未出現可核實的新大戶週次或技術條件改善');
+ return result('insufficient','資料不足／部分條件改變','缺少新集保週次或完整的四類窗口資料，不能判定三面轉折');
+}
 function build(verified,stockId,rawRows=[]){
  if(!VALID_ID.test(stockId||''))throw Error('請選擇正確股票代號');
  if(!Array.isArray(verified)||verified.length<2||verified.length>MAX_DAYS)
@@ -126,6 +163,7 @@ function build(verified,stockId,rawRows=[]){
   const {kind,label,changes,holderUpdate,holderNote}=classification;
   Object.assign(row,{kind,label,changes,holderUpdate,holderNote,
     rollingTrend:rollingTrend(rows.at(-1)||null,row),verified:true});
+  row.researchTransition=researchTransition(rows.at(-1)||null,row,row.rollingTrend);
   rows.push(row);
  }
  const changing=rows.filter(r=>r.kind==='changed'||r.kind==='new_candidate'||r.kind==='missing_candidate');
@@ -144,7 +182,8 @@ function subset(report,mode){
  return report.rows.filter(r=>mode==='all'||
    mode==='changes'&&['changed','new_candidate','missing_candidate'].includes(r.kind)||
    mode==='new_holder'&&r.holderUpdate==='new_week'||
-   mode==='not_updated'&&['same_week','same_week_conflict','regressed','unknown'].includes(r.holderUpdate));
+   mode==='not_updated'&&['same_week','same_week_conflict','regressed','unknown'].includes(r.holderUpdate)||
+   mode==='turns'&&['improving','weakening','divergence'].includes(r.researchTransition?.kind));
 }
 function render(report,mode='all'){
  if(!report?.verifiedAll)throw Error('未經逐份SHA256驗證，禁止輸出歷史時間軸');
@@ -167,6 +206,7 @@ function render(report,mode='all'){
     ' 股；400張以上4週：'+safe(r.rawEvidence?.holder400??'—')+
     ' pp；1000張以上4週：'+safe(r.rawEvidence?.holder1000??'—')+
     ' pp。<small>'+safe(r.rawEvidence?.sourceStatus||'當次原始逐股數值尚未核對；不可填入最新值')+'</small></p>'+
+    '<p class="r-timeline-annotation"><strong>波段研究狀態：'+safe(r.researchTransition.label)+'</strong>。'+safe(r.researchTransition.reason)+'（僅描述封存窗口，不代表交易建議）。</p>'+
     '<p class="r-timeline-annotation">滾動窗口比較：外資 '+safe(r.rollingTrend.foreign)+'；投信 '+safe(r.rollingTrend.trust)+'；400–999張 '+safe(r.rollingTrend.holderMid)+'；1000張以上 '+safe(r.rollingTrend.holder1000)+'。<small>'+safe(r.rollingTrend.disclaimer)+'</small></p>'+
     '<p class="r-timeline-annotation '+(sourceDiff?'review':'')+'">'+safe(r.holderNote)+'</p>'+
     '<small>首次封存UTC：'+safe(r.captured)+'；SHA256 已驗證，官方公布時刻未核實</small>'+
@@ -189,16 +229,17 @@ function toCSV(report,mode='all'){
  '技術狀態','技術確認數','集保結構','集保來源週日期','上一期比較','集保更新分類',
  '集保資料風險','原始位元SHA256校驗','官方首次公布時間',
  '原始外資5日股數','原始投信5日股數','原始400張以上4週pp','原始1000張以上4週pp','原始資料核對狀態',
- '外資5日窗口變化','投信5日窗口變化','400-999張4週窗口變化','1000張以上4週窗口變化'];
+ '外資5日窗口變化','投信5日窗口變化','400-999張4週窗口變化','1000張以上4週窗口變化','波段研究狀態','狀態判讀依據'];
  const rows=[header,...subset(report,mode).map(r=>[r.stock_id,report.name,r.date,r.captured,
   r.archiveId,r.view.rank,r.view.tech,r.view.techCount||'—',r.view.holder,r.view.holderDate,
   r.label,r.holderUpdate,r.holderNote,'已通過','未核實',
   r.rawEvidence?.foreign??'',r.rawEvidence?.trust??'',r.rawEvidence?.holder400??'',
   r.rawEvidence?.holder1000??'',r.rawEvidence?.sourceStatus||'缺少已核對來源',
-  r.rollingTrend.foreign,r.rollingTrend.trust,r.rollingTrend.holderMid,r.rollingTrend.holder1000])];
+  r.rollingTrend.foreign,r.rollingTrend.trust,r.rollingTrend.holderMid,r.rollingTrend.holder1000,
+  r.researchTransition.label,r.researchTransition.reason])];
  return rows.map(r=>r.map(cell).join(',')).join('\r\n');
 }
-const api=Object.freeze({MAX_DAYS,MODES,classify,rollingTrend,build,subset,render,toCSV});
+const api=Object.freeze({MAX_DAYS,MODES,classify,rollingTrend,researchTransition,build,subset,render,toCSV});
 if(typeof module==='object'&&module.exports)module.exports=api;
 if(root)root.MFDSWatchTimeline30P=api;
 })(typeof window!=='undefined'?window:null);
