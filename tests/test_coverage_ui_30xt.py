@@ -3,6 +3,13 @@ from pathlib import Path
 
 SITE=Path(__file__).resolve().parents[1]/"site"
 class CoverageUiTests(unittest.TestCase):
+ def test_release_label_3_0w_and_module_3_0e_distinguished(self):
+  html=(SITE/"research_hub_30a.html").read_text(encoding="utf-8")
+  self.assertIn("<title>TPE-MFDS 3.0W｜進階研究資料館</title>",html)
+  self.assertIn("TPE-MFDS 3.0W · ADVANCED RESEARCH",html)
+  self.assertNotIn("FACTUAL RESEARCH · 3.0E",html)
+  self.assertIn("3.0E｜歷史除權息觀察與原始前收核對",html)
+
  def test_quality_tab_contains_unique_coverage_panel(self):
   html=(SITE/"research_hub_30a.html").read_text(encoding="utf-8")
   self.assertEqual(html.count('id="coverage-30xt"'),1)
