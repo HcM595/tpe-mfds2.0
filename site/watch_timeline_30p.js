@@ -46,6 +46,28 @@ function classify(previous,current){
     holderUpdate==='same_week'?'主要狀態相同、集保未更新':'無可核實新增變化'),
   changes,holderUpdate,holderNote};
 }
+// Compare rolling windows only; this is NOT daily flow or weekly position change.
+function rollingTrend(previous,current){
+ const a=previous?.rawEvidence,b=current?.rawEvidence;
+ const finite=v=>v===null||v===undefined||String(v).trim()===''?null:
+   Number.isFinite(Number(v))?Number(v):null;
+ const compare=(x,y)=>{
+  const left=finite(x),right=finite(y);
+  return left===null||right===null?'資料不足':right>left?'累計窗口上升':right<left?'累計窗口下降':'累計窗口持平';
+ };
+ const flow=a&&b&&previous.date<current.date&&a.flowDate===previous.date&&b.flowDate===current.date?
+  {foreign:compare(a.foreign,b.foreign),trust:compare(a.trust,b.trust)}:
+  {foreign:'資料不足',trust:'資料不足'};
+ const newHolderWeek=a&&b&&a.holderDate!=='—'&&b.holderDate!=='—'&&
+   a.holderDate<b.holderDate&&b.holderDate<=current.date;
+ return {
+  foreign:flow.foreign,trust:flow.trust,
+  holderMid:newHolderWeek?compare(a.holderMid,b.holderMid):'集保未換週／資料不足',
+  holder1000:newHolderWeek?compare(a.holder1000,b.holder1000):'集保未換週／資料不足',
+  newHolderWeek:!!newHolderWeek,
+  disclaimer:'5日法人與4週集保持股差異為重疊滾動窗口，窗口上升不等於每天／每週持續增持'
+ };
+}
 function build(verified,stockId,rawRows=[]){
  if(!VALID_ID.test(stockId||''))throw Error('請選擇正確股票代號');
  if(!Array.isArray(verified)||verified.length<2||verified.length>MAX_DAYS)
@@ -91,6 +113,7 @@ function build(verified,stockId,rawRows=[]){
     foreign:flow&&provenance.foreign_5d_shares!==''?provenance.foreign_5d_shares:null,
     trust:flow&&provenance.trust_5d_shares!==''?provenance.trust_5d_shares:null,
     holder400:holder&&provenance.large400_4w_pp!==''?provenance.large400_4w_pp:null,
+    holderMid:holder&&provenance.mid400_999_4w_pp!==''?provenance.mid400_999_4w_pp:null,
     holder1000:holder&&provenance.large1000_4w_pp!==''?provenance.large1000_4w_pp:null,
     sourceStatus:'已與原始SHA256核對；官方首次公布時分未認證'
    };
@@ -101,7 +124,8 @@ function build(verified,stockId,rawRows=[]){
     publisherClockVerified:false,byteVerified:true};
   const classification=classify(rows.at(-1)||null,row);
   const {kind,label,changes,holderUpdate,holderNote}=classification;
-  Object.assign(row,{kind,label,changes,holderUpdate,holderNote,verified:true});
+  Object.assign(row,{kind,label,changes,holderUpdate,holderNote,
+    rollingTrend:rollingTrend(rows.at(-1)||null,row),verified:true});
   rows.push(row);
  }
  const changing=rows.filter(r=>r.kind==='changed'||r.kind==='new_candidate'||r.kind==='missing_candidate');
@@ -143,6 +167,7 @@ function render(report,mode='all'){
     ' 股；400張以上4週：'+safe(r.rawEvidence?.holder400??'—')+
     ' pp；1000張以上4週：'+safe(r.rawEvidence?.holder1000??'—')+
     ' pp。<small>'+safe(r.rawEvidence?.sourceStatus||'當次原始逐股數值尚未核對；不可填入最新值')+'</small></p>'+
+    '<p class="r-timeline-annotation">滾動窗口比較：外資 '+safe(r.rollingTrend.foreign)+'；投信 '+safe(r.rollingTrend.trust)+'；400–999張 '+safe(r.rollingTrend.holderMid)+'；1000張以上 '+safe(r.rollingTrend.holder1000)+'。<small>'+safe(r.rollingTrend.disclaimer)+'</small></p>'+
     '<p class="r-timeline-annotation '+(sourceDiff?'review':'')+'">'+safe(r.holderNote)+'</p>'+
     '<small>首次封存UTC：'+safe(r.captured)+'；SHA256 已驗證，官方公布時刻未核實</small>'+
     '</div></li>';
@@ -163,15 +188,17 @@ function toCSV(report,mode='all'){
  const header=['股票代號','股票名稱','封存價格日','首次捕捉UTC','封存身分','排名資格',
  '技術狀態','技術確認數','集保結構','集保來源週日期','上一期比較','集保更新分類',
  '集保資料風險','原始位元SHA256校驗','官方首次公布時間',
- '原始外資5日股數','原始投信5日股數','原始400張以上4週pp','原始1000張以上4週pp','原始資料核對狀態'];
+ '原始外資5日股數','原始投信5日股數','原始400張以上4週pp','原始1000張以上4週pp','原始資料核對狀態',
+ '外資5日窗口變化','投信5日窗口變化','400-999張4週窗口變化','1000張以上4週窗口變化'];
  const rows=[header,...subset(report,mode).map(r=>[r.stock_id,report.name,r.date,r.captured,
   r.archiveId,r.view.rank,r.view.tech,r.view.techCount||'—',r.view.holder,r.view.holderDate,
   r.label,r.holderUpdate,r.holderNote,'已通過','未核實',
   r.rawEvidence?.foreign??'',r.rawEvidence?.trust??'',r.rawEvidence?.holder400??'',
-  r.rawEvidence?.holder1000??'',r.rawEvidence?.sourceStatus||'缺少已核對來源'])];
+  r.rawEvidence?.holder1000??'',r.rawEvidence?.sourceStatus||'缺少已核對來源',
+  r.rollingTrend.foreign,r.rollingTrend.trust,r.rollingTrend.holderMid,r.rollingTrend.holder1000])];
  return rows.map(r=>r.map(cell).join(',')).join('\r\n');
 }
-const api=Object.freeze({MAX_DAYS,MODES,classify,build,subset,render,toCSV});
+const api=Object.freeze({MAX_DAYS,MODES,classify,rollingTrend,build,subset,render,toCSV});
 if(typeof module==='object'&&module.exports)module.exports=api;
 if(root)root.MFDSWatchTimeline30P=api;
 })(typeof window!=='undefined'?window:null);
