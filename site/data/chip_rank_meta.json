@@ -1,6 +1,6 @@
 {
   "version": "2.3A+B",
-  "generated_at_taipei": "2026-11-03T15:45:52.628831+08:00",
+  "generated_at_taipei": "2026-11-03T19:01:32.814804+08:00",
   "status": "ok",
   "master": {
     "source_status": {
@@ -11,11 +11,11 @@
     "count": 1990,
     "conflicting_ids": []
   },
-  "original_chip_matches": 79,
-  "candidate_rows": 79,
-  "eligible_ranked": 72,
+  "original_chip_matches": 72,
+  "candidate_rows": 72,
+  "eligible_ranked": 62,
   "excluded_or_pending": {
-    "20日平均成交額不足3000萬元": 7
+    "20日平均成交額不足3000萬元": 10
   },
   "min_20d_avg_turnover_twd": 30000000,
   "min_trade_days": 20,

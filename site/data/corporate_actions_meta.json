@@ -1,7 +1,7 @@
 {
   "version": "2.4E",
   "status": "ok",
-  "generated_at_taipei": "2026-11-03T15:46:23+08:00",
+  "generated_at_taipei": "2026-11-03T19:01:58+08:00",
   "sources": {
     "TWSE": {
       "status": "ok",
@@ -27,7 +27,7 @@
   "rolling_events_ever_seen": 177,
   "event_cash_pending": 84,
   "announced_value_revision_flags": 13,
-  "forward_observation_rows": 876,
+  "forward_observation_rows": 948,
   "forward_rows_with_any_rolling_notice": 11,
   "coverage_scope": "只包含執行本系統後取得的滾動官方預告；歷史空白不能推定無公司行動",
   "historical_corporate_actions_complete": false,

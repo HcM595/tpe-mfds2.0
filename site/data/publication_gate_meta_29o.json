@@ -1,6 +1,6 @@
 {
   "version": "2.9O",
-  "universe_stocks": 1950,
+  "universe_stocks": 1959,
   "cutoff": "價格基準日 00:00 Asia/Taipei（嚴格小於）",
   "clock_gate_pass": {
     "F2": 0,
@@ -9,20 +9,20 @@
   },
   "blocker_counts": {
     "F2": {
-      "first_seen_after_cutoff": 1945,
-      "official_publication_unverified": 1950,
-      "source_authorization_missing": 1950,
+      "first_seen_after_cutoff": 1954,
+      "official_publication_unverified": 1959,
+      "source_authorization_missing": 1959,
       "missing_report_day": 5,
       "first_seen_unverified": 5
     },
     "F3": {
-      "first_seen_after_cutoff": 1950,
-      "official_publication_unverified": 1950,
-      "source_authorization_missing": 1950
+      "first_seen_after_cutoff": 1959,
+      "official_publication_unverified": 1959,
+      "source_authorization_missing": 1959
     },
     "REVENUE": {
-      "official_publication_unverified": 1950,
-      "source_authorization_missing": 1950,
+      "official_publication_unverified": 1959,
+      "source_authorization_missing": 1959,
       "missing_report_day": 11,
       "first_seen_unverified": 11
     }

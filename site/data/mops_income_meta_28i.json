@@ -1,10 +1,10 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-11-03T15:46:49+08:00",
+  "generated_at_taipei": "2026-11-03T19:03:07+08:00",
   "observations": 551,
-  "checked": 7,
-  "fresh_success": 3,
-  "fresh_ytd_unit_period_aligned": 3,
+  "checked": 5,
+  "fresh_success": 1,
+  "fresh_ytd_unit_period_aligned": 1,
   "income_report_ytd": "從MOPS第6欄提取當年年初累計本期淨利；第2欄為單季，不混用",
   "amount_unit": "只有逐股MOPS原始表有唯一明確新台幣仟元標頭時才核實",
   "per_stock": {
@@ -25,16 +25,6 @@
       "reason": "no archived income or cashflow"
     },
     "2308": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "4116": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": true
-    },
-    "6112": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -1398,6 +1388,9 @@
     "5434": {
       "status": "not_checked_this_run"
     },
+    "6112": {
+      "status": "not_checked_this_run"
+    },
     "6202": {
       "status": "not_checked_this_run"
     },
@@ -1594,6 +1587,9 @@
       "status": "not_checked_this_run"
     },
     "3718": {
+      "status": "not_checked_this_run"
+    },
+    "4116": {
       "status": "not_checked_this_run"
     },
     "4153": {

@@ -1,16 +1,16 @@
 {
   "version": "2.9R",
-  "reviewed_factor_rows": 5850,
-  "unique_stocks": 1950,
-  "archived_events": 600,
+  "reviewed_factor_rows": 5877,
+  "unique_stocks": 1959,
+  "archived_events": 605,
   "subject_categories": {
-    "unclassified_material_event": 322,
-    "general_financial_statement_topic": 97,
-    "other_corporate_disclosure": 177,
+    "unclassified_material_event": 325,
+    "general_financial_statement_topic": 98,
+    "other_corporate_disclosure": 178,
     "explicit_monthly_revenue_topic": 4
   },
   "subject_only_candidate_links": 4,
-  "candidate_rows_after_price_cutoff": 2,
+  "candidate_rows_after_price_cutoff": 0,
   "verified_event_to_factor_value_links": 0,
   "official_first_publication_verified": 0,
   "historical_factor_eligible": 0,

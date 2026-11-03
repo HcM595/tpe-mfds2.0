@@ -1,9 +1,9 @@
 {
   "version": "2.8B",
-  "generated_at_taipei": "2026-11-03T15:46:35+08:00",
-  "stocks": 1950,
-  "s1_full": 1640,
-  "s1_partial": 98,
+  "generated_at_taipei": "2026-11-03T19:02:15+08:00",
+  "stocks": 1959,
+  "s1_full": 1638,
+  "s1_partial": 108,
   "s3_momentum60": 1716,
   "s3_momentum20": 1809,
   "status": "descriptive_only_not_model_eligible",
