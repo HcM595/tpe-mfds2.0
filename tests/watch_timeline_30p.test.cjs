@@ -23,6 +23,14 @@ const read=async p=>new Uint8Array(fs.readFileSync(path.join(root,p)));
  assert.deepEqual(result.rows.map(r=>r.date),days.map(x=>x.date));
  assert(result.rows.every(r=>r.verified&&r.captured===docs.find(d=>d.date===r.date).captured));
  assert(result.rows.every(r=>r.publisherClockVerified===false));
+ assert.equal(result.compared_pairs,days.length-1,'first capture must be excluded');
+ assert.equal(Object.values(result.transition_counts).reduce((a,b)=>a+b,0),
+   result.compared_pairs,'every adjacent archive pair must have exactly one status');
+ assert(result.complete_comparisons<=result.compared_pairs);
+ assert(result.last_turn===null||days.some(d=>d.date===result.last_turn.date));
+ assert(P.render(result).includes('研究轉折證據覆蓋'));
+ assert(P.render(result).includes('狀態統計不構成勝率'));
+
  assert.equal(result.rows[0].kind,'baseline');
  assert(result.rows[0].holderNote.includes('首次封存'));
  assert(result.limit.includes('不代表所有交易日'));
@@ -162,6 +170,12 @@ const read=async p=>new Uint8Array(fs.readFileSync(path.join(root,p)));
  assert.equal(synt.rows[3].holderUpdate,'new_week');
  assert.equal(synt.rows[3].kind,'holder_refreshed');
  assert.equal(synt.rows[4].holderUpdate,'regressed');
+ assert.equal(synt.compared_pairs,4);
+ assert.equal(synt.transition_counts.source_conflict,2,
+   'same-week holder conflict and reversed date must not become a verified turn');
+ assert.equal(synt.complete_comparisons,0,'synthetic records lack verified numeric raw windows');
+ assert.equal(synt.last_turn,null);
+
  assert(synt.rows[4].holderNote.includes('禁止推論'));
  const absent=mk('2026-10-24','2026-10-25T00:01:00Z','2026-10-22','雙級距增加',3);
  absent.signals=new Map();
