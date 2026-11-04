@@ -1,6 +1,6 @@
 {
   "schema_version": "3.0E",
-  "assembled_at_utc": "2026-11-03T11:04:03+00:00",
+  "assembled_at_utc": "2026-11-04T06:41:33+00:00",
   "verification_scope": "Exact bytes of nine CSV tables included in this GitHub Pages deployment",
   "data_is_not_historical_publication_proof": true,
   "formal_model_scoring_enabled": false,
@@ -9,8 +9,8 @@
   "sources": {
     "factor": {
       "path": "data/factor_evidence_29a.csv",
-      "sha256": "5fd2fbc71c3c40d7d705e7414e7f6591500ba29ce5a0154277a150b435219a84",
-      "byte_length": 712921,
+      "sha256": "39675c0d111537f8325822c840dc2301857009e59446b7501ff81e328ba4d718",
+      "byte_length": 710966,
       "row_count": 1959,
       "unique_stock_count": 1959,
       "asof_field": "price_asof",
@@ -20,8 +20,8 @@
     },
     "chip": {
       "path": "data/chip_signals.csv",
-      "sha256": "591311f36397cb735c2f4845228622d2f7ad8ff6bec1c8d1b280910da079fbd1",
-      "byte_length": 343956,
+      "sha256": "504b346a7cac4e6939eba28b64d296825f1a97bd2edfa114ae5dacb9f32d7140",
+      "byte_length": 343959,
       "row_count": 2978,
       "unique_stock_count": 2978,
       "asof_field": "flow_asof",
@@ -31,8 +31,8 @@
     },
     "tech": {
       "path": "data/tech_crosscheck.csv",
-      "sha256": "b9ee273bfad68debfd3c26d109d13132afcca09505b0661b5ab51675774a9e0f",
-      "byte_length": 26308,
+      "sha256": "3bd98a178c8b4cafce6eb8d95cde889323d49da1e90ead7224bf830b1816f9da",
+      "byte_length": 26305,
       "row_count": 72,
       "unique_stock_count": 72,
       "asof_field": "price_asof",
@@ -64,12 +64,12 @@
     },
     "valuation": {
       "path": "data/f2_valuation_29e.csv",
-      "sha256": "2214c9bdb59353c3a7f6d6e6703d504fe9a2ef82aa8fded0272cb2f6fc826c2a",
-      "byte_length": 484779,
+      "sha256": "fb03867a53f80a19a85c32af807839b791f959197d166f95d481dadc15411b1b",
+      "byte_length": 484999,
       "row_count": 1980,
       "unique_stock_count": 1980,
       "asof_field": "asof",
-      "asof_min": "2026-11-02",
+      "asof_min": "2026-11-03",
       "asof_max": "2026-11-03",
       "asof_missing": 0
     },
@@ -86,7 +86,7 @@
     },
     "publication": {
       "path": "data/publication_gate_29o.csv",
-      "sha256": "ebff21df2ea981d1340535b3a36c435ca28a1561333e613aa85a657bbbf6510f",
+      "sha256": "616809110650b338966f040ddfb8e5f4c5c70d3fea11f679115953f15fa06df4",
       "byte_length": 773225,
       "row_count": 1959,
       "unique_stock_count": 1959,
@@ -97,7 +97,7 @@
     },
     "actions": {
       "path": "data/corporate_action_readiness_30e.csv",
-      "sha256": "55c303919e3e182ccdf0c396dee9269fa8ec9a284754234e640782c6e82b558b",
+      "sha256": "f18bafb14a49172f2e40c513175f9a9b9215e1dfdc1abf02d28edee51a6e7f8e",
       "byte_length": 812917,
       "row_count": 1959,
       "unique_stock_count": 1959,

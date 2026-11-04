@@ -1,15 +1,15 @@
 {
   "version": "3.0X-R",
-  "checked_at_taipei": "2026-11-03T19:04:05.982119+08:00",
+  "checked_at_taipei": "2026-11-04T14:41:35.570627+08:00",
   "status": "observed",
   "market_freshness": {
     "上市": {
       "last_market_date": "2026-11-03",
-      "calendar_days_behind": 0
+      "calendar_days_behind": 1
     },
     "上櫃": {
       "last_market_date": "2026-11-03",
-      "calendar_days_behind": 0
+      "calendar_days_behind": 1
     }
   },
   "historical_unique_sessions": 7,
