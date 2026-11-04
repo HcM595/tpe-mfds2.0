@@ -1,6 +1,6 @@
 {
   "schema_version": "3.0E",
-  "assembled_at_utc": "2026-11-04T06:41:33+00:00",
+  "assembled_at_utc": "2026-11-04T06:47:55+00:00",
   "verification_scope": "Exact bytes of nine CSV tables included in this GitHub Pages deployment",
   "data_is_not_historical_publication_proof": true,
   "formal_model_scoring_enabled": false,
@@ -9,8 +9,8 @@
   "sources": {
     "factor": {
       "path": "data/factor_evidence_29a.csv",
-      "sha256": "39675c0d111537f8325822c840dc2301857009e59446b7501ff81e328ba4d718",
-      "byte_length": 710966,
+      "sha256": "50be9c22dec7061eaffd65995ca1c860381a629d354c4f9f86c10a2efc35c760",
+      "byte_length": 710994,
       "row_count": 1959,
       "unique_stock_count": 1959,
       "asof_field": "price_asof",

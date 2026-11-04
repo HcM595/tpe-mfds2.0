@@ -1,10 +1,10 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-11-04T14:38:39+08:00",
-  "observations": 555,
+  "generated_at_taipei": "2026-11-04T14:44:55+08:00",
+  "observations": 559,
   "checked": 15,
-  "fresh_success": 6,
-  "fresh_ytd_unit_period_aligned": 6,
+  "fresh_success": 8,
+  "fresh_ytd_unit_period_aligned": 8,
   "income_report_ytd": "從MOPS第6欄提取當年年初累計本期淨利；第2欄為單季，不混用",
   "amount_unit": "只有逐股MOPS原始表有唯一明確新台幣仟元標頭時才核實",
   "per_stock": {
@@ -29,47 +29,49 @@
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1582": {
+    "1723": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1723": {
-      "status": "stale_backup",
-      "reason": "<urlopen error [Errno 111] Connection refused>"
-    },
     "2014": {
-      "status": "stale_backup",
-      "reason": "<urlopen error [Errno 111] Connection refused>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
     "2344": {
-      "status": "stale_backup",
-      "reason": "<urlopen error timed out>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
     "2643": {
       "status": "unavailable",
-      "reason": "<urlopen error [Errno 111] Connection refused>"
+      "reason": "<urlopen error timed out>"
     },
     "3034": {
       "status": "unavailable",
       "reason": "<urlopen error timed out>"
     },
-    "3122": {
+    "3416": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "3168": {
+    "3558": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "3189": {
+    "3592": {
+      "status": "unavailable",
+      "reason": "<urlopen error timed out>"
+    },
+    "4772": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "3354": {
+    "4919": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -471,6 +473,9 @@
       "status": "not_checked_this_run"
     },
     "1568": {
+      "status": "not_checked_this_run"
+    },
+    "1582": {
       "status": "not_checked_this_run"
     },
     "1583": {
@@ -1382,6 +1387,12 @@
     "3054": {
       "status": "not_checked_this_run"
     },
+    "3168": {
+      "status": "not_checked_this_run"
+    },
+    "3189": {
+      "status": "not_checked_this_run"
+    },
     "3321": {
       "status": "not_checked_this_run"
     },
@@ -1589,6 +1600,9 @@
     "3088": {
       "status": "not_checked_this_run"
     },
+    "3122": {
+      "status": "not_checked_this_run"
+    },
     "3141": {
       "status": "not_checked_this_run"
     },
@@ -1602,6 +1616,9 @@
       "status": "not_checked_this_run"
     },
     "3264": {
+      "status": "not_checked_this_run"
+    },
+    "3354": {
       "status": "not_checked_this_run"
     },
     "3372": {
