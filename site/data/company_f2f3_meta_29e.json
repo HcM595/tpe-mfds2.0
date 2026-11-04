@@ -1,6 +1,6 @@
 {
   "version": "2.9E",
-  "generated_at_taipei": "2026-11-04T14:47:41+08:00",
+  "generated_at_taipei": "2026-11-04T19:25:48+08:00",
   "valuation_stocks": 1980,
   "valuation_peer_comparable": 1540,
   "governance_stocks": 1990,
@@ -18,10 +18,10 @@
     "上櫃_valuation": {
       "status": "ok",
       "rows": 892,
-      "source_sha256": "2e004103a0bedb7286c0b8dc0442a8615340a636255d2f9d9d8e828ea983ce99",
+      "source_sha256": "c3681b287d48a039398ccf16b68b71d19ea530f8252261e521e1b2e9ee39da1e",
       "source_url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_peratio_analysis",
       "source_dates": [
-        "2026-11-03"
+        "2026-11-04"
       ]
     },
     "上市_governance": {
