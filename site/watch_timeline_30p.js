@@ -170,9 +170,27 @@ function build(verified,stockId,rawRows=[]){
  const refreshed=rows.filter(r=>r.holderUpdate==='new_week').length;
  const pending=rows.filter(r=>r.holderUpdate==='same_week'||r.holderUpdate==='same_week_conflict').length;
  const unknown=rows.filter(r=>r.view.kind==='not_in_archive').length;
+ // First capture is a baseline, never a before/after comparison.
+ const pairs=rows.slice(1),kinds=['improving','weakening','divergence',
+   'partial','mixed','refresh_only','insufficient','source_conflict'];
+ const transitionCounts=Object.fromEntries(kinds.map(k=>[k,0]));
+ for(const r of pairs){
+  const k=r.researchTransition?.kind;
+  if(!Object.prototype.hasOwnProperty.call(transitionCounts,k))
+   throw Error('歷史研究轉折狀態不在允許範圍');
+  transitionCounts[k]++;
+ }
+ const completeComparisons=pairs.filter(r=>['improving','weakening',
+   'divergence','partial','mixed'].includes(r.researchTransition.kind)).length;
+ const lastTurn=rows.findLast(r=>['improving','weakening',
+   'divergence'].includes(r.researchTransition?.kind))||null;
  return {stock_id:stockId,name:rows.findLast(x=>x.name)?.name||'未列入封存候選',
   rows,observations:rows.length,changed_days:changing.length,
   new_holder_week_days:refreshed,same_week_days:pending,not_in_candidates:unknown,
+  compared_pairs:pairs.length,complete_comparisons:completeComparisons,
+  transition_counts:transitionCounts,
+  last_turn:lastTurn?{date:lastTurn.date,kind:lastTurn.researchTransition.kind,
+    label:lastTurn.researchTransition.label}:null,
   start:rows[0].date,end:rows.at(-1).date,verifiedAll:true,
   prediction_enabled:false,canEstimateReturns:false,
   limit:'只有封存來源價格日，不代表所有交易日都有觀察；封存時刻不等於資料首次公開時分。舊版簡化訊號未顯示外資／投信股數，但2.4A原始gzip曾封存，3.0Q只恢復已SHA256核對的當時數值；無法證明官方首次公開時間，也無真實成交或還原報酬，不能據以計算勝率或推論主力意圖。'};
@@ -216,6 +234,16 @@ function render(report,mode='all'){
    '</b></div><div><small>主要狀態改變日</small><b>'+report.changed_days+
    '</b></div><div><small>集保新來源週</small><b>'+report.new_holder_week_days+
    '</b></div><div><small>週資料未更新日</small><b>'+report.same_week_days+'</b></div></div>'+
+   '<section class="r-timeline-evidence" aria-label="研究轉折證據覆蓋">'+
+   '<h4>波段研究轉折概覽｜完整日期範圍</h4>'+
+   '<p class="hint">可比較相鄰封存對 '+report.compared_pairs+' 組；四類窗口與技術確認完整 '+report.complete_comparisons+
+   ' 組。同步改善 '+report.transition_counts.improving+'、同步轉弱 '+report.transition_counts.weakening+
+   '、籌碼技術背離 '+report.transition_counts.divergence+'；其餘部分／分歧 '+(report.transition_counts.partial+report.transition_counts.mixed)+
+   '、僅狀態未變 '+report.transition_counts.refresh_only+'、資料不足 '+report.transition_counts.insufficient+
+   '、來源異常 '+report.transition_counts.source_conflict+'。</p>'+
+   '<p class="hint">最近一次有完整證據的同步轉折：'+
+    (report.last_turn?safe(report.last_turn.date)+' · '+safe(report.last_turn.label):'尚無')+
+   '。統計分母為封存日期相鄰對，不是所有交易日；狀態統計不構成勝率。</p></section>'+
    (!rows.length?'<div class="r-empty">所選分類沒有封存觀察。請切回「全部觀察」。</div>':
     '<ol class="r-timeline-list" aria-label="自選股封存價格日時間軸">'+line+'</ol>')+
    '<p class="r-watch-foot">'+safe(report.limit)+'</p>';
