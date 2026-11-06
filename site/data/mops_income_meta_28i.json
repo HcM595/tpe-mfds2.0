@@ -1,6 +1,6 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-11-05T19:13:56+08:00",
+  "generated_at_taipei": "2026-11-06T19:12:10+08:00",
   "observations": 568,
   "checked": 15,
   "fresh_success": 11,
@@ -29,52 +29,52 @@
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1215": {
+    "1216": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1515": {
+    "1268": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1563": {
+    "1417": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1570": {
+    "1436": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1597": {
+    "1463": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1730": {
+    "1476": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1789": {
+    "1565": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1906": {
+    "1604": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2013": {
+    "1713": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2032": {
+    "1786": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -112,7 +112,7 @@
     "1213": {
       "status": "not_checked_this_run"
     },
-    "1216": {
+    "1215": {
       "status": "not_checked_this_run"
     },
     "1217": {
@@ -247,9 +247,6 @@
     "1416": {
       "status": "not_checked_this_run"
     },
-    "1417": {
-      "status": "not_checked_this_run"
-    },
     "1418": {
       "status": "not_checked_this_run"
     },
@@ -266,9 +263,6 @@
       "status": "not_checked_this_run"
     },
     "1435": {
-      "status": "not_checked_this_run"
-    },
-    "1436": {
       "status": "not_checked_this_run"
     },
     "1437": {
@@ -334,9 +328,6 @@
     "1460": {
       "status": "not_checked_this_run"
     },
-    "1463": {
-      "status": "not_checked_this_run"
-    },
     "1464": {
       "status": "not_checked_this_run"
     },
@@ -370,9 +361,6 @@
     "1475": {
       "status": "not_checked_this_run"
     },
-    "1476": {
-      "status": "not_checked_this_run"
-    },
     "1477": {
       "status": "not_checked_this_run"
     },
@@ -392,6 +380,9 @@
       "status": "not_checked_this_run"
     },
     "1514": {
+      "status": "not_checked_this_run"
+    },
+    "1515": {
       "status": "not_checked_this_run"
     },
     "1516": {
@@ -466,6 +457,9 @@
     "1560": {
       "status": "not_checked_this_run"
     },
+    "1563": {
+      "status": "not_checked_this_run"
+    },
     "1568": {
       "status": "not_checked_this_run"
     },
@@ -481,13 +475,13 @@
     "1590": {
       "status": "not_checked_this_run"
     },
+    "1597": {
+      "status": "not_checked_this_run"
+    },
     "1598": {
       "status": "not_checked_this_run"
     },
     "1603": {
-      "status": "not_checked_this_run"
-    },
-    "1604": {
       "status": "not_checked_this_run"
     },
     "1605": {
@@ -547,9 +541,6 @@
     "1712": {
       "status": "not_checked_this_run"
     },
-    "1713": {
-      "status": "not_checked_this_run"
-    },
     "1714": {
       "status": "not_checked_this_run"
     },
@@ -575,6 +566,9 @@
       "status": "not_checked_this_run"
     },
     "1727": {
+      "status": "not_checked_this_run"
+    },
+    "1730": {
       "status": "not_checked_this_run"
     },
     "1731": {
@@ -616,7 +610,7 @@
     "1783": {
       "status": "not_checked_this_run"
     },
-    "1786": {
+    "1789": {
       "status": "not_checked_this_run"
     },
     "1795": {
@@ -652,6 +646,9 @@
     "1905": {
       "status": "not_checked_this_run"
     },
+    "1906": {
+      "status": "not_checked_this_run"
+    },
     "1907": {
       "status": "not_checked_this_run"
     },
@@ -677,6 +674,9 @@
       "status": "not_checked_this_run"
     },
     "2012": {
+      "status": "not_checked_this_run"
+    },
+    "2013": {
       "status": "not_checked_this_run"
     },
     "2014": {
@@ -716,6 +716,9 @@
       "status": "not_checked_this_run"
     },
     "2031": {
+      "status": "not_checked_this_run"
+    },
+    "2032": {
       "status": "not_checked_this_run"
     },
     "2033": {
@@ -1477,9 +1480,6 @@
     "1264": {
       "status": "not_checked_this_run"
     },
-    "1268": {
-      "status": "not_checked_this_run"
-    },
     "1294": {
       "status": "not_checked_this_run"
     },
@@ -1489,10 +1489,10 @@
     "1336": {
       "status": "not_checked_this_run"
     },
-    "1565": {
+    "1569": {
       "status": "not_checked_this_run"
     },
-    "1569": {
+    "1570": {
       "status": "not_checked_this_run"
     },
     "1580": {
