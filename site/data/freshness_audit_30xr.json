@@ -1,19 +1,19 @@
 {
   "version": "3.0X-R",
-  "checked_at_taipei": "2026-11-06T19:13:32.792146+08:00",
+  "checked_at_taipei": "2026-11-09T19:08:10.246122+08:00",
   "status": "observed",
   "market_freshness": {
     "上市": {
-      "last_market_date": "2026-11-06",
+      "last_market_date": "2026-11-09",
       "calendar_days_behind": 0
     },
     "上櫃": {
-      "last_market_date": "2026-11-06",
+      "last_market_date": "2026-11-09",
       "calendar_days_behind": 0
     }
   },
-  "historical_unique_sessions": 10,
-  "historical_observations": 742,
+  "historical_unique_sessions": 11,
+  "historical_observations": 819,
   "verified_trade_samples": 0,
   "model_enabled": false,
   "official_snapshot_version": null,

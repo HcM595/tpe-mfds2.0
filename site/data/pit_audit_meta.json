@@ -2,33 +2,34 @@
   "version": "2.4B",
   "status": "ok",
   "note_status": "ok表示稽核成功產出，不代表通過嚴格回測",
-  "generated_at_taipei": "2026-11-06T19:11:00+08:00",
-  "audited_snapshot_id": "20261106T111059011078Z-run42208033273-attempt1",
-  "first_seen_snapshot_id": "20261106T111059011078Z-run42208033273-attempt1",
-  "signal_first_observed_at_utc": "2026-11-06T11:10:59.011078Z",
+  "generated_at_taipei": "2026-11-09T19:05:30+08:00",
+  "audited_snapshot_id": "20261109T110528783288Z-run42605888797-attempt1",
+  "first_seen_snapshot_id": "20261109T110528783288Z-run42605888797-attempt1",
+  "signal_first_observed_at_utc": "2026-11-09T11:05:28.783288Z",
   "audited_source_dates": [
-    "2026-11-06"
+    "2026-11-09"
   ],
-  "snapshot_index_total": 127,
-  "unique_signal_fingerprints": 17,
+  "snapshot_index_total": 128,
+  "unique_signal_fingerprints": 18,
   "repeated_signal_snapshots": 110,
   "snapshot_integrity": "indexed_sha256_and_archived_source_hashes_verified",
-  "candidate_rows": 75,
-  "eligible_ranked": 67,
+  "candidate_rows": 77,
+  "eligible_ranked": 71,
   "forward_observation_status_counts": {
-    "可前瞻觀察_仍需來源核實": 67,
-    "不列入_非有效排名": 8
+    "可前瞻觀察_仍需來源核實": 70,
+    "不列入_非有效排名": 6,
+    "暫緩_資料須核對": 1
   },
   "strict_historical_backtest_eligible": 0,
   "manual_holder_anomaly_count": 0,
   "manual_holder_anomalies": [],
   "flow_arithmetic_status_counts": {
-    "五日算術核對一致": 67,
-    "未排名_不核對": 8
+    "五日算術核對一致": 71,
+    "未排名_不核對": 6
   },
   "holder_arithmetic_status_counts": {
-    "四週算術核對一致_公布時間未確認": 67,
-    "未排名_不核對": 8
+    "四週算術核對一致_公布時間未確認": 71,
+    "未排名_不核對": 6
   },
   "source_time_metadata": {
     "official_price_day": "日期已知，官方精確發布時間未逐日核對",
