@@ -1,16 +1,16 @@
 {
   "version": "2.2.1",
-  "generated_at_taipei": "2026-11-09T19:05:08+08:00",
+  "generated_at_taipei": "2026-11-10T18:58:58+08:00",
   "sources": {
     "twse": {
       "status": "ok",
-      "rows": 1084,
-      "latest_date": "2026-11-09"
+      "rows": 1082,
+      "latest_date": "2026-11-10"
     },
     "tpex": {
       "status": "ok",
-      "rows": 791,
-      "latest_date": "2026-11-09"
+      "rows": 775,
+      "latest_date": "2026-11-10"
     },
     "tdcc": {
       "status": "ok",
@@ -20,35 +20,35 @@
   },
   "notes": "同步增持僅為描述性篩選，非預測；歷史集保備份若來源為第三方鏡像須與官方最新快照交叉核對。",
   "backfill": {
-    "asof": "2026-11-09",
+    "asof": "2026-11-10",
     "focus": {
       "8064": {
-        "flow_dates": 46,
-        "latest_flow": "2026-11-09",
+        "flow_dates": 47,
+        "latest_flow": "2026-11-10",
         "holder_weeks": 15,
         "latest_holder": "2026-11-06",
         "ready_for_5d_flow": true,
         "ready_for_4w_holder": true
       },
       "3533": {
-        "flow_dates": 46,
-        "latest_flow": "2026-11-09",
+        "flow_dates": 47,
+        "latest_flow": "2026-11-10",
         "holder_weeks": 15,
         "latest_holder": "2026-11-06",
         "ready_for_5d_flow": true,
         "ready_for_4w_holder": true
       },
       "2330": {
-        "flow_dates": 46,
-        "latest_flow": "2026-11-09",
+        "flow_dates": 47,
+        "latest_flow": "2026-11-10",
         "holder_weeks": 15,
         "latest_holder": "2026-11-06",
         "ready_for_5d_flow": true,
         "ready_for_4w_holder": true
       },
       "2345": {
-        "flow_dates": 46,
-        "latest_flow": "2026-11-09",
+        "flow_dates": 47,
+        "latest_flow": "2026-11-10",
         "holder_weeks": 15,
         "latest_holder": "2026-11-06",
         "ready_for_5d_flow": true,
@@ -57,17 +57,15 @@
     },
     "tdcc_archive": {
       "mode": "unofficial_mirror",
-      "new_weeks": [
-        "2026-11-06"
-      ],
-      "new_rows": 2975,
+      "new_weeks": [],
+      "new_rows": 0,
       "errors": [],
       "repository": "https://github.com/wirelessr/tdcc-opendata-archive"
     },
     "market_history": {
       "twse": {
         "attempted_days": 6,
-        "new_rows": 1084,
+        "new_rows": 1082,
         "no_data_days": [
           "2026-10-26",
           "2026-10-23",
@@ -80,7 +78,7 @@
       },
       "tpex": {
         "attempted_days": 6,
-        "new_rows": 791,
+        "new_rows": 775,
         "no_data_days": [
           "2026-10-26",
           "2026-10-23",
@@ -93,10 +91,10 @@
       }
     }
   },
-  "flow_history_rows": 85427,
+  "flow_history_rows": 87284,
   "holder_history_rows": 44386,
   "stocks_with_chip_records": 2982,
-  "matching_stocks": 77,
-  "ready_stocks": 1895,
+  "matching_stocks": 66,
+  "ready_stocks": 1904,
   "selection_rule": "5個有效法人交易日：外資淨買超>0 且投信淨買超>0；兩期集保持股相隔約28日：400張以上比例增幅>0pp；均需資料未過期。"
 }

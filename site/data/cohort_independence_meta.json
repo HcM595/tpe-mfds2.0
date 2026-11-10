@@ -1,13 +1,13 @@
 {
   "version": "2.4F",
   "status": "ok_guardrails_active",
-  "generated_at_taipei": "2026-11-09T19:06:04+08:00",
-  "archived_cohorts_total": 18,
-  "price_session_groups_total": 11,
+  "generated_at_taipei": "2026-11-10T18:59:55+08:00",
+  "archived_cohorts_total": 19,
+  "price_session_groups_total": 12,
   "multi_version_price_session_groups": 5,
   "cohorts_in_multi_version_groups": 12,
-  "total_candidate_entries_all_versions": 1309,
-  "total_qualified_entries_all_versions": 1141,
+  "total_candidate_entries_all_versions": 1375,
+  "total_qualified_entries_all_versions": 1201,
   "revision_change_rows": 295,
   "performance_metrics_enabled": false,
   "sample_independence_verified": false,
@@ -297,6 +297,29 @@
       ],
       "qualified_entry_counts": [
         70
+      ],
+      "holder_dates_by_version": [
+        [
+          "2026-11-06"
+        ]
+      ],
+      "shared_symbol_pairs_adjacent": 0,
+      "rank_changes_adjacent": 0,
+      "score_changes_adjacent": 0,
+      "qualification_or_flag_changes_adjacent": 0,
+      "status": "single_version_timing_and_overlap_still_unverified"
+    },
+    {
+      "source_price_dates": [
+        "2026-11-10"
+      ],
+      "group_key": "2026-11-10",
+      "cohort_versions": 1,
+      "cohort_ids": [
+        "cohort-69bdd3c86283f50720be06c8"
+      ],
+      "qualified_entry_counts": [
+        60
       ],
       "holder_dates_by_version": [
         [
