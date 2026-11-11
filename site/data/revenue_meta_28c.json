@@ -1,7 +1,7 @@
 {
   "version": "2.8C",
-  "generated_at_taipei": "2026-11-10T19:00:03+08:00",
-  "total_rows": 1979,
+  "generated_at_taipei": "2026-11-11T19:08:50+08:00",
+  "total_rows": 1977,
   "markets": {
     "上市": {
       "status": "ok",
@@ -16,11 +16,13 @@
     },
     "上櫃": {
       "status": "ok",
-      "rows": 893,
-      "source_hash": "a27fea120daa8ef4543bcbf6e31426cad2e0201111ee8d97916fbb5fce2727a6",
-      "latest_period": "2026-09",
+      "rows": 891,
+      "source_hash": "6e4a42d9b9f0ec4f0fa559e0024dff6c3961effa240cd5a1bbda79e217da13aa",
+      "latest_period": "2026-10",
       "source": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap05_O",
-      "excluded": {}
+      "excluded": {
+        "invalid_period_release_or_revenue": 6
+      }
     }
   },
   "revenue_unit": "新台幣千元；不得直接當作元",
