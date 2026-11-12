@@ -1,13 +1,13 @@
 {
   "version": "2.8C",
-  "generated_at_taipei": "2026-11-11T19:08:50+08:00",
-  "total_rows": 1977,
+  "generated_at_taipei": "2026-11-12T19:14:35+08:00",
+  "total_rows": 1965,
   "markets": {
     "上市": {
       "status": "ok",
-      "rows": 1086,
-      "source_hash": "a58c04b3bdc2b94632027018ca4f09f6ad053848addb7b9580b372626542fc17",
-      "latest_period": "2026-09",
+      "rows": 1074,
+      "source_hash": "34b20536981e0118d478b9dc6b036af256cd9e8c78d6133b4968466c523311da",
+      "latest_period": "2026-10",
       "source": "https://openapi.twse.com.tw/v1/opendata/t187ap05_L",
       "excluded": {
         "invalid_period_release_or_revenue": 1,
@@ -17,7 +17,7 @@
     "上櫃": {
       "status": "ok",
       "rows": 891,
-      "source_hash": "6e4a42d9b9f0ec4f0fa559e0024dff6c3961effa240cd5a1bbda79e217da13aa",
+      "source_hash": "62cf191b62e8ec4e2ccc2800f658750a452b9288ea15d41a6bae85cbe5d21509",
       "latest_period": "2026-10",
       "source": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap05_O",
       "excluded": {

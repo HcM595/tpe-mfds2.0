@@ -1,27 +1,27 @@
 {
   "version": "2.9Q",
-  "generated_at_taipei": "2026-11-11T19:10:37+08:00",
-  "events_captured": 3310,
-  "new_events_this_run": 885,
+  "generated_at_taipei": "2026-11-12T19:17:02+08:00",
+  "events_captured": 4149,
+  "new_events_this_run": 839,
   "events_by_market": {
-    "上市": 2070,
-    "上櫃": 1240
+    "上市": 2522,
+    "上櫃": 1627
   },
   "sources": {
     "上市": {
       "status": "ok",
-      "latest_events": 526,
-      "source_sha256": "9b4ba71f489cfb1c56efb484b2797199abbe48de662fa68b5a44f2f6328c4bf0",
+      "latest_events": 452,
+      "source_sha256": "5afe989b73868de59f6e9e861723527b2099afd8d11653a73fcb9d37280ecb44",
       "source_url": "https://openapi.twse.com.tw/v1/opendata/t187ap04_L"
     },
     "上櫃": {
       "status": "ok",
-      "latest_events": 359,
-      "source_sha256": "87a8a20877f107530f3ac7cb53a22b3193c6a94959642fdd3f3ad2be53dd094f",
+      "latest_events": 387,
+      "source_sha256": "d25c7bb064073d85925f0d591c8d12b1b4f518255cfcc93e8884172fff9a3be8",
       "source_url": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap04_O"
     }
   },
-  "parseable_source_speech_clock": 3310,
+  "parseable_source_speech_clock": 4149,
   "verified_first_publication_times": 0,
   "events_mapped_to_F2_F3_revenue": 0,
   "historical_factor_eligible": 0,
