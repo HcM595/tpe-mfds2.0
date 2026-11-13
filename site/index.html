@@ -405,6 +405,9 @@ function rOverview(){
   const priceDate=(rGet('official')||{}).display_date||'';
   const dateTs=/^\d{4}-\d{2}-\d{2}$/.test(priceDate)?Date.parse(priceDate+'T00:00:00+08:00'):NaN;
   const latestWithinFiveDays=Number.isFinite(dateTs)&&Date.now()>=dateTs&&Date.now()-dateTs<=5*86400000;
+  const om=rGet('official')||{};
+  const marketDatesAligned=om.status==='ok'&&om.aligned===true&&
+    ['上市','上櫃'].every(m=>om.market_dates?.[m]===priceDate);
   let crossResults=[],crossBase=[],crossError='';
   if(crossModule&&rGet('rank')){
     try {
@@ -439,34 +442,45 @@ function rOverview(){
   const candidates=crossBase.filter(x=>{
     const t=tech.get(x.row.stock_id),c=Number(x.row.close),
       ma=Number(t?.ma20),rsi=Number(t?.rsi14),ma60=Number(t?.ma60);
-    return latestWithinFiveDays&&x.check.confluence&&t?.data_status==='可驗證'&&
-      t.latest_history_date===priceDate&&t.price_asof===priceDate&&
-      Number.isFinite(c)&&c>0&&Number.isFinite(ma)&&ma>0&&
-      Number.isFinite(ma60)&&ma60>0&&c>=ma&&c/ma<=1.08&&
-      Number.isFinite(rsi)&&rsi>=40&&rsi<70;
+    const verifiedClose=Number(t?.close),rankMa20=Number(x.row.ma20);
+    return latestWithinFiveDays&&marketDatesAligned&&x.check.confluence&&
+      t?.data_status==='可驗證'&&t.latest_history_date===priceDate&&
+      t.price_asof===priceDate&&Number.isFinite(c)&&c>0&&
+      Number.isFinite(ma)&&ma>0&&Number.isFinite(ma60)&&ma60>0&&
+      Number.isFinite(verifiedClose)&&verifiedClose>0&&
+      Math.abs(verifiedClose-c)<=Math.max(0.01,c*0.001)&&
+      Number.isFinite(rankMa20)&&rankMa20>0&&
+      Math.abs(rankMa20-ma)<=Math.max(0.01,ma*0.001)&&
+      c>=ma&&c/ma<=1.08&&Number.isFinite(rsi)&&rsi>=40&&rsi<70;
   }).sort((a,b)=>(Number(a.row.chip_strength_rank)||999999)-
     (Number(b.row.chip_strength_rank)||999999)).slice(0,5);
   const swingRows=candidates.map(x=>{
     const t=tech.get(x.row.stock_id),ma=Number(t.ma20),
       close=Number(x.row.close),gap=(close/ma-1)*100;
-    // +/-1% around the verified 20-day moving average is an explicit
-    // illustrative watch band, NOT inferred support or a tested fill price.
-    const low=ma*0.99,high=ma*1.01;
-    return '<tr><td><strong>'+esc(x.row.stock_id)+' '+esc(x.row.stock_name)+'</strong></td>'+
-      '<td>'+fmt(close,2)+'</td><td>'+fmt(low,2)+'～'+fmt(high,2)+'</td>'+
-      '<td>MA20 '+fmt(ma,2)+'；距均線 +'+fmt(gap,1)+'%</td>'+
-      '<td>失效觀察參考 '+fmt(ma*.97,2)+'（MA20下方3%，不是停損指令）</td>'+ 
-      '<td>MA60 '+fmt(Number(t.ma60),2)+'；RSI '+fmt(Number(t.rsi14),1)+'</td>'+
-      '<td><a href="./research_hub_30a.html?view=detail&amp;stock='+encodeURIComponent(x.row.stock_id)+'">查看證據</a></td></tr>';
+    const low=ma*0.99,high=ma*1.01,invalid=ma*0.97;
+    const currentStatus=close<=high?'接近觀察區／仍須驗證':'高於觀察區／等待回測';
+    const saved=state.watch.includes(x.row.stock_id);
+    return '<tr><td><strong>'+esc(x.row.stock_id)+' '+esc(x.row.stock_name)+'</strong>'+
+      '<div class="hint">集保週資料日 '+esc(x.row.holder_asof)+'</div></td>'+
+      '<td>'+fmt(close,2)+'<div class="hint">MA20 '+fmt(ma,2)+'；高出 '+fmt(gap,1)+'%</div></td>'+
+      '<td>'+fmt(low,2)+'～'+fmt(high,2)+
+        '<div class="hint">失效觀察：'+fmt(invalid,2)+'（非停損）</div></td>'+
+      '<td>'+esc(currentStatus)+'<div class="hint">MA60 '+fmt(Number(t.ma60),2)+
+        '；RSI '+fmt(Number(t.rsi14),1)+'</div></td>'+
+      '<td><button type="button" class="btn mini" data-r-stock="'+esc(x.row.stock_id)+'">查看個股</button> '+
+      (saved?'<span class="chip real">已追蹤</span>':
+       '<button type="button" class="btn mini" data-r-watch-add="'+esc(x.row.stock_id)+'">加入追蹤</button>')+
+      '</td></tr>';
   }).join('');
   const swingPanel='<section class="card r-section" aria-label="條件式波段候選及觀察價位">'+
     '<div class="r-section-title"><div><h3>近期波段候選與條件式觀察區</h3>'+
     '<p>操作視角：2週～3個月。由已對齊的法人、大戶與技術條件選出，最多5檔；不是依勝率排名。</p></div></div>'+
     '<p class="hint">行情資料日：'+esc(priceDate||'未取得')+'；集保為週資料，並非當日更新。條件包含三面交集、RSI 40～未滿70、收盤在MA20以上且不高於MA20的8%；MA60須有資料。皆為可調整的研究規則，非經回測最佳參數。</p>'+
     (!latestWithinFiveDays?'<p role="alert">行情資料已超過5日或日期無效，暫停推薦名單；請先更新並核對官方資料。</p>':
+    !marketDatesAligned?'<p role="alert">上市／上櫃行情來源日或官方狀態不一致，暫停推薦名單。</p>':
     crossError?'<p role="alert">來源驗證失敗：'+esc(crossError)+'</p>':
     !candidates.length?'<div class="r-empty">目前沒有同時通過資料核驗與研究條件的候選股；不強行推薦。</div>':
-    '<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>候選股</th><th>收盤價</th><th>MA20 ±1%觀察區</th><th>與MA20距離</th><th>失效參考</th><th>趨勢指標</th><th>詳細資料</th></tr></thead><tbody>'+swingRows+'</tbody></table></div>')+
+    '<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>候選股與集保日期</th><th>收盤與均線</th><th>MA20 ±1%觀察區</th><th>價位狀態</th><th>一鍵操作</th></tr></thead><tbody>'+swingRows+'</tbody></table></div>')+
     '<p class="hint">所列價格是20日均線附近的條件式觀察區，不代表會成交或必然支撐；進場前需重新確認價格守穩觀察區、成交量、籌碼沒有轉差及風險報酬是否合理。MA20下方3%只是失效研究參考，不是停損指令；缺乏可靠壓力位時不提供目標價。未經還原價格及樣本外檢驗，不提供推估勝率。</p>'+
     '</section>';
   const rows=crossResults.map(item=>item.row);
@@ -954,6 +968,17 @@ function rQuality(){
     <section class="card r-section"><h3>資料來源清單與讀取狀態</h3><p class="hint">個別檔案404、格式異常或逾時會顯示原因，不會轉成虛構資料。</p><div class="table-wrap"><table class="data-table r-table"><thead><tr><th>來源檔案</th><th>內容</th><th>讀取問題</th><th>查看</th></tr></thead><tbody>${datasets}</tbody></table></div></section>
     <section class="card r-section"><h3>臨時休市與例外</h3><p class="hint">官方原始公告未封存者，只列為待核實線索；不自動修改歷史市場日曆。</p>${!ex.length?'<div class="r-empty">尚無可讀取的市場例外紀錄。</div>':`<div class="table-wrap"><table class="data-table r-table"><thead><tr>${Object.keys(ex[0]).slice(0,5).map(k=>`<th>${esc(k)}</th>`).join('')}</tr></thead><tbody>${ex.slice(0,15).map(x=>`<tr>${Object.keys(ex[0]).slice(0,5).map(k=>`<td>${rVal(x[k])}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}</section>`;
 }
+function saveStockToWatch(code){
+  // Use the exact same validation and persistence path for both entry points.
+  const helper=window.MFDSWatchlist30N;
+  if(!helper)throw Error('自選股元件尚未載入');
+  const persisted=helper.ids(JSON.parse(localStorage.getItem(STORAGE)||'[]'));
+  const result=helper.add([...new Set([...persisted,...state.watch])],code);
+  localStorage.setItem(STORAGE,JSON.stringify(result));
+  state.watch=result;
+  render();
+  notif('已加入追蹤：'+code);
+}
 function bindResearch(){
   if(state.page!=='research')return;
   document.querySelectorAll('[data-r-tab]').forEach(b=>b.addEventListener('click',()=>{research.tab=b.dataset.rTab;render()}));
@@ -961,6 +986,10 @@ function bindResearch(){
     const go=()=>{research.stockId=b.dataset.rStock;research.stockQuery=research.stockId;research.tab='stock';render()};
     b.addEventListener('click',go);b.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}});
   });
+  document.querySelectorAll('[data-r-watch-add]').forEach(b=>b.addEventListener('click',()=>{
+    try{saveStockToWatch(b.dataset.rWatchAdd)}
+    catch(e){notif('加入追蹤失敗：'+String(e.message||e))}
+  }));
   document.querySelectorAll('[data-r-action="refresh"]').forEach(b=>b.addEventListener('click',()=>loadResearchData()));
   const elig=$('r-eligibility-view');if(elig)elig.addEventListener('change',e=>{research.eligibilityView=e.target.value;research.eligibilityPage=0;render()});
   for(const [selector,delta] of [['elig-prev',-1],['elig-next',1]])document.querySelectorAll('[data-r-action="'+selector+'"]').forEach(b=>b.addEventListener('click',()=>{research.eligibilityPage=Math.max(0,(research.eligibilityPage||0)+delta);render()}));
@@ -1323,14 +1352,8 @@ function bind(){
  if(form)form.addEventListener('submit',e=>{
   e.preventDefault();
   const code=($('r-watch-add-code')?.value||'').trim();
-  try{
-   // Read the persisted list at the moment of submission to avoid
-   // overwriting stocks saved by another tab or an earlier UI render.
-   const persisted=window.MFDSWatchlist30N.ids(JSON.parse(localStorage.getItem(STORAGE)||'[]'));
-   const result=window.MFDSWatchlist30N.add([...new Set([...persisted,...state.watch])],code);
-   localStorage.setItem(STORAGE,JSON.stringify(result));
-   state.watch=result;render();notif('自選清單已更新：'+code);
-  }catch(error){notif('無法加入自選：'+String(error.message||error))}
+  try{saveStockToWatch(code)}
+  catch(error){notif('無法加入自選：'+String(error.message||error))}
  });
  const wq=$('r-watch-query');
  if(wq)wq.addEventListener('input',e=>{
