@@ -119,6 +119,17 @@ class FeatureContinuity(unittest.TestCase):
         self.assertIn("非持續增持、未來報酬或勝率",index)
         self.assertIn("+watchChipTrendPanel()+watchTimelinePanel()",index)
 
+    def test_market_overview_is_actionable_without_unverified_buy_signals(self):
+        html=(SITE/"index.html").read_text(encoding="utf-8")
+        for token in ("今日波段候選與回測觀察區","x.check.confluence",
+                      "t.latest_history_date===priceDate",
+                      "c/ma<=1.08","rsi>=40&&rsi<70",
+                      "MA20 ±1%觀察區",
+                      "不是依勝率排名","不強行推薦",
+                      "不等同停損價"):
+            self.assertIn(token,html)
+        self.assertIn("return `\u0024{swingPanel}\u0024{rCards(cards)}",html)
+
     def test_model_not_fake_enabled_by_site_shell(self):
         index=(SITE/"index.html").read_text(encoding="utf-8")
         self.assertNotIn("預測勝率80%",index)
