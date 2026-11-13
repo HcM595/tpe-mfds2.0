@@ -426,6 +426,39 @@ function rOverview(){
     (Number(a.row.chip_strength_rank)||Number.MAX_SAFE_INTEGER)-
       (Number(b.row.chip_strength_rank)||Number.MAX_SAFE_INTEGER)||
     a.row.stock_id.localeCompare(b.row.stock_id));
+  // Small, user-facing swing watchlist based ONLY on dated, cross-verified sources.
+  // Not a historical win-rate ranking or an executable order signal.
+  const candidates=crossBase.filter(x=>{
+    const t=tech.get(x.row.stock_id),c=Number(x.row.close),
+      ma=Number(t?.ma20),rsi=Number(t?.rsi14),ma60=Number(t?.ma60);
+    return x.check.confluence&&t?.data_status==='可驗證'&&
+      t.latest_history_date===priceDate&&t.price_asof===priceDate&&
+      Number.isFinite(c)&&c>0&&Number.isFinite(ma)&&ma>0&&
+      Number.isFinite(ma60)&&ma60>0&&c>=ma&&c/ma<=1.08&&
+      Number.isFinite(rsi)&&rsi>=40&&rsi<70;
+  }).sort((a,b)=>(Number(a.row.chip_strength_rank)||999999)-
+    (Number(b.row.chip_strength_rank)||999999)).slice(0,5);
+  const swingRows=candidates.map(x=>{
+    const t=tech.get(x.row.stock_id),ma=Number(t.ma20),
+      close=Number(x.row.close),gap=(close/ma-1)*100;
+    // +/-1% around the verified 20-day moving average is an explicit
+    // illustrative watch band, NOT inferred support or a tested fill price.
+    const low=ma*0.99,high=ma*1.01;
+    return '<tr><td><strong>'+esc(x.row.stock_id)+' '+esc(x.row.stock_name)+'</strong></td>'+
+      '<td>'+fmt(close,2)+'</td><td>'+fmt(low,2)+'～'+fmt(high,2)+'</td>'+
+      '<td>MA20 '+fmt(ma,2)+'；距均線 +'+fmt(gap,1)+'%</td>'+
+      '<td>MA60 '+fmt(Number(t.ma60),2)+'；RSI '+fmt(Number(t.rsi14),1)+'</td>'+
+      '<td><a href="./research_hub_30a.html?view=detail&amp;stock='+encodeURIComponent(x.row.stock_id)+'">查看證據</a></td></tr>';
+  }).join('');
+  const swingPanel='<section class="card r-section" aria-label="條件式波段候選及觀察價位">'+
+    '<div class="r-section-title"><div><h3>今日波段候選與回測觀察區</h3>'+
+    '<p>操作視角：2週～3個月。由已對齊的法人、大戶與技術條件選出，最多5檔；不是依勝率排名。</p></div></div>'+
+    '<p class="hint">行情資料日：'+esc(priceDate||'未取得')+'；集保為週資料，並非當日更新。條件包含三面交集、RSI 40～未滿70、收盤在MA20以上且不高於MA20的8%；MA60須有資料。皆為可調整的研究規則，非經回測最佳參數。</p>'+
+    (crossError?'<p role="alert">來源驗證失敗：'+esc(crossError)+'</p>':
+    !candidates.length?'<div class="r-empty">目前沒有同時通過資料核驗與研究條件的候選股；不強行推薦。</div>':
+    '<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>候選股</th><th>收盤價</th><th>MA20 ±1%觀察區</th><th>與MA20距離</th><th>風險觀察基準</th><th>詳細資料</th></tr></thead><tbody>'+swingRows+'</tbody></table></div>')+
+    '<p class="hint">所列價格是20日均線附近的條件式觀察區，不代表會成交或必然支撐；正式進場仍應確認當日價格、成交量、支撐壓力和可承受風險。MA60僅供趨勢觀察，不等同停損價；未經還原價格及樣本外檢驗，不提供推估勝率。</p>'+
+    '</section>';
   const rows=crossResults.map(item=>item.row);
   const crossIndex=new Map(crossResults.map(item=>[item.row.stock_id,item]));
   const directMatches=rDirectMatches(q);
@@ -458,7 +491,7 @@ function rOverview(){
   const confirmedTech=[...tech.values()].filter(t=>t.data_status==='可驗證'&&t.technical_confirmed_count==='3').length;
   const holderSeen=rawChip.filter(c=>c.holder_asof).length;
   const cards=[['研究母體',rGet('master')?rArray('master').length:'—','官方名錄候選，非普通股最終認證'],['法人與大戶同步觀察',rGet('rank')?ranked.length:'—','當次可排名的籌碼訊號，非投資建議'],['大戶週資料',rGet('chip')?holderSeen:'—','集保來源日期各異，非當日買賣'],['技術三確認',rGet('tech')?confirmedTech:'—','僅限已取得且可驗證的技術資料']];
-  return `${rCards(cards)}
+  return `${swingPanel}${rCards(cards)}
     <section class="card r-section"><div class="r-section-title"><h3>原始設計資格檢查（與籌碼排行分開）</h3></div>
       <p class="hint">要求同股至少120個有效歷史收盤交易日、最近20筆皆具成交額，20日平均成交額至少新台幣3,000萬元，且價格歷史最新日必須與當次快照相同。本區同時檢查基本資料與官方公司名錄候選身分，身分來源為獨立發布的上市櫃公司名錄；缺少名錄或來源異常者顯示待確認，不推斷為非普通股。不代表12因子覆蓋率≥60%或已具預測資格。</p>
       ${rCards([['快照股票',universeStatus.length,'尚未等同有效普通股母體'],['通過歷史及流動性',eligibleBasic.length,'未驗證普通股身分與12因子'],['普通股名錄有核對',identityVerified,'僅供身分候選，非證券種類最終認證'],['身分及基本資料同時符合',baseAndIdentity.length,'仍非12因子合格']])}
