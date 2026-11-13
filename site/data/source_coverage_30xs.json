@@ -1,6 +1,6 @@
 {
   "version": "3.0X-S",
-  "built_at_utc": "2026-11-13T08:30:34.957418+00:00",
+  "built_at_utc": "2026-11-13T11:13:24.731997+00:00",
   "source_snapshot_schema": "3.0E",
   "sources": [
     {
@@ -54,7 +54,7 @@
       "rows": 1980,
       "unique_stocks": 1980,
       "asof_min": "2026-11-12",
-      "asof_max": "2026-11-12",
+      "asof_max": "2026-11-13",
       "missing_asof": 0
     },
     {

@@ -1,6 +1,6 @@
 {
   "schema_version": "3.0E",
-  "assembled_at_utc": "2026-11-13T08:30:32+00:00",
+  "assembled_at_utc": "2026-11-13T11:13:21+00:00",
   "verification_scope": "Exact bytes of nine CSV tables included in this GitHub Pages deployment",
   "data_is_not_historical_publication_proof": true,
   "formal_model_scoring_enabled": false,
@@ -9,8 +9,8 @@
   "sources": {
     "factor": {
       "path": "data/factor_evidence_29a.csv",
-      "sha256": "7eb0659e972dbeab42c3e1fef2f17f78a45ea06047b70431fc78f3d9b47df2b8",
-      "byte_length": 714724,
+      "sha256": "14fdd39d242dc5128d56ee101ffff560711e942a6a8c47bfc17fa3ad56cd4dd9",
+      "byte_length": 714670,
       "row_count": 1965,
       "unique_stock_count": 1965,
       "asof_field": "price_asof",
@@ -64,13 +64,13 @@
     },
     "valuation": {
       "path": "data/f2_valuation_29e.csv",
-      "sha256": "13c4ebf8924efb4824ea99e6ef450bc74ac2aecbf0769f2db0481a2428dbf63c",
-      "byte_length": 484401,
+      "sha256": "209b665920dee4a38185e89a164a155955c693165b7c77d98953db3b479bc667",
+      "byte_length": 484277,
       "row_count": 1980,
       "unique_stock_count": 1980,
       "asof_field": "asof",
       "asof_min": "2026-11-12",
-      "asof_max": "2026-11-12",
+      "asof_max": "2026-11-13",
       "asof_missing": 0
     },
     "revenue": {
@@ -86,8 +86,8 @@
     },
     "publication": {
       "path": "data/publication_gate_29o.csv",
-      "sha256": "83665da1dd0e0dd98f7580bfc4b59cd6e09e8c5bedc6200b0e068d1c2481de3c",
-      "byte_length": 801263,
+      "sha256": "89cdeb45d6f31d327113b034dc2f171aab63b196ec9391124d87ba80e87433af",
+      "byte_length": 822263,
       "row_count": 1965,
       "unique_stock_count": 1965,
       "asof_field": "price_asof",
