@@ -121,14 +121,23 @@ class FeatureContinuity(unittest.TestCase):
 
     def test_market_overview_is_actionable_without_unverified_buy_signals(self):
         html=(SITE/"index.html").read_text(encoding="utf-8")
-        for token in ("今日波段候選與回測觀察區","x.check.confluence",
+        for token in ("近期波段候選與條件式觀察區","x.check.confluence",
                       "t.latest_history_date===priceDate",
                       "c/ma<=1.08","rsi>=40&&rsi<70",
                       "MA20 ±1%觀察區",
                       "不是依勝率排名","不強行推薦",
-                      "不等同停損價"):
+                      "不是停損指令"):
             self.assertIn(token,html)
         self.assertIn("return `\u0024{swingPanel}\u0024{rCards(cards)}",html)
+
+    def test_three_primary_workflows_and_stale_data_guard(self):
+        index=(SITE/"index.html").read_text(encoding="utf-8")
+        for token in ("波段研究｜每日三個重點","data-quick-page=\"watch\"",
+                      "data-quick-tab=\"stock\"","研究進階工具與原始稽核",
+                      "id=\"quick-nav\"","latestWithinFiveDays",
+                      "行情資料已超過5日或日期無效",
+                      "失效觀察參考 ","缺乏可靠壓力位時不提供目標價"):
+            self.assertIn(token,index)
 
     def test_model_not_fake_enabled_by_site_shell(self):
         index=(SITE/"index.html").read_text(encoding="utf-8")
