@@ -99,6 +99,35 @@ const assert=require('node:assert/strict');
    assert.equal(await page.locator('.r-cross-strip span').count(),4);
    return 'cross-filter usable, '+await rows.count()+' displayed rows';
   });
+  await check('簡化波段研究：個股入口、追蹤與資料守門',async()=>{
+   await page.locator('#nav > button[data-research-tab="overview"]').click();
+   const section=page.locator('section[aria-label="條件式波段候選及觀察價位"]');
+   await section.waitFor({timeout:45000});
+   assert.equal(await page.locator('#quick-nav button').count(),3);
+   const panel=await section.innerText();
+   assert(panel.includes('行情資料日')&&panel.includes('MA20'));
+   const candidates=section.locator('button[data-r-stock]');
+   const count=await candidates.count();
+   if(count){
+    const code=await candidates.first().getAttribute('data-r-stock');
+    assert(/^\\d{4,6}$/.test(code));
+    await candidates.first().click();
+    await page.locator('#r-stock-form').waitFor({timeout:30000});
+    assert((await page.locator('#content').innerText()).includes(code));
+    await page.locator('#nav > button[data-research-tab="overview"]').click();
+    const save=section.locator('button[data-r-watch-add="'+code+'"]');
+    await save.click();
+    const persisted=await page.evaluate(()=>JSON.parse(localStorage.getItem('mfds-web-watch-v1')||'[]'));
+    assert(persisted.includes(code),'shortlist add did not persist');
+    // The audit browser is isolated; reset before other watchlist test cases.
+    await page.evaluate(()=>localStorage.removeItem('mfds-web-watch-v1'));
+    await page.reload({waitUntil:'domcontentloaded',timeout:45000});
+   }else{
+    assert(panel.includes('沒有同時通過')||panel.includes('暫停推薦')||
+      panel.includes('來源驗證失敗'),'empty shortlist without clear explanation');
+   }
+   return count+' published candidate(s), watch and detail workflow verified when present';
+  });
   await check('個股研究：8064 查詢、證據摘要與 CSV',async()=>{
    await page.locator('#nav > button[data-research-tab="stock"]').click();
    await page.locator('#r-stock-form').waitFor({timeout:45000});
