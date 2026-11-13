@@ -1,12 +1,12 @@
 {
   "version": "2.4E",
   "status": "ok",
-  "generated_at_taipei": "2026-11-13T15:43:31+08:00",
+  "generated_at_taipei": "2026-11-13T15:50:26+08:00",
   "sources": {
     "TWSE": {
       "status": "ok",
       "rows_this_run": 52,
-      "new_source_version_saved": true,
+      "new_source_version_saved": false,
       "latest_sha256": "9b4d414200a013c3563ea89490db1b85c57690b7d16241b0d8b65a239c44a83c",
       "source_first_seen_at_utc": "2026-11-13T07:43:31.918382Z",
       "source_url": "https://openapi.twse.com.tw/v1/exchangeReport/TWT48U_ALL",
@@ -15,7 +15,7 @@
     "TPEx": {
       "status": "ok",
       "rows_this_run": 61,
-      "new_source_version_saved": true,
+      "new_source_version_saved": false,
       "latest_sha256": "dc434c549162fc112e1c6e5ed953a1404d04078494569b981d8dcae6b5069851",
       "source_first_seen_at_utc": "2026-11-13T07:43:31.918382Z",
       "source_url": "https://www.tpex.org.tw/openapi/v1/tpex_exright_prepost",
@@ -23,7 +23,7 @@
     }
   },
   "source_archive_versions_total": 25,
-  "new_archives": 2,
+  "new_archives": 0,
   "rolling_events_ever_seen": 202,
   "event_cash_pending": 73,
   "announced_value_revision_flags": 34,
