@@ -9,16 +9,16 @@
       "verified_company_release_time": 0,
       "historically_usable": 0,
       "blockers": {
-        "official_publication_unverified": 1957,
+        "first_seen_after_cutoff": 1952,
         "source_authorization_missing": 1957,
         "individual_company_publication_time_unverified": 1957,
-        "first_seen_after_cutoff": 1952,
-        "missing_report_day": 5,
+        "official_publication_unverified": 1957,
+        "source_hash_missing_or_invalid": 5,
+        "source_missing": 5,
+        "unverified_official_endpoint": 5,
         "first_seen_unverified": 5,
         "capture_timestamp_unverified": 5,
-        "source_hash_missing_or_invalid": 5,
-        "unverified_official_endpoint": 5,
-        "source_missing": 5
+        "missing_report_day": 5
       }
     },
     "F3": {
@@ -27,10 +27,10 @@
       "verified_company_release_time": 0,
       "historically_usable": 0,
       "blockers": {
-        "official_publication_unverified": 1957,
+        "first_seen_after_cutoff": 1957,
         "source_authorization_missing": 1957,
         "individual_company_publication_time_unverified": 1957,
-        "first_seen_after_cutoff": 1957
+        "official_publication_unverified": 1957
       }
     },
     "REVENUE": {
@@ -39,17 +39,18 @@
       "verified_company_release_time": 0,
       "historically_usable": 0,
       "blockers": {
-        "official_publication_unverified": 1957,
-        "source_authorization_missing": 1957,
-        "individual_company_publication_time_unverified": 1957,
-        "bulk_snapshot_not_individual_filing": 1933,
         "first_seen_after_cutoff": 1933,
-        "missing_report_day": 24,
+        "individual_company_publication_time_unverified": 1957,
+        "official_publication_unverified": 1957,
+        "bulk_snapshot_not_individual_filing": 1933,
+        "source_authorization_missing": 1957,
+        "source_hash_missing_or_invalid": 24,
+        "source_missing": 24,
+        "unverified_official_endpoint": 24,
         "first_seen_unverified": 24,
         "capture_timestamp_unverified": 24,
-        "source_hash_missing_or_invalid": 24,
-        "unverified_official_endpoint": 24,
-        "source_missing": 24
+        "missing_report_day": 24,
+        "report_after_price_day": 864
       }
     }
   },

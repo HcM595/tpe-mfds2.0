@@ -1,6 +1,6 @@
 {
   "version": "2.4D",
-  "generated_at_taipei": "2026-11-12T19:13:29+08:00",
+  "generated_at_taipei": "2026-11-13T15:43:06+08:00",
   "status": "ok",
   "calendar_year": 2026,
   "new_source_version_saved": false,
@@ -46,7 +46,7 @@
       "official_events_count": 27
     }
   },
-  "download_error": null,
+  "download_error": "ValueError: 官方來源年度2027與目前2026不同，拒絕冒用",
   "calendar_still_needs": "交易所臨時停市、個股暫停交易、官方TPEx獨立行事曆仍需核實",
   "corporate_action_readiness": {
     "twse_exright_reference_url": "https://www.twse.com.tw/zh/announcement/ex-right/twt49u.html",

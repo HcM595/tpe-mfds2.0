@@ -1,11 +1,11 @@
 {
   "version": "2.9D",
-  "generated_at_taipei": "2026-11-12T19:16:47+08:00",
+  "generated_at_taipei": "2026-11-13T15:46:13+08:00",
   "stock_rows": 1956,
   "sector_groups": 61,
   "usable_single_month_groups": 54,
   "revenue_archive_rows": 3929,
-  "revision_flags": 0,
+  "revision_flags": 1,
   "semiconductor_market_groups": 2,
   "semi_group_breadth_descriptive": 2,
   "min_peers": 5,

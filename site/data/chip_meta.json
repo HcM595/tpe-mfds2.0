@@ -1,6 +1,6 @@
 {
   "version": "2.2.1",
-  "generated_at_taipei": "2026-11-12T19:13:05+08:00",
+  "generated_at_taipei": "2026-11-13T15:42:43+08:00",
   "sources": {
     "twse": {
       "status": "ok",
@@ -64,8 +64,8 @@
     },
     "market_history": {
       "twse": {
-        "attempted_days": 6,
-        "new_rows": 1079,
+        "attempted_days": 5,
+        "new_rows": 0,
         "no_data_days": [
           "2026-10-26",
           "2026-10-23",
@@ -74,11 +74,11 @@
           "2026-09-25"
         ],
         "errors": [],
-        "status": "ok"
+        "status": "no_new_data"
       },
       "tpex": {
-        "attempted_days": 6,
-        "new_rows": 776,
+        "attempted_days": 5,
+        "new_rows": 0,
         "no_data_days": [
           "2026-10-26",
           "2026-10-23",
@@ -87,14 +87,14 @@
           "2026-09-25"
         ],
         "errors": [],
-        "status": "ok"
+        "status": "no_new_data"
       }
     }
   },
   "flow_history_rows": 90998,
   "holder_history_rows": 44386,
   "stocks_with_chip_records": 2982,
-  "matching_stocks": 66,
-  "ready_stocks": 1895,
+  "matching_stocks": 67,
+  "ready_stocks": 1894,
   "selection_rule": "5個有效法人交易日：外資淨買超>0 且投信淨買超>0；兩期集保持股相隔約28日：400張以上比例增幅>0pp；均需資料未過期。"
 }

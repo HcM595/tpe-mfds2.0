@@ -25,7 +25,8 @@
       "official_publication_unverified": 1957,
       "source_authorization_missing": 1957,
       "missing_report_day": 24,
-      "first_seen_unverified": 24
+      "first_seen_unverified": 24,
+      "report_after_price_day": 864
     }
   },
   "model_scoring_enabled": false,
