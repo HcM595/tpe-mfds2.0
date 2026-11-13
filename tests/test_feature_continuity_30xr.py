@@ -136,8 +136,21 @@ class FeatureContinuity(unittest.TestCase):
                       "data-quick-tab=\"stock\"","研究進階工具與原始稽核",
                       "id=\"quick-nav\"","latestWithinFiveDays",
                       "行情資料已超過5日或日期無效",
-                      "失效觀察參考 ","缺乏可靠壓力位時不提供目標價"):
+                      "失效觀察：","缺乏可靠壓力位時不提供目標價"):
             self.assertIn(token,index)
+
+    def test_swing_shortlist_uses_in_page_analysis_and_shared_watchlist(self):
+        index=(SITE/"index.html").read_text(encoding="utf-8")
+        for token in ("marketDatesAligned","om.aligned===true",
+                      "Math.abs(verifiedClose-c)","Math.abs(rankMa20-ma)",
+                      "data-r-stock=","data-r-watch-add=",
+                      "function saveStockToWatch(code)",
+                      "saveStockToWatch(b.dataset.rWatchAdd)",
+                      "saveStockToWatch(code)",
+                      "高於觀察區／等待回測","接近觀察區／仍須驗證",
+                      "上市／上櫃行情來源日或官方狀態不一致"):
+            self.assertIn(token,index)
+        self.assertIn("function bindResearch()",index)
 
     def test_model_not_fake_enabled_by_site_shell(self):
         index=(SITE/"index.html").read_text(encoding="utf-8")
