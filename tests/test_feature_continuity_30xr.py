@@ -65,8 +65,11 @@ class FeatureContinuity(unittest.TestCase):
         self.assertIn("timeline.docs=[];timeline.status='idle';timeline.serial++;", index)
         self.assertIn("if(ui.docs[0]?.date!==ui.from||ui.docs.at(-1)?.date!==ui.to)return null;", index)
         # Adding one ticker cannot silently overwrite previously saved codes.
-        self.assertIn("const persisted=window.MFDSWatchlist30N.ids(", index)
+        self.assertIn("function saveStockToWatch(code){", index)
+        self.assertIn("const persisted=helper.ids(", index)
         self.assertIn("[...new Set([...persisted,...state.watch])]", index)
+        self.assertIn("localStorage.setItem(STORAGE,JSON.stringify(result));", index)
+        self.assertIn("saveStockToWatch(code)", index)
 
     def test_market_research_tiers_show_all_blockers(self):
         index=(SITE/"index.html").read_text(encoding="utf-8")
