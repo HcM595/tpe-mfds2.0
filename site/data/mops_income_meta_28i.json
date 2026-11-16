@@ -1,10 +1,10 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-11-16T09:55:19+08:00",
+  "generated_at_taipei": "2026-11-16T10:01:56+08:00",
   "observations": 568,
   "checked": 15,
   "fresh_success": 14,
-  "fresh_ytd_unit_period_aligned": 13,
+  "fresh_ytd_unit_period_aligned": 12,
   "income_report_ytd": "從MOPS第6欄提取當年年初累計本期淨利；第2欄為單季，不混用",
   "amount_unit": "只有逐股MOPS原始表有唯一明確新台幣仟元標頭時才核實",
   "per_stock": {
@@ -32,52 +32,52 @@
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1304": {
+    "1444": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1312": {
+    "1445": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1314": {
+    "1447": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1315": {
+    "1449": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1324": {
+    "1464": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1325": {
+    "1467": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1339": {
+    "1475": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1418": {
+    "1512": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1438": {
+    "1516": {
       "status": "ok",
       "income_unit_verified": true,
-      "period_aligned": true
+      "period_aligned": false
     },
-    "1442": {
+    "1517": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": false
@@ -169,6 +169,9 @@
     "1303": {
       "status": "not_checked_this_run"
     },
+    "1304": {
+      "status": "not_checked_this_run"
+    },
     "1305": {
       "status": "not_checked_this_run"
     },
@@ -184,7 +187,16 @@
     "1310": {
       "status": "not_checked_this_run"
     },
+    "1312": {
+      "status": "not_checked_this_run"
+    },
     "1313": {
+      "status": "not_checked_this_run"
+    },
+    "1314": {
+      "status": "not_checked_this_run"
+    },
+    "1315": {
       "status": "not_checked_this_run"
     },
     "1316": {
@@ -199,6 +211,12 @@
     "1323": {
       "status": "not_checked_this_run"
     },
+    "1324": {
+      "status": "not_checked_this_run"
+    },
+    "1325": {
+      "status": "not_checked_this_run"
+    },
     "1326": {
       "status": "not_checked_this_run"
     },
@@ -206,6 +224,9 @@
       "status": "not_checked_this_run"
     },
     "1338": {
+      "status": "not_checked_this_run"
+    },
+    "1339": {
       "status": "not_checked_this_run"
     },
     "1340": {
@@ -235,6 +256,9 @@
     "1417": {
       "status": "not_checked_this_run"
     },
+    "1418": {
+      "status": "not_checked_this_run"
+    },
     "1419": {
       "status": "not_checked_this_run"
     },
@@ -256,6 +280,9 @@
     "1437": {
       "status": "not_checked_this_run"
     },
+    "1438": {
+      "status": "not_checked_this_run"
+    },
     "1439": {
       "status": "not_checked_this_run"
     },
@@ -265,22 +292,13 @@
     "1441": {
       "status": "not_checked_this_run"
     },
+    "1442": {
+      "status": "not_checked_this_run"
+    },
     "1443": {
       "status": "not_checked_this_run"
     },
-    "1444": {
-      "status": "not_checked_this_run"
-    },
-    "1445": {
-      "status": "not_checked_this_run"
-    },
     "1446": {
-      "status": "not_checked_this_run"
-    },
-    "1447": {
-      "status": "not_checked_this_run"
-    },
-    "1449": {
       "status": "not_checked_this_run"
     },
     "1451": {
@@ -313,16 +331,10 @@
     "1463": {
       "status": "not_checked_this_run"
     },
-    "1464": {
-      "status": "not_checked_this_run"
-    },
     "1465": {
       "status": "not_checked_this_run"
     },
     "1466": {
-      "status": "not_checked_this_run"
-    },
-    "1467": {
       "status": "not_checked_this_run"
     },
     "1468": {
@@ -343,9 +355,6 @@
     "1474": {
       "status": "not_checked_this_run"
     },
-    "1475": {
-      "status": "not_checked_this_run"
-    },
     "1476": {
       "status": "not_checked_this_run"
     },
@@ -361,9 +370,6 @@
     "1506": {
       "status": "not_checked_this_run"
     },
-    "1512": {
-      "status": "not_checked_this_run"
-    },
     "1513": {
       "status": "not_checked_this_run"
     },
@@ -371,12 +377,6 @@
       "status": "not_checked_this_run"
     },
     "1515": {
-      "status": "not_checked_this_run"
-    },
-    "1516": {
-      "status": "not_checked_this_run"
-    },
-    "1517": {
       "status": "not_checked_this_run"
     },
     "1519": {
