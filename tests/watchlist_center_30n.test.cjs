@@ -67,6 +67,17 @@ assert(!html.includes('已驗證預測勝率'));
 assert.equal((html.match(/data-watch-stock=/g)||[]).length,3);
 const protectedHtml=W.render(report,{codes:ids,mode:'all',query:'" onmouseover="alert(1)'});
 assert(!protectedHtml.includes('value="" onmouseover='));
+const diverged=W.build(ids,{...options,official:{
+ ...official,aligned:false,market_dates:{上市:official.display_date,上櫃:'2026-11-11'}
+}});
+assert.equal(diverged.official_market_dates_aligned,false);
+assert.equal(diverged.core_source_ready,false);
+assert.equal(diverged.three_axes_count,0);
+assert.equal(diverged.official_price_count,0,
+  'cannot present an official price when official market dates diverge');
+assert(diverged.records.every(r=>!r.three_axes&&!r.price&&r.urgent_review));
+assert(W.render(diverged,{codes:ids,quoteMode:'official'}).includes('暫停三面交集確認'));
+assert(!W.render(diverged,{codes:ids,quoteMode:'official'}).includes('chip real">三面條件描述性符合'));
 const fakeReport=W.build(ids,{...options,quoteMode:'demo',quotes});
 assert.equal(fakeReport.official_price_count,0,'demo and real price must not be mixed');
 const missing=W.build(ids,{...options,sources:{},quotes:[]});
