@@ -1,52 +1,52 @@
 {
   "version": "2.4A",
   "status": "ok",
-  "updated_at_utc": "2026-11-13T11:09:22.035286Z",
-  "snapshot_id": "20261113T110922035286Z-run43414420737-attempt1",
-  "snapshot_path": "signal_archive/2026/11/13/20261113T110922035286Z-run43414420737-attempt1/snapshot.json",
+  "updated_at_utc": "2026-11-16T01:47:41.548603Z",
+  "snapshot_id": "20261116T014741548603Z-run43788165848-attempt1",
+  "snapshot_path": "signal_archive/2026/11/16/20261116T014741548603Z-run43788165848-attempt1/snapshot.json",
   "latest_snapshot": {
-    "snapshot_id": "20261113T110922035286Z-run43414420737-attempt1",
-    "snapshot_sha256": "e76ab04d46ff1c25c86a2c3f48355a8c9a18e26b0a69465757bd767dd24d9e1a",
-    "captured_at_utc": "2026-11-13T11:09:22.035286Z",
+    "snapshot_id": "20261116T014741548603Z-run43788165848-attempt1",
+    "snapshot_sha256": "b11604a0d256f956f7886b52ad2ac3b67582c64bf04c33de51d5d5d1376402d5",
+    "captured_at_utc": "2026-11-16T01:47:41.548603Z",
     "source_price_dates": [
       "2026-11-13"
     ],
-    "eligible_ranked": 47,
-    "eligible_verified": 47,
-    "signal_fingerprint": "b94bdf4fd0cf12656a2d0073c0990cce29b2a8908932cb2d0604e43d6dee7112",
-    "snapshot_path": "signal_archive/2026/11/13/20261113T110922035286Z-run43414420737-attempt1/snapshot.json",
-    "first_seen_snapshot_id": "20261113T110922035286Z-run43414420737-attempt1",
+    "eligible_ranked": 51,
+    "eligible_verified": 51,
+    "signal_fingerprint": "6cee29cdcd3499f4da837ed62c3e0ed2cde175190efe0d4328e573f2321b2b65",
+    "snapshot_path": "signal_archive/2026/11/16/20261116T014741548603Z-run43788165848-attempt1/snapshot.json",
+    "first_seen_snapshot_id": "20261116T014741548603Z-run43788165848-attempt1",
     "same_signal_as_earlier_snapshot": false
   },
-  "snapshots_total": 135,
-  "unique_signal_fingerprints": 24,
+  "snapshots_total": 136,
+  "unique_signal_fingerprints": 25,
   "repeated_signal_snapshots": 111,
   "summary": {
-    "rank_candidates": 56,
-    "eligible_ranked": 47,
-    "eligible_verified": 47,
-    "nonranked_candidates": 9,
+    "rank_candidates": 61,
+    "eligible_ranked": 51,
+    "eligible_verified": 51,
+    "nonranked_candidates": 10,
     "source_price_dates": [
       "2026-11-13"
     ],
     "rank_status_counts": {
-      "可排名": 47,
-      "未納入": 9
+      "可排名": 51,
+      "未納入": 10
     },
     "technical_status_counts": {
-      "三項確認": 23,
-      "部分確認": 23,
+      "三項確認": 25,
+      "部分確認": 25,
       "尚未確認": 1
     },
     "holder_structure_counts": {
-      "雙級距增加": 15,
-      "持股結構分歧": 29,
+      "雙級距增加": 17,
+      "持股結構分歧": 31,
       "單級距增加，另一級距持平": 3
     },
     "source_generated_at_taipei": {
-      "chip_rank": "2026-11-13T19:09:20.686345+08:00",
-      "tech_crosscheck": "2026-11-13T19:09:21+08:00",
-      "official_meta": "2026-11-13T19:07:19+08:00"
+      "chip_rank": "2026-11-16T09:47:40.625827+08:00",
+      "tech_crosscheck": "2026-11-16T09:47:41+08:00",
+      "official_meta": "2026-11-16T09:46:24+08:00"
     }
   },
   "note": "快照在GitHub與GitHub Pages中保留，不可修改或回填過去首次觀測時間。source_published_at未知；首次封存時間不等於來源公告時間。"

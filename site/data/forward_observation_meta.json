@@ -1,39 +1,39 @@
 {
   "version": "2.4C",
   "status": "ok",
-  "generated_at_taipei": "2026-11-13T19:10:11+08:00",
-  "latest_audited_snapshot_id": "20261113T110922035286Z-run43414420737-attempt1",
-  "latest_signal_first_observed_at_utc": "2026-11-13T11:09:22.035286Z",
-  "latest_cohort_id": "cohort-b94bdf4fd0cf12656a2d0073",
+  "generated_at_taipei": "2026-11-16T09:48:19+08:00",
+  "latest_audited_snapshot_id": "20261116T014741548603Z-run43788165848-attempt1",
+  "latest_signal_first_observed_at_utc": "2026-11-16T01:47:41.548603Z",
+  "latest_cohort_id": "cohort-6cee29cdcd3499f4da837ed6",
   "new_cohort_created": true,
-  "cohorts_total": 24,
-  "latest_cohort_registered_at_utc": "2026-11-13T11:10:11.869942Z",
-  "latest_cohort_qualified": 47,
-  "observation_rows_all_cohorts": 1693,
-  "observation_eligible_rows_all_cohorts": 1464,
-  "data_quality_isolated_rows": 229,
+  "cohorts_total": 25,
+  "latest_cohort_registered_at_utc": "2026-11-16T01:48:19.464511Z",
+  "latest_cohort_qualified": 50,
+  "observation_rows_all_cohorts": 1754,
+  "observation_eligible_rows_all_cohorts": 1514,
+  "data_quality_isolated_rows": 240,
   "market_classification_conflicts": 0,
-  "unique_signal_fingerprints_in_archive": 24,
+  "unique_signal_fingerprints_in_archive": 25,
   "repeat_signal_snapshots": 111,
   "horizon_status_counts": {
     "10": {
       "觀察期已走完_報酬尚未驗證": 547,
-      "不列入_非有效排名": 212,
-      "暫緩_異常待核實": 17,
+      "不列入_非有效排名": 222,
+      "暫緩_異常待核實": 18,
       "觀察中_無績效": 769,
-      "等待參考交易日": 148
+      "等待參考交易日": 198
     },
     "20": {
       "觀察中_無績效": 1316,
-      "不列入_非有效排名": 212,
-      "暫緩_異常待核實": 17,
-      "等待參考交易日": 148
+      "不列入_非有效排名": 222,
+      "暫緩_異常待核實": 18,
+      "等待參考交易日": 198
     },
     "60": {
       "觀察中_無績效": 1316,
-      "不列入_非有效排名": 212,
-      "暫緩_異常待核實": 17,
-      "等待參考交易日": 148
+      "不列入_非有效排名": 222,
+      "暫緩_異常待核實": 18,
+      "等待參考交易日": 198
     }
   },
   "calendar_validation_version": "2.4D",

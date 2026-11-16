@@ -1,6 +1,6 @@
 {
   "version": "3.0X-S",
-  "built_at_utc": "2026-11-13T11:13:24.731997+00:00",
+  "built_at_utc": "2026-11-16T01:51:27.074456+00:00",
   "source_snapshot_schema": "3.0E",
   "sources": [
     {
@@ -15,17 +15,17 @@
     {
       "key": "chip",
       "path": "data/chip_signals.csv",
-      "rows": 2982,
-      "unique_stocks": 2982,
+      "rows": 2986,
+      "unique_stocks": 2986,
       "asof_min": "2026-09-08",
       "asof_max": "2026-11-13",
-      "missing_asof": 1002
+      "missing_asof": 1006
     },
     {
       "key": "tech",
       "path": "data/tech_crosscheck.csv",
-      "rows": 56,
-      "unique_stocks": 56,
+      "rows": 61,
+      "unique_stocks": 61,
       "asof_min": "2026-11-13",
       "asof_max": "2026-11-13",
       "missing_asof": 0
@@ -53,17 +53,17 @@
       "path": "data/f2_valuation_29e.csv",
       "rows": 1980,
       "unique_stocks": 1980,
-      "asof_min": "2026-11-12",
+      "asof_min": "2026-11-13",
       "asof_max": "2026-11-13",
       "missing_asof": 0
     },
     {
       "key": "revenue",
       "path": "data/revenue_snapshot_28c.csv",
-      "rows": 1965,
-      "unique_stocks": 1965,
-      "asof_min": "2026-11-12",
-      "asof_max": "2026-11-13",
+      "rows": 1974,
+      "unique_stocks": 1974,
+      "asof_min": "2026-11-15",
+      "asof_max": "2026-11-15",
       "missing_asof": 0
     },
     {

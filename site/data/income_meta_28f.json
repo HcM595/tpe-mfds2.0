@@ -1,23 +1,25 @@
 {
   "version": "2.8F",
-  "generated_at_taipei": "2026-11-13T19:10:28+08:00",
-  "rows": 1392,
+  "generated_at_taipei": "2026-11-16T09:48:32+08:00",
+  "rows": 1839,
   "markets": {
     "上市": {
       "status": "ok",
-      "rows": 752,
+      "rows": 1001,
       "latest_period": "2026Q3",
       "source": "https://openapi.twse.com.tw/v1/opendata/t187ap06_L_ci",
-      "sha256": "6dd775ea4cb2da4922197fa46f8171687856577c5929381c830ca320d5dbd4c8",
+      "sha256": "f3ca3cfe090e5fbd3e8234d6d9a5e4676b4dfbf264552c391f03b636d444ea1e",
       "excluded": {}
     },
     "上櫃": {
       "status": "ok",
-      "rows": 640,
+      "rows": 838,
       "latest_period": "2026Q3",
       "source": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap06_O_ci",
-      "sha256": "988925531f60bd2fb0722c6c60b8e79c9c2616f7bcd47cb09df141e3730d36d7",
-      "excluded": {}
+      "sha256": "c98ef849ed02ae8d619cbb74d6200a72605a256c671810c35c66afa39061a09c",
+      "excluded": {
+        "outside_company_master_or_market": 1
+      }
     }
   },
   "industry_coverage": "僅一般業(ci)；金融、證券、金控、保險、異業尚未串接",

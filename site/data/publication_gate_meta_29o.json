@@ -16,16 +16,18 @@
       "first_seen_unverified": 5
     },
     "F3": {
+      "report_after_price_day": 1965,
       "first_seen_after_cutoff": 1965,
       "official_publication_unverified": 1965,
       "source_authorization_missing": 1965
     },
     "REVENUE": {
-      "first_seen_after_cutoff": 1941,
+      "report_after_price_day": 1950,
+      "first_seen_after_cutoff": 1950,
       "official_publication_unverified": 1965,
       "source_authorization_missing": 1965,
-      "missing_report_day": 24,
-      "first_seen_unverified": 24
+      "missing_report_day": 15,
+      "first_seen_unverified": 15
     }
   },
   "model_scoring_enabled": false,

@@ -1,6 +1,6 @@
 {
   "version": "2.9F",
-  "generated_at_taipei": "2026-11-13T19:13:06+08:00",
+  "generated_at_taipei": "2026-11-16T09:51:07+08:00",
   "model": "TPE-MFDS original M1-M3 I1-I3 F1-F3 S1-S3; two engines A/B",
   "macro_observation_status": {
     "ndc": "ok",
@@ -17,7 +17,7 @@
   "credit_balance_observations_not_retail_ownership": true,
   "stocks": 1965,
   "basic_qualified": 761,
-  "snapshots_with_archives_later_than_price": 0,
+  "snapshots_with_archives_later_than_price": 1965,
   "stocks_with_some_descriptive_observation": 1965,
   "per_factor": {
     "M1": {
@@ -39,8 +39,8 @@
       "verified": 0
     },
     "I1": {
-      "no_data": 1758,
-      "partial": 207,
+      "no_data": 1965,
+      "partial": 0,
       "descriptive": 0,
       "verified": 0
     },
@@ -57,20 +57,20 @@
       "verified": 0
     },
     "F1": {
-      "no_data": 24,
-      "partial": 1388,
-      "descriptive": 553,
+      "no_data": 15,
+      "partial": 1395,
+      "descriptive": 555,
       "verified": 0
     },
     "F2": {
-      "no_data": 443,
-      "partial": 1522,
+      "no_data": 446,
+      "partial": 1519,
       "descriptive": 0,
       "verified": 0
     },
     "F3": {
-      "no_data": 0,
-      "partial": 1965,
+      "no_data": 1965,
+      "partial": 0,
       "descriptive": 0,
       "verified": 0
     },
@@ -81,8 +81,8 @@
       "verified": 0
     },
     "S2": {
-      "no_data": 116,
-      "partial": 1849,
+      "no_data": 115,
+      "partial": 1850,
       "descriptive": 0,
       "verified": 0
     },
