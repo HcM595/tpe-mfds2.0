@@ -39,7 +39,9 @@ function build(codes,context){
   lookups[key]=index(context.sources?.[key]);
   loaded[key]=Array.isArray(context.sources?.[key]);
  }
- const coreReady=loaded.rank&&loaded.chip&&loaded.tech&&
+ const marketAligned=official.status==='ok'&&official.aligned===true&&
+   ['上市','上櫃'].every(m=>official.market_dates?.[m]===priceDate);
+ const coreReady=loaded.rank&&loaded.chip&&loaded.tech&&marketAligned&&
    /^\d{4}-\d{2}-\d{2}$/.test(priceDate)&&!Number.isNaN(Date.parse(priceDate+'T00:00:00Z'));
  const quotes=index(context.quoteMode==='official'?context.quotes:[]);
  const records=[];
@@ -51,17 +53,19 @@ function build(codes,context){
   const check=context.brief({stockId:id,stockName:n,priceDate,sources,loaded,
     crossCheck:context.crossCheck});
   const quote=quotes.get(id);
-  const currentPrice=quote&&quote.asof===priceDate&&Number.isFinite(Number(quote.close))&&
-    Number(quote.close)>0 ? Number(quote.close):null;
+  const currentPrice=marketAligned&&quote&&quote.asof===priceDate&&
+    Number.isFinite(Number(quote.close))&&Number(quote.close)>0?
+    Number(quote.close):null;
   const first=check.cards.slice(0,3);
   const outstanding=first.filter(c=>!c.usable).length;
   records.push({
    id,name:String(n),price:currentPrice,price_asof:currentPrice===null?'—':priceDate,
    price_status:currentPrice===null?'缺少當次官方行情':'當次官方收盤',
    flow:first[0],holder:first[1],technical:first[2],revenue:check.cards[3],
-   three_axes:check.cross==='三面條件描述性符合',
-   three_label:check.cross,detail:check,
-   urgent_review:outstanding>0,unverified_dimensions:outstanding,
+   three_axes:!!coreReady&&check.cross==='三面條件描述性符合',
+   three_label:coreReady?check.cross:'官方行情來源日期或研究資料待核對',detail:check,
+   urgent_review:outstanding>0||!coreReady,
+   unverified_dimensions:outstanding+(!coreReady?1:0),
    factor_verified:check.model.verified_factors,
    source_date:priceDate||'—',
   });
@@ -75,6 +79,7 @@ function build(codes,context){
   source_loaded:sourceKeys.filter(k=>loaded[k]).length,
   source_expected:sourceKeys.length,
   core_source_ready:!!coreReady,
+  official_market_dates_aligned:marketAligned,
   probability_enabled:false,
   warning:'本機自選代號不等於持股；結果為封存資料的描述性觀察，並非即時訊號、獲利預測或已校準勝率。',
  };
@@ -152,6 +157,8 @@ function render(report,opts={}){
   '<button class="btn btn-primary" type="submit">＋ 加入追蹤</button></form>'+
   (pending?'<p class="r-watch-notice" role="status">研究來源正在讀取；尚未取得資料不能視為零檔符合。</p>':'')+
   (failed?'<p class="r-watch-notice" role="alert">自選股來源核對失敗：'+escapeHtml(failed)+'</p>':'')+
+  (report&&count&&!report.official_market_dates_aligned?
+   '<p class="r-watch-notice" role="alert">上市／上櫃官方行情日期或來源狀態未一致：暫停三面交集確認及官方收盤價顯示，請先更新研究資料。</p>':'')+
   (report&&count&&report.source_loaded<report.source_expected?
    '<p class="r-watch-notice" role="status">已取得 '+report.source_loaded+'／'+report.source_expected+
    ' 類研究來源；缺漏不會被當成符合條件。</p>':'')+
