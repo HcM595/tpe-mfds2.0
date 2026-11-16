@@ -128,7 +128,7 @@ class FeatureContinuity(unittest.TestCase):
                       "t.latest_history_date===priceDate",
                       "c/ma<=1.08","rsi>=40&&rsi<70",
                       "MA20 ±1%觀察區",
-                      "不是依勝率排名","不強行推薦",
+                      "不以勝率排序","不強行推薦",
                       "不是停損指令"):
             self.assertIn(token,html)
         self.assertIn("return `\u0024{swingPanel}\u0024{rCards(cards)}",html)
@@ -158,6 +158,8 @@ class FeatureContinuity(unittest.TestCase):
     def test_decision_first_swing_research_and_reversible_details(self):
         index=(SITE/"index.html").read_text(encoding="utf-8")
         playbook=(SITE/"swing_playbook_30z.js").read_text(encoding="utf-8")
+        self.assertIn("const tiers={monitor:0,waiting:1,risk_unfavorable:2,risk_unknown:3}",index)
+        self.assertIn("const decision=x.decision;",index)
         for token in ('src="./swing_playbook_30z.js"',
                       'aria-label="3.0Z波段研究決策卡"',
                       "rSwingDecisionPanel(swingPlan)",
