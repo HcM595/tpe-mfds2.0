@@ -1,9 +1,9 @@
 {
   "version": "2.4A",
   "note": "同一訊號指紋的重跑要去重；每份來源快照保留原始封存時間，不覆寫舊檔。",
-  "snapshots_total": 141,
+  "snapshots_total": 142,
   "unique_signal_fingerprints": 25,
-  "repeated_signal_snapshots": 116,
+  "repeated_signal_snapshots": 117,
   "snapshots": [
     {
       "snapshot_id": "20261022T001421563144Z-run39698086651-attempt1",
@@ -1976,6 +1976,20 @@
       "eligible_verified": 51,
       "signal_fingerprint": "6cee29cdcd3499f4da837ed62c3e0ed2cde175190efe0d4328e573f2321b2b65",
       "snapshot_path": "signal_archive/2026/11/16/20261116T061239552931Z-run43814579527-attempt1/snapshot.json",
+      "first_seen_snapshot_id": "20261116T014741548603Z-run43788165848-attempt1",
+      "same_signal_as_earlier_snapshot": true
+    },
+    {
+      "snapshot_id": "20261116T061904899715Z-run43814647907-attempt1",
+      "snapshot_sha256": "021816bc8e9f741be0a8a6cc82a3327cdf27623705e2a94711c370c617fba624",
+      "captured_at_utc": "2026-11-16T06:19:04.899715Z",
+      "source_price_dates": [
+        "2026-11-13"
+      ],
+      "eligible_ranked": 51,
+      "eligible_verified": 51,
+      "signal_fingerprint": "6cee29cdcd3499f4da837ed62c3e0ed2cde175190efe0d4328e573f2321b2b65",
+      "snapshot_path": "signal_archive/2026/11/16/20261116T061904899715Z-run43814647907-attempt1/snapshot.json",
       "first_seen_snapshot_id": "20261116T014741548603Z-run43788165848-attempt1",
       "same_signal_as_earlier_snapshot": true
     }
