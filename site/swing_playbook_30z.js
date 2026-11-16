@@ -71,7 +71,7 @@ function evaluate({rank,tech,risk,official,check,now=Date.now(),minimumRR=2}={})
  const riskDetail={...detail,historicalHigh20:priorHigh,rewardRisk:rr,
    riskVerified:true};
  if(rr===null||rr<minimumRR)
-  return result('reward_insufficient','歷史上緣／失效距離的風報門檻未達',riskDetail);
+  return result('risk_unfavorable','歷史上緣／失效距離的風報門檻未達',riskDetail);
  if(close>high)return result('waiting','高於觀察區，等待回測',riskDetail);
  return result('monitor','接近觀察區，等待價量再確認',
    {...riskDetail,canConsider:true});
