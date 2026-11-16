@@ -155,6 +155,23 @@ class FeatureContinuity(unittest.TestCase):
             self.assertIn(token,index)
         self.assertIn("function bindResearch()",index)
 
+    def test_decision_first_swing_research_and_reversible_details(self):
+        index=(SITE/"index.html").read_text(encoding="utf-8")
+        playbook=(SITE/"swing_playbook_30z.js").read_text(encoding="utf-8")
+        for token in ('src="./swing_playbook_30z.js"',
+                      'aria-label="3.0Z波段研究決策卡"',
+                      "rSwingDecisionPanel(swingPlan)",
+                      "展開原始研究、資料來源與歷史證據（進階）",
+                      "risk:swingRiskIndex.get(x.row.stock_id)",
+                      "歷史風報比 ","高於觀察區，等待回測"):
+            self.assertIn(token,index+playbook)
+        for token in ("probabilityEnabled:false","historicalHigh20",
+                      "price_adjusted==='false'","risk.price_asof===priceDate",
+                      "check.confluence","Math.abs(a-b)"):
+            self.assertIn(token,playbook)
+        self.assertIn("node tests/swing_playbook_30z.test.cjs",
+                      (ROOT/".github/workflows/publish.yml").read_text(encoding="utf-8"))
+
     def test_model_not_fake_enabled_by_site_shell(self):
         index=(SITE/"index.html").read_text(encoding="utf-8")
         self.assertNotIn("預測勝率80%",index)
