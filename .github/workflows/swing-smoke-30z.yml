@@ -1,0 +1,46 @@
+name: 3.0Z 波段決策介面快速驗證
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'site/index.html'
+      - 'site/swing_playbook_30z.js'
+      - 'tests/swing_playbook_30z.test.cjs'
+      - 'tests/test_feature_continuity_30xr.py'
+      - 'tests/browser_live_audit_30p.cjs'
+      - '.github/workflows/swing-smoke-30z.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  swing-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 波段引擎語法及風險守門單元測試
+        run: |
+          node --check site/swing_playbook_30z.js
+          node tests/swing_playbook_30z.test.cjs
+      - name: 抽出首頁內嵌 JavaScript 驗證語法
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          html=Path('site/index.html').read_text(encoding='utf-8')
+          scripts=re.findall(r'<script(?:\s[^>]*)?>(.*?)</script>',html,re.S)
+          bodies=[s for s in scripts if s.strip()]
+          assert bodies, 'Missing inline app script'
+          Path('/tmp/mfds-main-inline.js').write_text(max(bodies,key=len),encoding='utf-8')
+          PY
+          node --check /tmp/mfds-main-inline.js
+      - name: 重要 UI 與來源一致性回歸測試
+        run: |
+          python -m unittest -v tests.test_feature_continuity_30xr
+          node tests/watchlist_center_30n.test.cjs
