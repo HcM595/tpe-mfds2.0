@@ -1,17 +1,17 @@
 {
   "version": "2.6B",
-  "generated_at_taipei": "2026-11-16T14:19:49+08:00",
+  "generated_at_taipei": "2026-11-16T19:33:26+08:00",
   "flow_source_status": "ok",
   "holder_source_status": "ok",
-  "flow_rows": 92855,
+  "flow_rows": 94724,
   "holder_rows": 47366,
-  "flow_stocks": 1980,
+  "flow_stocks": 1981,
   "holder_stocks": 2986,
-  "flow_date_latest": "2026-11-13",
+  "flow_date_latest": "2026-11-16",
   "holder_date_latest": "2026-11-13",
   "flow_max_records_per_stock": 120,
   "holder_max_records_per_stock": 26,
-  "dealer_missing_rows": 66344,
+  "dealer_missing_rows": 68213,
   "historical_data_complete": false,
   "notes": "資料僅為已封存之實際來源日期；未補日期、未推估、非官方獨立驗證，不能據此認定模型勝率。"
 }
