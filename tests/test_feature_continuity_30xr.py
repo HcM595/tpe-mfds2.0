@@ -170,7 +170,7 @@ class FeatureContinuity(unittest.TestCase):
                       "check.confluence","Math.abs(a-b)"):
             self.assertIn(token,playbook)
         self.assertIn("node tests/swing_playbook_30z.test.cjs",
-                      (ROOT/".github/workflows/publish.yml").read_text(encoding="utf-8"))
+                      (SITE.parent/".github/workflows/publish.yml").read_text(encoding="utf-8"))
 
     def test_model_not_fake_enabled_by_site_shell(self):
         index=(SITE/"index.html").read_text(encoding="utf-8")
