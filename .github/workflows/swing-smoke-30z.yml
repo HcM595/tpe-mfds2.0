@@ -5,7 +5,9 @@ on:
     paths:
       - 'site/index.html'
       - 'site/swing_playbook_30z.js'
+      - 'site/watchlist_center_30n.js'
       - 'tests/swing_playbook_30z.test.cjs'
+      - 'tests/watchlist_center_30n.test.cjs'
       - 'tests/test_feature_continuity_30xr.py'
       - 'tests/browser_live_audit_30p.cjs'
       - '.github/workflows/swing-smoke-30z.yml'
