@@ -110,7 +110,7 @@ const assert=require('node:assert/strict');
    const count=await candidates.count();
    if(count){
     const code=await candidates.first().getAttribute('data-r-stock');
-    assert(/^\\d{4,6}$/.test(code));
+    assert(/^\d{4,6}$/.test(code),'candidate ticker must be 4–6 digits: '+code);
     await candidates.first().click();
     await page.locator('#r-stock-form').waitFor({timeout:30000});
     assert((await page.locator('#content').innerText()).includes(code));
