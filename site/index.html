@@ -12,6 +12,22 @@
 .tech-metric small{display:block;color:#667b8b;font-size:12px;margin-bottom:5px}
 .tech-metric b{font-size:14px;color:#183951;word-break:break-word}
 @media(max-width:900px){.tech-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* 3.0Z compact decision-first design. Research source data remains accessible. */
+.r-decision{border:1px solid #d7e5dc;background:linear-gradient(130deg,#fcfefc,#f6faf8);margin:15px 0}
+.r-decision-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.r-decision-head h3{font-size:19px;margin:4px 0}
+.r-decision-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0}
+.r-decision-cell{padding:13px 14px;background:#fff;border:1px solid #e1e9e6;border-radius:12px;min-width:0}
+.r-decision-cell small{display:block;color:#687f7b;font-size:12px}
+.r-decision-cell strong{display:block;margin:5px 0;font-size:19px;color:#1e4140}
+.r-decision-cell .hint{display:block;line-height:1.55;font-size:12px}
+.r-decision-note{border-top:1px solid #e3ebe7;padding-top:13px;font-size:12px;color:#53666a}
+.r-stock-advanced{margin-top:18px;padding:15px 16px;border:1px solid #dbe4e8;border-radius:12px;background:#fff}
+.r-stock-advanced>summary{font-size:14px;font-weight:800;color:#244a60;cursor:pointer}
+.r-stock-advanced[open]>summary{margin-bottom:12px}
+.r-swing-mini{display:block;font-size:12px;color:#47665c;margin-top:3px}
+@media(max-width:740px){.r-decision-grid{grid-template-columns:1fr}.r-decision-head h3{font-size:17px}}
 </style>
 <style>
 /* 2.6A research center, scoped to avoid affecting legacy screens */
@@ -79,6 +95,7 @@
 <script src="./watchlist_center_30n.js"></script>
 <script src="./watch_history_30o.js"></script>
 <script src="./watch_timeline_30p.js"></script>
+<script src="./swing_playbook_30z.js"></script>
 <script src="./chip_trends_26b.js"></script>
 <script src="./research_eligibility_27a.js"></script>
 <script>
@@ -454,18 +471,25 @@ function rOverview(){
       c>=ma&&c/ma<=1.08&&Number.isFinite(rsi)&&rsi>=40&&rsi<70;
   }).sort((a,b)=>(Number(a.row.chip_strength_rank)||999999)-
     (Number(b.row.chip_strength_rank)||999999)).slice(0,5);
+  const swingRiskIndex=rIndex('risk');
   const swingRows=candidates.map(x=>{
     const t=tech.get(x.row.stock_id),ma=Number(t.ma20),
       close=Number(x.row.close),gap=(close/ma-1)*100;
     const low=ma*0.99,high=ma*1.01,invalid=ma*0.97;
-    const currentStatus=close<=high?'接近觀察區／仍須驗證':'高於觀察區／等待回測';
+    const decision=window.MFDSSwingPlaybook30Z?.evaluate({
+      rank:x.row,tech:t,risk:swingRiskIndex.get(x.row.stock_id)||null,
+      official:om,check:x.check
+    })||null;
+    const currentStatus=decision?.label||'研究資料待核對';
+    const riskText=decision?.rewardRisk!==null&&decision?.rewardRisk!==undefined?
+      '歷史風報比 '+fmt(decision.rewardRisk,2)+' 倍（非預測）':'歷史風報：資料不足／未通過';
     const saved=state.watch.includes(x.row.stock_id);
     return '<tr><td><strong>'+esc(x.row.stock_id)+' '+esc(x.row.stock_name)+'</strong>'+
       '<div class="hint">集保週資料日 '+esc(x.row.holder_asof)+'</div></td>'+
       '<td>'+fmt(close,2)+'<div class="hint">MA20 '+fmt(ma,2)+'；高出 '+fmt(gap,1)+'%</div></td>'+
       '<td>'+fmt(low,2)+'～'+fmt(high,2)+
         '<div class="hint">失效觀察：'+fmt(invalid,2)+'（非停損）</div></td>'+
-      '<td>'+esc(currentStatus)+'<div class="hint">MA60 '+fmt(Number(t.ma60),2)+
+      '<td>'+esc(currentStatus)+'<span class="r-swing-mini">'+esc(riskText)+'</span><div class="hint">MA60 '+fmt(Number(t.ma60),2)+
         '；RSI '+fmt(Number(t.rsi14),1)+'</div></td>'+
       '<td><button type="button" class="btn mini" data-r-stock="'+esc(x.row.stock_id)+'">查看個股</button> '+
       (saved?'<span class="chip real">已追蹤</span>':
@@ -481,7 +505,7 @@ function rOverview(){
     crossError?'<p role="alert">來源驗證失敗：'+esc(crossError)+'</p>':
     !candidates.length?'<div class="r-empty">目前沒有同時通過資料核驗與研究條件的候選股；不強行推薦。</div>':
     '<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>候選股與集保日期</th><th>收盤與均線</th><th>MA20 ±1%觀察區</th><th>價位狀態</th><th>一鍵操作</th></tr></thead><tbody>'+swingRows+'</tbody></table></div>')+
-    '<p class="hint">所列價格是20日均線附近的條件式觀察區，不代表會成交或必然支撐；進場前需重新確認價格守穩觀察區、成交量、籌碼沒有轉差及風險報酬是否合理。MA20下方3%只是失效研究參考，不是停損指令；缺乏可靠壓力位時不提供目標價。未經還原價格及樣本外檢驗，不提供推估勝率。</p>'+
+    '<p class="hint">決策狀態採同一套個股來源及歷史風報守門規則，風險資料不足或條件不符一律不視為進場；所列價格是20日均線附近的條件式觀察區，不代表會成交或必然支撐；進場前需重新確認價格守穩觀察區、成交量、籌碼沒有轉差及風險報酬是否合理。MA20下方3%只是失效研究參考，不是停損指令；缺乏可靠壓力位時不提供目標價。未經還原價格及樣本外檢驗，不提供推估勝率。</p>'+
     '</section>';
   const rows=crossResults.map(item=>item.row);
   const crossIndex=new Map(crossResults.map(item=>[item.row.stock_id,item]));
@@ -619,6 +643,25 @@ function rStockBrief(report){
    '<p class="r-evidence-caution">'+quote(report.caution)+'</p></section>';
 }
 
+function rSwingDecisionPanel(plan){
+ if(!plan)return '<section class="card r-decision" role="alert">波段研究規劃模組尚未載入，暫停顯示進場參考。</section>';
+ const price=v=>typeof v==='number'&&Number.isFinite(v)?fmt(v,2):'—';
+ const rr=plan.rewardRisk===null?'不可計算':fmt(plan.rewardRisk,2)+' 倍（歷史參考）';
+ return '<section class="card r-decision r-section" aria-label="3.0Z波段研究決策卡" data-swing-state="'+esc(plan.state)+'">'+
+ '<div class="r-decision-head"><div><div class="r-eyebrow">SWING DESK · 2週至3個月</div>'+
+ '<h3>波段研究決策摘要</h3></div><span class="chip">'+esc(plan.label)+'</span></div>'+
+ '<div class="r-decision-grid">'+
+ '<div class="r-decision-cell"><small>當次研究收盤價</small><strong>'+price(plan.close)+' 元</strong>'+
+ '<span class="hint">收盤日 '+esc(plan.sourceDate)+' · 集保來源 '+esc(plan.holderDate)+'</span></div>'+
+ '<div class="r-decision-cell"><small>MA20附近條件觀察區</small><strong>'+price(plan.entryLow)+'～'+price(plan.entryHigh)+'</strong>'+
+ '<span class="hint">待價量與籌碼確認，不是自動買點</span></div>'+
+ '<div class="r-decision-cell"><small>失效觀察／歷史收盤上緣</small><strong>'+price(plan.invalidation)+'／'+price(plan.historicalHigh20)+'</strong>'+
+ '<span class="hint">MA20下方3%／近20日歷史最高收盤，皆非停損或目標價</span></div>'+
+ '</div><p class="r-decision-note"><strong>歷史風報參考：'+rr+'</strong>'+
+ '；研究門檻暫設至少2倍，未經回測校準，不是預測。'+
+ ' 僅在官方日期、籌碼、技術及未還原風險資料相互一致時才計算。'+
+ ' '+esc(plan.notes.join('；'))+'</p></section>';
+}
 function rStock(){
   const id=research.stockId,rank=rIndex('rank').get(id)||{},chip=rIndex('chip').get(id)||{},tech=rIndex('tech').get(id)||{},univ=rIndex('universe').get(id)||{};
   const ss=state.stocks.find(x=>x.stock_id===id)||{};
@@ -654,13 +697,23 @@ function rStock(){
     }
   }catch(e){console.warn('個股證據摘要核對失敗',String(e));}
   research.stockEvidenceBrief=brief;
+  const officialDecision=rGet('official')||{};
+  let swingPlan=null;
+  try{
+    const cross=window.MFDSChipTechCrossfilter?.evaluate(rank,tech,officialDecision.display_date);
+    swingPlan=window.MFDSSwingPlaybook30Z?.evaluate({
+      rank,tech,risk,official:officialDecision,check:cross
+    })||null;
+  }catch(e){console.warn('波段研究條件核對失敗',String(e));}
 
   return `<section class="card r-section"><div class="r-section-title"><div><h3>查詢個股完整研究資料</h3><p>輸入4至6碼股票代號，查詢已發布的市場／技術／籌碼／事件資料。</p></div><span class="chip">資料缺漏不推測</span></div>
     <div class="hint" style="margin:8px 0">快速查詢：<button type="button" class="btn mini" data-r-stock="8064">8064 東捷</button> <button type="button" class="btn mini" data-r-stock="3533">3533 嘉澤</button> <button type="button" class="btn mini" data-r-stock="2345">2345 智邦</button></div>
     <form id="r-stock-form" class="r-lookup"><input id="r-stock-code" inputmode="numeric" autocomplete="off" class="field" maxlength="6" value="${esc(research.stockQuery)}" placeholder="例如8064、3533、2345" aria-label="股票代號" /><button type="submit" class="btn btn-primary">查詢</button></form>
     ${!known?`<div class="r-empty">${esc(id)} 尚未出現在目前已載入的資料；無法提供推測分數或價格。請核對資料日期與來源。</div>`:
     `<div class="r-stock-title"><h2>${esc(id)} ${esc(name)}</h2><span class="chip">${rVal(rank.market||tech.market||univ.market||ss.market||'市場未確認')}</span><span class="chip">收盤行情：${rVal(rank.price_asof||tech.price_asof||ss.asof)}</span><button type="button" class="btn mini" data-action="watch" data-id="${esc(id)}">${state.watch.includes(id)?"★ 已加入自選":"☆ 加入自選"}</button></div>
+    ${rSwingDecisionPanel(swingPlan)}
     ${rStockBrief(brief)}
+    <details class="r-stock-advanced"><summary>展開原始研究、資料來源與歷史證據（進階）</summary>
     <section class="r-panel r-subpanel"><h3>2.9F 本股 F2／F3 三時鐘歷史資料稽核</h3>
 <p class="hint">所有因子需區分來源所屬日、當時能否取得、與官方發佈時分。本表若顯示首次封存較晚，不能用目前新下載的報表回測過去的交易日。</p>
 ${!pit.stock_id?'<p class="hint">此股尚未建立完整的歷史時間稽核紀錄；不會推定來源已於股價基準日公開。</p>':`
@@ -756,7 +809,8 @@ ${!factorEvidence.stock_id?'<p class="hint">本股沒有載入可核實的證據
     <section class="r-panel r-subpanel"><h3>歷史行情計算的技術指標（全市場查詢）</h3>${rTechnicalHistoryPanel(points)}</section>
     <section class="r-panel r-subpanel"><h3>已累積的歷史收盤價</h3><p class="hint">${points.length}筆歷史資料；不顯示尚未驗證的報酬、勝率或還原價格。</p>${points.length?buildChart(points):'<div class="r-empty">尚無可顯示的歷史走勢；不使用示範股價補上。</div>'}</section>
     <section class="r-panel r-subpanel"><h3>歷史訊號與前瞻觀察</h3><p class="hint">${forwards.length}筆跨版本觀察紀錄。多個觀察組可能使用同一交易日，不能直接視為獨立樣本。</p>${forwards.length?`<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>價格日期</th><th>封存時間(UTC)</th><th>籌碼排名</th><th>技術確認</th><th>10日觀察</th><th>20日觀察</th><th>60日觀察</th></tr></thead><tbody>${forwards.slice(0,20).map(x=>`<tr><td>${rVal(x.signal_price_asof)}</td><td>${rVal(x.cohort_registered_at_utc)}</td><td>${rVal(x.chip_strength_rank)}</td><td>${rVal(x.technical_confirmed_count)}/3</td><td>${rVal(x.h10_status)}</td><td>${rVal(x.h20_status)}</td><td>${rVal(x.h60_status)}</td></tr>`).join('')}</tbody></table></div>`:'<div class="r-empty">目前已載入的前瞻觀察名單沒有此股票紀錄；可能因當時未入選或資料尚未符合條件，並不代表未來不會入選。</div>'}</section>
-    <section class="r-panel r-subpanel"><h3>歷史除權息事件</h3><p class="hint">${events.length}筆已取得的事件。沒有紀錄不表示沒有發生除權息，也不代表已核實股利配發數量。</p>${events.length?`<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>事件日期</th><th>事件</th><th>除權息前價格</th><th>參考價</th><th>參考價調整</th><th>配發條件核實</th></tr></thead><tbody>${events.slice(0,30).map(x=>`<tr><td>${rVal(x.ex_date)}</td><td>${rVal(x.event_type)}</td><td>${rVal(x.pre_close)}</td><td>${rVal(x.reference_price)}</td><td>${rVal(x.reference_rights_interest_value)}</td><td>${rVal(x.distribution_ratio_verified)}</td></tr>`).join('')}</tbody></table></div>`:'<div class="r-empty">目前沒有事件紀錄；歷史期間可能尚未回補。</div>'}</section>`}
+    <section class="r-panel r-subpanel"><h3>歷史除權息事件</h3><p class="hint">${events.length}筆已取得的事件。沒有紀錄不表示沒有發生除權息，也不代表已核實股利配發數量。</p>${events.length?`<div class="table-wrap"><table class="data-table r-table"><thead><tr><th>事件日期</th><th>事件</th><th>除權息前價格</th><th>參考價</th><th>參考價調整</th><th>配發條件核實</th></tr></thead><tbody>${events.slice(0,30).map(x=>`<tr><td>${rVal(x.ex_date)}</td><td>${rVal(x.event_type)}</td><td>${rVal(x.pre_close)}</td><td>${rVal(x.reference_price)}</td><td>${rVal(x.reference_rights_interest_value)}</td><td>${rVal(x.distribution_ratio_verified)}</td></tr>`).join('')}</tbody></table></div>`:'<div class="r-empty">目前沒有事件紀錄；歷史期間可能尚未回補。</div>'}</section>
+    </details>`}
   </section>`;
 }
 function rHistory(){
