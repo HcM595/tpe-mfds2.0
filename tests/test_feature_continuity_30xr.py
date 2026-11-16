@@ -150,9 +150,11 @@ class FeatureContinuity(unittest.TestCase):
                       "function saveStockToWatch(code)",
                       "saveStockToWatch(b.dataset.rWatchAdd)",
                       "saveStockToWatch(code)",
-                      "高於觀察區／等待回測","接近觀察區／仍須驗證",
                       "上市／上櫃行情來源日或官方狀態不一致"):
             self.assertIn(token,index)
+        playbook=(SITE/"swing_playbook_30z.js").read_text(encoding="utf-8")
+        for token in ("高於觀察區，等待回測","接近觀察區，等待價量再確認"):
+            self.assertIn(token,playbook)
         self.assertIn("function bindResearch()",index)
 
     def test_decision_first_swing_research_and_reversible_details(self):
