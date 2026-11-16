@@ -142,7 +142,7 @@ const assert=require('node:assert/strict');
    const advanced=page.locator('details.r-stock-advanced');
    assert.equal(await advanced.count(),1);
    assert.equal(await advanced.getAttribute('open'),null,'advanced reports should start collapsed');
-   await advanced.locator('summary').click();
+   await advanced.locator(':scope > summary').click();
    assert((await advanced.innerText()).includes('2.9F'));
    assert.equal(await evidence.locator('.r-evidence-mini').count(),4);
    assert.equal(await evidence.locator('tbody tr').count(),10);
