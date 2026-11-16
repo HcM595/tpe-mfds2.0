@@ -47,6 +47,8 @@ jobs:
         run: |
           node --check site/pit_clock_29n.js
           node tests/pit_clock_29n.test.cjs
+          node --check site/swing_playbook_30z.js
+          node tests/swing_playbook_30z.test.cjs
       - name: 取得官方最新收盤行情
         run: python scripts/fetch_official.py
       - name: 優先補齊東捷、嘉澤等個股與分批回補全市場
