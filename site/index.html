@@ -456,6 +456,7 @@ function rOverview(){
     a.row.stock_id.localeCompare(b.row.stock_id));
   // Small, user-facing swing watchlist based ONLY on dated, cross-verified sources.
   // Not a historical win-rate ranking or an executable order signal.
+  const swingRiskIndex=rIndex('risk');
   const candidates=crossBase.filter(x=>{
     const t=tech.get(x.row.stock_id),c=Number(x.row.close),
       ma=Number(t?.ma20),rsi=Number(t?.rsi14),ma60=Number(t?.ma60);
@@ -469,17 +470,23 @@ function rOverview(){
       Number.isFinite(rankMa20)&&rankMa20>0&&
       Math.abs(rankMa20-ma)<=Math.max(0.01,ma*0.001)&&
       c>=ma&&c/ma<=1.08&&Number.isFinite(rsi)&&rsi>=40&&rsi<70;
-  }).sort((a,b)=>(Number(a.row.chip_strength_rank)||999999)-
-    (Number(b.row.chip_strength_rank)||999999)).slice(0,5);
-  const swingRiskIndex=rIndex('risk');
+  }).map(x=>({...x,decision:window.MFDSSwingPlaybook30Z?.evaluate({
+    rank:x.row,tech:tech.get(x.row.stock_id),risk:swingRiskIndex.get(x.row.stock_id)||null,
+    official:om,check:x.check
+  })||null})).sort((a,b)=>{
+    // Evidence-first presentation, not predicted returns or win-rate ranking.
+    const tiers={monitor:0,waiting:1,risk_unfavorable:2,risk_unknown:3};
+    const p=x=>Object.prototype.hasOwnProperty.call(tiers,x.decision?.state)?
+      tiers[x.decision.state]:4;
+    return p(a)-p(b)||
+      (Number(b.decision?.rewardRisk)||0)-(Number(a.decision?.rewardRisk)||0)||
+      (Number(a.row.chip_strength_rank)||999999)-(Number(b.row.chip_strength_rank)||999999);
+  }).slice(0,5);
   const swingRows=candidates.map(x=>{
     const t=tech.get(x.row.stock_id),ma=Number(t.ma20),
       close=Number(x.row.close),gap=(close/ma-1)*100;
     const low=ma*0.99,high=ma*1.01,invalid=ma*0.97;
-    const decision=window.MFDSSwingPlaybook30Z?.evaluate({
-      rank:x.row,tech:t,risk:swingRiskIndex.get(x.row.stock_id)||null,
-      official:om,check:x.check
-    })||null;
+    const decision=x.decision;
     const currentStatus=decision?.label||'研究資料待核對';
     const riskText=decision?.rewardRisk!==null&&decision?.rewardRisk!==undefined?
       '歷史風報比 '+fmt(decision.rewardRisk,2)+' 倍（非預測）':'歷史風報：資料不足／未通過';
@@ -498,7 +505,7 @@ function rOverview(){
   }).join('');
   const swingPanel='<section class="card r-section" aria-label="條件式波段候選及觀察價位">'+
     '<div class="r-section-title"><div><h3>近期波段候選與條件式觀察區</h3>'+
-    '<p>操作視角：2週～3個月。由已對齊的法人、大戶與技術條件選出，最多5檔；不是依勝率排名。</p></div></div>'+
+    '<p>操作視角：2週～3個月。由已對齊的法人、大戶與技術條件選出，最多5檔；先排風險門檻，再排籌碼名次，不以勝率排序。</p></div></div>'+
     '<p class="hint">行情資料日：'+esc(priceDate||'未取得')+'；集保為週資料，並非當日更新。條件包含三面交集、RSI 40～未滿70、收盤在MA20以上且不高於MA20的8%；MA60須有資料。皆為可調整的研究規則，非經回測最佳參數。</p>'+
     (!latestWithinFiveDays?'<p role="alert">行情資料已超過5日或日期無效，暫停推薦名單；請先更新並核對官方資料。</p>':
     !marketDatesAligned?'<p role="alert">上市／上櫃行情來源日或官方狀態不一致，暫停推薦名單。</p>':
