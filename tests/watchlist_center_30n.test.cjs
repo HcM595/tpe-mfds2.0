@@ -18,7 +18,8 @@ const sources=Object.fromEntries(Object.entries(keys).map(([k,p])=>[k,data(p)]))
 const official=JSON.parse(fs.readFileSync(dir+'official_meta.json','utf8'));
 const ids=['8064','3533','2345'];
 const quotes=[{stock_id:'8064',stock_name:'東捷',close:121.5,asof:official.display_date}];
-const options={sources,official,quotes,quoteMode:'official',
+const fixedNow=Date.parse(official.display_date+'T08:00:00+08:00');
+const options={sources,official,quotes,quoteMode:'official',now:fixedNow,
  brief:Brief.build,crossCheck:Cross.evaluate};
 assert.deepEqual(W.ids(['3533','3533','bad','DEMO01','8064',42,'2345']),['3533','8064','2345']);
 assert.deepEqual(W.ids(new Array(102).fill('8064')),['8064']);
@@ -67,6 +68,21 @@ assert(!html.includes('已驗證預測勝率'));
 assert.equal((html.match(/data-watch-stock=/g)||[]).length,3);
 const protectedHtml=W.render(report,{codes:ids,mode:'all',query:'" onmouseover="alert(1)'});
 assert(!protectedHtml.includes('value="" onmouseover='));
+const stale=W.build(ids,{...options,now:fixedNow+6*86400000});
+assert.equal(stale.official_market_dates_aligned,true);
+assert.equal(stale.official_data_fresh,false);
+assert.equal(stale.core_source_ready,false);
+assert.equal(stale.three_axes_count,0);
+assert.equal(stale.official_price_count,0);
+assert(stale.records.every(r=>!r.three_axes&&r.urgent_review&&r.price===null));
+assert(W.render(stale,{codes:ids,quoteMode:'official'}).includes('官方行情來源超過5日'));
+const future=W.build(ids,{...options,now:fixedNow-2*86400000});
+assert.equal(future.official_data_fresh,false);
+assert.equal(future.three_axes_count,0);
+assert.equal(future.official_price_count,0);
+const stillFresh=W.build(ids,{...options,now:fixedNow+4*86400000});
+assert.equal(stillFresh.official_data_fresh,true);
+assert.equal(stillFresh.core_source_ready,true);
 const diverged=W.build(ids,{...options,official:{
  ...official,aligned:false,market_dates:{上市:official.display_date,上櫃:'2026-11-11'}
 }});
