@@ -2,9 +2,9 @@
   "version": "2.9R",
   "reviewed_factor_rows": 5895,
   "unique_stocks": 1965,
-  "archived_events": 4920,
+  "archived_events": 4921,
   "subject_categories": {
-    "other_corporate_disclosure": 926,
+    "other_corporate_disclosure": 927,
     "general_financial_statement_topic": 1560,
     "unclassified_material_event": 2387,
     "explicit_monthly_revenue_topic": 47
