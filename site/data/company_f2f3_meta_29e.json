@@ -1,45 +1,45 @@
 {
   "version": "2.9E",
-  "generated_at_taipei": "2026-11-16T19:36:50+08:00",
-  "valuation_stocks": 1980,
-  "valuation_peer_comparable": 1532,
-  "governance_stocks": 1990,
-  "chair_ceo_concurrent_count": 441,
+  "generated_at_taipei": "2026-11-17T19:15:55+08:00",
+  "valuation_stocks": 1983,
+  "valuation_peer_comparable": 1536,
+  "governance_stocks": 1991,
+  "chair_ceo_concurrent_count": 442,
   "sources": {
     "上市_valuation": {
       "status": "ok",
-      "rows": 1086,
-      "source_sha256": "6a57c881390a4f672d6bbe710ade566c9542a27877e5868ced5820d03afd8477",
+      "rows": 1087,
+      "source_sha256": "64d2cc2b0cd880fee4f78de9b90953fa74bf5dc19e79ccf9e3383e8fb04acf21",
       "source_url": "https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL",
       "source_dates": [
-        "2026-11-13"
+        "2026-11-16"
       ]
     },
     "上櫃_valuation": {
       "status": "ok",
-      "rows": 894,
-      "source_sha256": "1ff65bff0510daccdb6f1e887f06b306750e4d41e2766f6c31fa40eb83fbdbf2",
+      "rows": 896,
+      "source_sha256": "29578fa41d43f24905331624088e3e4982f45125bb5f33bd773c791c02ccfb27",
       "source_url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_peratio_analysis",
       "source_dates": [
-        "2026-11-13"
+        "2026-11-17"
       ]
     },
     "上市_governance": {
       "status": "ok",
       "rows": 1093,
-      "source_sha256": "2aa78d579989659f8884f5547db61c403d3a0f97a577a20e789f9cc0ee9ae255",
+      "source_sha256": "413d6f45dd3c93212bd7037490157d3c28c52dd6c4f2608000c0c05b72fb021d",
       "source_url": "https://openapi.twse.com.tw/v1/opendata/t187ap33_L",
       "source_dates": [
-        "2026-11-15"
+        "2026-11-16"
       ]
     },
     "上櫃_governance": {
       "status": "ok",
-      "rows": 897,
-      "source_sha256": "5ec33e2b4653edc8147bc6dea05a38f6bad76e37e7ec0747e872b422a3a16b30",
+      "rows": 898,
+      "source_sha256": "8ea23cdc34875900f94db124d1b23cc633ec6c8ea84db4606b6c096df7573a3f",
       "source_url": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap33_O",
       "source_dates": [
-        "2026-11-15"
+        "2026-11-16"
       ]
     }
   },
