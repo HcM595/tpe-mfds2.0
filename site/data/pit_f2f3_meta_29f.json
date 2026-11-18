@@ -1,9 +1,9 @@
 {
   "version": "2.9F",
-  "generated_at_taipei": "2026-11-17T19:16:05+08:00",
+  "generated_at_taipei": "2026-11-18T14:31:02+08:00",
   "whole_universe_stocks": 1956,
-  "source_version_rows": 63515,
-  "new_versions_this_run": 3974,
+  "source_version_rows": 66593,
+  "new_versions_this_run": 3078,
   "factors": {
     "F2": {
       "first_observed_after_price_cutoff": 1951,

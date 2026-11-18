@@ -9,16 +9,16 @@
       "verified_company_release_time": 0,
       "historically_usable": 0,
       "blockers": {
-        "individual_company_publication_time_unverified": 1956,
-        "official_publication_unverified": 1956,
         "source_authorization_missing": 1956,
+        "official_publication_unverified": 1956,
         "first_seen_after_cutoff": 1951,
-        "capture_timestamp_unverified": 5,
-        "first_seen_unverified": 5,
+        "individual_company_publication_time_unverified": 1956,
         "unverified_official_endpoint": 5,
-        "source_hash_missing_or_invalid": 5,
         "missing_report_day": 5,
-        "source_missing": 5
+        "first_seen_unverified": 5,
+        "source_hash_missing_or_invalid": 5,
+        "source_missing": 5,
+        "capture_timestamp_unverified": 5
       }
     },
     "F3": {
@@ -27,29 +27,29 @@
       "verified_company_release_time": 0,
       "historically_usable": 0,
       "blockers": {
-        "individual_company_publication_time_unverified": 1956,
-        "official_publication_unverified": 1956,
         "source_authorization_missing": 1956,
-        "first_seen_after_cutoff": 1956
+        "official_publication_unverified": 1956,
+        "first_seen_after_cutoff": 1956,
+        "individual_company_publication_time_unverified": 1956
       }
     },
     "REVENUE": {
       "candidates": 1956,
-      "raw_provenance_complete": 1940,
+      "raw_provenance_complete": 1946,
       "verified_company_release_time": 0,
       "historically_usable": 0,
       "blockers": {
         "source_authorization_missing": 1956,
-        "first_seen_after_cutoff": 1940,
-        "bulk_snapshot_not_individual_filing": 1940,
-        "individual_company_publication_time_unverified": 1956,
         "official_publication_unverified": 1956,
-        "capture_timestamp_unverified": 16,
-        "first_seen_unverified": 16,
-        "unverified_official_endpoint": 16,
-        "source_hash_missing_or_invalid": 16,
-        "missing_report_day": 16,
-        "source_missing": 16
+        "bulk_snapshot_not_individual_filing": 1946,
+        "first_seen_after_cutoff": 1946,
+        "individual_company_publication_time_unverified": 1956,
+        "unverified_official_endpoint": 10,
+        "missing_report_day": 10,
+        "first_seen_unverified": 10,
+        "source_hash_missing_or_invalid": 10,
+        "source_missing": 10,
+        "capture_timestamp_unverified": 10
       }
     }
   },

@@ -21,11 +21,11 @@
       "source_authorization_missing": 1956
     },
     "REVENUE": {
-      "first_seen_after_cutoff": 1940,
+      "first_seen_after_cutoff": 1946,
       "official_publication_unverified": 1956,
       "source_authorization_missing": 1956,
-      "missing_report_day": 16,
-      "first_seen_unverified": 16
+      "missing_report_day": 10,
+      "first_seen_unverified": 10
     }
   },
   "model_scoring_enabled": false,
