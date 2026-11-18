@@ -1,15 +1,15 @@
 {
   "version": "3.0X-S",
-  "built_at_utc": "2026-11-18T06:31:14.795414+00:00",
+  "built_at_utc": "2026-11-18T11:17:18.513719+00:00",
   "source_snapshot_schema": "3.0E",
   "sources": [
     {
       "key": "factor",
       "path": "data/factor_evidence_29a.csv",
-      "rows": 1956,
-      "unique_stocks": 1956,
-      "asof_min": "2026-11-17",
-      "asof_max": "2026-11-17",
+      "rows": 1961,
+      "unique_stocks": 1961,
+      "asof_min": "2026-11-18",
+      "asof_max": "2026-11-18",
       "missing_asof": 0
     },
     {
@@ -18,43 +18,43 @@
       "rows": 2986,
       "unique_stocks": 2986,
       "asof_min": "2026-09-08",
-      "asof_max": "2026-11-17",
+      "asof_max": "2026-11-18",
       "missing_asof": 1005
     },
     {
       "key": "tech",
       "path": "data/tech_crosscheck.csv",
-      "rows": 62,
-      "unique_stocks": 62,
-      "asof_min": "2026-11-17",
-      "asof_max": "2026-11-17",
+      "rows": 65,
+      "unique_stocks": 65,
+      "asof_min": "2026-11-18",
+      "asof_max": "2026-11-18",
       "missing_asof": 0
     },
     {
       "key": "industry",
       "path": "data/industry_relative_28c.csv",
-      "rows": 1956,
-      "unique_stocks": 1956,
-      "asof_min": "2026-11-17",
-      "asof_max": "2026-11-17",
+      "rows": 1961,
+      "unique_stocks": 1961,
+      "asof_min": "2026-11-18",
+      "asof_max": "2026-11-18",
       "missing_asof": 0
     },
     {
       "key": "risk",
       "path": "data/risk_observations_28d.csv",
-      "rows": 1956,
-      "unique_stocks": 1956,
-      "asof_min": "2026-11-17",
-      "asof_max": "2026-11-17",
+      "rows": 1961,
+      "unique_stocks": 1961,
+      "asof_min": "2026-11-18",
+      "asof_max": "2026-11-18",
       "missing_asof": 0
     },
     {
       "key": "valuation",
       "path": "data/f2_valuation_29e.csv",
-      "rows": 1983,
-      "unique_stocks": 1983,
+      "rows": 1982,
+      "unique_stocks": 1982,
       "asof_min": "2026-11-17",
-      "asof_max": "2026-11-17",
+      "asof_max": "2026-11-18",
       "missing_asof": 0
     },
     {
@@ -69,24 +69,24 @@
     {
       "key": "publication",
       "path": "data/publication_gate_29o.csv",
-      "rows": 1956,
-      "unique_stocks": 1956,
-      "asof_min": "2026-11-17",
-      "asof_max": "2026-11-17",
+      "rows": 1961,
+      "unique_stocks": 1961,
+      "asof_min": "2026-11-18",
+      "asof_max": "2026-11-18",
       "missing_asof": 0
     },
     {
       "key": "actions",
       "path": "data/corporate_action_readiness_30e.csv",
-      "rows": 1956,
-      "unique_stocks": 1956,
-      "asof_min": "2026-11-17",
-      "asof_max": "2026-11-17",
+      "rows": 1961,
+      "unique_stocks": 1961,
+      "asof_min": "2026-11-18",
+      "asof_max": "2026-11-18",
       "missing_asof": 0
     }
   ],
-  "historical_first_captured_sessions": 17,
-  "historical_stock_session_observations": 1202,
+  "historical_first_captured_sessions": 18,
+  "historical_stock_session_observations": 1267,
   "certified_trade_samples": 0,
   "win_rate": null,
   "prediction_enabled": false,

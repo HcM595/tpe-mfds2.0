@@ -1,7 +1,7 @@
 {
   "version": "2.9E",
-  "generated_at_taipei": "2026-11-18T14:30:56+08:00",
-  "valuation_stocks": 1983,
+  "generated_at_taipei": "2026-11-18T19:16:50+08:00",
+  "valuation_stocks": 1982,
   "valuation_peer_comparable": 1537,
   "governance_stocks": 1991,
   "chair_ceo_concurrent_count": 442,
@@ -17,11 +17,11 @@
     },
     "上櫃_valuation": {
       "status": "ok",
-      "rows": 896,
-      "source_sha256": "29578fa41d43f24905331624088e3e4982f45125bb5f33bd773c791c02ccfb27",
+      "rows": 895,
+      "source_sha256": "0c6c69fa926c828af8533cb4fcb6f5c7aab276741797aa7366030c572955f647",
       "source_url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_peratio_analysis",
       "source_dates": [
-        "2026-11-17"
+        "2026-11-18"
       ]
     },
     "上市_governance": {

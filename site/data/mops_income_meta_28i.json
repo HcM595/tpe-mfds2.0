@@ -1,10 +1,10 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-11-18T14:26:00+08:00",
+  "generated_at_taipei": "2026-11-18T19:15:41+08:00",
   "observations": 568,
   "checked": 15,
-  "fresh_success": 8,
-  "fresh_ytd_unit_period_aligned": 4,
+  "fresh_success": 14,
+  "fresh_ytd_unit_period_aligned": 12,
   "income_report_ytd": "從MOPS第6欄提取當年年初累計本期淨利；第2欄為單季，不混用",
   "amount_unit": "只有逐股MOPS原始表有唯一明確新台幣仟元標頭時才核實",
   "per_stock": {
@@ -15,11 +15,12 @@
     },
     "3533": {
       "status": "stale_backup",
-      "reason": "<urlopen error timed out>"
+      "reason": "<urlopen error [Errno 111] Connection refused>"
     },
     "2345": {
-      "status": "stale_backup",
-      "reason": "<urlopen error timed out>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
     "2330": {
       "status": "ok",
@@ -27,51 +28,56 @@
       "period_aligned": true
     },
     "2308": {
-      "status": "stale_backup",
-      "reason": "<urlopen error timed out>"
-    },
-    "1727": {
-      "status": "stale_backup",
-      "reason": "<urlopen error timed out>"
-    },
-    "1731": {
-      "status": "stale_backup",
-      "reason": "<urlopen error timed out>"
-    },
-    "1732": {
-      "status": "stale_backup",
-      "reason": "<urlopen error timed out>"
-    },
-    "1733": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "1734": {
+    "1727": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "1731": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "1732": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
     "1735": {
-      "status": "stale_backup",
-      "reason": "<urlopen error timed out>"
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
     },
-    "1736": {
+    "1760": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "1762": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "1776": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "1777": {
+      "status": "ok",
+      "income_unit_verified": true,
+      "period_aligned": true
+    },
+    "1780": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": false
     },
-    "1737": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": false
-    },
-    "1742": {
-      "status": "ok",
-      "income_unit_verified": true,
-      "period_aligned": false
-    },
-    "1752": {
+    "1781": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": false
@@ -586,16 +592,22 @@
     "1730": {
       "status": "not_checked_this_run"
     },
-    "1760": {
+    "1733": {
       "status": "not_checked_this_run"
     },
-    "1762": {
+    "1734": {
+      "status": "not_checked_this_run"
+    },
+    "1736": {
+      "status": "not_checked_this_run"
+    },
+    "1737": {
+      "status": "not_checked_this_run"
+    },
+    "1752": {
       "status": "not_checked_this_run"
     },
     "1773": {
-      "status": "not_checked_this_run"
-    },
-    "1776": {
       "status": "not_checked_this_run"
     },
     "1783": {
@@ -1516,13 +1528,7 @@
     "1599": {
       "status": "not_checked_this_run"
     },
-    "1777": {
-      "status": "not_checked_this_run"
-    },
-    "1780": {
-      "status": "not_checked_this_run"
-    },
-    "1781": {
+    "1742": {
       "status": "not_checked_this_run"
     },
     "1784": {

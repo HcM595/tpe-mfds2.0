@@ -1,6 +1,6 @@
 {
   "version": "2.9F",
-  "generated_at_taipei": "2026-11-18T14:31:05+08:00",
+  "generated_at_taipei": "2026-11-18T19:17:08+08:00",
   "model": "TPE-MFDS original M1-M3 I1-I3 F1-F3 S1-S3; two engines A/B",
   "macro_observation_status": {
     "ndc": "ok",
@@ -15,80 +15,80 @@
   "price_after_asof_excluded_from_eligibility": true,
   "retail_investor_sentiment_verified": false,
   "credit_balance_observations_not_retail_ownership": true,
-  "stocks": 1956,
-  "basic_qualified": 750,
-  "snapshots_with_archives_later_than_price": 1956,
-  "stocks_with_some_descriptive_observation": 1956,
+  "stocks": 1961,
+  "basic_qualified": 746,
+  "snapshots_with_archives_later_than_price": 0,
+  "stocks_with_some_descriptive_observation": 1961,
   "per_factor": {
     "M1": {
       "no_data": 0,
       "partial": 0,
-      "descriptive": 1956,
+      "descriptive": 1961,
       "verified": 0
     },
     "M2": {
       "no_data": 0,
-      "partial": 1956,
+      "partial": 1961,
       "descriptive": 0,
       "verified": 0
     },
     "M3": {
       "no_data": 0,
-      "partial": 1956,
+      "partial": 1961,
       "descriptive": 0,
       "verified": 0
     },
     "I1": {
-      "no_data": 1750,
+      "no_data": 1755,
       "partial": 206,
       "descriptive": 0,
       "verified": 0
     },
     "I2": {
-      "no_data": 1956,
+      "no_data": 1961,
       "partial": 0,
       "descriptive": 0,
       "verified": 0
     },
     "I3": {
-      "no_data": 26,
+      "no_data": 28,
       "partial": 0,
-      "descriptive": 1930,
+      "descriptive": 1933,
       "verified": 0
     },
     "F1": {
       "no_data": 10,
-      "partial": 1424,
-      "descriptive": 522,
+      "partial": 1426,
+      "descriptive": 525,
       "verified": 0
     },
     "F2": {
-      "no_data": 433,
-      "partial": 1523,
+      "no_data": 436,
+      "partial": 1525,
       "descriptive": 0,
       "verified": 0
     },
     "F3": {
       "no_data": 0,
-      "partial": 1956,
+      "partial": 1961,
       "descriptive": 0,
       "verified": 0
     },
     "S1": {
-      "no_data": 189,
-      "partial": 123,
-      "descriptive": 1644,
+      "no_data": 186,
+      "partial": 124,
+      "descriptive": 1651,
       "verified": 0
     },
     "S2": {
-      "no_data": 113,
-      "partial": 1843,
+      "no_data": 108,
+      "partial": 1853,
       "descriptive": 0,
       "verified": 0
     },
     "S3": {
-      "no_data": 146,
-      "partial": 94,
+      "no_data": 155,
+      "partial": 90,
       "descriptive": 1716,
       "verified": 0
     }
