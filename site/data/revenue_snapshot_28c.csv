@@ -136,7 +136,6 @@ stock_id,stock_name,market,industry,revenue_period,table_date,month_revenue_thou
 1582,信錦,上市,電子零組件業,2026-10,2026-11-17,681473,-2.9275,-5.281,https://openapi.twse.com.tw/v1/opendata/t187ap05_L,207a141d007bd0d37f1313bfdf09ee0b63b64d55ae04913e6112b1cc54e97edf,2026-11-18T06:22:58+00:00,false
 1583,程泰,上市,電機機械,2026-10,2026-11-17,373435,39.965,-14.827,https://openapi.twse.com.tw/v1/opendata/t187ap05_L,207a141d007bd0d37f1313bfdf09ee0b63b64d55ae04913e6112b1cc54e97edf,2026-11-18T06:22:58+00:00,false
 1587,吉茂,上市,汽車工業,2026-10,2026-11-17,233111,-5.6716,5.3785,https://openapi.twse.com.tw/v1/opendata/t187ap05_L,207a141d007bd0d37f1313bfdf09ee0b63b64d55ae04913e6112b1cc54e97edf,2026-11-18T06:22:58+00:00,false
-1589,永冠-KY,上市,電機機械,2026-10,2026-11-17,621104,-3.2762,-3.5402,https://openapi.twse.com.tw/v1/opendata/t187ap05_L,207a141d007bd0d37f1313bfdf09ee0b63b64d55ae04913e6112b1cc54e97edf,2026-11-18T06:22:58+00:00,false
 1590,亞德客-KY,上市,電機機械,2026-10,2026-11-17,3564760,32.1686,-6.4528,https://openapi.twse.com.tw/v1/opendata/t187ap05_L,207a141d007bd0d37f1313bfdf09ee0b63b64d55ae04913e6112b1cc54e97edf,2026-11-18T06:22:58+00:00,false
 1597,直得,上市,電機機械,2026-10,2026-11-17,148433,42.3149,-4.3971,https://openapi.twse.com.tw/v1/opendata/t187ap05_L,207a141d007bd0d37f1313bfdf09ee0b63b64d55ae04913e6112b1cc54e97edf,2026-11-18T06:22:58+00:00,false
 1598,岱宇,上市,運動休閒,2026-10,2026-11-17,583524,20.1765,7.5228,https://openapi.twse.com.tw/v1/opendata/t187ap05_L,207a141d007bd0d37f1313bfdf09ee0b63b64d55ae04913e6112b1cc54e97edf,2026-11-18T06:22:58+00:00,false

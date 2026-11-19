@@ -1,12 +1,12 @@
 {
   "version": "2.9R",
-  "reviewed_factor_rows": 5883,
-  "unique_stocks": 1961,
-  "archived_events": 5260,
+  "reviewed_factor_rows": 5898,
+  "unique_stocks": 1966,
+  "archived_events": 5407,
   "subject_categories": {
-    "other_corporate_disclosure": 1082,
-    "general_financial_statement_topic": 1602,
-    "unclassified_material_event": 2528,
+    "other_corporate_disclosure": 1145,
+    "general_financial_statement_topic": 1606,
+    "unclassified_material_event": 2608,
     "explicit_monthly_revenue_topic": 48
   },
   "subject_only_candidate_links": 48,

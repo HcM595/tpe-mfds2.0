@@ -1,39 +1,39 @@
 {
   "version": "2.4C",
   "status": "ok",
-  "generated_at_taipei": "2026-11-18T19:14:28+08:00",
-  "latest_audited_snapshot_id": "20261118T111402017094Z-run44292489289-attempt1",
-  "latest_signal_first_observed_at_utc": "2026-11-18T11:14:02.017094Z",
-  "latest_cohort_id": "cohort-f2bf7991922b2360948f8b1f",
+  "generated_at_taipei": "2026-11-19T19:10:15+08:00",
+  "latest_audited_snapshot_id": "20261119T110941718977Z-run44512010320-attempt1",
+  "latest_signal_first_observed_at_utc": "2026-11-19T11:09:41.718977Z",
+  "latest_cohort_id": "cohort-7a5854a5534371848741db52",
   "new_cohort_created": true,
-  "cohorts_total": 29,
-  "latest_cohort_registered_at_utc": "2026-11-18T11:14:28.732532Z",
-  "latest_cohort_qualified": 56,
-  "observation_rows_all_cohorts": 2003,
-  "observation_eligible_rows_all_cohorts": 1717,
-  "data_quality_isolated_rows": 286,
+  "cohorts_total": 30,
+  "latest_cohort_registered_at_utc": "2026-11-19T11:10:15.671227Z",
+  "latest_cohort_qualified": 47,
+  "observation_rows_all_cohorts": 2058,
+  "observation_eligible_rows_all_cohorts": 1764,
+  "data_quality_isolated_rows": 294,
   "market_classification_conflicts": 0,
-  "unique_signal_fingerprints_in_archive": 29,
+  "unique_signal_fingerprints_in_archive": 30,
   "repeat_signal_snapshots": 117,
   "horizon_status_counts": {
     "10": {
-      "觀察期已走完_報酬尚未驗證": 826,
-      "不列入_非有效排名": 266,
+      "觀察期已走完_報酬尚未驗證": 947,
+      "不列入_非有效排名": 274,
       "暫緩_異常待核實": 20,
-      "觀察中_無績效": 786,
-      "等待參考交易日": 105
+      "觀察中_無績效": 770,
+      "等待參考交易日": 47
     },
     "20": {
-      "觀察中_無績效": 1612,
-      "不列入_非有效排名": 266,
+      "觀察中_無績效": 1717,
+      "不列入_非有效排名": 274,
       "暫緩_異常待核實": 20,
-      "等待參考交易日": 105
+      "等待參考交易日": 47
     },
     "60": {
-      "觀察中_無績效": 1612,
-      "不列入_非有效排名": 266,
+      "觀察中_無績效": 1717,
+      "不列入_非有效排名": 274,
       "暫緩_異常待核實": 20,
-      "等待參考交易日": 105
+      "等待參考交易日": 47
     }
   },
   "calendar_validation_version": "2.4D",
@@ -58,12 +58,12 @@
     },
     "coverage_dates": {
       "上市": {
-        "first": "2026-03-25",
-        "last": "2026-11-18"
+        "first": "2026-03-26",
+        "last": "2026-11-19"
       },
       "上櫃": {
-        "first": "2026-03-25",
-        "last": "2026-11-18"
+        "first": "2026-03-26",
+        "last": "2026-11-19"
       }
     }
   },

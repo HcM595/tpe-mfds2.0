@@ -1,5 +1,5 @@
 {
-  "asof": "2026-11-18",
+  "asof": "2026-11-19",
   "source": "TWSE/TPEx official",
   "note": "此為行情下載診斷，不表示歷史資料完整；價格尚未除權息還原。",
   "featured": {
@@ -10,7 +10,7 @@
       "failed_months": [
         {
           "month": "2026-11",
-          "reason": "TPEx modern: TPEx modern month response has no validated price rows (schema/empty/month error); TPEx legacy: Expecting value: line 1 column 1 (char 0)"
+          "reason": "TPEx modern: TPEx modern month response has no validated price rows (schema/empty/month error); TPEx legacy: HTTP Error 525: <none>"
         },
         {
           "month": "2026-10",

@@ -1,45 +1,45 @@
 {
   "version": "2.9E",
-  "generated_at_taipei": "2026-11-18T19:16:50+08:00",
-  "valuation_stocks": 1982,
+  "generated_at_taipei": "2026-11-19T19:15:00+08:00",
+  "valuation_stocks": 1981,
   "valuation_peer_comparable": 1537,
-  "governance_stocks": 1991,
-  "chair_ceo_concurrent_count": 442,
+  "governance_stocks": 1990,
+  "chair_ceo_concurrent_count": 441,
   "sources": {
     "上市_valuation": {
       "status": "ok",
       "rows": 1087,
-      "source_sha256": "3103da2bd5c558edb435a0509834cd771631194477f4b3eabc551d7dbe007687",
+      "source_sha256": "afef7e7fa341a98d1cdd2e777a488220ef1c864fb12997e5bec3e2bc24fc6633",
       "source_url": "https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL",
-      "source_dates": [
-        "2026-11-17"
-      ]
-    },
-    "上櫃_valuation": {
-      "status": "ok",
-      "rows": 895,
-      "source_sha256": "0c6c69fa926c828af8533cb4fcb6f5c7aab276741797aa7366030c572955f647",
-      "source_url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_peratio_analysis",
       "source_dates": [
         "2026-11-18"
       ]
     },
+    "上櫃_valuation": {
+      "status": "ok",
+      "rows": 894,
+      "source_sha256": "86d71d04329793f8388b5972bb9382904a36623b4028c18fdf2e677b01c0f2a0",
+      "source_url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_peratio_analysis",
+      "source_dates": [
+        "2026-11-19"
+      ]
+    },
     "上市_governance": {
       "status": "ok",
-      "rows": 1093,
-      "source_sha256": "c382e05c6ea5cc623150332fc161d719cde2b12cb252920ad7d67a2739d81554",
+      "rows": 1092,
+      "source_sha256": "f83ac07245a753cf07b11768347ea4bb39a177cb680c54c94f0b7df3fe54caff",
       "source_url": "https://openapi.twse.com.tw/v1/opendata/t187ap33_L",
       "source_dates": [
-        "2026-11-17"
+        "2026-11-18"
       ]
     },
     "上櫃_governance": {
       "status": "ok",
       "rows": 898,
-      "source_sha256": "4cdcbd19d3977579b8decc9f3b645e8ecfcff2543ef9a2490160f5c65cbf8588",
+      "source_sha256": "43d585c203751ea8647abfeb08d3c1f83f2facae40c953e0df2e555dfd01a854",
       "source_url": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap33_O",
       "source_dates": [
-        "2026-11-17"
+        "2026-11-18"
       ]
     }
   },

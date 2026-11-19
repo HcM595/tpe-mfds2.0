@@ -1,22 +1,22 @@
 {
   "version": "2.9C",
-  "generated_at_taipei": "2026-11-18T19:16:43+08:00",
+  "generated_at_taipei": "2026-11-19T19:14:44+08:00",
   "stocks_observed": 1870,
   "fresh_records": 806,
   "sources": {
     "上市": {
       "status": "stale_backup",
       "reason": "TWSE dated credit statement not OK",
-      "url": "https://www.twse.com.tw/rwd/zh/marginTrading/MI_MARGN?date=20261118&selectType=ALL&response=json"
+      "url": "https://www.twse.com.tw/rwd/zh/marginTrading/MI_MARGN?date=20261119&selectType=ALL&response=json"
     },
     "上櫃": {
       "status": "ok",
       "rows": 806,
       "excluded_or_missing": 0,
       "report_dates": [
-        "2026-11-17"
+        "2026-11-18"
       ],
-      "sha256": "e1f8853a013d4542010f2e170db4a060ab44fc283db9916a206ee80c2b26b994",
+      "sha256": "a1da5bd1bc2f77ac41d15cabb9e551c46c77d70fa957b1edd87487eb490d07d4",
       "url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_margin_balance"
     }
   },

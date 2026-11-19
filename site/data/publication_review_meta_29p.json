@@ -1,55 +1,54 @@
 {
   "version": "2.9P",
-  "universe_stocks": 1961,
-  "candidate_rows": 5883,
+  "universe_stocks": 1966,
+  "candidate_rows": 5898,
   "factors": {
     "F2": {
-      "candidates": 1961,
-      "raw_provenance_complete": 1956,
-      "verified_company_release_time": 0,
-      "historically_usable": 0,
-      "blockers": {
-        "first_seen_after_cutoff": 1956,
-        "individual_company_publication_time_unverified": 1961,
-        "official_publication_unverified": 1961,
-        "source_authorization_missing": 1961,
-        "source_missing": 5,
-        "missing_report_day": 5,
-        "first_seen_unverified": 5,
-        "capture_timestamp_unverified": 5,
-        "source_hash_missing_or_invalid": 5,
-        "unverified_official_endpoint": 5
-      }
-    },
-    "F3": {
-      "candidates": 1961,
+      "candidates": 1966,
       "raw_provenance_complete": 1961,
       "verified_company_release_time": 0,
       "historically_usable": 0,
       "blockers": {
         "first_seen_after_cutoff": 1961,
-        "individual_company_publication_time_unverified": 1961,
-        "official_publication_unverified": 1961,
-        "source_authorization_missing": 1961
+        "official_publication_unverified": 1966,
+        "source_authorization_missing": 1966,
+        "individual_company_publication_time_unverified": 1966,
+        "capture_timestamp_unverified": 5,
+        "source_hash_missing_or_invalid": 5,
+        "unverified_official_endpoint": 5,
+        "source_missing": 5,
+        "missing_report_day": 5,
+        "first_seen_unverified": 5
       }
     },
-    "REVENUE": {
-      "candidates": 1961,
-      "raw_provenance_complete": 1951,
+    "F3": {
+      "candidates": 1966,
+      "raw_provenance_complete": 1966,
       "verified_company_release_time": 0,
       "historically_usable": 0,
       "blockers": {
-        "individual_company_publication_time_unverified": 1961,
-        "source_authorization_missing": 1961,
-        "first_seen_after_cutoff": 1086,
-        "official_publication_unverified": 1961,
-        "bulk_snapshot_not_individual_filing": 1951,
-        "source_missing": 10,
-        "missing_report_day": 10,
-        "first_seen_unverified": 10,
-        "capture_timestamp_unverified": 10,
-        "source_hash_missing_or_invalid": 10,
-        "unverified_official_endpoint": 10
+        "first_seen_after_cutoff": 1966,
+        "official_publication_unverified": 1966,
+        "source_authorization_missing": 1966,
+        "individual_company_publication_time_unverified": 1966
+      }
+    },
+    "REVENUE": {
+      "candidates": 1966,
+      "raw_provenance_complete": 1957,
+      "verified_company_release_time": 0,
+      "historically_usable": 0,
+      "blockers": {
+        "bulk_snapshot_not_individual_filing": 1957,
+        "official_publication_unverified": 1966,
+        "source_authorization_missing": 1966,
+        "individual_company_publication_time_unverified": 1966,
+        "capture_timestamp_unverified": 9,
+        "source_hash_missing_or_invalid": 9,
+        "unverified_official_endpoint": 9,
+        "source_missing": 9,
+        "missing_report_day": 9,
+        "first_seen_unverified": 9
       }
     }
   },
