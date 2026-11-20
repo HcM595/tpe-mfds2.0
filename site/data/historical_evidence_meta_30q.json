@@ -1,16 +1,16 @@
 {
   "version": "3.0Q",
-  "generated_at_utc": "2026-11-19T11:10:19.080495Z",
+  "generated_at_utc": "2026-11-20T11:13:01.961648Z",
   "status": "verified_raw_archives_model_blocked",
   "source_index": "signal_archive_index.json",
-  "snapshots_in_index": 147,
-  "unique_first_captured_price_sessions": 19,
+  "snapshots_in_index": 148,
+  "unique_first_captured_price_sessions": 20,
   "first_price_session": "2026-10-21",
-  "last_price_session": "2026-11-19",
-  "stock_session_observations": 1322,
-  "eligible_technical_observations": 1170,
-  "eligible_institutional_5d_observations": 1322,
-  "eligible_holder_4w_observations": 1322,
+  "last_price_session": "2026-11-20",
+  "stock_session_observations": 1372,
+  "eligible_technical_observations": 1212,
+  "eligible_institutional_5d_observations": 1372,
+  "eligible_holder_4w_observations": 1372,
   "daily_stock_coverage": [
     {
       "price_session": "2026-10-21",
@@ -87,6 +87,10 @@
     {
       "price_session": "2026-11-19",
       "rows": 55
+    },
+    {
+      "price_session": "2026-11-20",
+      "rows": 50
     }
   ],
   "snapshot_reference": [
@@ -203,6 +207,12 @@
       "snapshot_id": "20261119T110941718977Z-run44512010320-attempt1",
       "captured_at_utc": "2026-11-19T11:09:41.718977Z",
       "snapshot_sha256": "b002224b33f3257911adf76164c6d85f8f689289d4927137ebc5303dcfdb1333"
+    },
+    {
+      "price_session": "2026-11-20",
+      "snapshot_id": "20261120T111223467033Z-run44725448429-attempt1",
+      "captured_at_utc": "2026-11-20T11:12:23.467033Z",
+      "snapshot_sha256": "a17a6c662302e744044305418adce062b2bfa5f2a1ac386aaad23587b5b643fe"
     }
   ],
   "strict_validation": {
@@ -250,8 +260,8 @@
     },
     "pass_count": 0,
     "required_count": 9,
-    "unique_price_sessions": 19,
-    "recorded_observations": 1322,
+    "unique_price_sessions": 20,
+    "recorded_observations": 1372,
     "note": "這是正式驗證資格稽核，不是回測結果；資料可讀不代表可據以交易。"
   },
   "first_seen_timing_certified": false,
