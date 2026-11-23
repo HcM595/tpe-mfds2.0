@@ -1,45 +1,45 @@
 {
   "version": "2.9E",
-  "generated_at_taipei": "2026-11-20T19:14:29+08:00",
-  "valuation_stocks": 1981,
-  "valuation_peer_comparable": 1537,
+  "generated_at_taipei": "2026-11-24T06:05:58+08:00",
+  "valuation_stocks": 1982,
+  "valuation_peer_comparable": 1538,
   "governance_stocks": 1990,
   "chair_ceo_concurrent_count": 441,
   "sources": {
     "上市_valuation": {
       "status": "ok",
-      "rows": 1087,
-      "source_sha256": "5c678c5e9a6ac3ac9ddf3fb0d4d543fe1560c4c01273cd282ccadfcd1ca67852",
+      "rows": 1088,
+      "source_sha256": "f402810825e1ff473b3052279f5b2817cd1dd98c844ab149c835cd4f4c3f1d66",
       "source_url": "https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL",
       "source_dates": [
-        "2026-11-19"
+        "2026-11-23"
       ]
     },
     "上櫃_valuation": {
       "status": "ok",
       "rows": 894,
-      "source_sha256": "be2d9345f8cf9bddc3bc2e2320031b797266a38087e316e1cae261a69b964a6b",
+      "source_sha256": "045aa255f3c5105bedd885fd3feb44bf303172f9f56b26fe71ac2319c06e9e4d",
       "source_url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_peratio_analysis",
       "source_dates": [
-        "2026-11-20"
+        "2026-11-23"
       ]
     },
     "上市_governance": {
       "status": "ok",
       "rows": 1092,
-      "source_sha256": "7c5e8575bbc02f40669766b188c0d6d7adb02f17b6932bfd9002e34e3397ab0c",
+      "source_sha256": "0d90167cc9881fd2e6f89a530e15e092ae4bd33decf651fed0a0e1f4d9d52743",
       "source_url": "https://openapi.twse.com.tw/v1/opendata/t187ap33_L",
       "source_dates": [
-        "2026-11-19"
+        "2026-11-23"
       ]
     },
     "上櫃_governance": {
       "status": "ok",
       "rows": 898,
-      "source_sha256": "575ffef80fc32b78a595790907c0d1531b193ab45faa26d8a08291896897c877",
+      "source_sha256": "1657d6a2ee8f3669ab4e28b2c349f49de234380c2798e47d5b672a536b6c8b9d",
       "source_url": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap33_O",
       "source_dates": [
-        "2026-11-19"
+        "2026-11-23"
       ]
     }
   },

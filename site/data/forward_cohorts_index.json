@@ -310,7 +310,17 @@
       "first_signal_observed_at_utc": "2026-11-20T11:12:23.467033Z",
       "qualified_entries": 42,
       "source_snapshot_id": "20261120T111223467033Z-run44725448429-attempt1"
+    },
+    {
+      "cohort_id": "cohort-36b9e16f4b76a2dc3ffd8897",
+      "cohort_path": "forward_cohorts/cohort-36b9e16f4b76a2dc3ffd8897.json",
+      "cohort_sha256": "3b61947078395cb4024144b13ee7302647388c18029bb78be2a08cfcd682795a",
+      "signal_fingerprint": "36b9e16f4b76a2dc3ffd8897424ebb9cce1742c9c87187a5320b876cff347fed",
+      "registered_at_utc": "2026-11-23T22:03:26.893191Z",
+      "first_signal_observed_at_utc": "2026-11-23T22:03:09.270108Z",
+      "qualified_entries": 47,
+      "source_snapshot_id": "20261123T220309270108Z-run45275562397-attempt1"
     }
   ],
-  "cohorts_total": 31
+  "cohorts_total": 32
 }

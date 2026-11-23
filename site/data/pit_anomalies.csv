@@ -1,1 +1,2 @@
 ﻿stock_id,stock_name,chip_strength_rank,price_asof,holder_asof,four_week_holder_audit,holder_historical_source,holder_anomaly_flag,audit_flags,forward_observation
+6214,精誠,22,2026-11-23,2026-11-20,四週算術核對一致_公布時間未確認,TDCC 1-5,是,大戶持股大幅變動_需人工核實,暫緩_資料須核對

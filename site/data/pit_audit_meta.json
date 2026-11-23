@@ -2,32 +2,38 @@
   "version": "2.4B",
   "status": "ok",
   "note_status": "ok表示稽核成功產出，不代表通過嚴格回測",
-  "generated_at_taipei": "2026-11-20T19:12:24+08:00",
-  "audited_snapshot_id": "20261120T111223467033Z-run44725448429-attempt1",
-  "first_seen_snapshot_id": "20261120T111223467033Z-run44725448429-attempt1",
-  "signal_first_observed_at_utc": "2026-11-20T11:12:23.467033Z",
+  "generated_at_taipei": "2026-11-24T06:03:11+08:00",
+  "audited_snapshot_id": "20261123T220309270108Z-run45275562397-attempt1",
+  "first_seen_snapshot_id": "20261123T220309270108Z-run45275562397-attempt1",
+  "signal_first_observed_at_utc": "2026-11-23T22:03:09.270108Z",
   "audited_source_dates": [
-    "2026-11-20"
+    "2026-11-23"
   ],
-  "snapshot_index_total": 148,
-  "unique_signal_fingerprints": 31,
+  "snapshot_index_total": 149,
+  "unique_signal_fingerprints": 32,
   "repeated_signal_snapshots": 117,
   "snapshot_integrity": "indexed_sha256_and_archived_source_hashes_verified",
-  "candidate_rows": 50,
-  "eligible_ranked": 42,
+  "candidate_rows": 56,
+  "eligible_ranked": 48,
   "forward_observation_status_counts": {
-    "可前瞻觀察_仍需來源核實": 42,
-    "不列入_非有效排名": 8
+    "可前瞻觀察_仍需來源核實": 47,
+    "不列入_非有效排名": 8,
+    "暫緩_資料須核對": 1
   },
   "strict_historical_backtest_eligible": 0,
-  "manual_holder_anomaly_count": 0,
-  "manual_holder_anomalies": [],
+  "manual_holder_anomaly_count": 1,
+  "manual_holder_anomalies": [
+    {
+      "stock_id": "6214",
+      "stock_name": "精誠"
+    }
+  ],
   "flow_arithmetic_status_counts": {
-    "五日算術核對一致": 42,
+    "五日算術核對一致": 48,
     "未排名_不核對": 8
   },
   "holder_arithmetic_status_counts": {
-    "四週算術核對一致_公布時間未確認": 42,
+    "四週算術核對一致_公布時間未確認": 48,
     "未排名_不核對": 8
   },
   "source_time_metadata": {

@@ -1,28 +1,28 @@
 {
   "version": "3.0W",
   "status": "source_bytes_attested_not_trade_certified",
-  "issued_at_utc": "2026-11-20T11:14:43.084632Z",
+  "issued_at_utc": "2026-11-23T22:06:14.218882Z",
   "site_release": "3.0W",
   "source_files": [
     {
       "path": "data/archive_coverage_meta_30r.json",
-      "sha256": "3b4d4017510fec5a552ac04ffa8d7bca32257bc996641b3c5b514eef9ea45262",
+      "sha256": "cdb95ecab18bcd834a7261cd8686e373d543d68d17d78106ab8aa1cf5e8752e1",
       "bytes": 2109
     },
     {
       "path": "data/archive_day_coverage_30r.csv",
-      "sha256": "a1fa8e99dc46786a6c0f9d878738f6ba22ef13c2f27d738ff779d75e79d4c7ea",
-      "bytes": 6931
+      "sha256": "fa28f277229704ada31d133140d05dfb85ba07eec74d059ecf049a09b0f2db76",
+      "bytes": 7239
     },
     {
       "path": "data/historical_evidence_30q.csv",
-      "sha256": "4872134c001740aa8f83b089ee3fe9ea900ddcde99c9e715260c2bacec7c3d7d",
-      "bytes": 936802
+      "sha256": "8278b21778f7605a1552e289e3cb91db30230a8b0d85afddb35ff3c22e42be95",
+      "bytes": 975082
     },
     {
       "path": "data/historical_evidence_meta_30q.json",
-      "sha256": "bb5c2036ea61c76ab7a6e10013c3b4a7e2bc6c5ac35c629be0dd2f39c081b284",
-      "bytes": 9466
+      "sha256": "4ed984ecf80dcd7ef2a78708c68f9b917a9b064ca5e543b5aedf16315031e265",
+      "bytes": 9802
     },
     {
       "path": "data/market_session_exceptions.csv",
@@ -31,7 +31,7 @@
     },
     {
       "path": "data/official_closure_notice_evidence_30u.json",
-      "sha256": "6fd22d962c117bf18feb2930141dce2445a4216c6b7794847d68f012225bb847",
+      "sha256": "1cdbbf8c0d8c8315aef3d363897143cf0a7bcd3b9ca7e734ab30e9ec5096bce0",
       "bytes": 2316
     },
     {
@@ -41,27 +41,27 @@
     },
     {
       "path": "data/official_session_calendar.json",
-      "sha256": "054cfde56baee433bb7ee939641c14f6b98040446a130d90c483c8194d49a947",
+      "sha256": "ba7a1dd0f78be953cb9eb0eba11355df88f3f9345434f8f92bbcfb192e75a696",
       "bytes": 2304
     },
     {
       "path": "data/official_source_readiness_30v.json",
-      "sha256": "d22256fcb12ff91a51fa1878914856b353a9bf19ed17a0a88e7c41bf2bd70e5e",
+      "sha256": "d937167754860740b0bc22d591674220eafd8bcd22df06012adb8a3da009b250",
       "bytes": 1895
     },
     {
       "path": "data/signal_archive_index.json",
-      "sha256": "f73aeb6802be1ca1e40ee96f6cca0845bc610c405f3a7c2f04b45a3a131de549",
-      "bytes": 102408
+      "sha256": "7b293804cd7555cddaadd2b4a79a9cf9869445999db658566c3bd5003ed6be18",
+      "bytes": 103099
     },
     {
       "path": "data/stock_candidate_coverage_30r.csv",
-      "sha256": "1f3b354dd33b0c2a32789d3701fa8d4cadc7c8044e6e5d384eb5a4c1a7df6e75",
-      "bytes": 43274
+      "sha256": "7ec621eb505da054a3fca7351d58094c6422acf5a6354b1b6039ca5670fb5f1f",
+      "bytes": 44508
     },
     {
       "path": "data/tpex_calendar_evidence_30s.json",
-      "sha256": "ba191d2976b9f666b8365146b1bd4ddd4e15724cac7e2198666cc28c245279f1",
+      "sha256": "7762625a88d61c8ca1d0566fd29f58f2c368101b978294484828db15314cc7f4",
       "bytes": 1522
     },
     {
