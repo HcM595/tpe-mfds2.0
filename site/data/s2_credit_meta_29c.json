@@ -1,6 +1,6 @@
 {
   "version": "2.9C",
-  "generated_at_taipei": "2026-11-24T06:05:47+08:00",
+  "generated_at_taipei": "2026-11-25T04:43:16+08:00",
   "stocks_observed": 1870,
   "fresh_records": 1869,
   "sources": {
@@ -9,19 +9,19 @@
       "rows": 1063,
       "excluded_or_missing": 0,
       "report_dates": [
-        "2026-11-23"
+        "2026-11-24"
       ],
-      "sha256": "fae9e1f7c6b19a4737fb7907186277b8f9f0942346c711a87cc4bdb4145d461c",
-      "url": "https://www.twse.com.tw/rwd/zh/marginTrading/MI_MARGN?date=20261123&selectType=ALL&response=json"
+      "sha256": "3cd3ccab7039adadef53984c85dc92fb1d6131fb964f3efe57e9e8109f586248",
+      "url": "https://www.twse.com.tw/rwd/zh/marginTrading/MI_MARGN?date=20261124&selectType=ALL&response=json"
     },
     "上櫃": {
       "status": "ok",
       "rows": 806,
       "excluded_or_missing": 0,
       "report_dates": [
-        "2026-11-23"
+        "2026-11-24"
       ],
-      "sha256": "12fd8772e98f10c8948b9892891c388b0c688ff3370395fd5e8cb4630dba977e",
+      "sha256": "8a7c3519d22ace7dfa9b1db6fbc9059c7a3e278f0d7a2c0873ff7150c4b78a55",
       "url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_margin_balance"
     }
   },

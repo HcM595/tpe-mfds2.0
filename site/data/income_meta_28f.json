@@ -1,20 +1,22 @@
 {
   "version": "2.8F",
-  "generated_at_taipei": "2026-11-24T06:03:53+08:00",
+  "generated_at_taipei": "2026-11-25T04:40:56+08:00",
   "rows": 1944,
   "markets": {
     "上市": {
-      "status": "stale_backup",
+      "status": "ok",
       "rows": 1053,
+      "latest_period": "2026Q3",
       "source": "https://openapi.twse.com.tw/v1/opendata/t187ap06_L_ci",
-      "reason": "income source too sparse: 0"
+      "sha256": "ec9d2c387879f6fefce8ba05d70e8f10e307f40e8bdb9b68c7829255110462fd",
+      "excluded": {}
     },
     "上櫃": {
       "status": "ok",
       "rows": 891,
       "latest_period": "2026Q3",
       "source": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap06_O_ci",
-      "sha256": "103873d9d549a5df950b7d7d3ef2292fcf05ca5d676a7accc77931231af7a3b4",
+      "sha256": "ee0ba58f82562f6cd1b9b1c61b538e3478d12f4be30e0857341258b0d6a3bb38",
       "excluded": {}
     }
   },
