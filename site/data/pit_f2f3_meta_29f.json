@@ -1,16 +1,16 @@
 {
   "version": "2.9F",
-  "generated_at_taipei": "2026-11-25T04:43:32+08:00",
-  "whole_universe_stocks": 1980,
-  "source_version_rows": 81194,
-  "new_versions_this_run": 1792,
+  "generated_at_taipei": "2026-11-26T03:59:32+08:00",
+  "whole_universe_stocks": 1956,
+  "source_version_rows": 85166,
+  "new_versions_this_run": 3972,
   "factors": {
     "F2": {
-      "first_observed_after_price_cutoff": 1975,
+      "first_observed_after_price_cutoff": 1951,
       "no_source": 5
     },
     "F3": {
-      "first_observed_after_price_cutoff": 1980
+      "first_observed_after_price_cutoff": 1956
     }
   },
   "three_clock_policy": {

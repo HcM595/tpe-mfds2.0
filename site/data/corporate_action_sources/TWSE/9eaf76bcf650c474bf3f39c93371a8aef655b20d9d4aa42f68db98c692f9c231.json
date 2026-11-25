@@ -1,0 +1,241 @@
+{
+  "version": "2.4E",
+  "market": "TWSE",
+  "source_url": "https://openapi.twse.com.tw/v1/exchangeReport/TWT48U_ALL",
+  "source_sha256": "9eaf76bcf650c474bf3f39c93371a8aef655b20d9d4aa42f68db98c692f9c231",
+  "first_seen_at_utc": "2026-11-25T19:58:11.299297Z",
+  "raw_json": "[\n{\"Date\":\"1151208\",\"Code\":\"00400A\",\"Name\":\"主動國泰動能高息\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151202\",\"Code\":\"00406A\",\"Name\":\"主動中信台灣收益\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151124\",\"Code\":\"00901\",\"Name\":\"永豐智能車供應鏈\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"7.000000\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151124\",\"Code\":\"00930\",\"Name\":\"永豐ESG低碳高息\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"0.750000\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151201\",\"Code\":\"00939\",\"Name\":\"統一台灣高息動能\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151203\",\"Code\":\"00946\",\"Name\":\"群益科技高息成長\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151203\",\"Code\":\"00953B\",\"Name\":\"群益優選非投等債\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151126\",\"Code\":\"009817\",\"Name\":\"國泰日本不動產\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"0.330000\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151201\",\"Code\":\"00984D\",\"Name\":\"主動聯博全球非投\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151203\",\"Code\":\"00985B\",\"Name\":\"群益ESG投等債0-5\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151203\",\"Code\":\"020038\",\"Name\":\"元大ESG配息N\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"0.491000\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151203\",\"Code\":\"1437\",\"Name\":\"勤益控\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"0.624652\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151230\",\"Code\":\"1707\",\"Name\":\"葡萄王\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"1.900000\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151221\",\"Code\":\"1817\",\"Name\":\"凱撒衛\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"1.800000\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151204\",\"Code\":\"2345\",\"Name\":\"智邦\",\"Exdividend\":\"權\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"0.01782156\",\"SubscriptionPricePerShare\":\"尚未公告\",\"CashDividend\":\"0\",\"SharesOffered\":\"1000000.00\",\"SharesEmpOwner\":\"1500000.00\",\"SharesholderOwner\":\"7500000.00\",\"StockHoldingRatio\":\"13.36617498\"},\n{\"Date\":\"1151130\",\"Code\":\"2543\",\"Name\":\"皇昌\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"0.500000\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151207\",\"Code\":\"2646\",\"Name\":\"星宇航空\",\"Exdividend\":\"權\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"0.09970967\",\"SubscriptionPricePerShare\":\"尚未公告\",\"CashDividend\":\"0\",\"SharesOffered\":\"30000000.00\",\"SharesEmpOwner\":\"30000000.00\",\"SharesholderOwner\":\"240000000.00\",\"StockHoldingRatio\":\"79.76774292\"},\n{\"Date\":\"1151204\",\"Code\":\"3701\",\"Name\":\"大眾控\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"0.199892\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151127\",\"Code\":\"3706\",\"Name\":\"神達\",\"Exdividend\":\"權\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"0.08219551\",\"SubscriptionPricePerShare\":\"52.0000\",\"CashDividend\":\"0\",\"SharesOffered\":\"12000000.00\",\"SharesEmpOwner\":\"12000000.00\",\"SharesholderOwner\":\"96000000.00\",\"StockHoldingRatio\":\"65.75641004\"},\n{\"Date\":\"1151208\",\"Code\":\"4414\",\"Name\":\"如興\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"0.009150\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151208\",\"Code\":\"6277\",\"Name\":\"宏正\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"2.300000\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151124\",\"Code\":\"6655\",\"Name\":\"科定\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"2.600000\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"},\n{\"Date\":\"1151204\",\"Code\":\"7780\",\"Name\":\"大研生醫*\",\"Exdividend\":\"息\",\"StockDividendRatio\":\"\",\"SubscriptionRatio\":\"\",\"SubscriptionPricePerShare\":\"\",\"CashDividend\":\"0.141372\",\"SharesOffered\":\"\",\"SharesEmpOwner\":\"\",\"SharesholderOwner\":\"\",\"StockHoldingRatio\":\"\"}]\n",
+  "normalized": [
+    {
+      "market": "TWSE",
+      "stock_id": "00901",
+      "stock_name": "永豐智能車供應鏈",
+      "ex_date": "2026-11-24",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 7.0,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "00930",
+      "stock_name": "永豐ESG低碳高息",
+      "ex_date": "2026-11-24",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.75,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "6655",
+      "stock_name": "科定",
+      "ex_date": "2026-11-24",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 2.6,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "009817",
+      "stock_name": "國泰日本不動產",
+      "ex_date": "2026-11-26",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.33,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "3706",
+      "stock_name": "神達",
+      "ex_date": "2026-11-27",
+      "event_type": "權",
+      "cash_dividend_twd_per_share": 0.0,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "2543",
+      "stock_name": "皇昌",
+      "ex_date": "2026-11-30",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.5,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "00939",
+      "stock_name": "統一台灣高息動能",
+      "ex_date": "2026-12-01",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": null,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "未公告金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "00984D",
+      "stock_name": "主動聯博全球非投",
+      "ex_date": "2026-12-01",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": null,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "未公告金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "00406A",
+      "stock_name": "主動中信台灣收益",
+      "ex_date": "2026-12-02",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": null,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "未公告金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "00946",
+      "stock_name": "群益科技高息成長",
+      "ex_date": "2026-12-03",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": null,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "未公告金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "00953B",
+      "stock_name": "群益優選非投等債",
+      "ex_date": "2026-12-03",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": null,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "未公告金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "00985B",
+      "stock_name": "群益ESG投等債0-5",
+      "ex_date": "2026-12-03",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": null,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "未公告金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "020038",
+      "stock_name": "元大ESG配息N",
+      "ex_date": "2026-12-03",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.491,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "1437",
+      "stock_name": "勤益控",
+      "ex_date": "2026-12-03",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.624652,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "2345",
+      "stock_name": "智邦",
+      "ex_date": "2026-12-04",
+      "event_type": "權",
+      "cash_dividend_twd_per_share": 0.0,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "3701",
+      "stock_name": "大眾控",
+      "ex_date": "2026-12-04",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.199892,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "7780",
+      "stock_name": "大研生醫*",
+      "ex_date": "2026-12-04",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.141372,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "2646",
+      "stock_name": "星宇航空",
+      "ex_date": "2026-12-07",
+      "event_type": "權",
+      "cash_dividend_twd_per_share": 0.0,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "00400A",
+      "stock_name": "主動國泰動能高息",
+      "ex_date": "2026-12-08",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": null,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "未公告金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "4414",
+      "stock_name": "如興",
+      "ex_date": "2026-12-08",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 0.00915,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "6277",
+      "stock_name": "宏正",
+      "ex_date": "2026-12-08",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 2.3,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "1817",
+      "stock_name": "凱撒衛",
+      "ex_date": "2026-12-21",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 1.8,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    },
+    {
+      "market": "TWSE",
+      "stock_id": "1707",
+      "stock_name": "葡萄王",
+      "ex_date": "2026-12-30",
+      "event_type": "息",
+      "cash_dividend_twd_per_share": 1.9,
+      "stock_dividend_ratio_reported": null,
+      "cash_status": "已提供金額"
+    }
+  ],
+  "coverage_statement": "僅當次滾動預告表，不代表歷史完整除權息資料"
+}
