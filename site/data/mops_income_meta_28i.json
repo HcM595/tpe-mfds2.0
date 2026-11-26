@@ -1,6 +1,6 @@
 {
   "version": "2.8I",
-  "generated_at_taipei": "2026-11-26T03:58:55+08:00",
+  "generated_at_taipei": "2026-11-27T03:39:27+08:00",
   "observations": 568,
   "checked": 15,
   "fresh_success": 15,
@@ -33,52 +33,52 @@
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2028": {
+    "2063": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2030": {
+    "2064": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2031": {
+    "2065": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2033": {
+    "2066": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2034": {
+    "2067": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2038": {
+    "2069": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2049": {
+    "2070": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2059": {
+    "2072": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2061": {
+    "2073": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
     },
-    "2062": {
+    "2101": {
       "status": "ok",
       "income_unit_verified": true,
       "period_aligned": true
@@ -734,19 +734,37 @@
     "2027": {
       "status": "not_checked_this_run"
     },
+    "2028": {
+      "status": "not_checked_this_run"
+    },
     "2029": {
+      "status": "not_checked_this_run"
+    },
+    "2030": {
+      "status": "not_checked_this_run"
+    },
+    "2031": {
       "status": "not_checked_this_run"
     },
     "2032": {
       "status": "not_checked_this_run"
     },
-    "2069": {
+    "2033": {
       "status": "not_checked_this_run"
     },
-    "2072": {
+    "2034": {
       "status": "not_checked_this_run"
     },
-    "2101": {
+    "2038": {
+      "status": "not_checked_this_run"
+    },
+    "2049": {
+      "status": "not_checked_this_run"
+    },
+    "2059": {
+      "status": "not_checked_this_run"
+    },
+    "2062": {
       "status": "not_checked_this_run"
     },
     "2102": {
@@ -1559,25 +1577,7 @@
     "2035": {
       "status": "not_checked_this_run"
     },
-    "2063": {
-      "status": "not_checked_this_run"
-    },
-    "2064": {
-      "status": "not_checked_this_run"
-    },
-    "2065": {
-      "status": "not_checked_this_run"
-    },
-    "2066": {
-      "status": "not_checked_this_run"
-    },
-    "2067": {
-      "status": "not_checked_this_run"
-    },
-    "2070": {
-      "status": "not_checked_this_run"
-    },
-    "2073": {
+    "2061": {
       "status": "not_checked_this_run"
     },
     "2221": {

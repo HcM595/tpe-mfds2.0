@@ -1,9 +1,9 @@
 {
   "version": "2.8C",
-  "generated_at_taipei": "2026-11-26T03:58:28+08:00",
-  "stocks": 1956,
-  "relative20_available": 1927,
-  "relative60_available": 1927,
+  "generated_at_taipei": "2026-11-27T03:38:44+08:00",
+  "stocks": 1971,
+  "relative20_available": 1949,
+  "relative60_available": 1940,
   "status": "descriptive_only",
   "relative_strength_definition": "同市場相同行情日：同產業個股原始動能中位數 - 全市場個股原始動能中位數（百分點）",
   "minimum_industry_members": 5,

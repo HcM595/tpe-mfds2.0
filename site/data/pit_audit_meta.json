@@ -2,42 +2,32 @@
   "version": "2.4B",
   "status": "ok",
   "note_status": "ok表示稽核成功產出，不代表通過嚴格回測",
-  "generated_at_taipei": "2026-11-26T03:57:56+08:00",
-  "audited_snapshot_id": "20261125T195754525827Z-run45690008476-attempt1",
-  "first_seen_snapshot_id": "20261125T195754525827Z-run45690008476-attempt1",
-  "signal_first_observed_at_utc": "2026-11-25T19:57:54.525827Z",
+  "generated_at_taipei": "2026-11-27T03:38:01+08:00",
+  "audited_snapshot_id": "20261126T193759079621Z-run45884885584-attempt1",
+  "first_seen_snapshot_id": "20261126T193759079621Z-run45884885584-attempt1",
+  "signal_first_observed_at_utc": "2026-11-26T19:37:59.079621Z",
   "audited_source_dates": [
-    "2026-11-25"
+    "2026-11-26"
   ],
-  "snapshot_index_total": 151,
-  "unique_signal_fingerprints": 34,
+  "snapshot_index_total": 152,
+  "unique_signal_fingerprints": 35,
   "repeated_signal_snapshots": 117,
   "snapshot_integrity": "indexed_sha256_and_archived_source_hashes_verified",
-  "candidate_rows": 56,
-  "eligible_ranked": 53,
+  "candidate_rows": 57,
+  "eligible_ranked": 54,
   "forward_observation_status_counts": {
-    "可前瞻觀察_仍需來源核實": 51,
-    "不列入_非有效排名": 3,
-    "暫緩_資料須核對": 2
+    "可前瞻觀察_仍需來源核實": 54,
+    "不列入_非有效排名": 3
   },
   "strict_historical_backtest_eligible": 0,
-  "manual_holder_anomaly_count": 2,
-  "manual_holder_anomalies": [
-    {
-      "stock_id": "2355",
-      "stock_name": "敬鵬"
-    },
-    {
-      "stock_id": "6214",
-      "stock_name": "精誠"
-    }
-  ],
+  "manual_holder_anomaly_count": 0,
+  "manual_holder_anomalies": [],
   "flow_arithmetic_status_counts": {
-    "五日算術核對一致": 53,
+    "五日算術核對一致": 54,
     "未排名_不核對": 3
   },
   "holder_arithmetic_status_counts": {
-    "四週算術核對一致_公布時間未確認": 53,
+    "四週算術核對一致_公布時間未確認": 54,
     "未排名_不核對": 3
   },
   "source_time_metadata": {

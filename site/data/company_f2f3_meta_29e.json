@@ -1,45 +1,45 @@
 {
   "version": "2.9E",
-  "generated_at_taipei": "2026-11-26T03:59:28+08:00",
-  "valuation_stocks": 1982,
-  "valuation_peer_comparable": 1538,
-  "governance_stocks": 1990,
-  "chair_ceo_concurrent_count": 441,
+  "generated_at_taipei": "2026-11-27T03:40:05+08:00",
+  "valuation_stocks": 1983,
+  "valuation_peer_comparable": 1539,
+  "governance_stocks": 1991,
+  "chair_ceo_concurrent_count": 442,
   "sources": {
     "上市_valuation": {
       "status": "ok",
       "rows": 1088,
-      "source_sha256": "c2cd5ec196a4ecfb4adc9a717e13f9aae2b0712dd2c267cfccbf79e50d190c7d",
+      "source_sha256": "77f9482b794bb3c4a8f5472df94206e3b107eb9e32017f611f71f45c872110b4",
       "source_url": "https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL",
       "source_dates": [
-        "2026-11-24"
+        "2026-11-25"
       ]
     },
     "上櫃_valuation": {
       "status": "ok",
-      "rows": 894,
-      "source_sha256": "4dbef0ed82e571a3051733b0856885d0443237079f0fcb863bfd6d77ef3cb1cf",
+      "rows": 895,
+      "source_sha256": "d79ffc248c8ea9c4f16149bf6a20624a9ef7f879687dd6c083f97aa94491a741",
       "source_url": "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_peratio_analysis",
       "source_dates": [
-        "2026-11-25"
+        "2026-11-26"
       ]
     },
     "上市_governance": {
       "status": "ok",
       "rows": 1092,
-      "source_sha256": "29e8251e888193852168f8a3d918d2feea2112ae0bee2293f7cee7dffb236d49",
+      "source_sha256": "4c08785c989ad383d9d245ca34d41f04318a1891c5e454462897461a23676bdd",
       "source_url": "https://openapi.twse.com.tw/v1/opendata/t187ap33_L",
       "source_dates": [
-        "2026-11-24"
+        "2026-11-25"
       ]
     },
     "上櫃_governance": {
       "status": "ok",
-      "rows": 898,
-      "source_sha256": "65ca4347f87add402b9d66c29d349dd3ba111d45abfb46ca32ba3342208dec3d",
+      "rows": 899,
+      "source_sha256": "65119f66da4c51ddc23764449cfc3e2e97b615fd080fc7ba321c90e7df3a7b7c",
       "source_url": "https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap33_O",
       "source_dates": [
-        "2026-11-25"
+        "2026-11-26"
       ]
     }
   },
