@@ -1,12 +1,12 @@
 {
   "version": "2.2.1",
-  "asof": "2026-11-26",
-  "created_at_taipei": "2026-11-27T03:37:16+08:00",
+  "asof": "2026-11-27",
+  "created_at_taipei": "2026-11-28T03:28:26+08:00",
   "notes": "下載空值與市場休市分別紀錄；歷史TDCC來源為非官方鏡像，非集保直接提供歷史API。",
   "market_history": {
     "twse": {
       "attempted_days": 4,
-      "new_rows": 1085,
+      "new_rows": 1086,
       "no_data_days": [
         "2026-10-26",
         "2026-10-23",
@@ -17,7 +17,7 @@
     },
     "tpex": {
       "attempted_days": 4,
-      "new_rows": 773,
+      "new_rows": 755,
       "no_data_days": [
         "2026-10-26",
         "2026-10-23",
@@ -36,38 +36,38 @@
   },
   "focus": {
     "8064": {
-      "flow_dates": 59,
-      "latest_flow": "2026-11-26",
+      "flow_dates": 60,
+      "latest_flow": "2026-11-27",
       "holder_weeks": 17,
       "latest_holder": "2026-11-20",
       "ready_for_5d_flow": true,
       "ready_for_4w_holder": true
     },
     "3533": {
-      "flow_dates": 59,
-      "latest_flow": "2026-11-26",
+      "flow_dates": 60,
+      "latest_flow": "2026-11-27",
       "holder_weeks": 17,
       "latest_holder": "2026-11-20",
       "ready_for_5d_flow": true,
       "ready_for_4w_holder": true
     },
     "2330": {
-      "flow_dates": 59,
-      "latest_flow": "2026-11-26",
+      "flow_dates": 60,
+      "latest_flow": "2026-11-27",
       "holder_weeks": 17,
       "latest_holder": "2026-11-20",
       "ready_for_5d_flow": true,
       "ready_for_4w_holder": true
     },
     "2345": {
-      "flow_dates": 59,
-      "latest_flow": "2026-11-26",
+      "flow_dates": 60,
+      "latest_flow": "2026-11-27",
       "holder_weeks": 17,
       "latest_holder": "2026-11-20",
       "ready_for_5d_flow": true,
       "ready_for_4w_holder": true
     }
   },
-  "flow_history_rows": 109717,
+  "flow_history_rows": 111558,
   "holder_history_rows": 50349
 }

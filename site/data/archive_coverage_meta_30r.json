@@ -1,13 +1,13 @@
 {
   "version": "3.0R",
-  "generated_at_utc": "2026-11-26T19:38:27.836664Z",
+  "generated_at_utc": "2026-11-27T19:29:15.077073Z",
   "status": "original_sources_verified_no_performance",
-  "source_csv_sha256": "6d56e40c02d742f8f037cbd9d2c8955ed45069ddf88180ae1604b977023520e5",
-  "source_historical_meta_sha256": "2430d05a0e2b9ff610a0de7ef566c561e5a28ba0e97a242d2cdb51507b1844d7",
-  "source_archive_index_sha256": "4076f89b6762782a88df08c82dce3d99e1811090bac5893eb529caadbe8de9c0",
-  "source_calendar_sha256": "8f67f1b2c98b8831c9294c4d952b1cd91d79db167086c23e375ec017f34a1fb6",
+  "source_csv_sha256": "c5f89a6062feb2ef7920e2b1a296cf11841d4de816811c283b700193731b7f11",
+  "source_historical_meta_sha256": "3d31f96f7c0883a5a1b23d266b0fa9f6b7eb62b50dc13abb4804905296dc1410",
+  "source_archive_index_sha256": "1c750dff9adf60e429b3da7d14dfe3933e5a70762f9b796b989bc1ecd361a442",
+  "source_calendar_sha256": "86eaf431587eee1869319f706bb4802d078a13374c1d170e39d51794bdbf9918",
   "source_market_exceptions_sha256": "75be8f2fd53e419f5e616266536fe36f9d2f71e4156b256ada6ef4b2f2f8cb89",
-  "source_official_closure_30u_sha256": "779a1f0842fa045fa99b3c06ca2410bf92db3e1eb85be28f6ac1e8308e131c88",
+  "source_official_closure_30u_sha256": "f8337a957f26efea7ea466609526f706f13afe0e9e462296b478367e2407f49a",
   "independently_documented_cash_market_closures": [
     {
       "market": "上市",
@@ -15,17 +15,17 @@
     }
   ],
   "first_archived_price_date": "2026-10-21",
-  "last_archived_price_date": "2026-11-26",
-  "verified_price_days": 24,
-  "archived_stock_day_records": 1602,
-  "stocks_appearing_in_any_archive": 303,
+  "last_archived_price_date": "2026-11-27",
+  "verified_price_days": 25,
+  "archived_stock_day_records": 1644,
+  "stocks_appearing_in_any_archive": 304,
   "verified_raw_source_rows": {
-    "flow": 1602,
-    "holder": 1602,
-    "tech": 1423
+    "flow": 1644,
+    "holder": 1644,
+    "tech": 1462
   },
   "day_market_status_counts": {
-    "verified_first_capture": 48,
+    "verified_first_capture": 50,
     "verified_original_market_closure": 1,
     "extraordinary_closure_requires_official_source": 1,
     "unarchived_possible_session": 2

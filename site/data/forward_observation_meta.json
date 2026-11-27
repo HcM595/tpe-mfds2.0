@@ -1,40 +1,40 @@
 {
   "version": "2.4C",
   "status": "ok",
-  "generated_at_taipei": "2026-11-27T03:38:12+08:00",
-  "latest_audited_snapshot_id": "20261126T193759079621Z-run45884885584-attempt1",
-  "latest_signal_first_observed_at_utc": "2026-11-26T19:37:59.079621Z",
-  "latest_cohort_id": "cohort-7d078d0d91950708c074e390",
+  "generated_at_taipei": "2026-11-28T03:29:09+08:00",
+  "latest_audited_snapshot_id": "20261127T192854994092Z-run46056847394-attempt1",
+  "latest_signal_first_observed_at_utc": "2026-11-27T19:28:54.994092Z",
+  "latest_cohort_id": "cohort-4bfe5c871f4341545c0848f4",
   "new_cohort_created": true,
-  "cohorts_total": 35,
-  "latest_cohort_registered_at_utc": "2026-11-26T19:38:12.416025Z",
-  "latest_cohort_qualified": 54,
-  "observation_rows_all_cohorts": 2338,
-  "observation_eligible_rows_all_cohorts": 2014,
-  "data_quality_isolated_rows": 324,
+  "cohorts_total": 36,
+  "latest_cohort_registered_at_utc": "2026-11-27T19:29:09.014604Z",
+  "latest_cohort_qualified": 39,
+  "observation_rows_all_cohorts": 2380,
+  "observation_eligible_rows_all_cohorts": 2053,
+  "data_quality_isolated_rows": 327,
   "market_classification_conflicts": 0,
-  "unique_signal_fingerprints_in_archive": 35,
+  "unique_signal_fingerprints_in_archive": 36,
   "repeat_signal_snapshots": 117,
   "horizon_status_counts": {
     "10": {
-      "觀察期已走完_報酬尚未驗證": 1262,
-      "不列入_非有效排名": 301,
+      "觀察期已走完_報酬尚未驗證": 1316,
+      "不列入_非有效排名": 304,
       "暫緩_異常待核實": 23,
-      "觀察中_無績效": 647,
-      "等待參考交易日": 105
+      "觀察中_無績效": 644,
+      "等待參考交易日": 93
     },
     "20": {
-      "觀察期已走完_報酬尚未驗證": 360,
-      "不列入_非有效排名": 301,
+      "觀察期已走完_報酬尚未驗證": 547,
+      "不列入_非有效排名": 304,
       "暫緩_異常待核實": 23,
-      "觀察中_無績效": 1549,
-      "等待參考交易日": 105
+      "觀察中_無績效": 1413,
+      "等待參考交易日": 93
     },
     "60": {
-      "觀察中_無績效": 1909,
-      "不列入_非有效排名": 301,
+      "觀察中_無績效": 1960,
+      "不列入_非有效排名": 304,
       "暫緩_異常待核實": 23,
-      "等待參考交易日": 105
+      "等待參考交易日": 93
     }
   },
   "calendar_validation_version": "2.4D",
@@ -59,12 +59,12 @@
     },
     "coverage_dates": {
       "上市": {
-        "first": "2026-04-02",
-        "last": "2026-11-26"
+        "first": "2026-04-07",
+        "last": "2026-11-27"
       },
       "上櫃": {
-        "first": "2026-04-02",
-        "last": "2026-11-26"
+        "first": "2026-04-07",
+        "last": "2026-11-27"
       }
     }
   },
